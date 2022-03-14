@@ -1,7 +1,7 @@
 ---
 name: DevLog 템플릿
 about: "[DevLog] 이름 / 날짜 형식으로 작성해주세요"
-title: ''
+title: "[DevLog]"
 labels: DevLog
 assignees: ''
 

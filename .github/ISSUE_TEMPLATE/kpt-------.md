@@ -1,7 +1,7 @@
 ---
 name: KPT 회고 템플릿
 about: "[KPT] N주차 M요일"
-title: ''
+title: "[KPT] N주차 M요일"
 labels: KPT
 assignees: ''
 

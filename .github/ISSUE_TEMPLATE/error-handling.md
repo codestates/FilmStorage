@@ -1,7 +1,7 @@
 ---
 name: Error handling
 about: Labels에 Complete / In progress 달아주세요
-title: ''
+title: "[Error]"
 labels: Error
 assignees: ''
 
