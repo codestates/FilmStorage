@@ -4,6 +4,11 @@ const fs = require("fs");
 const https = require("https");
 const express = require("express");
 const cors = require("cors");
+const usersRouter = require("./routes/Users")
+const galleriesRouter = require("./routes/Galleries")
+const boardsRouter = require("./routes/Boards")
+const gallery_commentsRouter = require("./routes/Gallery_comments")
+const board_commentsRouter = require("./routes/Board_comments")
 
 const app = express();
 
@@ -17,9 +22,12 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-    res.send("Hello Wolrd")
-})
+app.use("/users", usersRouter);
+app.use("/galleries", galleriesRouter);
+app.use("/boards", boardsRouter);
+app.use("/galley_comments", gallery_commentsRouter);
+app.use("/board_comments", board_commentsRouter);
+
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 4000;
 
