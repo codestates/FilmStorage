@@ -29,7 +29,7 @@ app.use("/galley_comments", gallery_commentsRouter);
 app.use("/board_comments", board_commentsRouter);
 
 
-const HTTPS_PORT = process.env.HTTPS_PORT || 4000;
+const HTTPS_PORT = process.env.HTTPS_PORT || 80;
 
 let server;
 
