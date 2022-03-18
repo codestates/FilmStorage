@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
     res.send("Hello Wolrd")
 })
 
-const HTTPS_PORT = process.env.HTTPS_PORT || 4000;
+const HTTPS_PORT = process.env.HTTPS_PORT || 80;
 
 let server;
 
