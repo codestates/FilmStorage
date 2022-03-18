@@ -8,6 +8,11 @@
     "express": "^4.17.3",
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
     "nodemailer": "^6.7.2"
+  },
+  "devDependencies": {
+    "sequelize": "^6.17.0",
+    "sequelize-cli": "^6.4.1"
   }
 }
