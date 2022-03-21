@@ -1,11 +1,10 @@
-import './App.css';
-import styled from 'styled-components'
+import "./App.css";
+import styled from "styled-components";
 
 const Title = styled.h1`
-  padding : 20px;
-  color : tomato;
+  padding: 20px;
+  color: tomato;
 `;
-
 
 function App() {
   return (
