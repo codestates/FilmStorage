@@ -3,7 +3,7 @@
 ![FilmStorage-logo](https://user-images.githubusercontent.com/87605663/159270833-8f5397dc-9f5b-4fab-86a6-b245d08eeaa8.png)
 
 
-### **[FilmStorage](https://filmstorage.ga)** 사용해보기
+### **[FilmStorage](https://filmstorage.ga)** Demo
 
 ## Feature
 
@@ -29,9 +29,7 @@
 
 ## Team Logo 
 
-<img src="https://user-images.githubusercontent.com/89354370/157712725-98e40ff7-e3fb-4a9b-8e70-54a93dea751d.png" alt="가로" height=150px width=570px /> <br/>
-
-<img src="https://user-images.githubusercontent.com/89354370/157712735-80195574-f436-43fa-8f02-09d0c668928b.png" alt="세로" height=280px width=230px /> <br/>
+<img src="https://user-images.githubusercontent.com/89354370/157712725-98e40ff7-e3fb-4a9b-8e70-54a93dea751d.png" alt="가로" height=75px width=320px /> <br/>
 ---
 
 ### Team Member
