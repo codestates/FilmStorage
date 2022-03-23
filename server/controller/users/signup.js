@@ -1,16 +1,5 @@
 const { users } = require('../../models')
-const multer = require('multer')
 
-const storage = multer.diskStorage({ // 2
-    destination(req, file, cb) {
-        cb(null, 'uploadedFiles/');
-    },
-    filename(req, file, cb) {
-        cb(null, `${Date.now()}__${file.originalname}`);
-    },
-});
-const upload = multer({ dest: 'uploadedFiles/' }); // 3-1
-const uploadWithOriginalFilename = multer({ storage: storage }); // 3-2
 // {
 // "email" : "boo1996@naver.com",
 // "password" : "1234abc!",
