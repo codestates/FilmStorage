@@ -4,5 +4,5 @@ module.exports = {
     signout: require("./signout"),
     update: require("./update"),
     withdrawal: require("./withdrawal"),
-    auth: require("./auth")
+    auth: require("./auth"),
 };

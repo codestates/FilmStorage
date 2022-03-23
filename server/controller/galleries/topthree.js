@@ -1,5 +1,5 @@
 module.exports = {
     get: async (req, res) => {
-        res.send('hello world')
+        //날짜를 업데이트 하기
     }
 }
