@@ -8,17 +8,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      user_id: {
+        type: Sequelize.INTEGER
+      },
       photo: {
-        type: Sequelize.BLOB,
-        allowNull: false
+        type: Sequelize.BLOB
       },
       filmtype: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
       },
       contents: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
+      },
+      views: {
+        type: Sequelize.INTEGER
+      },
+      likesCount: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
