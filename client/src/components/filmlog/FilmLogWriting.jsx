@@ -11,29 +11,47 @@ const ModalBG = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
 `;
 
-const ModalWrting = styled.div`
-  background-color: white;
-  width: 800px;
-  height: 600px;
-  border-radius: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  line-height: 30px;
-  padding: 20px 5px;
-  box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.205);
+const ModalWrting = styled.div.attrs((props) => ({
+  role: "dialog",
+}))`
+  width: 70vw;
+  height: 70vh;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 2px;
+  margin: 0;
+  > span.close_btn {
+    margin-top: 5px;
+    cursor: pointer;
+  }
+  > div.desc {
+    margin-top: 25px;
+    color: #4000c7;
+  }
 `;
 
 function FilmLogWriting() {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
-      <ModalBG>
-        <ModalWrting />
-      </ModalBG>
+      {isOpen ? (
+        <ModalBG onClick={()=>openModalHandler()}>
+          <ModalWrting onClick={(e) => e.stopPropagation()}>
+            <span className="close-btn" onClick={openModalHandler}>
+              &times;
+            </span>
+            <div className="desc">내용이 들어가면 되겠지?</div>
+          </ModalWrting>
+        </ModalBG>
+      ) : null}
     </>
   );
 }

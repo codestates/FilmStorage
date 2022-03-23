@@ -3,6 +3,7 @@ import React,{useState} from "react";
 import "./FilmLogPage.css";
 import styled from "styled-components";
 import FilmLogWriting from "../components/filmlog/FilmLogWriting";
+import FilmLogSlide from "../components/filmlog/FilmLogSlide"
 
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -12,7 +13,8 @@ const NavBtn = styled.button`
   font-weight: bold;
   border-radius: 10px;
   background-color: #fff;
-  color: var(--main-color);
+  width: 6rem ;
+  height: 2rem ;
 `;
 
 const RegisterBtn = styled.button`
@@ -20,7 +22,8 @@ const RegisterBtn = styled.button`
   font-weight: bold;
   border-radius: 10px;
   background-color: #fff;
-  color: var(--main-color);
+  width: 8rem;
+  height: 2.5rem;
 `;
 
 const FilmLogImg = styled.img`
@@ -38,13 +41,10 @@ function FilmLogPage() {
     setIsOpen(!isOpen)
   }
 
-
-
-
   return (
     <>
       <section className="filmlog-first">
-        <div className="filmlog-first-img">이미지슬라이드</div>
+        <div className="filmlog-first-img"><FilmLogSlide /></div>
         <h3>Month of Moment</h3>
       </section>
       {/*  */}
@@ -71,11 +71,15 @@ function FilmLogPage() {
             </ul>
             <div className="nav-flex"></div>
             <div>
-              <RegisterBtn onClick={()=> handleWriteRegister()}>사진등록</RegisterBtn>
+              <RegisterBtn onClick={handleWriteRegister}>사진등록</RegisterBtn>
               {isOpen ? <FilmLogWriting /> : null}
             </div>
           </nav>
           <div className="filmlog-second-content">
+            <FilmLogImg></FilmLogImg>
+            <FilmLogImg></FilmLogImg>
+            <FilmLogImg></FilmLogImg>
+            <FilmLogImg></FilmLogImg>
             <FilmLogImg></FilmLogImg>
             <FilmLogImg></FilmLogImg>
             <FilmLogImg></FilmLogImg>
