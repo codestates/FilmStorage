@@ -22,6 +22,7 @@ app.use(
   })
 );
 
+app.use("/users/profile", express.static("uploads"));
 app.set('view engine', 'ejs');
 app.use("/users", usersRouter);
 app.use("/filmlogs", filmlogsRouter);
