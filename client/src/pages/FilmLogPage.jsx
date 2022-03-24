@@ -3,7 +3,7 @@ import React,{useState} from "react";
 import "./FilmLogPage.css";
 import styled from "styled-components";
 import FilmLogWriting from "../components/filmlog/FilmLogWriting";
-import FilmLogSlide from "../components/filmlog/FilmLogSlide"
+import SimpleSlider from "../components/filmlog/SimpleSlider"
 
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -44,8 +44,7 @@ function FilmLogPage() {
   return (
     <>
       <section className="filmlog-first">
-        <div className="filmlog-first-img"><FilmLogSlide /></div>
-        <h3>Month of Moment</h3>
+        <div className="filmlog-first-img"><SimpleSlider /></div>
       </section>
       {/*  */}
       <article className="filmlog-second">

@@ -1,7 +1,9 @@
 .filmlog-first {
   border: 1px solid black;
-  width: 100%;
+  width: 100vw;
   height: 50vh;
+  text-align:center;
+  display:table
 }
 .filmlog-first h3 {
   text-align: center;
@@ -14,7 +16,9 @@
   margin-top: 1rem;
   margin-right: 2rem;
   margin-left: 2rem;
-  height: 85%;
+  width: 95.5vw;
+  height: 400px;
+  
 }
 
 /* 필름로그 이미지 무한스크롤 */
