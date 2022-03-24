@@ -1,11 +1,8 @@
-import './App.css';
-import styled from 'styled-components'
-import { useEffect, useState } from 'react';
-
-const Title = styled.h1`
-  padding : 20px;
-  color : tomato;
-`;
+import "./App.css";
+import styled from "styled-components";
+import MainPage from "./pages/MainPage";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
 
@@ -33,7 +30,9 @@ function App() {
 
   return (
     <div className="App">
-      <Title>안녕하세요 wooga 팀입니다.</Title>
+      <Header />
+      <MainPage />
+      <Footer />
     </div>
   );
 }
