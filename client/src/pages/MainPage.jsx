@@ -3,26 +3,9 @@ import styled, { keyframes } from "styled-components";
 import GoToMostUsedFilm from "../components/main/GoToMostUsedFilm";
 import GoToTodayFilm from "../components/main/GoToTodayFilm";
 import GoToFindingFilmType from "../components/main/GoToFindingFilmType";
-
-/* 애니메이션 */
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-const slideLeft = keyframes`
-  0% {
-    -webkit-transform: translateX(100px);
-            transform: translateX(100px);
-  }
-  100% {
-    -webkit-transform: translateX(0px);
-            transform: translateX(0px);
-  }
-`;
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 /* styled-components */
 const MainBox = styled.section`
@@ -41,20 +24,17 @@ const Title = styled.h1`
   font-size: ${(props) => props.fontSize || "70px"};
   margin: ${(props) => props.morginBottom || "0px"};
   color: #444;
-  animation: ${fadeIn} 1s linear;
 `;
 const Description = styled.p`
   font-size: 16px;
   margin: 10px 0 0 0;
   line-height: 1.4em;
   color: #666;
-  animation: ${fadeIn} 1s linear;
 `;
 
 const Img = styled.img`
   width: 200px;
   padding: 50px 100px;
-  animation: ${slideLeft} 1s linear;
   animation-fill-mode: forwards;
 `;
 
@@ -69,9 +49,16 @@ const ContentBox = styled.section`
 
 /* 메인페이지 */
 function MainPage() {
+  useEffect(() => {
+    AOS.init();
+  });
   return (
     <>
-      <MainBox>
+      <MainBox
+        data-aos="fade-up"
+        data-aos-duration="1000"
+        data-aos-easing="ease-in-sine"
+      >
         <TextBox>
           <Title>난 코닥을 때 후지를 써..</Title>
           <Description>
@@ -82,7 +69,14 @@ function MainPage() {
         <Img src="https://user-images.githubusercontent.com/87605663/159632005-c03708e7-9d27-411e-b0c3-b0d32f68f186.png" />
       </MainBox>
       <ContentBox>
-        <Title fontSize="40px" morginBottom="0 0 100px 0" center>
+        <Title
+          fontSize="40px"
+          morginBottom="0 0 100px 0"
+          center
+          data-aos="fade-in"
+          data-aos-duration="1000"
+          data-aos-easing="ease-in-sine"
+        >
           어떤 필름을 써야 할지 모르겠다면?
         </Title>
         <GoToMostUsedFilm />
