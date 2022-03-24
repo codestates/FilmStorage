@@ -17,7 +17,7 @@ module.exports = {
         allowNull: false
       },
       profile: {
-        type: Sequelize.BLOB
+        type: Sequelize.STRING,
       },
       nickname: {
         type: Sequelize.STRING,

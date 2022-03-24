@@ -31,5 +31,40 @@ module.exports = {
                 console.log(err)
             }
         }
+    },
+    profile: async (req, res) => {
+        console.log(req.params);
+        console.log('요청받은 이미지 파일명#####>', req.file.filename)
+        console.log('요청받은 이미지 파일경로@@@@', req.file.path)
+
+        try {
+            await users.update(
+                {
+                    profile:
+                        `https://localhost:4000/${req.file.filename}`,
+                },
+                {
+                    where: {
+                        id: req.params.user_id
+                    },
+                }
+            );
+            const getUpdatedUserInfo = await users.findOne({
+                where: {
+                    id: req.params.user_id
+                },
+            });
+            // console.log(getUpdatedUserInfo)
+
+            res.status(201).json({
+                message: `profile updated filename:${req.file.filename}`,
+                data: getUpdatedUserInfo
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(500).send({
+                message: "Internal Server Error"
+            });
+        }
     }
 }
