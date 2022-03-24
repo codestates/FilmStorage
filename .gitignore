@@ -23,7 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 ## Server Side
-node_modules
+server/node_modules
 .env
 localhost*
 
