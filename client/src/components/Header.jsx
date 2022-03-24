@@ -12,6 +12,7 @@ const HeaderBox = styled.header`
   position: sticky;
   background: #ffffffea;
   top: 0;
+  z-index:999;
 `;
 const LogoImg = styled.img`
   height: 1.2rem;
