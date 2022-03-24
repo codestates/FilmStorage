@@ -22,13 +22,13 @@ app.use(
   })
 );
 
+app.use("/users/profile", express.static("uploads"));
 app.set('view engine', 'ejs');
 app.use("/users", usersRouter);
 app.use("/filmlogs", filmlogsRouter);
 app.use("/filmtalks", filmtalksRouter);
 app.use("/filmlog_comments", filmlog_commentsRouter);
 app.use("/filmtalk_comments", filmtalk_commentsRouter);
-
 
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 80;

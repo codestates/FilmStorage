@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       photo: {
-        type: Sequelize.BLOB
+        type: Sequelize.STRING
       },
       filmtype: {
         type: Sequelize.STRING

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   filmlogs.init({
     user_id: DataTypes.INTEGER,
-    photo: DataTypes.BLOB,
+    photo: DataTypes.STRING,
     filmtype: DataTypes.STRING,
     contents: DataTypes.TEXT,
     views: DataTypes.INTEGER,
