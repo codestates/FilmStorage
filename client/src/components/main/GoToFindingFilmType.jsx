@@ -3,26 +3,6 @@ import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-/* 애니메이션 */
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-const slideLeft = keyframes`
-  0% {
-    -webkit-transform: translateX(100px);
-            transform: translateX(100px);
-  }
-  100% {
-    -webkit-transform: translateX(0px);
-            transform: translateX(0px);
-  }
-`;
-
 /* styled-components */
 const Container = styled.div`
   /* border: 1px solid red; */
@@ -49,12 +29,10 @@ const Title = styled.h1`
   font-size: 40px;
   margin: ${(props) => props.morginBottom || "0px"};
   color: #444;
-  animation: ${fadeIn} 1s linear;
 `;
 const Img = styled.img`
   width: 200px;
   padding: 50px 100px;
-  animation: ${slideLeft} 1s linear;
   animation-fill-mode: forwards;
 `;
 const Button = styled.button`
@@ -78,7 +56,12 @@ function GoToFindingFilmType() {
   return (
     <>
       <Container>
-        <Content>
+        <Content
+          data-aos="fade-right"
+          data-aos-offset="300"
+          data-aos-duration="700"
+          data-aos-easing="ease-in-sine"
+        >
           <Title>
             내 취향에 맞는
             <br />
@@ -89,7 +72,13 @@ function GoToFindingFilmType() {
             <FontAwesomeIcon icon={faArrowRight} className="icon" />
           </Button>
         </Content>
-        <Content center>
+        <Content
+          center
+          data-aos="fade-left"
+          data-aos-offset="300"
+          data-aos-duration="700"
+          data-aos-easing="ease-in-sine"
+        >
           <Img src="https://user-images.githubusercontent.com/87605663/159729602-0c58d5c1-48ab-4477-a9c2-e5495758906f.png" />
         </Content>
       </Container>

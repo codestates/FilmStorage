@@ -3,26 +3,6 @@ import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-/* 애니메이션 */
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-const slideLeft = keyframes`
-  0% {
-    -webkit-transform: translateX(-100px);
-            transform: translateX(-100px);
-  }
-  100% {
-    -webkit-transform: translateX(0px);
-            transform: translateX(0px);
-  }
-`;
-
 /* styled-components */
 const Container = styled.div`
   /* border: 1px solid red; */
@@ -40,7 +20,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: ${(props) => (props.center ? "center" : "left")};
+  /* align-items: ${(props) => (props.center ? "center" : "left")}; */
   width: 500px;
   height: 500px;
 `;
@@ -49,19 +29,16 @@ const Title = styled.h1`
   font-size: 70px;
   margin: ${(props) => props.morginBottom || "0px"};
   color: #444;
-  animation: ${fadeIn} 1s linear;
 `;
 const SubTitle = styled.p`
   font-size: 30px;
   margin: ${(props) => props.morginBottom || "0px"};
   color: #444;
-  animation: ${fadeIn} 1s linear;
   /* border: 3px solid blue; */
 `;
 const Img = styled.img`
   width: 230px;
   padding: 50px 100px;
-  animation: ${slideLeft} 1s linear;
   animation-fill-mode: forwards;
 `;
 const Button = styled.button`
@@ -84,8 +61,12 @@ const Button = styled.button`
 function GoToTodayFilm() {
   return (
     <>
-      <Container>
-        <Content center>
+      <Container
+        data-aos="fade-up"
+        data-aos-duration="700"
+        data-aos-anchor-placement="top-center"
+      >
+        <Content>
           <Img src="https://user-images.githubusercontent.com/87605663/159730302-7e8be631-9192-4c3e-8986-ef3f1dc76cd1.png" />
         </Content>
         <Content>
