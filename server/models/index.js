@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
+const filmlogsRouter = require('../routes/filmlogs');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -33,5 +34,52 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
+const { users, filmlogs, filmlog_comments, filmtalks, filmtalk_comments } = sequelize.models;
+
+//users와 각 테이블 간의 관계설정
+users.hasMany(filmlogs, {
+  foreignKey: "user_id"
+});
+filmlogs.belongsTo(users, {
+  foreignKey: "user_id"
+});
+
+users.hasMany(filmtalks, {
+  foreignKey: "user_id"
+});
+filmtalks.belongsTo(users, {
+  foreignKey: "user_id"
+});
+
+users.hasMany(filmlog_comments, {
+  foreignKey: "user_id"
+});
+filmlog_comments.belongsTo(users, {
+  foreignKey: "user_id"
+});
+
+users.hasMany(filmtalk_comments, {
+  foreignKey: "user_id"
+});
+filmtalk_comments.belongsTo(users, {
+  foreignKey: "user_id"
+});
+
+//filmlog와 comments 간의 관계, filmtalk와 comments 간의 관계
+filmlogs.hasMany(filmlog_comments, {
+  foreignKey: "filmlog_id"
+});
+filmlog_comments.belongsTo(filmlogs, {
+  foreignKey: "filmlog_id"
+});
+
+filmtalks.hasMany(filmtalk_comments, {
+  foreignKey: "filmtalk_id"
+});
+filmtalk_comments.belongsTo(filmtalks, {
+  foreignKey: "filmtalk_id"
+});
+
 
 module.exports = db;
