@@ -1,5 +1,6 @@
 /* TODO : 필름로그 페이지 만들기. */
 import React,{useState} from "react";
+import { Link } from "react-router-dom";
 import "./FilmLogPage.css";
 import styled from "styled-components";
 import FilmLogWriting from "../components/filmlog/FilmLogWriting";
@@ -75,7 +76,9 @@ function FilmLogPage() {
             </div>
           </nav>
           <div className="filmlog-second-content">
-            <FilmLogImg></FilmLogImg>
+            <Link to="/filmlogdetail">
+            <FilmLogImg />
+            </Link>
             <FilmLogImg></FilmLogImg>
             <FilmLogImg></FilmLogImg>
             <FilmLogImg></FilmLogImg>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import FilmLogDetail from "../../pages/FilmLogDetail";
 
 const ModalBG = styled.div`
   position: fixed;
@@ -37,7 +38,6 @@ const NavBox = styled.div`
   flex-grow: 3;
 `;
 
-
 const ModalImageBox = styled.div`
   display: flex;
   width: 70vw;
@@ -53,9 +53,14 @@ const ModalImageBox = styled.div`
 function FilmLogWriting() {
   const [isOpen, setIsOpen] = useState(true);
 
+
   const openModalHandler = () => {
     setIsOpen(!isOpen);
   };
+  
+
+
+
 
   return (
     <>
