@@ -31,7 +31,7 @@ app.use("/filmtalk_comments", filmtalk_commentsRouter);
 
 
 
-const HTTPS_PORT = process.env.HTTPS_PORT || 80;
+const HTTPS_PORT = process.env.HTTPS_PORT || 4000;
 
 let server;
 
