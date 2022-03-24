@@ -8,3 +8,8 @@ body {
 .icon {
   padding: 0 10px;
 }
+
+a{
+  text-decoration: none;
+  margin: auto;
+}
