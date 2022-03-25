@@ -77,7 +77,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeConstraint("filmlogs", "FK_fimlogs_users");
+    await queryInterface.removeConstraint("filmlogs", "FK_filmlogs_users");
     await queryInterface.removeConstraint("filmtalks", "FK_filmtalks_users");
     await queryInterface.removeConstraint(
       "filmlog_comments",

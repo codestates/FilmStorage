@@ -22,8 +22,15 @@ app.use(
   })
 );
 
+// 정적 이미지 파일 불러오기 Router
 app.use("/users/profile", express.static("uploads"));
+app.use("/filmlogs/photo", express.static("photos"));
+app.use("/filmtalks/image", express.static("images"));
+
+//Node ailer
 app.set('view engine', 'ejs');
+
+//요청에 따른 분기
 app.use("/users", usersRouter);
 app.use("/filmlogs", filmlogsRouter);
 app.use("/filmtalks", filmtalksRouter);
@@ -43,8 +50,6 @@ if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
 
   server = https.createServer(credentials, app);
   server.listen(HTTPS_PORT, function () {
-    const dir = './uploadedFiles';
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir);
     console.log(`HTTPS SERVER LISTENING ON https://localhost:${HTTPS_PORT}`)
   });
 } else {
