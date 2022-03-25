@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import FilmLogDetail from "../../pages/FilmLogDetail";
 
 const ModalBG = styled.div`
   position: fixed;
@@ -32,6 +31,12 @@ const ModalNav = styled.nav`
   display: flex;
   font-size: 2rem;
   padding: 30px 0px 0px px;
+  text-align: center;
+  justify-content: center;
+  > div.navtitle {
+    margin-top: 1.3rem;
+    margin-right: 2rem;
+  }
 `;
 
 const NavBox = styled.div`
@@ -43,24 +48,40 @@ const ModalImageBox = styled.div`
   width: 70vw;
   height: 70vh;
   border: 1px solid black;
-  `;
+`;
 
-  const ImageBox = styled.div`
-    width: 40vw;
-    border: 1px solid red;
-  `;
+const ImageBox = styled.div`
+  width: 40vw;
+  border: 1px solid red;
+  text-align: center;
+  > div.imginsert {
+    margin-top: 15rem;
+  }
+`;
 
 function FilmLogWriting() {
   const [isOpen, setIsOpen] = useState(true);
 
-
   const openModalHandler = () => {
     setIsOpen(!isOpen);
   };
+
+  // 이미지 미리보는 상태
+  const [files, setFiles] = useState("");
   
-
-
-
+ 
+  
+   // 이미지 미리보기 삽입
+  const encodeFileTobase64 = (fileBlob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setFiles(reader.result);
+        resolve();
+      };
+    });
+  };
 
   return (
     <>
@@ -69,16 +90,30 @@ function FilmLogWriting() {
           <ModalBox onClick={(e) => e.stopPropagation()}>
             <ModalNav>
               <NavBox></NavBox>
-              <div>사진등록 하기</div>
+              <div className="navtitle">사진등록 하기</div>
               <NavBox></NavBox>
-              <div>
-                <button>돌아가기</button>
+              <div className="navtitle">
+                <button onClick={() => openModalHandler()}>돌아가기</button>
                 <button>등록</button>
               </div>
             </ModalNav>
             <ModalImageBox>
-              <ImageBox>사진과 동영상을 드래그해서 넣어주세요.</ImageBox>
-              <div>유저정보</div>
+              <ImageBox>
+                {files && <img src={files} alt="preview-img" width="100%" height="100%"/>}
+                <div className="imginsert">
+                  사진과 동영상을 <br />
+                  드래그해서 넣어주세요.
+                </div>
+                <input
+                  type="file"
+                  id="picture"
+                  accept="img/*"
+                  onChange={(e) => {
+                    encodeFileTobase64(e.target.files[0]);
+                  }}
+                ></input>
+              </ImageBox>
+              <div></div>
             </ModalImageBox>
           </ModalBox>
         </ModalBG>
