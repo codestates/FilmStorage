@@ -1,5 +1,6 @@
 const express = require("express");
 const filmlogsRouter = express.Router();
+const { filmlogsController } = require("../controller");
 const multer = require("multer");
 const upload = multer({
     storage: multer.diskStorage({
@@ -7,20 +8,18 @@ const upload = multer({
             cb(null, "photos/");
         },
         filename: (req, file, cb) => {
-            let randomNum = Math.floor((Math.random() + Math.random()) * 1000000)
+            let randomNum = Math.floor((Math.random() + Math.random()) * 1000000);
             cb(null, randomNum + "_" + "photo.jpg");
         },
     }),
 });
 
-const { filmlogsController } = require("../controller");
-// 카테고리, 컨텐츠 등 Text 내용 등록 시
-filmlogsRouter.post("/register/:user_id", upload.single("photo"), filmlogsController.register.post);
-// 이미지 등록 시
-filmlogsRouter.patch("/revision/image/:user_id/:filmlog_id", upload.single("photo"), filmlogsController.revision.photo);
-
-filmlogsRouter.patch("/revision/:user_id/:filmlog_id", filmlogsController.revision.patch);
-
+// 카테고리, 컨텐츠 등 Text 내용 등록시
+filmlogsRouter.post("/register/:user_id", filmlogsController.register.post);
+// 이미지 등록 및 수정 시
+filmlogsRouter.patch("/revision/photo/:user_id/:filmlog_id", upload.single("photo"), filmlogsController.revision.photo);
+// 이미지 내용만 수정 시
+filmlogsRouter.patch("/revision/:user_id/:filmlog_id", filmlogsController.revision.patch)
 
 filmlogsRouter.delete("/deletion", filmlogsController.deletion.delete);
 filmlogsRouter.get("/total", filmlogsController.total.get);

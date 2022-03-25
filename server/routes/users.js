@@ -8,7 +8,7 @@ const upload = multer({
             cb(null, "profiles/");
         },
         filename: (req, file, cb) => {
-            let randomNum = Math.floor((Math.random() + Math.random()) * 1000000)
+            let randomNum = Math.floor((Math.random() + Math.random()) * 1000000);
             cb(null, randomNum + "_" + "profile.jpg");
         },
     }),
@@ -22,14 +22,15 @@ usersRouter.post("/signin", usersController.signin.post);
 usersRouter.post("/signout", usersController.signout.post);
 usersRouter.get("/auth/:user_id", usersController.auth.get);
 
-//회원정보 수정
+// 프로필 제외 회원 정보 수정
 usersRouter.patch("/update", usersController.update.patch);
-// 프로필사진 수정
-usersRouter.patch("/profile/:user_id", upload.single("profile"), usersController.signup.profile);
-//회원탈퇴
+// 프로필 수정
+usersRouter.patch("/update/profile/:user_id", upload.single("profile"), usersController.update.profile);
+
+// 회원 탈퇴
 usersRouter.delete("/withdrawal", usersController.withdrawal.delete);
 
-// usersRouter.post("/find_email", usersController.find_email.post);
+// 비밀번호 초기화 이메일
 usersRouter.patch("/reset_password", usersController.reset_password.patch);
 
 module.exports = usersRouter;

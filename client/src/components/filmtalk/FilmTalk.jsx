@@ -13,20 +13,21 @@ const Td = styled.td`
   border-bottom: 1px solid Gainsboro;
   padding: 15px 10px;
   font-size: 14px;
+  color: #444;
   text-align: ${(props) => (props.left ? "left" : "center")};
 `;
 
-function FilmTalk({ item }) {
+function FilmTalk({ post }) {
 
   return (
     <>
-      <Tr key={item.id}>
-        <Td>{item.id}</Td>
-        <Td>{item.category}</Td>
-        <Td left>{item.title}</Td>
-        <Td>{item.writer}</Td>
-        <Td>{item.date}</Td>
-        <Td>{item.views}</Td>
+      <Tr key={post.id}>
+        <Td>{post.id}</Td>
+        <Td>{post.category}</Td>
+        <Td left>{post.title}</Td>
+        <Td>{post.writer}</Td>
+        <Td>{post.date}</Td>
+        <Td>{post.views}</Td>
       </Tr>
     </>
   );

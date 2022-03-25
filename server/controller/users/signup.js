@@ -1,5 +1,4 @@
 const { users } = require("../../models");
-const fs = require("fs");
 
 // {
 // "email" : "boo1996@naver.com",
@@ -33,4 +32,4 @@ module.exports = {
             console.log(err);
         }
     },
-};
+}

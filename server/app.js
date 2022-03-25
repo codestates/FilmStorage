@@ -16,28 +16,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["https://localhost:3000"],
+    origin: process.env.DOMAIN,
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "DELETE", "PATCH"],
   })
 );
 
-// 정적 이미지 파일 불러오기 Router
-app.use("/users/profile", express.static("uploads"));
-app.use("/filmlogs/photo", express.static("photos"));
-app.use("/filmtalks/image", express.static("images"));
 
-//Node ailer
-app.set('view engine', 'ejs');
+// Nodemailer
+app.set("view engine", "ejs");
 
-//요청에 따른 분기
+// 요청에 따른 분기
 app.use("/users", usersRouter);
 app.use("/filmlogs", filmlogsRouter);
 app.use("/filmtalks", filmtalksRouter);
 app.use("/filmlog_comments", filmlog_commentsRouter);
 app.use("/filmtalk_comments", filmtalk_commentsRouter);
 
-
+// 정적 이미지 파일 Static Routes
+app.use("/users/profiles", express.static("profiles"));
+app.use("/filmlogs/photos", express.static("photos"));
+app.use("/filmtalks/images", express.static("images"));
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 4000;
 
@@ -50,7 +49,7 @@ if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
 
   server = https.createServer(credentials, app);
   server.listen(HTTPS_PORT, function () {
-    console.log(`HTTPS SERVER LISTENING ON https://localhost:${HTTPS_PORT}`)
+    console.log(`HTTPS SERVER LISTENING ON https://localhost:${HTTPS_PORT}`);
   });
 } else {
   server = app.listen(HTTPS_PORT, () =>
