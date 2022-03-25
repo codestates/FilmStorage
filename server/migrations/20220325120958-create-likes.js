@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('filmlogs', {
+    await queryInterface.createTable('likes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,22 +11,12 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER
       },
-      photo: {
-        type: Sequelize.STRING
+      filmlog_id: {
+        type: Sequelize.INTEGER
       },
-      filmtype: {
-        type: Sequelize.STRING
-      },
-      contents: {
-        type: Sequelize.TEXT
-      },
-      views: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
-      },
-      likesCount: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
+      like: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +29,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('filmlogs');
+    await queryInterface.dropTable('likes');
   }
 };

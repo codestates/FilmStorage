@@ -26,5 +26,6 @@ filmlogsRouter.get("/total", filmlogsController.total.get);
 filmlogsRouter.get("/topthree", filmlogsController.topthree.get);
 filmlogsRouter.get("/mygallery", filmlogsController.mygallery.get);
 filmlogsRouter.get("/view/:gallery_id", filmlogsController.view.get);
+filmlogsRouter.post("/likes/:user_id/:filmlog_id", filmlogsController.likes.post)
 
 module.exports = filmlogsRouter;

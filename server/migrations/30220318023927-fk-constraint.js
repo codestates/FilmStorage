@@ -74,6 +74,31 @@ module.exports = {
       onDelete: "cascade",
       onUpdate: "cascade",
     });
+
+
+    await queryInterface.addConstraint("likes", {
+      fields: ["user_id"],
+      type: "foreign Key",
+      name: "FK_likes_users",
+      references: {
+        table: "users",
+        field: "id",
+      },
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    });
+
+    await queryInterface.addConstraint("likes", {
+      fields: ["filmlog_id"],
+      type: "foreign Key",
+      name: "FK_likes_filmlogs",
+      references: {
+        table: "filmlogs",
+        field: "id",
+      },
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    });
   },
 
   async down(queryInterface, Sequelize) {
@@ -94,6 +119,14 @@ module.exports = {
     await queryInterface.removeConstraint(
       "filmtalk_comments",
       "FK_filmtalk_comments_filmtalks"
+    );
+    await queryInterface.removeConstraint(
+      "likes",
+      "FK_likes_users"
+    );
+    await queryInterface.removeConstraint(
+      "likes",
+      "FK_likes_filmlogs"
     );
   },
 };

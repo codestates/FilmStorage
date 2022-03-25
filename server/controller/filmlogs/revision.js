@@ -30,7 +30,7 @@ module.exports = {
 
             res.status(200).json({
                 message: "Photo has been updated",
-                data: getUpdatedFilmLogInfo.dataValues,
+                data: getUpdatedFilmLogInfo.dataValues.photo,
             });
         } catch (error) {
             console.log(error);
