@@ -12,3 +12,11 @@ body {
 a{
   text-decoration: none;
 }
+
+
+select {
+	text-align-last: center;
+  -moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+}

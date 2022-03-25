@@ -18,11 +18,14 @@ const LogoImg = styled.img`
   filter: contrast(0.5);
 `;
 const Team = styled.ul`
+display: flex;
+flex-direction: column;
 `;
 const TeamWooga = styled.h3`
-  padding-bottom: 5px;
+  text-align: right;
+  padding-bottom: 10px;
   color: DarkGray;
-  /* border-bottom: 1px solid DarkGray; */
+  border-bottom: 1px solid DarkGray;
 `;
 const Member = styled.li`
   font-weight: 500;
@@ -36,7 +39,7 @@ const Member = styled.li`
 const Name = styled.span`
   display: inline-block;
   width: 150px;
-  padding: 5px;
+  padding: 5px 0;
 `;
 const Position = styled.span`
   display: inline-block;
