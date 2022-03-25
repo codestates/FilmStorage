@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import FilmTalk from "../components/filmtalk/FilmTalk";
 import { initialState } from "../assets/state";
+import Pagination from "../components/filmtalk/Pagination";
+import { Link } from "react-router-dom";
 
 const Container = styled.section`
   width: 100%;
@@ -63,9 +65,13 @@ const Button = styled.button`
 `;
 
 function FilmTalkPage() {
+  // const post = initialState.post;
+  // console.log(post)
+  const [posts, setPosts] = useState(initialState.post);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
 
-  const post = initialState.post;
-  
   return (
     <>
       <Container>
@@ -83,13 +89,17 @@ function FilmTalkPage() {
               </Tr>
             </Thead>
             <Tbody>
-              {post.map((item, idx) => {
-                if(idx < 10) {
-                  return <FilmTalk item={item} key={idx}/>
-                }
-              })}
+                {posts.slice(offset, offset + limit).map((post, idx) => (
+                  <FilmTalk post={post} key={idx} />
+                ))}
             </Tbody>
           </Table>
+          <Pagination
+            total={posts.length}
+            limit={limit}
+            page={page}
+            setPage={setPage}
+          />
         </Article>
       </Container>
     </>
