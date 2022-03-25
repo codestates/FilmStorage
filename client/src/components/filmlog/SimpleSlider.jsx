@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const SlideImg = styled.img`
   width: 100%;
-  height: 755px;
+  height: 80vh;
   object-fit: cover;
 `;
 

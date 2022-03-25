@@ -8,7 +8,7 @@ import FilmTalkPage from "./pages/FilmTalkPage";
 import FindingFilmTypePage from "./pages/FindingFilmTypePage"
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
-import FilmLogDetail from "./pages/FilmLogDetail";
+import FilmLogDetailPage from "./pages/FilmLogDetailPage";
 import "./App.css";
 
 function App() {
@@ -38,7 +38,7 @@ function App() {
           <FindingFilmTypePage />
         </Route>
         <Route path="/filmlogdetail">
-          <FilmLogDetail />
+          <FilmLogDetailPage />
         </Route>
       </Switch>
       <Footer />
