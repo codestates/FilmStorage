@@ -31,4 +31,6 @@ localhost*
 */package-lock.json
 *.pem
 
-server/uploads
+server/images
+server/photos
+server/profiles
