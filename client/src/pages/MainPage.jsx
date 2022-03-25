@@ -10,7 +10,7 @@ import { useEffect } from "react";
 /* styled-components */
 const MainBox = styled.section`
   display: flex;
-  height: 100vh;
+  height: 80vh;
   justify-content: center;
   align-items: center;
 `;
