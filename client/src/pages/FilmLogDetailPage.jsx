@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useHistory } from "react-router-dom";
 
 const Container = styled.div`
@@ -11,28 +11,19 @@ const Container = styled.div`
 const Section = styled.div`
   width: 75vw;
   height: 200vh;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   text-align: center;
 `;
 
 const Nav = styled.nav`
   width: 100%;
   height: 8rem;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   display: flex;
 `;
 
 const NavDiv = styled.div`
   margin-top: 5rem;
-`;
-
-const RegisterBtn = styled.button`
-  font-size: 1.3rem;
-  font-weight: bold;
-  border-radius: 10px;
-  background-color: #fff;
-  width: 8rem;
-  height: 2.5rem;
 `;
 
 const Navflex = styled.div`
@@ -42,7 +33,7 @@ const Navflex = styled.div`
 const DetailImg = styled.div`
   width: 100%;
   height: 75vh;
-  border: 1px solid Gainsboro;
+  /* border: 1px solid Gainsboro; */
   > img.detailImg {
     width: 100%;
     height: 75vh;
@@ -56,7 +47,7 @@ const HeaderBox = styled.header`
   height: 80px;
   justify-content: space-around;
   align-items: center;
-  border: 1px solid Gainsboro;
+  /* border: 1px solid Gainsboro; */
   > div.navbox {
     display: flex;
   }
@@ -65,7 +56,7 @@ const HeaderBox = styled.header`
 const ContentBox = styled.div`
   width: 100%;
   height: 100vh;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   > div.content {
     width: 100%;
     height: 30vh;
@@ -77,6 +68,35 @@ const ContentBox = styled.div`
   }
 `;
 
+const Button = styled.button`
+  padding: 10px 30px;
+  border: none;
+  border-radius: 20px;
+  right: ${(props) => props.rigth || 0};
+  ${(props) => {
+    if (props.top) {
+      return css`
+        top: -50px;
+      `;
+    } else if (props.bottom) {
+      return css`
+        bottom: -50px;
+      `;
+    }
+  }}
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background: tomato;
+    transition: 0.3s;
+  }
+`;
+
+
+
+
 function FilmLogDetailPage() {
 
   const history = useHistory();
@@ -86,13 +106,15 @@ function FilmLogDetailPage() {
     <Container>
       <Section>
         <Nav>
-          <NavDiv onClick={()=> history.goBack()}>뒤로가기</NavDiv>
+          <NavDiv>
+          <Button onClick={() => {history.goBack()}}>뒤로가기</Button>
+          </NavDiv>
           <Navflex></Navflex>
           <NavDiv>
-            <RegisterBtn>수정하기</RegisterBtn>
+            <Button>수정하기</Button>
           </NavDiv>
           <NavDiv>
-            <RegisterBtn>삭제하기</RegisterBtn>
+            <Button>삭제하기</Button>
           </NavDiv>
         </Nav>
         {/* 클릭한 이미지 클릭 랜던링 */}
