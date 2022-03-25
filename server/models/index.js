@@ -34,7 +34,7 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-const { users, filmlogs, filmlog_comments, filmtalks, filmtalk_comments } = sequelize.models;
+const { users, filmlogs, filmlog_comments, filmtalks, filmtalk_comments, likes } = sequelize.models;
 
 //users와 각 테이블 간의 관계설정
 users.hasMany(filmlogs, {
@@ -79,5 +79,20 @@ filmtalks.hasMany(filmtalk_comments, {
 filmtalk_comments.belongsTo(filmtalks, {
   foreignKey: "filmtalk_id"
 });
+
+likes.hasMany(users, {
+  foreignKey: "user_id"
+})
+users.belongsTo(likes, {
+  foreignKey: "user_id"
+})
+
+likes.hasMany(filmlogs, {
+  foreignKey: "filmlog_id"
+})
+filmlogs.belongsTo(likes, {
+  foreignKey: "filmlog_id"
+})
+
 
 module.exports = db;

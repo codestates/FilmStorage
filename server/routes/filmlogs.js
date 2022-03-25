@@ -3,15 +3,15 @@ const filmlogsRouter = express.Router();
 const { filmlogsController } = require("../controller");
 const multer = require("multer");
 const upload = multer({
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, "photos/");
-    },
-    filename: (req, file, cb) => {
-      let randomNum = Math.floor((Math.random() + Math.random()) * 1000000);
-      cb(null, randomNum + "_" + "photo.jpg");
-    },
-  }),
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, "photos/");
+        },
+        filename: (req, file, cb) => {
+            let randomNum = Math.floor((Math.random() + Math.random()) * 1000000);
+            cb(null, randomNum + "_" + "photo.jpg");
+        },
+    }),
 });
 
 // 카테고리, 컨텐츠 등 Text 내용 등록시
@@ -26,5 +26,6 @@ filmlogsRouter.get("/total", filmlogsController.total.get);
 filmlogsRouter.get("/topthree", filmlogsController.topthree.get);
 filmlogsRouter.get("/mygallery", filmlogsController.mygallery.get);
 filmlogsRouter.get("/view/:gallery_id", filmlogsController.view.get);
+filmlogsRouter.post("/likes/:user_id/:filmlog_id", filmlogsController.likes.post)
 
 module.exports = filmlogsRouter;

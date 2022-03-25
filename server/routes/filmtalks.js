@@ -3,15 +3,15 @@ const filmtalksRouter = express.Router();
 const { filmtalksController } = require("../controller");
 const multer = require("multer");
 const upload = multer({
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, "images/");
-    },
-    filename: (req, file, cb) => {
-      let randomNum = Math.floor((Math.random() + Math.random()) * 1000000);
-      cb(null, randomNum + "_" + "images.jpg");
-    },
-  }),
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, "images/");
+        },
+        filename: (req, file, cb) => {
+            let randomNum = Math.floor((Math.random() + Math.random()) * 1000000);
+            cb(null, randomNum + "_" + "images.jpg");
+        },
+    }),
 });
 
 // 이미지 제외 내용 등록

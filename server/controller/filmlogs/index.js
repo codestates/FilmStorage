@@ -5,5 +5,6 @@ module.exports = {
     total: require("./total"),
     topthree: require("./topthree"),
     mygallery: require("./mygallery"),
-    view: require("./view")
+    view: require("./view"),
+    likes: require("./likes")
 };
