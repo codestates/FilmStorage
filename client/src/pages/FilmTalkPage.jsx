@@ -1,16 +1,99 @@
 /* TODO : 필름토크 페이지 만들기. */
-import React from "react";
+import React, { useState } from "react";
+import styled from "styled-components";
+import FilmTalk from "../components/filmtalk/FilmTalk";
+import { initialState } from "../assets/state";
 
-function FilmLogTalk() {
+const Container = styled.section`
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+`;
 
+const Article = styled.article`
+  /* border: 1px solid green; */
+  width: 60%;
+  position: relative;
+`;
 
+const Table = styled.table`
+  width: 100%;
+  /* spacing: 0; */
+  /* padding: 0; */
+  /* border: 1px solid blue; */
+  border-collapse: collapse;
+`;
+
+const Thead = styled.thead`
+  /* border-bottom: 3px solid red; */
+  /* background: red; */
+`;
+const Tbody = styled.tbody`
+  border-bottom: 2px solid #444;
+`;
+const Tr = styled.tr`
+  /* border: 1px solid red; */
+`;
+const Th = styled.th`
+  padding: 20px 0;
+  border-bottom: 2px solid #222;
+  font-size: 14px;
+  /* border: 1px solid red; */
+`;
+
+const Button = styled.button`
+  padding: 10px 30px;
+  border: none;
+  border-radius: 20px;
+  position: absolute;
+  right: 0px;
+  top: -50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background: tomato;
+    transition: 0.3s;
+  }
+`;
+
+function FilmTalkPage() {
+
+  const post = initialState.post;
+  
   return (
     <>
-      <section>
-        <h3>필름 토크 페이지 입니다.</h3>
-      </section>
+      <Container>
+        <Article>
+          <Button>글쓰기</Button>
+          <Table>
+            <Thead>
+              <Tr>
+                <Th>글번호</Th>
+                <Th>카테고리</Th>
+                <Th>제목</Th>
+                <Th>작성자</Th>
+                <Th>날짜</Th>
+                <Th>조회수</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {post.map((item, idx) => {
+                if(idx < 10) {
+                  return <FilmTalk item={item} key={idx}/>
+                }
+              })}
+            </Tbody>
+          </Table>
+        </Article>
+      </Container>
     </>
   );
 }
 
-export default FilmLogTalk;
+export default FilmTalkPage;
