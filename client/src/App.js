@@ -3,9 +3,9 @@ import MainPage from "./pages/MainPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import FilmLogPage from "./pages/FilmLogPage";
-import TodayFilmPage from  "./pages/TodayFilmPage";
+import TodayFilmPage from "./pages/TodayFilmPage";
 import FilmTalkPage from "./pages/FilmTalkPage";
-import FindingFilmTypePage from "./pages/FindingFilmTypePage"
+import FindingFilmTypePage from "./pages/FindingFilmTypePage";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import FilmLogDetailPage from "./pages/FilmLogDetailPage";
@@ -17,6 +17,9 @@ function App() {
     <div className="App">
       <Header />
       <Switch>
+        <Route path="/filmtalkdetail">
+          <FilmTalkDetail />
+        </Route>
         <Route exact path="/">
           <MainPage />
         </Route>
@@ -40,9 +43,6 @@ function App() {
         </Route>
         <Route path="/filmlogdetail">
           <FilmLogDetailPage />
-        </Route>
-        <Route path="/filmtalkdetail">
-          <FilmTalkDetail />
         </Route>
       </Switch>
       <Footer />
