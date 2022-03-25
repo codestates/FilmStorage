@@ -4,7 +4,6 @@ import styled from "styled-components";
 import FilmTalk from "../components/filmtalk/FilmTalk";
 import { initialState } from "../assets/state";
 import Pagination from "../components/filmtalk/Pagination";
-import { Link } from "react-router-dom";
 
 const Container = styled.section`
   width: 100%;
@@ -68,9 +67,8 @@ function FilmTalkPage() {
   // const post = initialState.post;
   // console.log(post)
   const [posts, setPosts] = useState(initialState.post);
-  const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
-  const offset = (page - 1) * limit;
+  const offset = (page - 1) * 10;
 
   return (
     <>
@@ -89,14 +87,13 @@ function FilmTalkPage() {
               </Tr>
             </Thead>
             <Tbody>
-                {posts.slice(offset, offset + limit).map((post, idx) => (
+                {posts.slice(offset, offset + 10).map((post, idx) => (
                   <FilmTalk post={post} key={idx} />
                 ))}
             </Tbody>
           </Table>
           <Pagination
             total={posts.length}
-            limit={limit}
             page={page}
             setPage={setPage}
           />
