@@ -1,5 +1,81 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import styled, { css } from "styled-components";
+
+
+export default function FilmLogWriting() {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+  };
+  // 이미지 미리보는 상태
+  const [files, setFiles] = useState("");
+
+  // 이미지 미리보기 삽입 기능 
+  const encodeFileTobase64 = (fileBlob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setFiles(reader.result);
+        resolve();
+      };
+    });
+  };
+
+  // 
+
+
+  return (
+    <>
+      {isOpen ? (
+        <ModalBG onClick={() => openModalHandler()}>
+          <ModalBox onClick={(e) => e.stopPropagation()}>
+            <ModalNav>
+              <div className="navtitle">
+                <Button onClick={() => openModalHandler()}>뒤로가기</Button>
+              </div>
+              <div className="navtitle">사진 등록 하기</div>
+              <div className="navtitle">
+                <Button>등록</Button>
+              </div>
+            </ModalNav>
+            <ModalImageBox>
+              <ImageBox>
+                {files && (
+                  <img
+                    src={files}
+                    alt="preview-img"
+                    width="100%"
+                    height="100%"
+                    border-bottom-left-radius="1rem"
+                  />
+                )}
+                <div className="imginsert">
+                  사진과 동영상을 <br />
+                  드래그해서 넣어주세요.
+                </div>
+                <input
+                  type="file"
+                  id="picture"
+                  accept="img/*"
+                  onChange={(e) => {
+                    encodeFileTobase64(e.target.files[0]);
+                  }}
+                ></input>
+              </ImageBox>
+              <Content>
+              <div>ddd</div>
+              <div>ddd</div>
+              <div>ddd</div>
+              </Content>
+            </ModalImageBox>
+          </ModalBox>
+        </ModalBG>
+      ) : null}
+    </>
+  );
+}
 
 const ModalBG = styled.div`
   position: fixed;
@@ -27,99 +103,62 @@ const ModalBox = styled.div.attrs((props) => ({
 const ModalNav = styled.nav`
   width: 70vw;
   height: 10vh;
-  border: 1px solid black;
+  border-bottom: 2px solid black;
   display: flex;
   font-size: 2rem;
-  padding: 30px 0px 0px px;
   text-align: center;
-  justify-content: center;
+  justify-content: space-between;
   > div.navtitle {
     margin-top: 1.3rem;
     margin-right: 2rem;
+    margin-left: 2rem;
   }
-`;
-
-const NavBox = styled.div`
-  flex-grow: 3;
 `;
 
 const ModalImageBox = styled.div`
   display: flex;
   width: 70vw;
   height: 70vh;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 `;
 
 const ImageBox = styled.div`
   width: 40vw;
-  border: 1px solid red;
+  border-right: 2px solid black;
   text-align: center;
   > div.imginsert {
     margin-top: 15rem;
   }
 `;
 
-function FilmLogWriting() {
-  const [isOpen, setIsOpen] = useState(true);
+const Button = styled.button`
+  padding: 10px 30px;
+  border: none;
+  border-radius: 20px;
+  right: ${(props) => props.rigth || 0};
+  ${(props) => {
+    if (props.top) {
+      return css`
+        top: -50px;
+      `;
+    } else if (props.bottom) {
+      return css`
+        bottom: -50px;
+      `;
+    }
+  }}
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background: tomato;
+    transition: 0.3s;
+  }
+`;
 
-  const openModalHandler = () => {
-    setIsOpen(!isOpen);
-  };
 
-  // 이미지 미리보는 상태
-  const [files, setFiles] = useState("");
-  
- 
-  
-   // 이미지 미리보기 삽입
-  const encodeFileTobase64 = (fileBlob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setFiles(reader.result);
-        resolve();
-      };
-    });
-  };
-
-  return (
-    <>
-      {isOpen ? (
-        <ModalBG onClick={() => openModalHandler()}>
-          <ModalBox onClick={(e) => e.stopPropagation()}>
-            <ModalNav>
-              <NavBox></NavBox>
-              <div className="navtitle">사진등록 하기</div>
-              <NavBox></NavBox>
-              <div className="navtitle">
-                <button onClick={() => openModalHandler()}>돌아가기</button>
-                <button>등록</button>
-              </div>
-            </ModalNav>
-            <ModalImageBox>
-              <ImageBox>
-                {files && <img src={files} alt="preview-img" width="100%" height="100%"/>}
-                <div className="imginsert">
-                  사진과 동영상을 <br />
-                  드래그해서 넣어주세요.
-                </div>
-                <input
-                  type="file"
-                  id="picture"
-                  accept="img/*"
-                  onChange={(e) => {
-                    encodeFileTobase64(e.target.files[0]);
-                  }}
-                ></input>
-              </ImageBox>
-              <div></div>
-            </ModalImageBox>
-          </ModalBox>
-        </ModalBG>
-      ) : null}
-    </>
-  );
-}
-
-export default FilmLogWriting;
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+`
