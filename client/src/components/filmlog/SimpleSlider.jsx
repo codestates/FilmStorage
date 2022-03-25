@@ -24,13 +24,13 @@ export default function SimpleSlider() {
   return (
     <Slider {...settings}>
       <div>
-        <SlideImg src="https://user-images.githubusercontent.com/89363048/159869612-9afbf915-e26d-42de-9bd0-f33270b346f7.jpeg"></SlideImg>
+        <SlideImg src="https://user-images.githubusercontent.com/87605663/160064358-093593d6-0cef-4153-94d5-ab443b9e5b90.jpeg"></SlideImg>
       </div>
       <div>
-        <SlideImg src="https://user-images.githubusercontent.com/89363048/159873638-1e87c603-afe1-45f6-822a-ba840dd9430f.jpeg"></SlideImg>
+        <SlideImg src="https://user-images.githubusercontent.com/87605663/160064391-93a8233c-e2ce-4f5d-959a-a11976e1d700.jpeg"></SlideImg>
       </div>
       <div>
-        <SlideImg src="https://user-images.githubusercontent.com/89363048/159873800-b4f990c7-6485-4f41-8e30-637cec285ba3.jpeg"></SlideImg>
+        <SlideImg src="https://user-images.githubusercontent.com/87605663/160064397-9f51dd58-8edc-4cc0-adc9-db0c3b3baecc.jpeg"></SlideImg>
       </div>
     </Slider>
   );

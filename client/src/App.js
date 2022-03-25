@@ -10,6 +10,7 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import FilmLogDetailPage from "./pages/FilmLogDetailPage";
 import "./App.css";
+import FilmTalkDetail from "./pages/FilmTalkDetail";
 
 function App() {
   return (
@@ -39,6 +40,9 @@ function App() {
         </Route>
         <Route path="/filmlogdetail">
           <FilmLogDetailPage />
+        </Route>
+        <Route path="/filmtalkdetail">
+          <FilmTalkDetail />
         </Route>
       </Switch>
       <Footer />
