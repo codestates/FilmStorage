@@ -20,3 +20,9 @@ select {
 	-webkit-appearance: none;
 	appearance: none;
 }
+
+.search{
+  font-size: 13rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
