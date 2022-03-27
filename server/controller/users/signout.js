@@ -1,5 +1,17 @@
 module.exports = {
     post: async (req, res) => {
-        res.send('hello world')
+        try {
+            res.status(205)
+                .clearCookie("accessToken", {
+                    sameSite: 'none',
+                    domain: 'localhost',
+                    path: '/',
+                    secure: true,
+                    httpOnly: true
+                })
+                .send({ message: "Successfully Logged Out" })
+        } catch (err) {
+            console.log(err)
+        }
     }
 }

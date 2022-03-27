@@ -93,11 +93,11 @@ function FilmLogPage() {
             <ul>
               <li>
                 <Select name="kodak" id="kodak-select">
-                  <Option value="">코닥</Option>
+                  <option value="">코닥</option>
                   {filmData.kodak.map((el, key) => (
-                    <Option key={key} value={el}>
+                    <option key={key} value={el}>
                       {el}
-                    </Option>
+                    </option>
                   ))}
                 </Select>
               </li>

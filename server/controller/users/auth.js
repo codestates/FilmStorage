@@ -1,4 +1,3 @@
-
 const { users } = require('../../models')
 
 //{
@@ -7,10 +6,7 @@ const { users } = require('../../models')
 
 module.exports = {
     get: async (req, res) => {
-        red.send("Successfully login!")
+        res.send("hello world")
     },
 
-    statistic: async (req, res) => {
-
-    }
 }

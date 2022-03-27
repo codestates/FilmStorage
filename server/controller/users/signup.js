@@ -8,28 +8,13 @@ const { users } = require("../../models");
 // }
 module.exports = {
     post: async (req, res) => {
-        try {
-            const { email, password, nickname, mobile } = req.body;
-
-            const [userData, created] = await users.findOrCreate({
-                where: {
-                    email,
-                    password,
-                    nickname,
-                    mobile,
-                },
-            });
-            if (!created) {
-                res.status(409).send({
-                    message: "nickname or email already exists",
-                });
-            } else {
-                res.status(201).send({
-                    message: "Successfully Signed Up",
-                });
+        console.log(req.body)
+        const [userinfo, created] = await users.findOrCreate({
+            where: {
+                email: req.body.email
             }
-        } catch (err) {
-            console.log(err);
-        }
+        })
+        console.log('유저정보###', userinfo)
+        res.send({ message: "Successfully signed Up" })
     },
 }
