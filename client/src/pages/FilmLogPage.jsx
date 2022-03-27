@@ -6,15 +6,14 @@ import styled, { css } from "styled-components";
 import FilmLogWriting from "../components/filmlog/FilmLogWriting";
 import SimpleSlider from "../components/filmlog/SimpleSlider";
 import filmdummydata from "../components/dummydata/filmdummydata";
+import FilmType from "../components/filmlog/FilmType";
 
 
 
 export default function FilmLogPage() {
   const [isOpen, setIsOpen] = useState(false);
   // 필름종류 더미데이터
-  const [filmData, setFilmData] = useState({
-    kodak: ["c200", "c300", "c400", "c500", "c600"],
-  });
+
 
   const handleWriteRegister = () => {
     setIsOpen(!isOpen);
@@ -33,63 +32,11 @@ export default function FilmLogPage() {
           <SimpleSlider />
         </div>
       </section>
-      {/*  */}
       <article className="filmlog-second">
         <div className="filmlog-second-container">
           <nav className="filmlog-second-nav">
             <div className="filmlog-second-nav-title">필름 종류</div>
-            <ul>
-              <li>
-                <Select name="kodak" id="kodak-select">
-                  <Option value="">코닥</Option>
-                  {filmData.kodak.map((el, key) => (
-                    <Option key={key} value={el}>
-                      {el}
-                    </Option>
-                  ))}
-                </Select>
-              </li>
-              <li>
-                <Select name="kodak" id="kodak-select">
-                  <Option value="">후지</Option>
-                  {filmData.kodak.map((el, key) => (
-                    <Option key={key} value={el}>
-                      {el}
-                    </Option>
-                  ))}
-                </Select>
-              </li>
-              <li>
-                <Select name="kodak" id="kodak-select">
-                  <Option value="">아그파</Option>
-                  {filmData.kodak.map((el, key) => (
-                    <Option key={key} value={el}>
-                      {el}
-                    </Option>
-                  ))}
-                </Select>
-              </li>
-              <li>
-                <Select name="kodak" id="kodak-select">
-                  <Option value="">코닥</Option>
-                  {filmData.kodak.map((el, key) => (
-                    <Option key={key} value={el}>
-                      {el}
-                    </Option>
-                  ))}
-                </Select>
-              </li>
-              <li>
-                <Select name="kodak" id="kodak-select">
-                  <Option value="">기타</Option>
-                  {filmData.kodak.map((el, key) => (
-                    <Option key={key} value={el}>
-                      {el}
-                    </Option>
-                  ))}
-                </Select>
-              </li>
-            </ul>
+            <FilmType />
             <div className="nav-flex"></div>
             <div>
               <Button onClick={handleWriteRegister}>사진등록</Button>
@@ -140,21 +87,3 @@ const Button = styled.button`
     transition: 0.3s;
   }
 `;
-
-const Select = styled.select`
-  padding: 10px 30px;
-  border: 1px solid #black;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  &:hover {
-    color: white;
-    background: tomato;
-    transition: 0.3s;
-  }
-`;
-
-const Option = styled.option`
-  background:grey;
-`

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-
+import FilmType from "./FilmType";
 
 export default function FilmLogWriting() {
   const [isOpen, setIsOpen] = useState(true);
@@ -11,7 +11,7 @@ export default function FilmLogWriting() {
   // 이미지 미리보는 상태
   const [files, setFiles] = useState("");
 
-  // 이미지 미리보기 삽입 기능 
+  // 이미지 미리보기 삽입 기능
   const encodeFileTobase64 = (fileBlob) => {
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
@@ -23,9 +23,7 @@ export default function FilmLogWriting() {
     });
   };
 
-  // 
-
-
+  //
   return (
     <>
       {isOpen ? (
@@ -55,19 +53,27 @@ export default function FilmLogWriting() {
                   사진과 동영상을 <br />
                   드래그해서 넣어주세요.
                 </div>
-                <input
+                <Input
                   type="file"
-                  id="picture"
-                  accept="img/*"
+                  placeholder="picture"
+                  // accept="img/*"
                   onChange={(e) => {
                     encodeFileTobase64(e.target.files[0]);
                   }}
-                ></input>
+                ></Input>
               </ImageBox>
               <Content>
-              <div>ddd</div>
-              <div>ddd</div>
-              <div>ddd</div>
+                <UserInfo>
+                  <div className="userinfo">이미지</div>
+                  <div className="userinfo">유저닉네임</div>
+                </UserInfo>
+                <Textarea>
+                  <textarea className="filmcontent" placeholder="내용입력">
+                  </textarea>
+                </Textarea>
+                <Tagarea>필름선택
+                  <FilmType />
+                </Tagarea>
               </Content>
             </ModalImageBox>
           </ModalBox>
@@ -103,7 +109,7 @@ const ModalBox = styled.div.attrs((props) => ({
 const ModalNav = styled.nav`
   width: 70vw;
   height: 10vh;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid black;
   display: flex;
   font-size: 2rem;
   text-align: center;
@@ -124,7 +130,7 @@ const ModalImageBox = styled.div`
 
 const ImageBox = styled.div`
   width: 40vw;
-  border-right: 2px solid black;
+  border-right: 1px solid black;
   text-align: center;
   > div.imginsert {
     margin-top: 15rem;
@@ -157,8 +163,70 @@ const Button = styled.button`
   }
 `;
 
-
 const Content = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const Input = styled.input`
+  padding: 10px 30px;
+  border: none;
+  border-radius: 20px;
+  right: ${(props) => props.rigth || 0};
+  ${(props) => {
+    if (props.top) {
+      return css`
+        top: -50px;
+      `;
+    } else if (props.bottom) {
+      return css`
+        bottom: -50px;
+      `;
+    }
+  }}
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background: tomato;
+    transition: 0.3s;
+  }
+`;
+
+const UserInfo = styled.div`
+  /* border: 1px solid red; */
+  width: 30vw;
+  height: 10vh;
+  display: flex;
+  > div.userinfo {
+    margin-top: 1.7rem;
+    margin-left: 1rem;
+    margin-bottom: 1.7rem;
+    /* border: 1px solid blue; */
+    font-size: 1.5rem;
+  }
+`;
+
+const Textarea = styled.div`
+  width: 30vw;
+  height: 30vh;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  /* border: 1px solid blue; */
+  > textarea.filmcontent {
+    width: 29.5vw;
+    height: 29.5vh;
+    rows: "5";
+    cols: "30";
+    placeholder: "내용 입력";
+  }
+`;
+
+const Tagarea = styled.div`
+  width: 30vw;
+  height: 30vh;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  /* border: 1px solid green; */
 `

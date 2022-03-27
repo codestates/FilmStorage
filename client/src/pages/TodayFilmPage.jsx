@@ -1,16 +1,31 @@
 /* TODO : 오늘의 필름 페이지 입니다. */
 import React from "react";
+import styled from "styled-components";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import {  faCloudHail } from '@fortawesome/free-solid-svg-icons'
 
-function TodayFilmPage() {
-
-
+export default function TodayFilmPage() {
   return (
     <>
-      <section>
+      <Container>
+        
         <h3>오늘의 필름 페이지 입니다.</h3>
-      </section>
+        <FontAwesomeIcon icon="fa-light fa-cloud-hail" />
+      </Container>
     </>
   );
 }
 
-export default TodayFilmPage;
+const Container = styled.div`
+  border: 1px solid red;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+`;
+
+const Section = styled.section`
+
+`
