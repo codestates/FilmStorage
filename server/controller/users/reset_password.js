@@ -36,7 +36,8 @@ module.exports = {
                 console.log(info);
                 res.json({ data: info })
             } catch (err) {
-                console.log(err)
+                console.log(err);
+                res.status(500).send({ message: "Internal Server Error" });
             }
         }
     }
