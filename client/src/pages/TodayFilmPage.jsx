@@ -38,7 +38,7 @@ export default function TodayFilmPage() {
 }
 
 const Container = styled.div`
-  border: 1px solid red;
+  /* border: 1px solid red; */
   width: 100vw;
   height: 100vh;
   display: flex;
