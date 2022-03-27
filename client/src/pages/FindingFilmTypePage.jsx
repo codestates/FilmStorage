@@ -42,5 +42,6 @@ const ChoiceBox = styled.div`
     border-radius: 1rem;
     width: 30rem;
     height: 30rem;
+    box-shadow: 2px 2px 2px 2px gray;
   }
 `;
