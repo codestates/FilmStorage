@@ -20,7 +20,7 @@ const upload = multer({
 usersRouter.post("/signup", usersController.signup.post);
 usersRouter.post("/signin", usersController.signin.post);
 usersRouter.post("/signout", usersController.signout.post);
-usersRouter.get("/auth/:user_id", usersController.auth.get);
+usersRouter.get("/auth", usersController.auth.get);
 
 // 프로필 제외 회원 정보 수정
 usersRouter.patch("/update", usersController.update.patch);

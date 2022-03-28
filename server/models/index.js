@@ -80,17 +80,17 @@ filmtalk_comments.belongsTo(filmtalks, {
   foreignKey: "filmtalk_id"
 });
 
-likes.hasMany(users, {
+likes.belongsTo(users, {
   foreignKey: "user_id"
 })
-users.belongsTo(likes, {
+users.hasMany(likes, {
   foreignKey: "user_id"
 })
 
-likes.hasMany(filmlogs, {
+likes.belongsTo(filmlogs, {
   foreignKey: "filmlog_id"
 })
-filmlogs.belongsTo(likes, {
+filmlogs.hasMany(likes, {
   foreignKey: "filmlog_id"
 })
 

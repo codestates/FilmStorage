@@ -4,6 +4,7 @@ const fs = require("fs");
 const https = require("https");
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser")
 const usersRouter = require("./routes/users");
 const filmlogsRouter = require("./routes/filmlogs");
 const filmtalksRouter = require("./routes/filmtalks");
@@ -12,11 +13,12 @@ const filmtalk_commentsRouter = require("./routes/filmtalk_comments");
 
 const app = express();
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: process.env.DOMAIN,
+    origin: ["https://localhost:3000"],
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "DELETE", "PATCH"],
   })
