@@ -1,5 +1,6 @@
 const { users } = require("../../models");
-
+const { sign } = require('jsonwebtoken');
+require("dotenv").config();
 // {
 // "email" : "boo1996@naver.com",
 // "password" : "1234abc!",
@@ -24,12 +25,28 @@ module.exports = {
                     message: "nickname or email already exists",
                 });
             } else {
-                res.status(201).send({
-                    message: "Successfully Signed Up",
-                });
+                console.log('유저정보#######>>>', userData.dataValues)
+                const accessToken = sign(userData.dataValues, process.env.ACCESS_SECRET, {
+                    expiresIn: 60 * 60
+                })
+                // const accessToken = sign(, process.env.ACCESS_SECRET,
+                // )
+                res.status(201)
+                    .cookie("accessToken", accessToken, {
+                        sameSite: "none",
+                        domain: "localhost",
+                        path: "/",
+                        secure: true,
+                        httpOnly: true,
+                        maxAge: 1000 * 60 * 60 * 2
+                    })
+                    .send({
+                        message: "Successfully Signed Up",
+                    });
             }
         } catch (err) {
             console.log(err);
+            res.status(500).send({ message: "Internal Server Error" });
         }
     },
 }
