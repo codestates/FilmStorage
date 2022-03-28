@@ -1,13 +1,27 @@
-const { galleries } = require('../../models')
+const { filmlogs } = require("../../models");
+
+// user_id / filmtype / contents /
 
 module.exports = {
   post: async (req, res) => {
-    const { photo, filmtype, contents } = req.body;
-    if (!photo || !filmtype || !contents) {
-      res.send({ message: "Bad Request" })
-    } else {
+    const { user_id } = req.params;
+    try {
+      const { filmtype, contents } = req.body;
 
-      res.send('hello world')
+      await filmlogs.create({
+        user_id,
+        filmtype,
+        contents,
+      });
+
+      res.status(201).send({
+        message: "Successfully Registered",
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({
+        message: "Internal Server Error",
+      });
     }
-  }
-}
+  },
+};

@@ -20,12 +20,15 @@ filmlogsRouter.post("/register/:user_id", filmlogsController.register.post);
 filmlogsRouter.patch("/revision/photo/:user_id/:filmlog_id", upload.single("photo"), filmlogsController.revision.photo);
 // 이미지 내용만 수정 시
 filmlogsRouter.patch("/revision/:user_id/:filmlog_id", filmlogsController.revision.patch)
+// 필름로그 삭제
+filmlogsRouter.delete("/deletion/:filmlog_id", filmlogsController.deletion.delete);
+// 좋아요 기능
+filmlogsRouter.post("/likes/:user_id/:filmlog_id", filmlogsController.likes.post);
 
-filmlogsRouter.delete("/deletion", filmlogsController.deletion.delete);
+// 필름로그 조회 기능
 filmlogsRouter.get("/total", filmlogsController.total.get);
 filmlogsRouter.get("/topthree", filmlogsController.topthree.get);
-filmlogsRouter.get("/mygallery", filmlogsController.mygallery.get);
-filmlogsRouter.get("/view/:gallery_id", filmlogsController.view.get);
-filmlogsRouter.post("/likes/:user_id/:filmlog_id", filmlogsController.likes.post)
+filmlogsRouter.get("/mylog/:user_id", filmlogsController.mylog.get);
+filmlogsRouter.get("/view/:filmlog_id", filmlogsController.view.get);
 
 module.exports = filmlogsRouter;
