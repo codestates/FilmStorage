@@ -1,5 +1,5 @@
 /* TODO : 필름로그 페이지 만들기. */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "./FilmLogPage.css";
 import styled, { css } from "styled-components";
@@ -7,23 +7,74 @@ import FilmLogWriting from "../components/filmlog/FilmLogWriting";
 import SimpleSlider from "../components/filmlog/SimpleSlider";
 import filmdummydata from "../components/dummydata/filmdummydata";
 import FilmType from "../components/filmlog/FilmType";
-
-
+import Loader from "../components/filmlog/Loader";
 
 export default function FilmLogPage() {
+  // 작성창 띄우기
   const [isOpen, setIsOpen] = useState(false);
-  // 필름종류 더미데이터
+  // 이미지 스크롤시 로딩 표시 보이게 하기
+  const [isLoaded, setIsLoaded] = useState(false);
 
+  // 스크롤 타겟 설정
+  const [target, setTarget] = useState(null);
 
+  // 이미지 상태 설정
+  const [itemLists, setItemLists] = useState([0, 1, 2]);
+
+  const dummydata = [...filmdummydata];
+
+  // 스크롤 페이지 나누는 함수
+  const ScrollPages = (arr) => {
+    let newArr = [...arr];
+    let result = [];
+    for (let i = 0; i < newArr.length; i += 10) {
+      result.push(newArr.slice(i, i + 10));
+    }
+    return result;
+  };
+
+  useEffect(() => {
+    console.log(itemLists);
+  }, [itemLists]);
+
+  const getMoreItem = async () => {
+    setIsLoaded(true);
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    let Items = [1, 2, 3];
+
+    setItemLists((itemLists) => itemLists.concat(Items));
+    setIsLoaded(false);
+  };
+
+  const onIntersect = async ([entry], observer) => {
+    if (entry.isIntersecting && !isLoaded) {
+      observer.unobserve(entry.target);
+      await getMoreItem();
+      observer.observe(entry.target);
+    }
+  };
+
+  useEffect(() => {
+    let observer;
+    if (target) {
+      observer = new IntersectionObserver(onIntersect, {
+        threshold: 1,
+      });
+      observer.observe(target);
+    }
+    return () => observer && observer.disconnect();
+  }, [target]);
+
+  // 사진 등록 페이지 핸들러
   const handleWriteRegister = () => {
     setIsOpen(!isOpen);
   };
 
-  const history = useHistory()
+  const history = useHistory();
 
   const handlePictureDetail = () => {
-    return history.push("/filmlogdetail")
-  }
+    return history.push("/filmlogdetail/");
+  };
 
   return (
     <>
@@ -44,9 +95,18 @@ export default function FilmLogPage() {
             </div>
           </nav>
           <div className="filmlog-second-content">
-           {
-            filmdummydata.map((el, key) => <FilmLogImg key={key} src={el} onClick={() =>{handlePictureDetail()}} />)
-           }
+            {dummydata.map((el, key) => (
+              <FilmLogImg
+                key={key}
+                src={el}
+                onClick={() => {
+                  handlePictureDetail();
+                }}
+              />
+            ))}
+          </div>
+          <div ref={setTarget} className="Target-Element">
+            {isLoaded && <Loader />}
           </div>
         </div>
       </article>
@@ -54,12 +114,12 @@ export default function FilmLogPage() {
   );
 }
 
-
 const FilmLogImg = styled.img`
   width: 20rem;
   height: 20rem;
   border: 1px solid black;
   margin: 11px;
+  object-fit: cover;
 `;
 
 const Button = styled.button`
