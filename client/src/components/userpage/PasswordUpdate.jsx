@@ -11,11 +11,11 @@ export default function PasswordUpdate () {
         </InfoType>
         <InfoType>
           <InputType>변경 비밀번호</InputType>
-          <Input placeholder="현재 비밀번호" />
+          <Input placeholder="변경 비밀번호" />
         </InfoType>
         <InfoType>
           <InputType>비밀번호 확인</InputType>
-          <Input placeholder="현재 비밀번호" />
+          <Input placeholder="비밀번호 확인" />
         </InfoType>
         <Button>정보 수정하기</Button>
       </InfoUpdate>
