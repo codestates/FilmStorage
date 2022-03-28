@@ -1,0 +1,36 @@
+# Client Side
+
+## dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+## testing
+/coverage
+
+## production
+client/build
+
+## misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+## Server Side
+node_modules
+.env
+localhost*
+
+*/package-lock.json
+*.pem
+
+server/images
+server/photos
+server/profiles

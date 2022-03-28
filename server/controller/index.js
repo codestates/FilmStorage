@@ -1,7 +1,7 @@
 module.exports = {
     usersController: require("./users"),
-    galleriesController: require("./galleries"),
-    gallery_commentsController: require("./gallery_comments"),
-    boardsController: require("./boards"),
-    board_commentsController: require("./board_comments")
+    filmlogsController: require("./filmlogs"),
+    filmlog_commentsController: require("./filmlog_comments"),
+    filmtalksController: require("./filmtalks"),
+    filmtalk_commentsController: require("./filmtalk_comments")
 };
