@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 const HeaderBox = styled.header`
   display: flex;
@@ -18,7 +18,9 @@ const HeaderBox = styled.header`
 const LogoImg = styled.img`
   height: 1.2rem;
 `;
-const NavList = styled.ul``;
+const NavList = styled.ul`
+  /* list-style: none */
+`;
 const NavListItem = styled.li`
   padding: 20px;
   font-weight: bold;
@@ -99,7 +101,7 @@ function Header() {
           <Link to="/filmlog">
             <NavListItem>필름 로그</NavListItem>
           </Link>
-          <Link to="/filmtalk">
+          <Link to="/filmtalks/total">
             <NavListItem>필름 토크</NavListItem>
           </Link>
           {isLogin === true ? (
@@ -108,11 +110,15 @@ function Header() {
                 <DropDown>
                   <NavListItemUser>[유저닉네임] 님</NavListItemUser>
                   <UserMenu>
-                    <ul>
+                    <Link to="/filmlogs/total">
                       <UserMenuContent>마이갤러리</UserMenuContent>
+                    </Link>
+                    <Link to="/users/update">
                       <UserMenuContent>계정 관리</UserMenuContent>
+                    </Link>
+                    <Link to="/signout">
                       <UserMenuContent>로그아웃</UserMenuContent>
-                    </ul>
+                    </Link>
                   </UserMenu>
                 </DropDown>
               </Link>
