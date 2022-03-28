@@ -11,23 +11,24 @@ import SignUpPage from "./pages/SignUpPage";
 import FilmLogDetailPage from "./pages/FilmLogDetailPage";
 import "./App.css";
 import FilmTalkDetail from "./pages/FilmTalkDetail";
+import UserInfoUpdatePage from "./pages/UserPage";
 
 function App() {
   return (
     <div className="App">
       <Header />
       <Switch>
-        <Route path="/filmtalkdetail">
-          <FilmTalkDetail />
-        </Route>
         <Route exact path="/">
           <MainPage />
         </Route>
         <Route path="/filmlog">
           <FilmLogPage />
         </Route>
-        <Route path="/filmtalk">
+        <Route path="/filmtalks/total">
           <FilmTalkPage />
+        </Route>
+        <Route path="/filmtalks/view">
+          <FilmTalkDetail />
         </Route>
         <Route path="/todayfilm">
           <TodayFilmPage />
@@ -43,6 +44,12 @@ function App() {
         </Route>
         <Route path="/filmlogdetail">
           <FilmLogDetailPage />
+        </Route>
+        <Route path="/filmlogs/total">
+          <FilmLogPage />
+        </Route>
+        <Route path="/users/update">
+          <UserInfoUpdatePage />
         </Route>
       </Switch>
       <Footer />
