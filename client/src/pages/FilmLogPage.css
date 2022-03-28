@@ -3,7 +3,7 @@
   width: 100vw;
   height: 90vh;
   text-align: center;
-  display: table;
+  /* display: table; */
 }
 .filmlog-first h3 {
   text-align: center;

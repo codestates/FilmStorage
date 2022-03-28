@@ -4,11 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 
-const SlideImg = styled.img`
-  width: 100%;
-  height: 80vh;
-  object-fit: cover;
-`;
+
 
 export default function SimpleSlider() {
   const settings = {
@@ -35,3 +31,9 @@ export default function SimpleSlider() {
     </Slider>
   );
 }
+
+const SlideImg = styled.img`
+  width: 100vw;
+  height: 80vh;
+  object-fit: cover;
+`;
