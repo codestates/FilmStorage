@@ -3,13 +3,16 @@ import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCloud } from "@fortawesome/free-solid-svg-icons";
+
+
 
 export default function TodayFilmPage() {
   return (
     <>
       <Container>
         <h2>현재 위치의 날씨에 따라 적합한 필름을 추천해 드려요!</h2>
-        <FontAwesomeIcon icon={faSearch} className="search" />
+        <FontAwesomeIcon icon={faCloud} className="search" />
         <h3>
           오늘의 날씨는 흐림
           <br />
