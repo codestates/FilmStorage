@@ -1,6 +1,7 @@
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const HeaderBox = styled.header`
   display: flex;
@@ -12,15 +13,12 @@ const HeaderBox = styled.header`
   position: sticky;
   background: #ffffffea;
   top: 0;
-  z-index:999;
+  z-index: 999;
 `;
 const LogoImg = styled.img`
   height: 1.2rem;
 `;
-const NavList = styled.ul`
-  display: flex;
-  list-style: none;
-`;
+const NavList = styled.ul``;
 const NavListItem = styled.li`
   padding: 20px;
   font-weight: bold;
@@ -33,10 +31,36 @@ const NavListItem = styled.li`
     border-radius: 20px;
     transition: 1.2s;
   }
+`;
+
+const UserMenuBar = styled.div`
   /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  position: absolute;
+  top: 60px;
+  right: 140px;
+  background: #fff;
+  width: 100px;
+  height: 100px;
+`;
+const UserMenu = styled.li`
+  margin: 0;
+  padding: 5px 0;
+  color: #444;
 `;
 
 function Header() {
+  /* 로그인 상태 */
+  const [isLogin, setIsLogin] = useState(true);
+
+  /* 로그인 요청 완료 시 실행되는 함수 */
+  const handleIsLogin = () => {
+    setIsLogin(true);
+  };
   return (
     <>
       <HeaderBox>
@@ -54,14 +78,29 @@ function Header() {
             <NavListItem>필름 로그</NavListItem>
           </Link>
           <Link to="/filmtalk">
-          <NavListItem>필름 토크</NavListItem>
+            <NavListItem>필름 토크</NavListItem>
           </Link>
-          <Link to="/signin">
-          <NavListItem sign>로그인</NavListItem>
-          </Link>
-          <Link to="/signup">
-          <NavListItem sign>회원가입</NavListItem>
-          </Link>
+          {isLogin === true ? (
+            <>
+              <Link>
+                <NavListItem>[유저닉네임] 님</NavListItem>
+                <UserMenuBar>
+                  <UserMenu>마이갤러리</UserMenu>
+                  <UserMenu>계정 관리</UserMenu>
+                  <UserMenu>로그아웃</UserMenu>
+                </UserMenuBar>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to="/signin">
+                <NavListItem sign>로그인</NavListItem>
+              </Link>
+              <Link to="/signup">
+                <NavListItem sign>회원가입</NavListItem>
+              </Link>
+            </>
+          )}
         </NavList>
       </HeaderBox>
     </>

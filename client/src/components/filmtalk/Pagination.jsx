@@ -25,9 +25,9 @@ const Button = styled.button`
   }
 `;
 
-function Pagination ({ total, limit, page, setPage }) {
+function Pagination ({ total, page, setPage }) {
   
-  const numPages = Math.ceil(total / limit);
+  const numPages = Math.ceil(total / 10);
 
   return (
     <>
