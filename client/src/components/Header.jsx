@@ -13,7 +13,7 @@ const HeaderBox = styled.header`
   position: sticky;
   background: #ffffffea;
   top: 0;
-  z-index: 999;
+  z-index: 1;
 `;
 const LogoImg = styled.img`
   height: 1.2rem;
@@ -24,33 +24,55 @@ const NavListItem = styled.li`
   font-weight: bold;
   color: #444;
   cursor: pointer;
+  transition: 1.2s;
   &:hover {
     /* border-bottom: 3px solid tomato; */
     color: white;
     background: tomato;
     border-radius: 20px;
-    transition: 1.2s;
   }
 `;
 
-const UserMenuBar = styled.div`
+/* 드롭 메뉴바 */
+const DropDown = styled.li`
   /* border: 1px solid red; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  position: absolute;
-  top: 60px;
-  right: 140px;
-  background: #fff;
-  width: 100px;
-  height: 100px;
+  position: relative;
+  padding: 20px;
 `;
-const UserMenu = styled.li`
-  margin: 0;
-  padding: 5px 0;
+const NavListItemUser = styled.div`
+  font-weight: bold;
   color: #444;
+  cursor: pointer;
+  transition: 0.3s;
+  /* border: 1px solid red; */
+  display: inline-block;
+`;
+
+const UserMenu = styled.div`
+  /* border: 1px solid red; */
+  display: none;
+  ${DropDown}:hover & {
+    display: block;
+  }
+  position: absolute;
+  right: 0px;
+  margin: 10px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px Gainsboro;
+`;
+const UserMenuContent = styled.li`
+  margin: 0;
+  display: block;
+  padding: 5px 15px;
+  color: #444;
+  font-size: 14px;
+  font-weight: 500;
+  &:hover {
+    color: white;
+    background: tomato;
+  }
 `;
 
 function Header() {
@@ -83,12 +105,16 @@ function Header() {
           {isLogin === true ? (
             <>
               <Link>
-                <NavListItem>[유저닉네임] 님</NavListItem>
-                <UserMenuBar>
-                  <UserMenu>마이갤러리</UserMenu>
-                  <UserMenu>계정 관리</UserMenu>
-                  <UserMenu>로그아웃</UserMenu>
-                </UserMenuBar>
+                <DropDown>
+                  <NavListItemUser>[유저닉네임] 님</NavListItemUser>
+                  <UserMenu>
+                    <ul>
+                      <UserMenuContent>마이갤러리</UserMenuContent>
+                      <UserMenuContent>계정 관리</UserMenuContent>
+                      <UserMenuContent>로그아웃</UserMenuContent>
+                    </ul>
+                  </UserMenu>
+                </DropDown>
               </Link>
             </>
           ) : (
