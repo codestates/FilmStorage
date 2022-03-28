@@ -4,7 +4,7 @@ module.exports = {
   deletion: require("./deletion"),
   total: require("./total"),
   topthree: require("./topthree"),
-  mygallery: require("./mygallery"),
+  mylog: require("./mylog"),
   view: require("./view"),
   likes: require("./likes")
 };
