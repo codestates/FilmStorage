@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 const HeaderBox = styled.header`
   display: flex;
@@ -13,49 +13,73 @@ const HeaderBox = styled.header`
   position: sticky;
   background: #ffffffea;
   top: 0;
-  z-index: 999;
+  z-index: 1;
 `;
 const LogoImg = styled.img`
   height: 1.2rem;
 `;
-const NavList = styled.ul``;
+const NavList = styled.ul`
+  /* list-style: none */
+`;
 const NavListItem = styled.li`
   padding: 20px;
   font-weight: bold;
   color: #444;
   cursor: pointer;
+  transition: 1.2s;
   &:hover {
     /* border-bottom: 3px solid tomato; */
     color: white;
     background: tomato;
     border-radius: 20px;
-    transition: 1.2s;
   }
 `;
 
-const UserMenuBar = styled.div`
+/* 드롭 메뉴바 */
+const DropDown = styled.li`
   /* border: 1px solid red; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  position: absolute;
-  top: 60px;
-  right: 140px;
-  background: #fff;
-  width: 100px;
-  height: 100px;
+  position: relative;
+  padding: 20px;
 `;
-const UserMenu = styled.li`
-  margin: 0;
-  padding: 5px 0;
+const NavListItemUser = styled.div`
+  font-weight: bold;
   color: #444;
+  cursor: pointer;
+  transition: 0.3s;
+  /* border: 1px solid red; */
+  display: inline-block;
+`;
+
+const UserMenu = styled.div`
+  /* border: 1px solid red; */
+  display: none;
+  ${DropDown}:hover & {
+    display: block;
+  }
+  position: absolute;
+  right: 0px;
+  margin: 10px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px Gainsboro;
+`;
+const UserMenuContent = styled.li`
+  margin: 0;
+  display: block;
+  padding: 5px 15px;
+  color: #444;
+  font-size: 14px;
+  font-weight: 500;
+  &:hover {
+    color: white;
+    background: tomato;
+  }
 `;
 
 function Header() {
   /* 로그인 상태 */
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   /* 로그인 요청 완료 시 실행되는 함수 */
   const handleIsLogin = () => {
@@ -77,18 +101,26 @@ function Header() {
           <Link to="/filmlog">
             <NavListItem>필름 로그</NavListItem>
           </Link>
-          <Link to="/filmtalk">
+          <Link to="/filmtalks/total">
             <NavListItem>필름 토크</NavListItem>
           </Link>
           {isLogin === true ? (
             <>
               <Link>
-                <NavListItem>[유저닉네임] 님</NavListItem>
-                <UserMenuBar>
-                  <UserMenu>마이갤러리</UserMenu>
-                  <UserMenu>계정 관리</UserMenu>
-                  <UserMenu>로그아웃</UserMenu>
-                </UserMenuBar>
+                <DropDown>
+                  <NavListItemUser>[유저닉네임] 님</NavListItemUser>
+                  <UserMenu>
+                    <Link to="/filmlogs/total">
+                      <UserMenuContent>마이갤러리</UserMenuContent>
+                    </Link>
+                    <Link to="/users/update">
+                      <UserMenuContent>계정 관리</UserMenuContent>
+                    </Link>
+                    <Link to="/signout">
+                      <UserMenuContent>로그아웃</UserMenuContent>
+                    </Link>
+                  </UserMenu>
+                </DropDown>
               </Link>
             </>
           ) : (

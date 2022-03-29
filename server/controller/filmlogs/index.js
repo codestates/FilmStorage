@@ -3,8 +3,8 @@ module.exports = {
   revision: require("./revision"),
   deletion: require("./deletion"),
   total: require("./total"),
-  topthree: require("./topthree"),
-  mygallery: require("./mygallery"),
+  ranking: require("./ranking"),
+  mylog: require("./mylog"),
   view: require("./view"),
   likes: require("./likes")
 };

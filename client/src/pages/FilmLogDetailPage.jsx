@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 import { useHistory } from "react-router-dom";
 import ReplyList from "../components/reply/ReplyList";
 import { initialState } from "../assets/state";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function FilmLogDetailPage() {
   const history = useHistory();
@@ -14,7 +16,9 @@ export default function FilmLogDetailPage() {
       <Article>
         <Nav>
           <NavDiv>
-            <Button onClick={() => history.goBack()}>뒤로가기 버튼</Button>
+            <Button onClick={() => history.goBack()}>
+              <FontAwesomeIcon icon={faAngleLeft} />
+            </Button>
           </NavDiv>
           <Navflex />
           <NavDiv>
@@ -93,7 +97,6 @@ const DetailImg = styled.div`
     object-fit: fill;
   }
 `;
-
 
 const Button = styled.button`
   margin-right: 10px;

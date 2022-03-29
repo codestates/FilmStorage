@@ -23,15 +23,12 @@ const Article = styled.article`
 
 const Table = styled.table`
   width: 100%;
-  /* spacing: 0; */
-  /* padding: 0; */
   /* border: 1px solid blue; */
   border-collapse: collapse;
 `;
 
 const Thead = styled.thead`
-  /* border-bottom: 3px solid red; */
-  /* background: red; */
+  /* border: 3px solid red; */
 `;
 const Tbody = styled.tbody`
   border-bottom: 2px solid #444;
@@ -64,8 +61,6 @@ const Button = styled.button`
 `;
 
 function FilmTalkPage() {
-  // const post = initialState.post;
-  // console.log(post)
   const [posts, setPosts] = useState(initialState.post);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * 10;
@@ -87,16 +82,12 @@ function FilmTalkPage() {
               </Tr>
             </Thead>
             <Tbody>
-                {posts.slice(offset, offset + 10).map((post, idx) => (
+              {posts.slice(offset, offset + 10).map((post, idx) => (
                   <FilmTalk post={post} key={idx} />
-                ))}
+                  ))}
             </Tbody>
           </Table>
-          <Pagination
-            total={posts.length}
-            page={page}
-            setPage={setPage}
-          />
+          <Pagination total={posts.length} page={page} setPage={setPage} />
         </Article>
       </Container>
     </>

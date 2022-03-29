@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import FilmType from "./FilmType";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function FilmLogWriting() {
   const [isOpen, setIsOpen] = useState(true);
@@ -31,7 +33,9 @@ export default function FilmLogWriting() {
           <ModalBox onClick={(e) => e.stopPropagation()}>
             <ModalNav>
               <div className="navtitle">
-                <Button onClick={() => openModalHandler()}>뒤로가기</Button>
+                <Button onClick={() => openModalHandler()}>
+                  <FontAwesomeIcon icon={faAngleLeft} />
+                </Button>
               </div>
               <div className="navtitle">사진 등록 하기</div>
               <div className="navtitle">
@@ -68,10 +72,13 @@ export default function FilmLogWriting() {
                   <div className="userinfo">유저닉네임</div>
                 </UserInfo>
                 <Textarea>
-                  <textarea className="filmcontent" placeholder="내용입력">
-                  </textarea>
+                  <textarea
+                    className="filmcontent"
+                    placeholder="내용입력"
+                  ></textarea>
                 </Textarea>
-                <Tagarea>필름선택
+                <Tagarea>
+                  필름선택
                   <FilmType />
                 </Tagarea>
               </Content>
@@ -229,4 +236,4 @@ const Tagarea = styled.div`
   margin-top: 1rem;
   margin-left: 1rem;
   /* border: 1px solid green; */
-`
+`;
