@@ -6,11 +6,11 @@ export default function FindingFilmTypePage() {
   return (
     <>
       <Container>
-          <Bar>현재 상태 나타나는 bar</Bar>
-          <ChoiceBox>
-            <div className="imgbox">야외사진</div>
-            <div className="imgbox">실내사진</div>
-          </ChoiceBox>
+        <Bar>현재 상태 나타나는 bar</Bar>
+        <ChoiceBox>
+          <div className="imgbox">야외사진</div>
+          <div className="imgbox">실내사진</div>
+        </ChoiceBox>
       </Container>
     </>
   );
@@ -25,9 +25,8 @@ const Container = styled.div`
   align-items: center;
 `;
 
-
 const Bar = styled.div`
-  text-align:center;
+  text-align: center;
   width: 60vw;
   height: 20vh;
 `;
@@ -37,11 +36,11 @@ const ChoiceBox = styled.div`
   height: 60vh;
   display: flex;
   justify-content: space-around;
-  >div.imgbox{
+  > div.imgbox {
     border: 1px solid black;
     border-radius: 1rem;
     width: 30rem;
     height: 30rem;
-    box-shadow: 2px 2px 2px 2px gray;
+    box-shadow: 5px 5px 10px Gainsboro;
   }
 `;

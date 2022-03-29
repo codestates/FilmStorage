@@ -79,7 +79,7 @@ const UserMenuContent = styled.li`
 
 function Header() {
   /* 로그인 상태 */
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   /* 로그인 요청 완료 시 실행되는 함수 */
   const handleIsLogin = () => {
