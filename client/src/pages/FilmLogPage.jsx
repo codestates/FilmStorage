@@ -8,6 +8,7 @@ import SimpleSlider from "../components/filmlog/SimpleSlider";
 import filmdummydata from "../components/dummydata/filmdummydata";
 import FilmType from "../components/filmlog/FilmType";
 import Loader from "../components/filmlog/Loader";
+import useFetch from "../components/filmlog/useFetch";
 
 export default function FilmLogPage() {
   // 작성창 띄우기
@@ -19,33 +20,31 @@ export default function FilmLogPage() {
   const [target, setTarget] = useState(null);
 
   // 이미지 상태 설정
-  const [itemLists, setItemLists] = useState([0, 1, 2]);
+  const [itemLists, setItemLists] = useState([]);
+
+  // 상태
+  const [isClose, setIsClose] = useState(true);
 
   const dummydata = [...filmdummydata];
 
-  // 스크롤 페이지 나누는 함수
-  const ScrollPages = (arr) => {
-    let newArr = [...arr];
-    let result = [];
-    for (let i = 0; i < newArr.length; i += 10) {
-      result.push(newArr.slice(i, i + 10));
-    }
-    return result;
-  };
-
+  // 무한스크롤 이미지 가져오기
   useEffect(() => {
     console.log(itemLists);
   }, [itemLists]);
 
   const getMoreItem = async () => {
+    // 8장씩
+    let curlist = dummydata.splice(0, 8);
     setIsLoaded(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    let Items = [1, 2, 3];
-
-    setItemLists((itemLists) => itemLists.concat(Items));
+    setItemLists((itemLists) => itemLists.concat(curlist));
     setIsLoaded(false);
+    if (dummydata.length === 0) {
+      CloseScroll();
+    }
   };
 
+  // 타겟 찾기
   const onIntersect = async ([entry], observer) => {
     if (entry.isIntersecting && !isLoaded) {
       observer.unobserve(entry.target);
@@ -55,15 +54,22 @@ export default function FilmLogPage() {
   };
 
   useEffect(() => {
+    const option = {
+      root: null,
+      rootMargin: 0,
+      threshold: 1,
+    };
     let observer;
     if (target) {
-      observer = new IntersectionObserver(onIntersect, {
-        threshold: 1,
-      });
+      observer = new IntersectionObserver(onIntersect, option);
       observer.observe(target);
     }
     return () => observer && observer.disconnect();
   }, [target]);
+
+  const CloseScroll = () => {
+    setIsClose(false);
+  };
 
   // 사진 등록 페이지 핸들러
   const handleWriteRegister = () => {
@@ -95,7 +101,7 @@ export default function FilmLogPage() {
             </div>
           </nav>
           <div className="filmlog-second-content">
-            {dummydata.map((el, key) => (
+            {itemLists.map((el, key) => (
               <FilmLogImg
                 key={key}
                 src={el}
@@ -105,9 +111,11 @@ export default function FilmLogPage() {
               />
             ))}
           </div>
-          <div ref={setTarget} className="Target-Element">
-            {isLoaded && <Loader />}
-          </div>
+          {isClose ? (
+            <div ref={setTarget} className="Target-Element">
+              {isLoaded && <Loader />}
+            </div>
+          ) : null}
         </div>
       </article>
     </>

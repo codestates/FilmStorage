@@ -7,10 +7,8 @@ export default function FindingFilmTypePage() {
     <>
       <Container>
         <Bar>현재 상태 나타나는 bar</Bar>
-        <ChoiceBox>
-          <div className="imgbox">야외사진</div>
-          <div className="imgbox">실내사진</div>
-        </ChoiceBox>
+        <ChoiceBox></ChoiceBox>
+        <ChoiceBox></ChoiceBox>
       </Container>
     </>
   );
