@@ -1,18 +1,71 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import { useHistory } from "react-router-dom";
+import ReplyList from "../components/reply/ReplyList";
+import { initialState } from "../assets/state";
+
+export default function FilmLogDetailPage() {
+  const history = useHistory();
+
+  const { views } = initialState.post[13];
+
+  return (
+    <Container>
+      <Article>
+        <Nav>
+          <NavDiv>
+            <Button onClick={() => history.goBack()}>뒤로가기 버튼</Button>
+          </NavDiv>
+          <Navflex />
+          <NavDiv>
+            <Button>수정하기</Button>
+          </NavDiv>
+          <NavDiv>
+            <Button>삭제하기</Button>
+          </NavDiv>
+        </Nav>
+        <DetailImg>
+          <img
+            className="detailImg"
+            src="https://user-images.githubusercontent.com/87605663/160064358-093593d6-0cef-4153-94d5-ab443b9e5b90.jpeg"
+            alt="demo"
+          />
+        </DetailImg>
+        <InfoBox>
+          <Info fontsize="16px" fontweight orange>
+            닉네임
+          </Info>
+          <Info fontsize="16px" flex="9">
+            필름종류
+          </Info>
+          <Info rigth>좋아요 {views}</Info>
+          <Info rigth>조회수 {views}</Info>
+        </InfoBox>
+        <TextBox>{initialState.body}</TextBox>
+        <ReplyForm>
+          <ReplyList replyList={initialState.reply} />
+          <ReplyInput></ReplyInput>
+          <Button>댓글 쓰기</Button>
+        </ReplyForm>
+      </Article>
+    </Container>
+  );
+}
 
 const Container = styled.div`
   width: 100%;
+  /* height: 90vh; */
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  padding: 2rem 0 150px 0;
 `;
 
-const Section = styled.div`
-  width: 75vw;
-  height: 200vh;
-  /* border: 1px solid black; */
-  text-align: center;
+const Article = styled.article`
+  /* border: 1px solid green; */
+  width: 60%;
+  position: relative;
 `;
 
 const Nav = styled.nav`
@@ -23,7 +76,7 @@ const Nav = styled.nav`
 `;
 
 const NavDiv = styled.div`
-  margin-top: 5rem;
+  margin-top: 4rem;
 `;
 
 const Navflex = styled.div`
@@ -41,34 +94,9 @@ const DetailImg = styled.div`
   }
 `;
 
-const HeaderBox = styled.header`
-  display: flex;
-  width: 100%;
-  height: 80px;
-  justify-content: space-around;
-  align-items: center;
-  /* border: 1px solid Gainsboro; */
-  > div.navbox {
-    display: flex;
-  }
-`;
-
-const ContentBox = styled.div`
-  width: 100%;
-  height: 100vh;
-  /* border: 1px solid red; */
-  > div.content {
-    width: 100%;
-    height: 30vh;
-    border: 1px solid blue;
-  }
-  > input.reply {
-    width: 100%;
-    height: 8vh;
-  }
-`;
 
 const Button = styled.button`
+  margin-right: 10px;
   padding: 10px 30px;
   border: none;
   border-radius: 20px;
@@ -82,6 +110,10 @@ const Button = styled.button`
       return css`
         bottom: -50px;
       `;
+    } else if (props.rigth) {
+      return css`
+        rigth: -50px;
+      `;
     }
   }}
   font-size: 16px;
@@ -94,56 +126,48 @@ const Button = styled.button`
   }
 `;
 
+const ReplyInput = styled.input`
+  border: 1px solid Gainsboro;
+  border-radius: 10px;
+  width: 97%;
+  font-size: 14px;
+  padding: 15px 10px;
+  margin-top: 5px;
+  outline: none;
+  &:focus {
+    border: none;
+    border: 1px solid Gainsboro;
+    box-shadow: 5px 5px 10px Gainsboro;
+    transition: 0.3s;
+  }
+`;
 
+const TextBox = styled.div`
+  border-top: 2px solid #444;
+  border-bottom: 2px solid #444;
+  /* width: 100%; */
+  padding: 20px 2px 100px;
+  font-size: 14px;
+  line-height: 2em;
+`;
+const ReplyForm = styled.form`
+  /* border: 1px solid blue; */
+  /* height: 30vh; */
+`;
 
-
-function FilmLogDetailPage() {
-
-  const history = useHistory();
-
-
-  return (
-    <Container>
-      <Section>
-        <Nav>
-          <NavDiv>
-          <Button onClick={() => {history.goBack()}}>뒤로가기</Button>
-          </NavDiv>
-          <Navflex></Navflex>
-          <NavDiv>
-            <Button>수정하기</Button>
-          </NavDiv>
-          <NavDiv>
-            <Button>삭제하기</Button>
-          </NavDiv>
-        </Nav>
-        {/* 클릭한 이미지 클릭 랜던링 */}
-        <DetailImg>
-          <img
-            className="detailImg"
-            src="https://user-images.githubusercontent.com/89363048/159869612-9afbf915-e26d-42de-9bd0-f33270b346f7.jpeg"
-            alt="demo"
-          />
-        </DetailImg>
-        <HeaderBox>
-          <div className="navbox">
-            <div>이미지</div>
-            <div>유저정보</div>
-            <div>필름정보</div>
-          </div>
-          <div className="navbox">
-            <div>좋아요</div>
-            <div>조회수</div>
-          </div>
-        </HeaderBox>
-        <ContentBox>
-          <div className="content">내용</div>
-          <div className="content">댓글</div>
-          <input className="reply" placeholder="댓글입력"></input>
-        </ContentBox>
-      </Section>
-    </Container>
-  );
-}
-
-export default FilmLogDetailPage;
+const InfoBox = styled.div`
+  /* border: 1px solid red; */
+  /* width: 100%; */
+  /* height: 10vh; */
+  display: flex;
+`;
+const Info = styled.span`
+  /* border: 1px solid red; */
+  padding: 5px;
+  margin: 5px;
+  color: ${(props) => (props.orange ? "Chocolate" : "none")};
+  flex: ${(props) => props.flex || "1 30px"};
+  font-size: ${(props) => props.fontsize || "12px"};
+  font-weight: ${(props) => (props.fontweight ? 500 : 400)};
+  text-align: ${(props) => (props.rigth ? "center" : "none")};
+`;

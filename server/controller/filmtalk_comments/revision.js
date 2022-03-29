@@ -1,5 +1,5 @@
 module.exports = {
-    patch: async (req, res) => {
-        res.send('hello world')
-    }
+  patch: async (req, res) => {
+    res.send('hello world')
+  }
 }

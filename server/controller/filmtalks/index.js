@@ -1,7 +1,7 @@
 module.exports = {
-    register: require("./register"),
-    revision: require("./revision"),
-    deletion: require("./deletion"),
-    total: require("./total"),
-    view: require("./view")
+  register: require("./register"),
+  revision: require("./revision"),
+  deletion: require("./deletion"),
+  total: require("./total"),
+  view: require("./view")
 };
