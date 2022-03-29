@@ -27,7 +27,8 @@ filmlogsRouter.post("/likes/:user_id/:filmlog_id", filmlogsController.likes.post
 
 // 필름로그 조회 기능
 filmlogsRouter.get("/total", filmlogsController.total.get);
-filmlogsRouter.get("/topthree", filmlogsController.topthree.get);
+filmlogsRouter.get("/topthree", filmlogsController.ranking.topthree);
+filmlogsRouter.get("/bestfilm", filmlogsController.ranking.bestfilm);
 filmlogsRouter.get("/mylog/:user_id", filmlogsController.mylog.get);
 filmlogsRouter.get("/view/:filmlog_id", filmlogsController.view.get);
 
