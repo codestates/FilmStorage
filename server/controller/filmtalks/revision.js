@@ -3,7 +3,23 @@ const { filmtalks } = require("../../models");
 
 module.exports = {
   patch: async (req, res) => {
-    res.send("hello world");
+    const { user_id, filmtalk_id } = req.params;
+    const { category, title, contents } = req.body;
+    try {
+      await filmtalks.update({
+        category,
+        title,
+        contents
+      }, {
+        where: {
+          user_id,
+          filmtalk_id
+        }
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(500).send({ message: "Internal Server Error" })
+    }
   },
 
   images: async (req, res) => {
@@ -17,7 +33,7 @@ module.exports = {
       }
       return profileURLs;
     };
-    console.log('입력된 파일들####', makeURL(fileNames))
+    console.log('??????####', makeURL(fileNames))
 
     const { user_id, filmtalk_id } = req.params;
 
@@ -39,9 +55,9 @@ module.exports = {
           user_id: user_id,
         },
       });
-      console.log('수정된 유저정보#######', getUpdatedInfo.dataValues)
+      console.log('??????', getUpdatedInfo.dataValues)
       res.status(200).json({
-        message: "Images has been updated",
+        message: "Successfully modified",
         data: getUpdatedInfo.dataValues,
         images: getUpdatedInfo.dataValues.image.split("&"),
       });
