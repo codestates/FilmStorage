@@ -2,7 +2,7 @@ const { filmlogs } = require("../../models");
 const { Op } = require("sequelize");
 
 module.exports = {
-  get: async (req, res) => {
+  topthree: async (req, res) => {
     try {
       const today = new Date();
       const startDay = today.getDate() - today.getDay() + 1;
@@ -62,9 +62,12 @@ module.exports = {
 
       const topThreeData = getTopThreeData.map((data) => {
         const { id, user_id, photo, filmtype } = data;
-				return {
-					id, user_id, photo, filmtype
-				}
+        return {
+          id,
+          user_id,
+          photo,
+          filmtype,
+        };
       });
 
       res.status(200).json({
@@ -72,6 +75,45 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.status(500).send({
+        message: "Internal Server Error",
+      });
+    }
+  },
+
+  bestfilm: async (req, res) => {
+    try {
+      const getFilmType = await filmlogs.findAll({
+        attributes: ["filmtype"],
+      });
+      const filmtypes = getFilmType.map((item) => item.filmtype);
+      const filmList = [...new Set(filmtypes)];
+
+      let countPerEachFilm = [];
+
+      for (let i = 0; i < filmList.length; i++) {
+        const { count } = await filmlogs.findAndCountAll({
+          where: {
+            filmtype: filmList[i],
+          },
+        });
+        let obj = {
+          filmtype: filmList[i],
+          count: count,
+        };
+        countPerEachFilm.push(obj);
+      }
+
+      const bestFilm = countPerEachFilm.reduce((acc, cur) =>
+        acc.count > cur.count ? acc : cur
+      );
+
+      res.status(200).json({
+        message: "ok",
+        bestFilm,
+      });
+    } catch (err) {
+      console.error(err);
       res.status(500).send({
         message: "Internal Server Error",
       });
