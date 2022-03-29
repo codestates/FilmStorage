@@ -1,6 +1,5 @@
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 
 export default {
-        kodak: ["c200", "c300", "c400", "c500", "c600"],
-    };
-  
+  kodak: ["코닥 c200", "코닥 c300", "코닥 c400", "코닥 c500", "코닥 c600"],
+};
