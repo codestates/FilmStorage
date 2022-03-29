@@ -7,7 +7,7 @@ import FilmLogWriting from "../components/filmlog/FilmLogWriting";
 import SimpleSlider from "../components/filmlog/SimpleSlider";
 import filmdummydata from "../components/dummydata/filmdummydata";
 import FilmType from "../components/filmlog/FilmType";
-import Loader from "../components/filmlog/Loader";
+import Loader from "../components/Loader";
 
 export default function FilmLogPage() {
   // 작성창 띄우기
@@ -56,7 +56,7 @@ export default function FilmLogPage() {
     const option = {
       root: null,
       rootMargin: "0px",
-      threshold: 0,
+      threshold: 1,
     };
     let observer;
     if (target) {
