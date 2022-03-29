@@ -1,5 +1,6 @@
 /* TODO : 필름토크 페이지 만들기. */
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import FilmTalk from "../components/filmtalk/FilmTalk";
 import { initialState } from "../assets/state";
@@ -69,7 +70,9 @@ function FilmTalkPage() {
     <>
       <Container>
         <Article>
-          <Button>글쓰기</Button>
+          <Link to="/filmtalks/register">
+            <Button>글쓰기</Button>
+          </Link>
           <Table>
             <Thead>
               <Tr>
@@ -83,8 +86,8 @@ function FilmTalkPage() {
             </Thead>
             <Tbody>
               {posts.slice(offset, offset + 10).map((post, idx) => (
-                  <FilmTalk post={post} key={idx} />
-                  ))}
+                <FilmTalk post={post} key={idx} />
+              ))}
             </Tbody>
           </Table>
           <Pagination total={posts.length} page={page} setPage={setPage} />
