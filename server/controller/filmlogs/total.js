@@ -3,7 +3,26 @@ const { filmlogs } = require("../../models");
 module.exports = {
   get: async (req, res) => {
     try {
-      const totalInfo = await filmlogs.findAll();
+      const { offset, limit } = req.query;
+
+      let totalInfo;
+      if (offset && limit) {
+        totalInfo = await filmlogs.findAll({
+          limit: Number(limit),
+          offset: Number(offset),
+          order: [
+            ["createdAt", "DESC"],
+            ["id", "DESC"],
+          ],
+        });
+      } else {
+        totalInfo = await filmlogs.findAll({
+          order: [
+            ["createdAt", "DESC"],
+            ["id", "DESC"],
+          ],
+        });
+      }
 
       if (!totalInfo) {
         res.status(404).send({

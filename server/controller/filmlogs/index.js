@@ -3,7 +3,7 @@ module.exports = {
   revision: require("./revision"),
   deletion: require("./deletion"),
   total: require("./total"),
-  topthree: require("./topthree"),
+  ranking: require("./ranking"),
   mylog: require("./mylog"),
   view: require("./view"),
   likes: require("./likes")
