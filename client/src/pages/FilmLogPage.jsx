@@ -8,7 +8,6 @@ import SimpleSlider from "../components/filmlog/SimpleSlider";
 import filmdummydata from "../components/dummydata/filmdummydata";
 import FilmType from "../components/filmlog/FilmType";
 import Loader from "../components/filmlog/Loader";
-import useFetch from "../components/filmlog/useFetch";
 
 export default function FilmLogPage() {
   // 작성창 띄우기
@@ -33,7 +32,7 @@ export default function FilmLogPage() {
   }, [itemLists]);
 
   const getMoreItem = async () => {
-    // 8장씩
+    // 8장씩 스크롤 되도록 하기
     let curlist = dummydata.splice(0, 8);
     setIsLoaded(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -56,8 +55,8 @@ export default function FilmLogPage() {
   useEffect(() => {
     const option = {
       root: null,
-      rootMargin: 0,
-      threshold: 1,
+      rootMargin: "0px",
+      threshold: 0,
     };
     let observer;
     if (target) {
