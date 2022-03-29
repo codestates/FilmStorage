@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import ProfileUpdate from "../components/userpage/ProfileUpdate";
 import PasswordUpdate from "../components/userpage/PasswordUpdate";
 
@@ -30,9 +30,8 @@ export default function UserInfoUpdatePage() {
           </TabMenu>
           {currentTab === 0 ? <ProfileUpdate /> : <PasswordUpdate />}
           <Withdraw>탈퇴하기</Withdraw>
-          </Article>
+        </Article>
       </Container>
-
     </>
   );
 }
@@ -74,25 +73,25 @@ const UpdateButton = styled.button`
     color: tomato;
   }
 `;
-const TabMenu = styled.ul`
+const TabMenu = styled.div`
   /* border: 1px solid blue; */
   width: 390px;
   margin: 20px 0;
 `;
 
-const Tab = styled.li`
+const Tab = styled.button`
   /* border: 1px solid green; */
-  margin: 0px;
-  display: inline-block;
   width: 195px;
+  color: #444;
   padding: 10px 0px;
-  text-align: center;
-  border-bottom: 1px solid #444;
-  box-sizing: border-box;
+  border: 1px solid transparent;
+  background: #fff;
+  border-bottom: 1px solid Gainsboro;
   cursor: pointer;
-  &:hover {
-    border: 1px solid #444;
-    border-bottom: none;
+  &:focus {
+    font-weight: 600;
+    border: 1px solid Gainsboro;
+    border-bottom: 1px solid transparent;
   }
 `;
 
