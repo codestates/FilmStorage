@@ -2,6 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 /* styled-components */
 const Container = styled.div`
@@ -67,10 +68,12 @@ function GoToFindingFilmType() {
             <br />
             필름을 제대로 찾아보자!
           </Title>
-          <Button>
-            필름 취향 테스트 해보기
-            <FontAwesomeIcon icon={faArrowRight} className="icon" />
-          </Button>
+          <Link to="filmtype">
+            <Button>
+              필름 취향 테스트 해보기
+              <FontAwesomeIcon icon={faArrowRight} className="icon" />
+            </Button>
+          </Link>
         </Content>
         <Content
           center

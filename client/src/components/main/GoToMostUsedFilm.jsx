@@ -2,6 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 /* styled-components */
 const Container = styled.div`
@@ -86,10 +87,12 @@ function GoToMostUsedFilm() {
             <br />
             품목 : 컬러필름 | 필름종류 : 35mm필름 | 매수 : 36장 | 수량 : 3롤
           </Description>
-          <Button>
-            필름로그로 가기
-            <FontAwesomeIcon icon={faArrowRight} className="icon" />
-          </Button>
+          <Link to="/filmlog">
+            <Button>
+              필름로그로 가기
+              <FontAwesomeIcon icon={faArrowRight} className="icon" />
+            </Button>
+          </Link>
         </Content>
         <Content
           center

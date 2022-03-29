@@ -2,6 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 /* styled-components */
 const Container = styled.div`
@@ -77,10 +78,12 @@ function GoToTodayFilm() {
           </SubTitle>
           <Title>후지 c200</Title>
           <SubTitle>를 사용해 보세요</SubTitle>
-          <Button>
-            오늘의 필름 추천 받기
-            <FontAwesomeIcon icon={faArrowRight} className="icon" />
-          </Button>
+          <Link to="todayfilm">
+            <Button>
+              오늘의 필름 추천 받기
+              <FontAwesomeIcon icon={faArrowRight} className="icon" />
+            </Button>
+          </Link>
         </Content>
       </Container>
     </>
