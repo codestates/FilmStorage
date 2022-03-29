@@ -9,6 +9,10 @@ module.exports = {
         where: {
           filmlog_id,
         },
+        order: [
+          ["createdAt", "DESC"],
+          ["id", "DESC"],
+        ],
       });
 
       if (!commentsInfo) {

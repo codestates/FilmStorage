@@ -9,6 +9,10 @@ module.exports = {
         where: {
           filmtalk_id,
         },
+        order: [
+          ["createdAt", "DESC"],
+          ["id", "DESC"],
+        ],
       });
 
       if (!commentsInfo) {
