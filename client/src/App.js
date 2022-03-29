@@ -12,6 +12,7 @@ import FilmLogDetailPage from "./pages/FilmLogDetailPage";
 import "./App.css";
 import FilmTalkDetail from "./pages/FilmTalkDetail";
 import UserInfoUpdatePage from "./pages/UserPage";
+import FilmTalkResigserPage from "./pages/FilmTalkRegisterPage";
 
 function App() {
   return (
@@ -50,6 +51,9 @@ function App() {
         </Route>
         <Route path="/users/update">
           <UserInfoUpdatePage />
+        </Route>
+        <Route path="/filmtalks/register">
+          <FilmTalkResigserPage />
         </Route>
       </Switch>
       <Footer />
