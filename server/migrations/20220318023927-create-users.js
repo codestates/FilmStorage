@@ -14,7 +14,6 @@ module.exports = {
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
       profile: {
         type: Sequelize.STRING,
@@ -25,7 +24,6 @@ module.exports = {
       },
       mobile: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
       createdAt: {
         allowNull: false,
