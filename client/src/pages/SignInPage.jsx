@@ -4,11 +4,16 @@ import { useEffect } from "react";
 import styled from "styled-components";
 
 export default function SignInPage() {
-  const kakao = window.Kakao;
-
   useEffect(() => {
-    kakao.init(process.env.REACT_APP_KAKAO_INIT_KEY);
+    kakaoInit();
   }, []);
+
+  const kakao = window.Kakao;
+  const kakaoInit = () => {
+    if (kakao.isInitialized() === false) {
+      kakao.init(process.env.REACT_APP_KAKAO_INIT_KEY);
+    }
+  };
 
   const kakaoSignIn = () => {
     kakao.Auth.authorize({
