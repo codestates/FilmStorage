@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import ProfileUpdate from "../components/userpage/ProfileUpdate";
 import PasswordUpdate from "../components/userpage/PasswordUpdate";
 
-export default function UserInfoUpdatePage() {
+export default function UserInfoUpdatePage({ userInfo }) {
   const [currentTab, setCurrentTab] = useState(0);
   const menuArr = ["프로필 편집", "비밀번호 변경"];
 
@@ -16,7 +16,7 @@ export default function UserInfoUpdatePage() {
       <Container>
         <Article>
           <ImgUpdate>
-            <Img src="https://i.pinimg.com/474x/28/5a/a1/285aa1150c5ff68ca00083c2db587807.jpg" />
+            <Img src={`${userInfo.profile}`} />
             <UpdateButton>사진 수정</UpdateButton>
           </ImgUpdate>
           <TabMenu>
@@ -28,7 +28,7 @@ export default function UserInfoUpdatePage() {
               );
             })}
           </TabMenu>
-          {currentTab === 0 ? <ProfileUpdate /> : <PasswordUpdate />}
+          {currentTab === 0 ? <ProfileUpdate userInfo={userInfo} /> : <PasswordUpdate />}
           <Withdraw>탈퇴하기</Withdraw>
         </Article>
       </Container>
