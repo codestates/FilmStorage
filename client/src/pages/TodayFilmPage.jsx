@@ -24,7 +24,7 @@ export default function TodayFilmPage() {
   const { Clouds, Clear, Rain, Snow } = TodayFilmResult;
   const [filmResult, setFilmResult] = useState(Clouds);
 
-  console.log(Clouds);
+  // console.log(Clouds);
 
   const successAndGetWeather = (position) => {
     const lat = position.coords.latitude;
@@ -32,37 +32,41 @@ export default function TodayFilmPage() {
     const apiKey = "3ec77581799218a8534c31f41598f3f4";
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&appid=${apiKey}`;
 
-    axios.get(url).then((res) => {
-      // console.log(res.data);
-      // console.log("지역", res.data.name);
+    axios
+      .get(url, {
+        withCredentials: false,
+      })
+      .then((res) => {
+        // console.log(res.data);
+        // console.log("지역", res.data.name);
 
-      const { clouds, main, sys, weather, name } = res.data;
+        const { clouds, main, sys, weather, name } = res.data;
 
-      const timeConvert = (time) => {
-        return `${time.split(" ")[0]} ${time.split(" ")[1].split(":")[0]}시 ${
-          time.split(" ")[1].split(":")[1]
-        }분`;
-      };
+        const timeConvert = (time) => {
+          return `${time.split(" ")[0]} ${time.split(" ")[1].split(":")[0]}시 ${
+            time.split(" ")[1].split(":")[1]
+          }분`;
+        };
 
-      const sunriseTime = new Date(sys.sunrise * 1000).toLocaleTimeString();
-      const sunsetTime = new Date(sys.sunset * 1000).toLocaleTimeString();
+        const sunriseTime = new Date(sys.sunrise * 1000).toLocaleTimeString();
+        const sunsetTime = new Date(sys.sunset * 1000).toLocaleTimeString();
 
-      let weatherInfo = {
-        clouds: clouds.all, // %
-        temp: main.temp,
-        sunrise: timeConvert(sunriseTime), // 시간
-        sunset: timeConvert(sunsetTime),
-        weatherIcon: weather[0].icon,
-        weatherDesc: weather[0].description,
-        name: name,
-        main: weather[0].main,
-      };
+        let weatherInfo = {
+          clouds: clouds.all, // %
+          temp: main.temp,
+          sunrise: timeConvert(sunriseTime), // 시간
+          sunset: timeConvert(sunsetTime),
+          weatherIcon: weather[0].icon,
+          weatherDesc: weather[0].description,
+          name: name,
+          main: weather[0].main,
+        };
 
-      console.log(curWeather.weatherDesc);
+        console.log(curWeather.weatherDesc);
 
-      setCurWeather(weatherInfo);
-      handleIcon(curWeather.main);
-    });
+        setCurWeather(weatherInfo);
+        handleIcon(curWeather.main);
+      });
   };
 
   const error = (err) => {
@@ -141,7 +145,7 @@ export default function TodayFilmPage() {
           <h3 className="filmtitle">일몰사진 : {curWeather.sunset}</h3> */}
           <Section>
             {filmResult.map((el, idx) => {
-              console.log("이거 봐보", el);
+              // console.log("이거 봐보", el);
               return (
                 <>
                   <FilmBox>
