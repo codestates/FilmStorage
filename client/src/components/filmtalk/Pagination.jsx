@@ -9,6 +9,7 @@ const Nav = styled.nav`
 `
 const Button = styled.button`
   border: none;
+  margin: 40px 0;
   padding: 10px;
   cursor: pointer;
   &:hover {
