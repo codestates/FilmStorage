@@ -13,11 +13,56 @@ import "./App.css";
 import FilmTalkDetail from "./pages/FilmTalkDetail";
 import UserInfoUpdatePage from "./pages/UserPage";
 import FilmTalkResigserPage from "./pages/FilmTalkRegisterPage";
+import OauthPage from "./pages/OauthPage";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    id: "",
+    email: "",
+    nickname: "",
+    profile: "",
+  });
+
+  useEffect(() => {
+    isAuthenticated();
+  }, []);
+
+  const isAuthenticated = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users/auth`, {
+        headers: {
+          Accept: "application/json",
+        },
+      })
+      .then((res) => {
+        // console.log(res);
+        const { id, email, nickname, profile } = res.data.data;
+        setUserInfo({
+          id,
+          email,
+          nickname,
+          profile,
+        });
+        setIsLogin(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="App">
-      <Header />
+      <Header
+        isLogin={isLogin}
+        userInfo={userInfo}
+        setIsLogin={setIsLogin}
+        setUserInfo={setUserInfo}
+      />
       <Switch>
         <Route exact path="/">
           <MainPage />
@@ -50,10 +95,13 @@ function App() {
           <FilmLogPage />
         </Route>
         <Route path="/users/update">
-          <UserInfoUpdatePage />
+          <UserInfoUpdatePage userInfo={userInfo} />
         </Route>
         <Route path="/filmtalks/register">
           <FilmTalkResigserPage />
+        </Route>
+        <Route path="/oauth">
+          <OauthPage isAuthenticated={isAuthenticated} />
         </Route>
       </Switch>
       <Footer />
