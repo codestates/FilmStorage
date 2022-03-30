@@ -58,6 +58,7 @@ const UserMenu = styled.div`
   }
   position: absolute;
   right: 0px;
+  width: 100px;
   margin: 10px;
   padding: 10px;
   background: #fff;
@@ -79,7 +80,7 @@ const UserMenuContent = styled.li`
 
 function Header() {
   /* 로그인 상태 */
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   /* 로그인 요청 완료 시 실행되는 함수 */
   const handleIsLogin = () => {
