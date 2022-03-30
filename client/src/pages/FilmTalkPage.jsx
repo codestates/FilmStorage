@@ -8,18 +8,20 @@ import Pagination from "../components/filmtalk/Pagination";
 
 const Container = styled.section`
   width: 100%;
-  height: 100vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 50px 0;
+  position: relative;
 `;
 
 const Article = styled.article`
   /* border: 1px solid green; */
   width: 60%;
-  position: relative;
+  position: absolute;
+  top: 100px;
 `;
 
 const Table = styled.table`

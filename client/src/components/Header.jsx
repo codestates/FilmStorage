@@ -58,6 +58,7 @@ const UserMenu = styled.div`
   }
   position: absolute;
   right: 0px;
+  width: 100px;
   margin: 10px;
   padding: 10px;
   background: #fff;
