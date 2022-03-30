@@ -22,6 +22,9 @@ usersRouter.post("/signin", usersController.signin.post);
 usersRouter.post("/signout", usersController.signout.post);
 usersRouter.get("/auth", usersController.auth.get);
 
+// 카카오 로그인
+usersRouter.post("/oauth", usersController.signin.kakao);
+
 // 프로필 제외 회원 정보 수정
 usersRouter.patch("/update", usersController.update.patch);
 // 프로필 수정
