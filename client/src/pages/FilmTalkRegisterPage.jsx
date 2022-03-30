@@ -1,12 +1,26 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import FilmTalkRegister from "../components/filmtalk/FilmTalkRegister";
 
 export default function FilmTalkRegisterPage() {
-
   /* 카테고리 종류 */
   const filmCategory = ["카메라", "필름", "현상", "출사", "기타"];
-  
+
+  const [post, setPost] = useState({ title: "", content: "" });
+  // const handleTitleChange = (e) => {
+  //   setPost({ title: e.target.value });
+  //   console.log(e.target.value);
+  //   console.log("state :", post.title);
+  // };
+  // const handleContentChange = (e) => {
+  //   setPost({ content: e });
+  //   console.log(e);
+  //   console.log("state :", post.content);
+  // };
+  // const handleValue = () => {
+  //   alert(post.content);
+  // }
   return (
     <>
       <Container>
@@ -18,8 +32,13 @@ export default function FilmTalkRegisterPage() {
             type="text"
             placeholder="제목을 작성해주세요"
             name="title"
+            // value={post.title}
+            // onChange={handleTitleChange}
           />
-          <FilmTalkRegister />
+          <FilmTalkRegister
+            post={post}
+            // handleContentChange={handleContentChange}
+          />
           <Button right>돌아가기</Button>
           <Button>작성완료</Button>
         </Article>
