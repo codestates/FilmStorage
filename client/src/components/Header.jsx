@@ -1,7 +1,7 @@
 import React from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 const HeaderBox = styled.header`
   display: flex;
@@ -78,14 +78,19 @@ const UserMenuContent = styled.li`
   }
 `;
 
-function Header() {
-  /* 로그인 상태 */
-  const [isLogin, setIsLogin] = useState(true);
-
-  /* 로그인 요청 완료 시 실행되는 함수 */
-  const handleIsLogin = () => {
-    setIsLogin(true);
+function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
+  const history = useHistory();
+  const handleSignOut = () => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/users/signout`)
+      .then((res) => {
+        setUserInfo({});
+        setIsLogin(false);
+        history.push("/");
+      })
+      .catch((err) => console.log(err));
   };
+
   return (
     <>
       <HeaderBox>
@@ -109,7 +114,7 @@ function Header() {
             <>
               <Link>
                 <DropDown>
-                  <NavListItemUser>[유저닉네임] 님</NavListItemUser>
+                  <NavListItemUser>{userInfo.nickname} 님</NavListItemUser>
                   <UserMenu>
                     <Link to="/filmlogs/total">
                       <UserMenuContent>마이갤러리</UserMenuContent>
@@ -118,7 +123,9 @@ function Header() {
                       <UserMenuContent>계정 관리</UserMenuContent>
                     </Link>
                     <Link to="/signout">
-                      <UserMenuContent>로그아웃</UserMenuContent>
+                      <UserMenuContent onClick={handleSignOut}>
+                        로그아웃
+                      </UserMenuContent>
                     </Link>
                   </UserMenu>
                 </DropDown>

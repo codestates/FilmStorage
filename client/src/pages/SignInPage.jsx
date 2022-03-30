@@ -1,8 +1,21 @@
 /* TODO : 로그인 페이지 만들기. */
 import React from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 export default function SignInPage() {
+  const kakao = window.Kakao;
+
+  useEffect(() => {
+    kakao.init(process.env.REACT_APP_KAKAO_INIT_KEY);
+  }, []);
+
+  const kakaoSignIn = () => {
+    kakao.Auth.authorize({
+      redirectUri: `${process.env.REACT_APP_KAKAO_REDIRECT_URI}`,
+    });
+  };
+
   return (
     <>
       <Container>
@@ -22,7 +35,7 @@ export default function SignInPage() {
             <Account>회원가입</Account>
           </AccountBox>
           <SocialAccountBox>
-            <SocialAccount>
+            <SocialAccount onClick={() => kakaoSignIn()}>
               카카오로 로그인하기
             </SocialAccount>
           </SocialAccountBox>
@@ -78,7 +91,6 @@ const ErrorMessage = styled.p`
   font-size: 12px;
 `;
 
-
 const Button = styled.button`
   width: 100%;
   padding: 10px 30px;
@@ -98,7 +110,7 @@ const AccountBox = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 40px;
-`
+`;
 const Account = styled.span`
   font-size: 12px;
   /* border: 1px solid tomato; */
@@ -110,7 +122,7 @@ const SocialAccountBox = styled.div`
   border-radius: 12px;
   background: #fee500;
   text-align: center;
-  cursor:pointer;
+  cursor: pointer;
   &:hover {
     color: white;
     background: #000;
@@ -120,4 +132,4 @@ const SocialAccountBox = styled.div`
 const SocialAccount = styled.span`
   flex: 1;
   flex-wrap: wrap;
-`
+`;

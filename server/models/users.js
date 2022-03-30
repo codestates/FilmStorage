@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     nickname: DataTypes.STRING,
     profile: DataTypes.STRING,
     mobile: DataTypes.STRING,
-    user_id: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'users',

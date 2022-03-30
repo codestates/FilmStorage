@@ -1,16 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function ProfileUpdate() {
+export default function ProfileUpdate({ userInfo }) {
   return (
     <InfoUpdate>
       <InfoType>
         <InputType>닉네임</InputType>
-        <Input placeholder="유저닉네임" />
+        <Input placeholder={`${userInfo.nickname}`} />
       </InfoType>
       <InfoType>
         <InputType>아이디</InputType>
-        <InputType>[유저아이디]</InputType>
+        <InputType>{userInfo.email}</InputType>
       </InfoType>
       <Button>정보 수정하기</Button>
     </InfoUpdate>
