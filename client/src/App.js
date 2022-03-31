@@ -10,7 +10,7 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import FilmLogDetailPage from "./pages/FilmLogDetailPage";
 import "./App.css";
-import FilmTalkDetail from "./pages/FilmTalkDetail";
+import FilmTalkView from "./pages/FilmTalkView";
 import UserInfoUpdatePage from "./pages/UserPage";
 import FilmTalkResigserPage from "./pages/FilmTalkRegisterPage";
 import OauthPage from "./pages/OauthPage";
@@ -55,6 +55,10 @@ function App() {
       });
   };
 
+  const handleResponseSuccess = () => {
+    isAuthenticated();
+  };
+
   return (
     <div className="App">
       <Header
@@ -74,7 +78,7 @@ function App() {
           <FilmTalkPage />
         </Route>
         <Route path="/filmtalks/view">
-          <FilmTalkDetail />
+          <FilmTalkView />
         </Route>
         <Route path="/todayfilm">
           <TodayFilmPage />
