@@ -14,9 +14,11 @@ module.exports = {
       },
       password: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       profile: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       nickname: {
         type: Sequelize.STRING,
@@ -24,6 +26,7 @@ module.exports = {
       },
       mobile: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
@@ -32,7 +35,7 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {

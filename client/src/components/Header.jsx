@@ -112,24 +112,22 @@ function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
           </Link>
           {isLogin === true ? (
             <>
-              <Link>
-                <DropDown>
-                  <NavListItemUser>{userInfo.nickname} 님</NavListItemUser>
-                  <UserMenu>
-                    <Link to="/filmlogs/total">
-                      <UserMenuContent>마이갤러리</UserMenuContent>
-                    </Link>
-                    <Link to="/users/update">
-                      <UserMenuContent>계정 관리</UserMenuContent>
-                    </Link>
-                    <Link to="/signout">
-                      <UserMenuContent onClick={handleSignOut}>
-                        로그아웃
-                      </UserMenuContent>
-                    </Link>
-                  </UserMenu>
-                </DropDown>
-              </Link>
+              <DropDown>
+                <NavListItemUser>{userInfo.nickname} 님</NavListItemUser>
+                <UserMenu>
+                  <Link to="/filmlogs/total">
+                    <UserMenuContent>마이갤러리</UserMenuContent>
+                  </Link>
+                  <Link to="/users/update">
+                    <UserMenuContent>계정 관리</UserMenuContent>
+                  </Link>
+                  <Link to="/signout">
+                    <UserMenuContent onClick={handleSignOut}>
+                      로그아웃
+                    </UserMenuContent>
+                  </Link>
+                </UserMenu>
+              </DropDown>
             </>
           ) : (
             <>
