@@ -7,6 +7,12 @@ import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 export default function FilmLogWriting() {
   const [isOpen, setIsOpen] = useState(true);
 
+  const [pictureInfo, setPictureInfo] = useState({
+    image: {},
+    type: "",
+    contents: "",
+  });
+
   const openModalHandler = () => {
     setIsOpen(!isOpen);
   };
@@ -15,17 +21,23 @@ export default function FilmLogWriting() {
 
   // 이미지 미리보기 삽입 기능
   const encodeFileTobase64 = (fileBlob) => {
+    console.log("이미지 파일", fileBlob);
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
     return new Promise((resolve) => {
       reader.onload = () => {
         setFiles(reader.result);
+        setPictureInfo((pictureInfo.image = fileBlob));
         resolve();
       };
     });
   };
+  // 이미지 수정 버튼
+  const handleRevison = () => {
+    setFiles("");
+    setPictureInfo((pictureInfo.image = ""));
+  };
 
-  //
   return (
     <>
       {isOpen ? (
@@ -39,6 +51,7 @@ export default function FilmLogWriting() {
               </div>
               <div className="navtitle">사진 등록 하기</div>
               <div className="navtitle">
+                <Button onClick={() => handleRevison()}>수정</Button>
                 <Button>등록</Button>
               </div>
             </ModalNav>
@@ -51,36 +64,41 @@ export default function FilmLogWriting() {
                     width="100%"
                     height="100%"
                     border-bottom-left-radius="1rem"
+                    object-fit="cover"
                   />
                 )}
                 <div className="imginsert">
-                  사진과 동영상을 <br />
-                  드래그해서 넣어주세요.
+                  사진을 <br />
+                  등록 해주세요.
                 </div>
-                <Input
-                  type="file"
-                  placeholder="picture"
-                  // accept="img/*"
-                  onChange={(e) => {
-                    encodeFileTobase64(e.target.files[0]);
-                  }}
-                ></Input>
+                <Label>
+                  업로드
+                  <input
+                    className="upload"
+                    type="file"
+                    // placeholder="picture"
+                    // // accept="img/*"
+                    onChange={(e) => {
+                      encodeFileTobase64(e.target.files[0]);
+                    }}
+                  ></input>
+                </Label>
               </ImageBox>
               <Content>
                 <UserInfo>
                   <div className="userinfo">이미지</div>
                   <div className="userinfo">유저닉네임</div>
                 </UserInfo>
+                <Tagarea>
+                  필름선택
+                  <FilmType />
+                </Tagarea>
                 <Textarea>
                   <textarea
                     className="filmcontent"
                     placeholder="내용입력"
                   ></textarea>
                 </Textarea>
-                <Tagarea>
-                  필름선택
-                  <FilmType />
-                </Tagarea>
               </Content>
             </ModalImageBox>
           </ModalBox>
@@ -141,6 +159,7 @@ const ImageBox = styled.div`
   text-align: center;
   > div.imginsert {
     margin-top: 15rem;
+    margin-bottom: 1rem;
   }
 `;
 
@@ -148,6 +167,7 @@ const Button = styled.button`
   padding: 10px 30px;
   border: none;
   border-radius: 20px;
+  margin-left: 10px;
   right: ${(props) => props.rigth || 0};
   ${(props) => {
     if (props.top) {
@@ -175,7 +195,8 @@ const Content = styled.div`
   flex-direction: column;
 `;
 
-const Input = styled.input`
+const Label = styled.label`
+  background: #eee;
   padding: 10px 30px;
   border: none;
   border-radius: 20px;
@@ -198,6 +219,9 @@ const Input = styled.input`
     color: white;
     background: tomato;
     transition: 0.3s;
+  }
+  > input.upload {
+    display: none;
   }
 `;
 
@@ -232,8 +256,7 @@ const Textarea = styled.div`
 
 const Tagarea = styled.div`
   width: 30vw;
-  height: 30vh;
-  margin-top: 1rem;
   margin-left: 1rem;
+  margin-bottom: 1rem;
   /* border: 1px solid green; */
 `;

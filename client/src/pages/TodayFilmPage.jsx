@@ -145,7 +145,6 @@ export default function TodayFilmPage() {
           <h3 className="filmtitle">일몰사진 : {curWeather.sunset}</h3> */}
           <Section>
             {filmResult.map((el, idx) => {
-              // console.log("이거 봐보", el);
               return (
                 <div key={idx}>
                   <FilmBox>
