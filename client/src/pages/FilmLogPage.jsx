@@ -9,7 +9,7 @@ import filmdummydata from "../components/dummydata/filmdummydata";
 import FilmType from "../components/filmlog/FilmType";
 import Loader from "../components/Loader";
 
-export default function FilmLogPage() {
+export default function FilmLogPage({ userInfo }) {
   // 작성창 띄우기
   const [isOpen, setIsOpen] = useState(false);
   // 이미지 스크롤시 로딩 표시 보이게 하기
@@ -96,7 +96,9 @@ export default function FilmLogPage() {
             <div className="nav-flex"></div>
             <div>
               <Button onClick={handleWriteRegister}>사진등록</Button>
-              {isOpen ? <FilmLogWriting /> : null}
+              {isOpen ? (
+                <FilmLogWriting userInfo={userInfo} setIsOpen={setIsOpen} />
+              ) : null}
             </div>
           </nav>
           <div className="filmlog-second-content">

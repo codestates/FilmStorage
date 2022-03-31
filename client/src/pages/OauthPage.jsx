@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Loader from "../components/Loader";
+import styled from "styled-components";
 
 axios.defaults.withCredentials = true;
 
@@ -14,7 +15,10 @@ export default function Oauth({ isAuthenticated }) {
 
   useEffect(() => {
     axios
-      .post(`${process.env.REACT_APP_API_URL}/users/oauth?code=${authorizationCode}`, {})
+      .post(
+        `${process.env.REACT_APP_API_URL}/users/oauth?code=${authorizationCode}`,
+        {}
+      )
       .then((res) => {
         isAuthenticated();
         history.push("/");
@@ -24,7 +28,15 @@ export default function Oauth({ isAuthenticated }) {
 
   return (
     <>
-      <Loader />
+      <LoadingContainer>
+        <Loader />
+      </LoadingContainer>
     </>
   );
 }
+
+const LoadingContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+`;

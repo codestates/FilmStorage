@@ -33,11 +33,11 @@ module.exports = {
   },
   photo: async (req, res) => {
     const { user_id, filmlog_id } = req.params;
-
+    console.log(req.file);
     try {
       await filmlogs.update(
         {
-          photo: `${process.env.DOMAIN}/filmlogs/photos/${req.file.filename}`,
+          photo: `https://localhost:4000/filmlogs/photos/${req.file.filename}`,
         },
         {
           where: {

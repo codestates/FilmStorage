@@ -68,7 +68,7 @@ function App() {
           <MainPage />
         </Route>
         <Route path="/filmlog">
-          <FilmLogPage />
+          <FilmLogPage userInfo={userInfo} />
         </Route>
         <Route path="/filmtalks/total">
           <FilmTalkPage />

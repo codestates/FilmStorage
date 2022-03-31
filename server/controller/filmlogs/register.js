@@ -8,13 +8,14 @@ module.exports = {
     try {
       const { filmtype, contents } = req.body;
 
-      await filmlogs.create({
+      const createdData = await filmlogs.create({
         user_id,
         filmtype,
         contents,
       });
 
-      res.status(201).send({
+      res.status(201).json({
+        data: createdData,
         message: "Successfully Registered",
       });
     } catch (err) {
