@@ -10,11 +10,13 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import FilmLogDetailPage from "./pages/FilmLogDetailPage";
 import "./App.css";
-import FilmTalkDetail from "./pages/FilmTalkDetail";
+import FilmTalkView from "./pages/FilmTalkView";
 import UserInfoUpdatePage from "./pages/UserPage";
 import FilmTalkResigserPage from "./pages/FilmTalkRegisterPage";
 import OauthPage from "./pages/OauthPage";
 import MapContainer from "./pages/map"
+import MyLogPage from "./pages/MyLogPage";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -56,6 +58,10 @@ function App() {
       });
   };
 
+  const handleResponseSuccess = () => {
+    isAuthenticated();
+  };
+
   return (
     <div className="App">
       <Header
@@ -72,13 +78,13 @@ function App() {
           <MainPage />
         </Route>
         <Route path="/filmlog">
-          <FilmLogPage />
+          <FilmLogPage userInfo={userInfo} />
         </Route>
         <Route path="/filmtalks/total">
           <FilmTalkPage />
         </Route>
         <Route path="/filmtalks/view">
-          <FilmTalkDetail />
+          <FilmTalkView />
         </Route>
         <Route path="/todayfilm">
           <TodayFilmPage />
@@ -93,7 +99,7 @@ function App() {
           <FindingFilmTypePage />
         </Route>
         <Route path="/filmlogdetail">
-          <FilmLogDetailPage />
+          <FilmLogDetailPage userInfo={userInfo} />
         </Route>
         <Route path="/filmlogs/total">
           <FilmLogPage />
@@ -106,6 +112,9 @@ function App() {
         </Route>
         <Route path="/oauth">
           <OauthPage isAuthenticated={isAuthenticated} />
+        </Route>
+        <Route path="/mylog">
+          <MyLogPage userInfo={userInfo} />
         </Route>
       </Switch>
       <Footer />

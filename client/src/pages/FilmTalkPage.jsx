@@ -1,8 +1,8 @@
 /* TODO : 필름토크 페이지 만들기. */
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
-import FilmTalk from "../components/filmtalk/FilmTalk";
+import FilmTalkTotal from "../components/filmtalk/FilmTalkTatal";
 import { initialState } from "../assets/state";
 import Pagination from "../components/filmtalk/Pagination";
 
@@ -64,10 +64,20 @@ const Button = styled.button`
 `;
 
 function FilmTalkPage() {
+
+  // * 필름토크 페이지 게시글 데이터
   const [posts, setPosts] = useState(initialState.post);
+  // * 페이지네이션 기능 *//
   const [page, setPage] = useState(1);
   const offset = (page - 1) * 10;
 
+  // * 필름토크 게시글 페이지 이동
+  const [viewInx, setViewIdx] = useState(0)
+  const history = useHistory();
+  const handleClickView = (id) => {
+    setViewIdx(id);
+    history.push(`/filmtalks/view/${id}`);
+  }
   return (
     <>
       <Container>
@@ -87,8 +97,12 @@ function FilmTalkPage() {
               </Tr>
             </Thead>
             <Tbody>
-              {posts.slice(offset, offset + 10).map((post, idx) => (
-                <FilmTalk post={post} key={idx} />
+              {posts.slice(offset, offset + 10).map((post) => (
+                <FilmTalkTotal
+                  post={post}
+                  key={post.id}
+                  handleFilmTalkView={handleClickView}
+                />
               ))}
             </Tbody>
           </Table>

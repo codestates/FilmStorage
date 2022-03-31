@@ -1,15 +1,78 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { useHistory } from "react-router-dom";
 import ReplyList from "../components/reply/ReplyList";
+import FilmLogRevison from "../components/filmlog/FilmLogRevison";
 import { initialState } from "../assets/state";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
-export default function FilmLogDetailPage() {
+export default function FilmLogDetailPage({ userInfo }) {
   const history = useHistory();
 
   const { views } = initialState.post[13];
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  // 사진 정보 상태 관리
+  const [photoInfo, setPhotoInfo] = useState({});
+
+  // 삭제 버튼 상태 관리
+  const [isDeleteButton, setIsDeleteButton] = useState(false);
+
+  useEffect(() => {
+    getDetailInfo();
+  }, []);
+
+  useEffect(() => {
+    if (userInfo.id === photoInfo.user_id) {
+      setIsDeleteButton(true);
+    } else {
+      setIsDeleteButton(false);
+    }
+  }, [photoInfo]);
+
+  // 상세페이지 해당 파람스
+  const url = window.location.href;
+  const filmlog_id = url.split("filmlogdetail/")[1];
+
+  const getDetailInfo = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/filmlogs/view/${filmlog_id}`, {
+        headers: {
+          accept: "application/json",
+        },
+      })
+      .then((res) => {
+        setPhotoInfo(res.data.data);
+      });
+  };
+
+  console.log(photoInfo);
+
+  const handleWriteRegister = () => {
+    setIsOpen(!isOpen);
+  };
+
+  // 삭제요청 핸들러 함수
+  const handleDeleteData = () => {
+    if (window.confirm("진짜로 삭제 고고?")) {
+      axios
+        .delete(
+          `${process.env.REACT_APP_API_URL}/filmlogs/deletion/${filmlog_id}`
+        )
+        .then((res) => {
+          history.goBack();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  // 유저정보에 따른 삭제버튼 조건부 랜더링
+  // const handleDeleteButton = () => {};
 
   return (
     <Container>
@@ -21,35 +84,44 @@ export default function FilmLogDetailPage() {
             </Button>
           </NavDiv>
           <Navflex />
-          <NavDiv>
-            <Button>수정하기</Button>
-          </NavDiv>
-          <NavDiv>
-            <Button>삭제하기</Button>
-          </NavDiv>
+          {isDeleteButton ? (
+            <>
+              <NavDiv>
+                <Button onClick={handleWriteRegister}>수정하기</Button>
+                {isOpen ? (
+                  <FilmLogRevison
+                    userInfo={userInfo}
+                    setIsOpen={setIsOpen}
+                    photoInfo={photoInfo}
+                  />
+                ) : null}
+              </NavDiv>
+              <NavDiv>
+                <Button onClick={() => handleDeleteData()}>삭제하기</Button>
+              </NavDiv>
+            </>
+          ) : (
+            <NavDiv></NavDiv>
+          )}
         </Nav>
         <DetailImg>
-          <img
-            className="detailImg"
-            src="https://user-images.githubusercontent.com/87605663/160064358-093593d6-0cef-4153-94d5-ab443b9e5b90.jpeg"
-            alt="demo"
-          />
+          <img className="detailImg" src={photoInfo.photo} alt="demo" />
         </DetailImg>
         <InfoBox>
           <Info fontsize="16px" fontweight orange>
-            닉네임
+            {photoInfo.nickname}
           </Info>
           <Info fontsize="16px" flex="9">
-            필름종류
+            {photoInfo.filmtype}
           </Info>
-          <Info rigth>좋아요 {views}</Info>
-          <Info rigth>조회수 {views}</Info>
+          <Info rigth>좋아요 {photoInfo.likesCount}</Info>
+          <Info rigth>조회수 {photoInfo.views}</Info>
         </InfoBox>
-        <TextBox>{initialState.body}</TextBox>
+        <TextBox>{photoInfo.contents}</TextBox>
         <ReplyForm>
           <ReplyList replyList={initialState.reply} />
           <ReplyInput></ReplyInput>
-          <Button>댓글 쓰기</Button>
+          <Button rigth>댓글 쓰기</Button>
         </ReplyForm>
       </Article>
     </Container>

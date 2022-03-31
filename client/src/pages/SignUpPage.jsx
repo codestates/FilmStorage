@@ -1,23 +1,128 @@
 /* TODO : 로그인 페이지 만들기. */
 import React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useHistory } from "react";
 import styled from "styled-components";
 import { initialState } from "../assets/state";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 export default function SignUpPage() {
+  // * 에러메세지
+  const [errorMessage, setErrorMessage] = useState("");
+  // * 회원가입을 위한 유저 정보
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    nickname: "",
+    password: "",
+    repassword: "",
+    phone: "",
+  });
+  //* 유효성 검사
+  const validateFuntion = {
+    Email: (email) => {
+      const regExp =
+        /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 
-  /*** 모달창 핸들링 ***/
+      return regExp.test(email);
+    },
+    PW: (password) => {
+      // 비밀번호 구성(8자리 이상 문자, 숫자, 특수문자)
+      const pattern1 = /[0-9]/; // 숫자
+      const pattern2 = /[a-zA-Z]/; // 문자
+      const pattern3 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자
+      if (
+        !pattern1.test(password) ||
+        !pattern2.test(password) ||
+        !pattern3.test(password) ||
+        password.length < 8
+      ) {
+        return false;
+      } else return true;
+    },
+    Phone: (phone_number) => {
+      const regPhone = /(01[0|1|6|9|7])[-](\d{3}|\d{4})[-](\d{4}$)/g;
+      return regPhone.test(phone_number);
+    },
+    DoubleCheck: (password, repassword) => {
+      if (String(password) !== String(repassword)) return false;
+      else return true;
+    },
+  };
+
+  // * 유저 회원가입 입력값 저장
+  const handleInputValue = (key) => (e) => {
+    setUserInfo({ ...userInfo, [key]: e.target.value });
+  };
+
+  // * 메인화면으로 이동
+  // const history = useHistory();
+  // const handleCoback = () => {
+  //   return history.push("/");
+  // }
+
+  // * 유저 회원가입 입력값 확인 후 서버 전송
+  const handleSignup = () => {
+    const { email, nickname, password, repassword, phone } = userInfo;
+    if (!email || !nickname || !password || !repassword || !phone) {
+      setErrorMessage("모든 항목은 필수입니다");
+      // let minutTimer = setTimeout(() => setErrorMessage(""), 3000);
+      // return () => {
+      //   clearTimeout(minutTimer);
+      // };
+    } else if (!validateFuntion.Email(email)) {
+      setErrorMessage("이메일 형식과 맞지 않습니다.");
+      // let minutTimer = setTimeout(() => setErrorMessage(""), 3000);
+      // return () => {
+      //   clearTimeout(minutTimer);
+      // };
+    } else if (!validateFuntion.PW(password)) {
+      setErrorMessage(
+        "비밀번호는 문자,숫자,특수문자를 포함한 8자리 이상이여야 합니다."
+      );
+      // let minutTimer = setTimeout(() => setErrorMessage(""), 3000);
+      // return () => {
+      //   clearTimeout(minutTimer);
+      // };
+    } else if (!validateFuntion.Phone(phone)) {
+      setErrorMessage("유효하지 않는 핸드폰번호 입니다.");
+      // let minutTimer = setTimeout(() => setErrorMessage(""), 3000);
+      // return () => {
+      //   clearTimeout(minutTimer);
+      // };
+    } else if (!validateFuntion.DoubleCheck(password, repassword)) {
+      setErrorMessage("비밀번호가 일치 하지 않습니다.");
+      // let minutTimer = setTimeout(() => setErrorMessage(""), 3000);
+      // return () => {
+      //   clearTimeout(minutTimer);
+      // };
+    } else {
+      axios
+        .post("https://localhost:4000/users/signup", userInfo, {
+          "Content-Type": "application/json",
+        })
+        .then((res) => {
+          if (res.data.message === "Successfully Signed Up") {
+            // history.push("/login")
+          }
+        })
+        .catch((err) => {
+          setErrorMessage("이미 사용중인 이메일주소 혹은 닉네임이 존재합니다.");
+        });
+    }
+  };
+
+  // * 모달창 핸들링
   const [termCheck, setTermCheck] = useState(false);
   const outsideModal = useRef();
   const OpenTermModal = (e) => {
-    if(outsideModal.current === e.target){
+    if (outsideModal.current === e.target) {
       setTermCheck(false);
     }
   };
 
-  /*** 이용약관 임시 텍스트 ***/
+  // * 이용약관 임시 텍스트
   const termText = initialState.body;
-
 
   return (
     <>
@@ -29,20 +134,18 @@ export default function SignUpPage() {
           </TermModal>
         ) : null}
         <Article>
-          <SigninForm>
+          <SigninForm onSubmit={(e) => e.preventDefault()}>
             <InputType>이메일</InputType>
-            <Input />
+            <Input type="text" onChange={handleInputValue("email")} />
             <InputType>닉네임</InputType>
-            <Input />
+            <Input type="text" onChange={handleInputValue("nickname")} />
             <InputType>비밀번호</InputType>
-            <Input />
+            <Input type="password" onChange={handleInputValue("password")} />
             <InputType>비밀번호 확인</InputType>
-            <Input />
+            <Input type="password" onChange={handleInputValue("repassword")} />
             <InputType>휴대폰 번호</InputType>
-            <Input />
-            <ErrorMessage>
-              아이디 또는 비밀번호가 일치하지 않습니다
-            </ErrorMessage>
+            <Input type="tel" onChange={handleInputValue("phone")} />
+            <ErrorMessage>{errorMessage}</ErrorMessage>
             <Term>
               <input
                 type="checkbox"
@@ -52,7 +155,9 @@ export default function SignUpPage() {
               />
               <Label for="term">이용약관에 동의해주세요</Label>
             </Term>
-            <Button>회원가입</Button>
+            <Button type="submit" onClick={handleSignup}>
+              회원가입
+            </Button>
           </SigninForm>
           <SocialAccountBox>
             <SocialAccount>카카오로 로그인하기</SocialAccount>

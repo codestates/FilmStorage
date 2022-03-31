@@ -2,12 +2,22 @@ import React from "react";
 import styled from "styled-components";
 import filmData from "../dummydata/filmtypedummydata";
 
-export default function FilmType() {
+export default function FilmType({ photoInfo, setPhotoInfo }) {
+  const handleType = (e) => {
+    setPhotoInfo({ ...photoInfo, type: e.target.value });
+  };
+
   return (
     <>
       <ul>
         <li>
-          <Select name="kodak" id="kodak-select">
+          <Select
+            name="kodak"
+            id="kodak-select"
+            onChange={(e) => {
+              handleType(e);
+            }}
+          >
             <Option value="">코닥</Option>
             {filmData.kodak.map((el, key) => (
               <Option key={key} value={el}>

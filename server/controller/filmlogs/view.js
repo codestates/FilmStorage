@@ -1,4 +1,4 @@
-const { filmlogs } = require("../../models");
+const { filmlogs, users } = require("../../models");
 
 module.exports = {
   get: async (req, res) => {
@@ -6,6 +6,7 @@ module.exports = {
 
     try {
       const filmLogData = await filmlogs.findOne({
+        include: [{ model: users }],
         where: {
           id: filmlog_id,
         },
@@ -25,9 +26,32 @@ module.exports = {
           }
         );
 
+        const {
+          id,
+          user_id,
+          photo,
+          filmtype,
+          contents,
+          likesCount,
+          views,
+          createdAt,
+        } = filmLogData;
+
+        const detailData = {
+          id,
+          user_id,
+          photo,
+          filmtype,
+          contents,
+          likesCount,
+          views,
+          createdAt,
+          nickname: filmLogData.user.nickname,
+        };
+
         res.status(200).json({
           message: "ok",
-          data: filmLogData,
+          data: detailData,
         });
       }
     } catch (err) {

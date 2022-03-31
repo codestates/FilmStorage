@@ -1,9 +1,20 @@
 /* TODO : 로그인 페이지 만들기. */
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-export default function SignInPage() {
+axios.defaults.withCredentials = true;
+
+export default function SignInPage({ handleResponseSuccess }) {
+
+  const history = useHistory();
+
+  const handleSignUp = () => {
+    history.push("/signup");
+  }
+  // * 카카오 로그인 *//
   useEffect(() => {
     kakaoInit();
   }, []);
@@ -21,23 +32,90 @@ export default function SignInPage() {
     });
   };
 
+  // * 일반 로그인 * //
+  const [loginInfo, setLoginInfo] = useState({
+    email: "",
+    password: "",
+  });
+  // * 에러메세지
+  const [errorMessage, setErrorMessage] = useState("");
+  // * 유효성 검사
+  const validateFuntion = {
+    Email: (email) => {
+      const regExp =
+        /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+      return regExp.test(email);
+    },
+    PW: (password) => {
+      // 비밀번호 구성(8자리 이상 문자, 숫자, 특수문자)
+      const pattern1 = /[0-9]/; // 숫자
+      const pattern2 = /[a-zA-Z]/; // 문자
+      const pattern3 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자
+      if (
+        !pattern1.test(password) ||
+        !pattern2.test(password) ||
+        !pattern3.test(password) ||
+        password.length < 8
+      ) {
+        return false;
+      } else return true;
+    },
+  };
+
+  // * 유저 로그인 입력값 저장
+  const handleInputValue = (key) => (e) => {
+    setLoginInfo({ ...loginInfo, [key]: e.target.value });
+  };
+
+  // * 유저 로그인 입력값 확인 후 서버 전송
+  const handleLogin = () => {
+    const { email, password } = loginInfo;
+    if (!email || !password) {
+      setErrorMessage("이메일과 비밀번호를 입력하세요");
+    } else if (!validateFuntion.Email(email)) {
+      setErrorMessage("이메일 형식에 맞지 않습니다.");
+    } else if (!validateFuntion.PW(password)) {
+      setErrorMessage(
+        "비밀번호를 문자,숫자,특수문자를 포함한 8자리 이상이여야 합니다."
+      );
+    } else {
+      axios
+        .post(
+          "https://localhost:4000/users/signin",
+          {
+            email: loginInfo.email,
+            password: loginInfo.password,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+        .then((res) => {
+          handleResponseSuccess();
+        })
+        .catch((err) => {
+          setErrorMessage("이메일 혹은 비밀번호가 일치하지 않습니다.");
+        });
+    }
+  };
+
   return (
     <>
       <Container>
         <Article>
-          <SigninForm>
+          <SigninForm onSubmit={(e) => e.preventDefault()}>
             <InputType>이메일</InputType>
-            <Input></Input>
+            <Input type="text" onChange={handleInputValue("email")} />
             <InputType>비밀번호</InputType>
-            <Input></Input>
-            <ErrorMessage>
-              아이디 또는 비밀번호가 일치하지 않습니다
-            </ErrorMessage>
-            <Button>로그인</Button>
+            <Input type="password" onChange={handleInputValue("password")} />
+            <ErrorMessage>{errorMessage}</ErrorMessage>
+            <Button type="submit" onClick={handleLogin}>
+              로그인
+            </Button>
           </SigninForm>
           <AccountBox>
             <Account>아이디/비밀번호 찾기</Account>
-            <Account>회원가입</Account>
+            <Account onClick={handleSignUp}>회원가입</Account>
           </AccountBox>
           <SocialAccountBox>
             <SocialAccount onClick={() => kakaoSignIn()}>
@@ -118,6 +196,7 @@ const AccountBox = styled.div`
 `;
 const Account = styled.span`
   font-size: 12px;
+  cursor: pointer;
   /* border: 1px solid tomato; */
 `;
 const SocialAccountBox = styled.div`

@@ -3,8 +3,8 @@ import styled, { css } from "styled-components";
 import { initialState } from "../assets/state";
 import ReplyList from "../components/reply/ReplyList";
 
-export default function FilmTalkDetail() {
-  const { category, title, writer, date, views } = initialState.post[13];
+export default function FilmTalkView() {
+  const { category, title, writer, date, views } = initialState.post;
 
   return (
     <>
