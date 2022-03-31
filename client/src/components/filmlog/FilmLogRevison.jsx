@@ -5,12 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
-export default function FilmLogWriting({ userInfo, setIsOpen }) {
-  // const [isOpen, setIsOpen] = useState(true);
-
-  // 유저 정보 상태 관리
-
-  const [photoInfo, setPhotoInfo] = useState({
+export default function FilmLogRevison({ userInfo, setIsOpen, photoInfo }) {
+  // 수정하는 페이지
+  const [myPhotoInfo, setMyPhotoInfo] = useState({
     photo: {},
     type: "",
     contents: "",
@@ -19,7 +16,7 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
   // console.log("사진정보 확인", photoInfo.photo);
 
   // 이미지 미리보는 상태
-  const [files, setFiles] = useState("");
+  const [files, setFiles] = useState(photoInfo.photo);
 
   // 이미지 미리보기 삽입 기능
   const encodeFileTobase64 = (fileBlob) => {
@@ -28,7 +25,7 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
     return new Promise((resolve) => {
       reader.onload = () => {
         setFiles(reader.result);
-        setPhotoInfo({ ...photoInfo, photo: fileBlob });
+        setMyPhotoInfo({ ...myPhotoInfo, photo: fileBlob });
         resolve();
       };
     });
@@ -36,16 +33,19 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
   // 이미지 수정 버튼
   const handleRevison = () => {
     setFiles("");
-    setPhotoInfo({ ...photoInfo, photo: "" });
+    setMyPhotoInfo({ ...myPhotoInfo, photo: "" });
   };
 
   // 내용 상태 관리 함수
   const handleContents = (e) => {
-    setPhotoInfo({ ...photoInfo, contents: e.target.value });
+    setMyPhotoInfo({ ...myPhotoInfo, contents: e.target.value });
   };
 
   const filmlogRegister = () => {
-    const postData = { filmtype: photoInfo.type, contents: photoInfo.contents };
+    const postData = {
+      filmtype: photoInfo.type,
+      contents: myPhotoInfo.contents,
+    };
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/filmlogs/register/${userInfo.id}`,
@@ -94,10 +94,10 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                 <FontAwesomeIcon icon={faAngleLeft} />
               </Button>
             </div>
-            <div className="navtitle">사진 등록 하기</div>
+            <div className="navtitle">사진 수정 하기</div>
             <div className="navtitle">
-              <Button onClick={() => handleRevison()}>수정</Button>
-              <Button onClick={() => filmlogRegister()}>등록</Button>
+              <Button onClick={() => handleRevison()}>이미지 수정</Button>
+              <Button onClick={() => filmlogRegister()}>수정요청</Button>
             </div>
           </ModalNav>
           <ModalImageBox>
@@ -136,12 +136,13 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
               </UserInfo>
               <Tagarea>
                 필름선택
-                <FilmType setPhotoInfo={setPhotoInfo} photoInfo={photoInfo} />
+                <FilmType setPhotoInfo={setMyPhotoInfo} photoInfo={photoInfo} />
               </Tagarea>
               <Textarea>
                 <textarea
                   className="filmcontent"
                   placeholder="내용입력"
+                  value={photoInfo.contents}
                   onChange={handleContents}
                 ></textarea>
               </Textarea>

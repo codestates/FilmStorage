@@ -1,13 +1,12 @@
 /* TODO : 필름로그 페이지 만들기. */
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import "./FilmLogPage.css";
 import styled, { css } from "styled-components";
 import FilmLogWriting from "../components/filmlog/FilmLogWriting";
-import SimpleSlider from "../components/filmlog/SimpleSlider";
-import filmdummydata from "../components/dummydata/filmdummydata";
 import FilmType from "../components/filmlog/FilmType";
 import Loader from "../components/Loader";
+import axois from "axios";
 
 export default function FilmLogPage({ userInfo }) {
   // 작성창 띄우기
@@ -21,24 +20,36 @@ export default function FilmLogPage({ userInfo }) {
   // 이미지 상태 설정
   const [itemLists, setItemLists] = useState([]);
 
-  // 상태
+  // 로딩상태
   const [isClose, setIsClose] = useState(true);
 
-  const dummydata = [...filmdummydata];
+  useEffect(() => {
+    getMylogData();
+  }, []);
 
-  // 무한스크롤 이미지 가져오기
-  // useEffect(() => {
-  //   console.log(itemLists);
-  // }, [itemLists]);
+  const getMylogData = () => {
+    axois
+      .get(`${process.env.REACT_APP_API_URL}/filmlogs/mylog/${userInfo.id}`, {
+        headers: {
+          accept: "application/json",
+        },
+      })
+      .then((res) => {
+        setItemLists(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const getMoreItem = async () => {
     // 8장씩 스크롤 되도록 하기
-    let curlist = dummydata.splice(0, 8);
+    let curlist = itemLists.splice(0, 8);
     setIsLoaded(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setItemLists((itemLists) => itemLists.concat(curlist));
     setIsLoaded(false);
-    if (dummydata.length === 0) {
+    if (itemLists.length === 0) {
       CloseScroll();
     }
   };
@@ -77,17 +88,8 @@ export default function FilmLogPage({ userInfo }) {
 
   const history = useHistory();
 
-  const handlePictureDetail = () => {
-    return history.push("/filmlogdetail/");
-  };
-
   return (
     <>
-      <section className="filmlog-first">
-        <div className="filmlog-first-img">
-          <SimpleSlider />
-        </div>
-      </section>
       <article className="filmlog-second">
         <div className="filmlog-second-container">
           <nav className="filmlog-second-nav">
@@ -103,13 +105,9 @@ export default function FilmLogPage({ userInfo }) {
           </nav>
           <div className="filmlog-second-content">
             {itemLists.map((el, key) => (
-              <FilmLogImg
-                key={key}
-                src={el}
-                onClick={() => {
-                  handlePictureDetail();
-                }}
-              />
+              <Link to={`/filmlogdetail/${el.id}`}>
+                <FilmLogImg key={key} src={el.photo} />
+              </Link>
             ))}
           </div>
           {isClose ? (

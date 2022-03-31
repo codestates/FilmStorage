@@ -14,6 +14,7 @@ import FilmTalkDetail from "./pages/FilmTalkDetail";
 import UserInfoUpdatePage from "./pages/UserPage";
 import FilmTalkResigserPage from "./pages/FilmTalkRegisterPage";
 import OauthPage from "./pages/OauthPage";
+import MyLogPage from "./pages/MyLogPage";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -68,7 +69,7 @@ function App() {
           <MainPage />
         </Route>
         <Route path="/filmlog">
-          <FilmLogPage />
+          <FilmLogPage userInfo={userInfo} />
         </Route>
         <Route path="/filmtalks/total">
           <FilmTalkPage />
@@ -89,7 +90,7 @@ function App() {
           <FindingFilmTypePage />
         </Route>
         <Route path="/filmlogdetail">
-          <FilmLogDetailPage />
+          <FilmLogDetailPage userInfo={userInfo} />
         </Route>
         <Route path="/filmlogs/total">
           <FilmLogPage />
@@ -102,6 +103,9 @@ function App() {
         </Route>
         <Route path="/oauth">
           <OauthPage isAuthenticated={isAuthenticated} />
+        </Route>
+        <Route path="/mylog">
+          <MyLogPage userInfo={userInfo} />
         </Route>
       </Switch>
       <Footer />
