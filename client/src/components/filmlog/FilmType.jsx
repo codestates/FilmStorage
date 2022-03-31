@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import filmData from "../dummydata/filmtypedummydata";
 
-export default function FilmType({ setPhotoInfo }) {
+export default function FilmType({ photoInfo, setPhotoInfo }) {
   const handleType = (e) => {
-    setPhotoInfo({ type: e.target.value });
+    setPhotoInfo({ ...photoInfo, type: e.target.value });
   };
 
   return (

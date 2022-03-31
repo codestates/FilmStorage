@@ -115,7 +115,7 @@ function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
               <DropDown>
                 <NavListItemUser>{userInfo.nickname} 님</NavListItemUser>
                 <UserMenu>
-                  <Link to="/filmlogs/total">
+                  <Link to="/mylog">
                     <UserMenuContent>마이갤러리</UserMenuContent>
                   </Link>
                   <Link to="/users/update">
