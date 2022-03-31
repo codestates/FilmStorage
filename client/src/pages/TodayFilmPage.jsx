@@ -63,8 +63,6 @@ export default function TodayFilmPage() {
         };
 
         setCurWeather(weatherInfo);
-        // handleIcon(String(curWeather.main));
-        console.log("날씨상태 확인", curWeather.main);
       });
   };
 
@@ -147,20 +145,14 @@ export default function TodayFilmPage() {
           <h3 className="filmtitle">일몰사진 : {curWeather.sunset}</h3> */}
           <Section>
             {filmResult.map((el, idx) => {
-              // console.log("이거 봐보", el);
               return (
-                <>
+                <div key={idx}>
                   <FilmBox>
-                    <img
-                      className="filmimg"
-                      src={el.imglink}
-                      alt="film"
-                      key={idx}
-                    />
+                    <img className="filmimg" src={el.imglink} alt="film" />
                     <h3 className="filmtitle">{el.filmname}</h3>
                     <p className="filminfo">필름설명이 필요한곳 입니다.</p>
                   </FilmBox>
-                </>
+                </div>
               );
             })}
           </Section>
