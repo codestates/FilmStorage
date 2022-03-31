@@ -62,16 +62,17 @@ export default function TodayFilmPage() {
           main: weather[0].main,
         };
 
-        console.log(curWeather.weatherDesc);
-
         setCurWeather(weatherInfo);
-        handleIcon(curWeather.main);
+        // handleIcon(String(curWeather.main));
+        console.log("날씨상태 확인", curWeather.main);
       });
   };
 
   const error = (err) => {
     alert("위치 정보를 가져오는데 실패했습니다");
   };
+
+  console.log(curWeather.main);
 
   const getWeatherOfCurLocation = () => {
     navigator.geolocation.getCurrentPosition(successAndGetWeather, error, {
@@ -81,6 +82,7 @@ export default function TodayFilmPage() {
 
   useEffect(() => {
     getWeatherOfCurLocation();
+    handleLoading();
   }, []);
 
   // 날씨에 따른 아이콘 변경 함수
@@ -103,11 +105,11 @@ export default function TodayFilmPage() {
     } else if (info === "Snow") {
       setWeatherIcon(faSnowflake);
       setFilmResult(Snow);
-    } else if (info === "Atmosphere") {
+    } else if (info === "Fog") {
       setWeatherIcon(faSmog);
       setFilmResult(Clouds);
     } else {
-      setWeatherIcon(faCloud);
+      setWeatherIcon(faSmog);
       setFilmResult(Clouds);
     }
   };
@@ -121,8 +123,8 @@ export default function TodayFilmPage() {
   };
 
   useEffect(() => {
-    handleLoading();
-  }, []);
+    handleIcon(curWeather.main);
+  }, [curWeather]);
 
   return (
     <>
