@@ -86,7 +86,9 @@ export default function FilmLogWriting() {
               </ImageBox>
               <Content>
                 <UserInfo>
-                  <div className="userinfo">이미지</div>
+                  <div className="userinfo">
+                    <UserImg />
+                  </div>
                   <div className="userinfo">유저닉네임</div>
                 </UserInfo>
                 <Tagarea>
@@ -259,4 +261,12 @@ const Tagarea = styled.div`
   margin-left: 1rem;
   margin-bottom: 1rem;
   /* border: 1px solid green; */
+`;
+
+const UserImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid black;
+  background: #eee;
 `;
