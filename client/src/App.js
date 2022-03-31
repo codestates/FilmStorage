@@ -14,6 +14,7 @@ import FilmTalkDetail from "./pages/FilmTalkDetail";
 import UserInfoUpdatePage from "./pages/UserPage";
 import FilmTalkResigserPage from "./pages/FilmTalkRegisterPage";
 import OauthPage from "./pages/OauthPage";
+import MapContainer from "./pages/map"
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -64,6 +65,9 @@ function App() {
         setUserInfo={setUserInfo}
       />
       <Switch>
+      <Route exact path="/map">
+          <MapContainer />
+        </Route>
         <Route exact path="/">
           <MainPage />
         </Route>
