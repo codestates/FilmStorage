@@ -98,6 +98,9 @@ function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
           <LogoImg src="https://user-images.githubusercontent.com/87605663/159270833-8f5397dc-9f5b-4fab-86a6-b245d08eeaa8.png" />
         </Link>
         <NavList>
+        <Link to="/map">
+            <NavListItem>지도</NavListItem>
+          </Link>
           <Link to="/todayfilm">
             <NavListItem>오늘의 필름</NavListItem>
           </Link>
