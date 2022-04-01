@@ -11,8 +11,6 @@ import axios from "axios";
 export default function FilmLogDetailPage({ userInfo }) {
   const history = useHistory();
 
-  const { views } = initialState.post[13];
-
   const [isOpen, setIsOpen] = useState(false);
 
   // 사진 정보 상태 관리

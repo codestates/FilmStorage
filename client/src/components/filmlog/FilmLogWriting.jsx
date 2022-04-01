@@ -4,19 +4,28 @@ import FilmType from "./FilmType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import FilmLogLocation from "./FilmLogLocation";
 
 export default function FilmLogWriting({ userInfo, setIsOpen }) {
-  // const [isOpen, setIsOpen] = useState(true);
-
   // 유저 정보 상태 관리
-
   const [photoInfo, setPhotoInfo] = useState({
     photo: {},
     type: "",
     contents: "",
   });
+  // 위치 정보 상태 관리
+  const [inputText, setInputText] = useState("");
+  const [place, setPlace] = useState("");
 
-  // console.log("사진정보 확인", photoInfo.photo);
+  const onChange = (e) => {
+    setInputText(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setPlace(inputText);
+    setInputText("");
+  };
 
   // 이미지 미리보는 상태
   const [files, setFiles] = useState("");
@@ -145,6 +154,22 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                   onChange={handleContents}
                 ></textarea>
               </Textarea>
+              <LocationSearch>
+                <div className="searchTitle">장소선택</div>
+                <Search>
+                  <form onSubmit={handleSubmit}>
+                    <input
+                      placeholder="Search Place..."
+                      onChange={onChange}
+                      value={inputText}
+                    />
+                  </form>
+                </Search>
+                <ChoiceBox></ChoiceBox>
+              </LocationSearch>
+              <LocationArea>
+                <FilmLogLocation place={place} />
+              </LocationArea>
             </Content>
           </ModalImageBox>
         </ModalBox>
@@ -292,7 +317,7 @@ const Textarea = styled.div`
   /* border: 1px solid blue; */
   > textarea.filmcontent {
     width: 29.5vw;
-    height: 29.5vh;
+    height: 10vh;
     rows: "5";
     cols: "30";
     placeholder: "내용 입력";
@@ -313,4 +338,39 @@ const UserImg = styled.img`
   border: 1px solid #eee;
   background: #eee;
   object-fit: cover;
+`;
+
+const LocationArea = styled.div`
+  width: 30vw;
+  height: 100%;
+  margin: 1rem;
+  margin-top: 0;
+`;
+
+const LocationSearch = styled.div`
+  width: 30vw;
+  height: 30px;
+  display: flex;
+  /* justify-content: space-between; */
+  margin: 1rem;
+  margin-bottom: 0.5rem;
+  > div.searchTitle {
+    width: 5vw;
+  }
+`;
+
+const Search = styled.div`
+  /* border: 1px solid green; */
+  /* width: 100%; */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ChoiceBox = styled.div`
+  border: 1px solid green;
+  width: 100px;
+  margin-left: 1rem;
 `;
