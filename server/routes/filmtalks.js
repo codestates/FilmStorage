@@ -19,7 +19,7 @@ filmtalksRouter.post("/register/:user_id", filmtalksController.register.post);
 // 필름토크 내 미리보기용 이미지 URL 응답
 filmtalksRouter.post("/register/image/:user_id", upload.single("image"), filmtalksController.register.imageURL);
 // 필름토크 내용 수정
-filmtalksRouter.patch("/revision/:user_id/:filmtalk_id", filmtalksController.revision.patch);
+filmtalksRouter.patch("/revision/:filmtalk_id", filmtalksController.revision.patch);
 // 필름토크 내용 삭제
 filmtalksRouter.delete("/deletion/:filmtalk_id", filmtalksController.deletion.delete);
 // 필름토크 전체 내용 조회
