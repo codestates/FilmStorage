@@ -12,9 +12,8 @@ import { faSmog } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loader from "../components/Loader";
 import TodayFilmResult from "../components/todayfilm/TodayFilmResult";
-import WeekendFilmPage from "./weekendFilmPage"
 
-export default function TodayFilmPage() {
+export default function WeekendFilmPage({curName}) {
   // 날씨정보 상태 관리
   const [curWeather, setCurWeather] = useState({});
   // 날씨아이콘 상태 관리
@@ -29,76 +28,69 @@ export default function TodayFilmPage() {
   
  //주말 날짜 구현 함수
   //현재 유저 접속 날짜
-  // let userDate = new Date().getDay()
-  // // 날씨 api에 사용될 숫자
-  // let dayNum;
+  let userDate = new Date().getDay()
+  // 날씨 api에 사용될 숫자
+  let dayNum;
   
-  // function Saturday(userDate){
-  //     //monday 
-  //     if(userDate===1){
-  //         dayNum = 5
-  //     }
-  //     //tuesday    
-  //     if(userDate===2){
-  //         dayNum = 4
-  //     }
-  //     //wendsday    
-  //     if(userDate===3){
-  //         dayNum = 3
-  //     }
-  //     //thursday    
-  //     if(userDate===4){
-  //         dayNum = 2
-  //     }
-  //     //friday    
-  //     if(userDate===5){
-  //         dayNum = 1
-  //     }
-  //     return dayNum
-  // }
+  function Saturday(userDate){
+      //monday 
+      if(userDate===1){
+          dayNum = 5
+      }
+      //tuesday    
+      if(userDate===2){
+          dayNum = 4
+      }
+      //wendsday    
+      if(userDate===3){
+          dayNum = 3
+      }
+      //thursday    
+      if(userDate===4){
+          dayNum = 2
+      }
+      //friday    
+      if(userDate===5){
+          dayNum = 1
+      }
+      return dayNum
+  }
   
-
-
   const successAndGetWeather = (position) => {
-      const lat = position.coords.latitude;
-      const lng = position.coords.longitude;
-      const apiKey = "3ec77581799218a8534c31f41598f3f4";
-      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&lang=kr&appid=${apiKey}`;
+    
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    const apiKey = "3ec77581799218a8534c31f41598f3f4";
+    //주말날씨 api 요청
+    const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=kr&appid=${apiKey}`
+    const url2 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=kr&appid=${apiKey}`
+    
+    axios.get(url,{
+      withCredentials : false,
+    })
+    .then(res => {
+      //7일치 날씨
+      //daily[var] 들어갈 var 선언
+      //
+      console.log(dayNum)
+      console.log('7일 날씨정보',res.data)
 
-    axios
-      .get(url, {
-        withCredentials: false,
+      const weatherMain = res.data.daily[dayNum].weather[0].main
+      const weatherDescription = res.data.daily[dayNum].weather[0].description      
+
+    //   setCurWeather({weatherMain,weatherDescription})
+      console.log(curWeather)
+      axios.get(url2,{
+          withCredentials : false,
       })
-      .then((res) => {
-        console.log(res);
-        // console.log("지역", res.data.name);
-
-        const { clouds, main, sys, weather, name } = res.data;
-
-        const timeConvert = (time) => {
-          return `${time.split(" ")[0]} ${time.split(" ")[1].split(":")[0]}시 ${
-            time.split(" ")[1].split(":")[1]
-          }분`;
-        };
-
-        const sunriseTime = new Date(sys.sunrise * 1000).toLocaleTimeString();
-        const sunsetTime = new Date(sys.sunset * 1000).toLocaleTimeString();
-        // console.log(timeConvert(sunriseTime))
-        let weatherInfo = {
-          clouds: clouds.all, // %
-          temp: main.temp,
-          sunrise: timeConvert(sunriseTime), // 시간
-          sunset: timeConvert(sunsetTime),
-          weatherIcon: weather[0].icon,
-          weatherDesc: weather[0].description,
-          name: name,
-          main: weather[0].main,
-        };
-
-        setCurWeather(weatherInfo);
-        console.log('현재위치',curWeather)
-      });
-  };
+      .then(res => {
+          console.log('현재날씨정보',res.data.name)
+          const weatherName = res.data.name
+          setCurWeather({weatherMain,weatherDescription,weatherName})
+          console.log('현재날씨정보',curWeather)
+      })
+    })
+  }
 
   const error = (err) => {
     alert("위치 정보를 가져오는데 실패했습니다");
@@ -113,6 +105,7 @@ export default function TodayFilmPage() {
   };
 
   useEffect(() => {
+    Saturday(userDate)
     getWeatherOfCurLocation();
     handleLoading();
   }, []);
@@ -155,7 +148,7 @@ export default function TodayFilmPage() {
   };
 
   useEffect(() => {
-    handleIcon(curWeather.main);
+    handleIcon(curWeather.weatherMain);
   }, [curWeather]);
 
   return (
@@ -171,9 +164,9 @@ export default function TodayFilmPage() {
             <FontAwesomeIcon icon={weatherIcon} />
           </WeatherBox>
           <h3>
-            오늘의 {curWeather.name}의 날씨는 {curWeather.main}
+            토요일의 {curWeather.name}의 날씨는 {curWeather.weatherMain}
             <br />
-            {curWeather.weatherDesc} 환경에서는 감도가 높은 필름을 추천해드려요.
+            {curWeather.weatherDescription} 환경에서는 감도가 높은 필름을 추천해드려요.
           </h3>
           {/* <h3 className="filmtitle">일출사진 : {curWeather.sunrise}</h3>
           <h3 className="filmtitle">일몰사진 : {curWeather.sunset}</h3> */}
@@ -190,17 +183,11 @@ export default function TodayFilmPage() {
               );
             })}
           </Section>
-          <hideBox>
-          <WeekendFilmPage curName={curWeather} />
-          </hideBox>
         </Container>
       )}
     </>
   );
 }
-const hideBox = styled.div`
-display : none;
-`;
 
 const Container = styled.div`
   /* border: 1px solid red; */
