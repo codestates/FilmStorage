@@ -21,7 +21,7 @@ export default function SignUpPage() {
   });
 
   const history = useHistory();
-  
+
   //* 유효성 검사
   const validateFuntion = {
     Email: (email) => {
@@ -100,15 +100,17 @@ export default function SignUpPage() {
       // return () => {
       //   clearTimeout(minutTimer);
       // };
+    } else if (!termCheck) {
+      setErrorMessage("이용약관에 동의해주세요");
     } else {
       axios
         .post("https://localhost:4000/users/signup", userInfo, {
           "Content-Type": "application/json",
         })
         .then((res) => {
-          alert("회원가입이 완료되었습니다")
+          alert("회원가입이 완료되었습니다");
           if (res.data.message === "Successfully Signed Up") {
-            history.push("/signin")
+            history.push("/signin");
           }
         })
         .catch((err) => {
@@ -117,12 +119,22 @@ export default function SignUpPage() {
     }
   };
 
-  // * 모달창 핸들링
+  // * 이용약관 모달창 핸들링
   const [termCheck, setTermCheck] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const outsideModal = useRef();
-  const OpenTermModal = (e) => {
+  const handleTermModal = (e) => {
     if (outsideModal.current === e.target) {
+      setOpenModal(false);
+    }
+  };
+
+  const handleTermCheck = () => {
+    if (termCheck) {
       setTermCheck(false);
+    } else {
+      setOpenModal(true);
+      setTermCheck(true);
     }
   };
 
@@ -131,8 +143,8 @@ export default function SignUpPage() {
 
   return (
     <>
-      <Container ref={outsideModal} onClick={OpenTermModal}>
-        {termCheck === true ? (
+      <Container ref={outsideModal} onClick={handleTermModal}>
+        {openModal === true ? (
           <TermModal>
             <TermTitle>이용약관</TermTitle>
             <TermText>{termText.repeat(5)}</TermText>
@@ -156,7 +168,7 @@ export default function SignUpPage() {
                 type="checkbox"
                 id="term"
                 checked={termCheck}
-                onClick={() => setTermCheck(true)}
+                onClick={handleTermCheck}
               />
               <Label for="term">이용약관에 동의해주세요</Label>
             </Term>
