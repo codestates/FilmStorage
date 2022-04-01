@@ -21,15 +21,10 @@ export default function FilmLogPage({ userInfo }) {
   // 이미지 상태 설정
   const [itemLists, setItemLists] = useState([]);
 
-  // 상태
+  // 무한스크롤 마지막
   const [isClose, setIsClose] = useState(true);
 
   const dummydata = [...filmdummydata];
-
-  // 무한스크롤 이미지 가져오기
-  // useEffect(() => {
-  //   console.log(itemLists);
-  // }, [itemLists]);
 
   const getMoreItem = async () => {
     // 8장씩 스크롤 되도록 하기
