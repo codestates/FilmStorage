@@ -101,7 +101,7 @@ function FilmTalkPage() {
                 <FilmTalkTotal
                   post={post}
                   key={post.id}
-                  handleFilmTalkView={handleClickView}
+                  handleClickView={handleClickView}
                 />
               ))}
             </Tbody>
