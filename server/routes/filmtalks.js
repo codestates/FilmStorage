@@ -18,8 +18,6 @@ const upload = multer({
 filmtalksRouter.post("/register/:user_id", filmtalksController.register.post);
 // 필름토크 내 미리보기용 이미지 URL 응답
 filmtalksRouter.post("/register/image/:user_id", upload.single("image"), filmtalksController.register.imageURL);
-// 필름토크 이미지 등록 및 수정
-filmtalksRouter.patch("/revision/image/:user_id/:filmtalk_id", upload.array("images", 3), filmtalksController.revision.images);
 // 필름토크 내용 수정
 filmtalksRouter.patch("/revision/:user_id/:filmtalk_id", filmtalksController.revision.patch);
 // 필름토크 내용 삭제
