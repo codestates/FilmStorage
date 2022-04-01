@@ -5,17 +5,34 @@ module.exports = {
     const { user_id } = req.params;
     try {
       const { category, title, contents } = req.body;
-      await filmtalks.create({
+      const createdData = await filmtalks.create({
         user_id,
         category,
         title,
-        contents
+        contents,
       });
-      res.status(201).send({ message: "Successfully registered" });
+      res.status(201).send({
+        data: createdData,
+        message: "Successfully registered",
+      });
     } catch (err) {
       console.log(err);
       res.status(500).send({ message: "Internal Server Error" });
     }
+  },
 
-  }
-}
+  imageURL: async (req, res) => {
+    try {
+      const imgURL = `https://localhost:4000/filmtalks/${req.file.path}`;
+      res.status(200).send({
+        message: "URL Successfully Created",
+        url: imgURL,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send({
+        message: "Internal Server Error",
+      });
+    }
+  },
+};

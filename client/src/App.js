@@ -12,9 +12,9 @@ import FilmLogDetailPage from "./pages/FilmLogDetailPage";
 import "./App.css";
 import FilmTalkView from "./pages/FilmTalkView";
 import UserInfoUpdatePage from "./pages/UserPage";
-import FilmTalkResigserPage from "./pages/FilmTalkRegisterPage";
+import FilmTalkResigsterPage from "./pages/FilmTalkRegisterPage";
 import OauthPage from "./pages/OauthPage";
-import MapContainer from "./pages/map"
+import MapContainer from "./pages/map";
 import MyLogPage from "./pages/MyLogPage";
 
 import { useEffect, useState } from "react";
@@ -71,7 +71,7 @@ function App() {
         setUserInfo={setUserInfo}
       />
       <Switch>
-      <Route exact path="/map">
+        <Route exact path="/map">
           <MapContainer />
         </Route>
         <Route exact path="/">
@@ -108,7 +108,7 @@ function App() {
           <UserInfoUpdatePage userInfo={userInfo} />
         </Route>
         <Route path="/filmtalks/register">
-          <FilmTalkResigserPage />
+          <FilmTalkResigsterPage userInfo={userInfo} />
         </Route>
         <Route path="/oauth">
           <OauthPage isAuthenticated={isAuthenticated} />

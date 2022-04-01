@@ -2,45 +2,74 @@ import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import FilmTalkRegister from "../components/filmtalk/FilmTalkRegister";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-export default function FilmTalkRegisterPage() {
+export default function FilmTalkRegisterPage({ userInfo }) {
   /* 카테고리 종류 */
   const filmCategory = ["카메라", "필름", "현상", "출사", "기타"];
+  const history = useHistory();
 
-  const [post, setPost] = useState({ title: "", content: "" });
-  // const handleTitleChange = (e) => {
-  //   setPost({ title: e.target.value });
-  //   console.log(e.target.value);
-  //   console.log("state :", post.title);
-  // };
-  // const handleContentChange = (e) => {
-  //   setPost({ content: e });
-  //   console.log(e);
-  //   console.log("state :", post.content);
-  // };
-  // const handleValue = () => {
-  //   alert(post.content);
-  // }
+  const [post, setPost] = useState({
+    title: "",
+    category: "",
+    content: "",
+    imageURL: "",
+  });
+  const handleTitleChange = (e) => {
+    setPost({ ...post, title: e.target.value });
+  };
+
+  const postRegister = () => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/filmtalks/register/${userInfo.id}`,
+        {
+          category: post.category,
+          title: post.title,
+          contents: post.content,
+        },
+        {
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        alert("등록이 완료되었습니다");
+        history.push(`/filmtalks/view/${res.data.data.id}`);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
       <Container>
-        <Article>
+        <Article onSubmit={(e) => e.preventDefault()}>
           {filmCategory.map((film) => {
-            return <FimlCategory>{film}</FimlCategory>;
+            return (
+              <FimlCategory
+                onClick={() => setPost({ ...post, category: film })}
+              >
+                {film}
+              </FimlCategory>
+            );
           })}
           <TitleInput
             type="text"
             placeholder="제목을 작성해주세요"
             name="title"
-            // value={post.title}
-            // onChange={handleTitleChange}
+            onChange={handleTitleChange}
           />
           <FilmTalkRegister
             post={post}
-            // handleContentChange={handleContentChange}
+            setPost={setPost}
+            userInfo={userInfo}
           />
           <Button right>돌아가기</Button>
-          <Button>작성완료</Button>
+          <Button type="button" onClick={postRegister}>
+            작성완료
+          </Button>
         </Article>
       </Container>
     </>
@@ -65,7 +94,7 @@ const Article = styled.form`
 `;
 
 // * 필름 카테고리 컴포넌트
-const FimlCategory = styled.button`
+const FimlCategory = styled.span`
   background: none;
   margin: 0 5px;
   padding: 10px 30px;

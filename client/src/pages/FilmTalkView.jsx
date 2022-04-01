@@ -1,10 +1,56 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { initialState } from "../assets/state";
 import ReplyList from "../components/reply/ReplyList";
 
 export default function FilmTalkView() {
-  const { category, title, writer, date, views } = initialState.post;
+  // const { category, title, writer, date, views } = initialState.post;
+
+  const [filmTalkInfo, setFilmTalkInfo] = useState({
+    category: "",
+    contents: "",
+    title: "",
+    createdAt: "",
+    nickname: "",
+    views: 0,
+  });
+
+  useEffect(() => {
+    getFilmtalkDetail();
+  }, []);
+
+  const getFilmtalkDetail = () => {
+
+    const url = window.location.href;
+    const filmtalk_id = url.split("view/")[1];
+
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/filmtalks/view/${filmtalk_id}`, {
+        headers: {
+          Accept: "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        const { category, contents, createdAt, title, nickname, views } =
+          res.data.data;
+        setFilmTalkInfo({
+          category,
+          contents,
+          createdAt,
+          title,
+          nickname,
+          views,
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const convertDate = (date) => {
+    return date.split(" ")[0];
+  };
+
 
   return (
     <>
@@ -16,20 +62,20 @@ export default function FilmTalkView() {
           <Button top>삭제하기</Button>
           <InfoBox>
             <Info fontsize="18px" fontweight orange>
-              {category}
+              {filmTalkInfo.category}
             </Info>
             <Info fontsize="18px" flex="9" fontweight>
-              {title}
+              {filmTalkInfo.title}
             </Info>
           </InfoBox>
           <InfoBox>
             <Info fontsize="14px" flex="9">
-              {writer}
+              {filmTalkInfo.nickname}
             </Info>
-            <Info rigth>{date}</Info>
-            <Info rigth>조회수 {views}</Info>
+            <Info rigth>날짜 {convertDate(filmTalkInfo.createdAt)}</Info>
+            <Info rigth>조회수 {filmTalkInfo.views}</Info>
           </InfoBox>
-          <TextBox>{initialState.body}</TextBox>
+          <TextBox dangerouslySetInnerHTML={{__html: filmTalkInfo.contents}}></TextBox>
           <ReplyForm>
             <ReplyList replyList={initialState.reply} />
             <ReplyInput></ReplyInput>
