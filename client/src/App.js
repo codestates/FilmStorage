@@ -63,6 +63,8 @@ function App() {
     isAuthenticated();
   };
 
+  // 카카오 맵에서 현재 위치 가져오기 구현
+
   return (
     <div className="App">
       <Header

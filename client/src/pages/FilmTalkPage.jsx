@@ -6,6 +6,8 @@ import FilmTalkTotal from "../components/filmtalk/FilmTalkTatal";
 import { initialState } from "../assets/state";
 import Pagination from "../components/filmtalk/Pagination";
 import axios from "axios";
+import Guide from "../components/Guide";
+
 
 const Container = styled.section`
   width: 100%;
@@ -64,7 +66,10 @@ const Button = styled.button`
   }
 `;
 
-function FilmTalkPage() {
+
+function FilmTalkPage({ isLogin }) {
+  // * 모달 창 상태 저장
+  const [modalClose, setModalClose] = useState(false);
   // * 필름토크 페이지 게시글 데이터
   const [posts, setPosts] = useState(initialState.post);
   // * 페이지네이션 기능 *//
@@ -86,6 +91,7 @@ function FilmTalkPage() {
   const handleClickView = (id) => {
     history.push(`/filmtalks/view/${id}`);
   };
+
 
   const getTotalLength = () => {
     axios
@@ -115,15 +121,27 @@ function FilmTalkPage() {
         setPosts(res.data.data);
       })
       .catch((err) => console.log(err));
+
+  // * 글쓰기
+  const handleUpdate = () => {
+    if (!isLogin) {
+      setModalClose(true);
+    } else {
+      history.push("/filmtalks/register");
+    }
+  };
+
+  // * 모달 창 닫기
+  const handleModalClose = () => {
+    setModalClose(false);
   };
 
   return (
     <>
       <Container>
+        {modalClose ? <Guide handleModalClose={handleModalClose} /> : null}
         <Article>
-          <Link to="/filmtalks/register">
-            <Button>글쓰기</Button>
-          </Link>
+          <Button onClick={handleUpdate}>글쓰기</Button>
           <Table>
             <Thead>
               <Tr>
