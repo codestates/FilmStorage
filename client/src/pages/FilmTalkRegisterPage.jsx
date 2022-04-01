@@ -66,7 +66,7 @@ export default function FilmTalkRegisterPage({ userInfo }) {
             setPost={setPost}
             userInfo={userInfo}
           />
-          <Button right>돌아가기</Button>
+          <Button right onClick={() => history.goBack()}>돌아가기</Button>
           <Button type="button" onClick={postRegister}>
             작성완료
           </Button>

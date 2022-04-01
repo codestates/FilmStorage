@@ -3,9 +3,14 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { initialState } from "../assets/state";
 import ReplyList from "../components/reply/ReplyList";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router-dom";
 
 export default function FilmTalkView() {
   // const { category, title, writer, date, views } = initialState.post;
+
+  const history = useHistory();
 
   const [filmTalkInfo, setFilmTalkInfo] = useState({
     category: "",
@@ -21,7 +26,6 @@ export default function FilmTalkView() {
   }, []);
 
   const getFilmtalkDetail = () => {
-
     const url = window.location.href;
     const filmtalk_id = url.split("view/")[1];
 
@@ -56,10 +60,13 @@ export default function FilmTalkView() {
     <>
       <Container>
         <Article>
-          <Button top rigth={"120px"}>
-            수정하기
-          </Button>
-          <Button top>삭제하기</Button>
+          <FontAwesomeIcon
+            icon={faChevronLeft}
+            className="icon"
+            onClick={() => history.goBack()}
+          />
+          <Button rigth={"120px"}>수정하기</Button>
+          <Button>삭제하기</Button>
           <InfoBox>
             <Info fontsize="18px" fontweight orange>
               {filmTalkInfo.category}
@@ -75,7 +82,9 @@ export default function FilmTalkView() {
             <Info rigth>날짜 {convertDate(filmTalkInfo.createdAt)}</Info>
             <Info rigth>조회수 {filmTalkInfo.views}</Info>
           </InfoBox>
-          <TextBox dangerouslySetInnerHTML={{__html: filmTalkInfo.contents}}></TextBox>
+          <ContentBox
+            dangerouslySetInnerHTML={{ __html: filmTalkInfo.contents }}
+          ></ContentBox>
           <ReplyForm>
             <ReplyList replyList={initialState.reply} />
             <ReplyInput></ReplyInput>
@@ -96,14 +105,22 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   padding: 100px 0 150px 0;
+  /* position: relative; */
 `;
 const Article = styled.article`
   /* border: 1px solid green; */
   width: 60%;
   position: relative;
+
+  .icon {
+    /* border: 1px solid green; */
+    padding: 10px;
+    font-size: 24px;
+    cursor: pointer;
+  }
 `;
 const InfoBox = styled.div`
-  /* border: 1px solid red; */
+  /* border-top: 1px solid Gainsboro; */
   /* width: 100%; */
   /* height: 10vh; */
   display: flex;
@@ -118,13 +135,18 @@ const Info = styled.span`
   font-weight: ${(props) => (props.fontweight ? 500 : 400)};
   text-align: ${(props) => (props.rigth ? "center" : "none")};
 `;
-const TextBox = styled.div`
+const ContentBox = styled.div`
+  /* border: 1px solid red; */
   border-top: 2px solid #444;
   border-bottom: 2px solid #444;
-  /* width: 100%; */
   padding: 20px 2px 100px;
   font-size: 14px;
   line-height: 2em;
+
+  img {
+    /* border: 3px solid yellow; */
+    max-width: 100%;
+  }
 `;
 const ReplyForm = styled.form`
   /* border: 1px solid blue; */
@@ -152,11 +174,7 @@ const Button = styled.button`
   position: absolute;
   right: ${(props) => props.rigth || 0};
   ${(props) => {
-    if (props.top) {
-      return css`
-        top: -50px;
-      `;
-    } else if (props.bottom) {
+    if (props.bottom) {
       return css`
         bottom: -50px;
       `;
