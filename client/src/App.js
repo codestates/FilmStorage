@@ -90,7 +90,7 @@ function App() {
           <TodayFilmPage />
         </Route>
         <Route path="/signin">
-          <SignInPage />
+          <SignInPage handleResponseSuccess={handleResponseSuccess} />
         </Route>
         <Route path="/signup">
           <SignUpPage />
