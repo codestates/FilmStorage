@@ -26,11 +26,12 @@ module.exports = {
           }
         );
 
-        const { id, category, title, image, contents, views, createdAt } =
+        const { id, user_id, category, title, image, contents, views, createdAt } =
           filmTalkData;
 
         const filmTalkDetailData = {
           id,
+          user_id,
           category,
           title,
           image,

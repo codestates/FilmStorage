@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { initialState } from "../assets/state";
 import ReplyList from "../components/reply/ReplyList";
@@ -7,12 +8,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom";
 
-export default function FilmTalkView() {
+export default function FilmTalkView({ userInfo }) {
   // const { category, title, writer, date, views } = initialState.post;
 
   const history = useHistory();
 
   const [filmTalkInfo, setFilmTalkInfo] = useState({
+    user_id: "",
     category: "",
     contents: "",
     title: "",
@@ -20,15 +22,26 @@ export default function FilmTalkView() {
     nickname: "",
     views: 0,
   });
+  const [isOwner, setIsOwner] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     getFilmtalkDetail();
   }, []);
 
-  const getFilmtalkDetail = () => {
-    const url = window.location.href;
-    const filmtalk_id = url.split("view/")[1];
 
+  // getFilmtalkDetail에 의해 state가 변경되면 owner check
+  useEffect(() => {
+    const checkOwner = async () => {
+      if (userInfo.id === filmTalkInfo.user_id) await setIsOwner(true);
+    };
+    checkOwner();
+  }, [filmTalkInfo]);
+
+  const url = window.location.href;
+  const filmtalk_id = url.split("view/")[1];
+  // view 정보 가져오기
+  const getFilmtalkDetail = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/filmtalks/view/${filmtalk_id}`, {
         headers: {
@@ -36,10 +49,17 @@ export default function FilmTalkView() {
         },
       })
       .then((res) => {
-        console.log(res);
-        const { category, contents, createdAt, title, nickname, views } =
-          res.data.data;
+        const {
+          user_id,
+          category,
+          contents,
+          createdAt,
+          title,
+          nickname,
+          views,
+        } = res.data.data;
         setFilmTalkInfo({
+          user_id,
           category,
           contents,
           createdAt,
@@ -50,11 +70,24 @@ export default function FilmTalkView() {
       })
       .catch((err) => console.log(err));
   };
+  // 삭제하기
+  const handleDelete = () => {
+    if (window.confirm("삭제하시겠습니까?")) {
+      axios
+        .delete(
+          `${process.env.REACT_APP_API_URL}/filmtalks/deletion/${filmtalk_id}`
+        )
+        .then(() => {
+          alert("삭제가 완료되었습니다");
+          history.push("/filmtalks/total");
+        })
+        .catch((err) => console.log(err));
+    }
+  };
 
   const convertDate = (date) => {
     return date.split(" ")[0];
   };
-
 
   return (
     <>
@@ -65,8 +98,25 @@ export default function FilmTalkView() {
             className="icon"
             onClick={() => history.goBack()}
           />
-          <Button rigth={"120px"}>수정하기</Button>
-          <Button>삭제하기</Button>
+          {isOwner ? (
+            <>
+              <Button
+                top
+                rigth={"120px"}
+                onClick={() =>
+                  history.push({
+                    pathname: "/filmtalks/register",
+                    state: { filmTalkInfo: filmTalkInfo },
+                  })
+                }
+              >
+                수정하기
+              </Button>
+              <Button top onClick={handleDelete}>
+                삭제하기
+              </Button>
+            </>
+          ) : null}
           <InfoBox>
             <Info fontsize="18px" fontweight orange>
               {filmTalkInfo.category}

@@ -90,7 +90,7 @@ function App() {
           <FilmTalkPage isLogin={isLogin} />
         </Route>
         <Route path="/filmtalks/view">
-          <FilmTalkView />
+          <FilmTalkView userInfo={userInfo} />
         </Route>
         <Route path="/todayfilm">
           <TodayFilmPage />

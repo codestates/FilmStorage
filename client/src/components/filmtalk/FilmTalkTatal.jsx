@@ -18,7 +18,7 @@ const Td = styled.td`
 `;
 
 function FilmTalkTatal({ post, handleClickView }) {
-  const { id, category, title, writer, date, views } = post;
+  const { id, category, title, nickname, createdAt, views } = post;
   return (
     <>
       <Tr key={id}>
@@ -27,8 +27,8 @@ function FilmTalkTatal({ post, handleClickView }) {
         <Td cursor left onClick={() => handleClickView(id)}>
           {title}
         </Td>
-        <Td>{writer}</Td>
-        <Td>{date}</Td>
+        <Td>{nickname}</Td>
+        <Td>{createdAt}</Td>
         <Td>{views}</Td>
       </Tr>
     </>
