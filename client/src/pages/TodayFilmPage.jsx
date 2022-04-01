@@ -12,7 +12,7 @@ import { faSmog } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loader from "../components/Loader";
 import TodayFilmResult from "../components/todayfilm/TodayFilmResult";
-import WeekendFilmPage from "./weekendFilmPage"
+import WeekendFilmPage from "./weekendFilmPage";
 
 export default function TodayFilmPage() {
   // 날씨정보 상태 관리
@@ -25,45 +25,11 @@ export default function TodayFilmPage() {
   const { Clouds, Clear, Rain, Snow } = TodayFilmResult;
   const [filmResult, setFilmResult] = useState(Clouds);
 
-  // console.log(Clouds);
-  
- //주말 날짜 구현 함수
-  //현재 유저 접속 날짜
-  // let userDate = new Date().getDay()
-  // // 날씨 api에 사용될 숫자
-  // let dayNum;
-  
-  // function Saturday(userDate){
-  //     //monday 
-  //     if(userDate===1){
-  //         dayNum = 5
-  //     }
-  //     //tuesday    
-  //     if(userDate===2){
-  //         dayNum = 4
-  //     }
-  //     //wendsday    
-  //     if(userDate===3){
-  //         dayNum = 3
-  //     }
-  //     //thursday    
-  //     if(userDate===4){
-  //         dayNum = 2
-  //     }
-  //     //friday    
-  //     if(userDate===5){
-  //         dayNum = 1
-  //     }
-  //     return dayNum
-  // }
-  
-
-
   const successAndGetWeather = (position) => {
-      const lat = position.coords.latitude;
-      const lng = position.coords.longitude;
-      const apiKey = "3ec77581799218a8534c31f41598f3f4";
-      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&lang=kr&appid=${apiKey}`;
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    const apiKey = "3ec77581799218a8534c31f41598f3f4";
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&lang=kr&appid=${apiKey}`;
 
     axios
       .get(url, {
@@ -96,7 +62,7 @@ export default function TodayFilmPage() {
         };
 
         setCurWeather(weatherInfo);
-        console.log('현재위치',curWeather)
+        console.log("현재위치", curWeather);
       });
   };
 
@@ -191,7 +157,7 @@ export default function TodayFilmPage() {
             })}
           </Section>
           <hideBox>
-          <WeekendFilmPage curName={curWeather} />
+            <WeekendFilmPage curName={curWeather} />
           </hideBox>
         </Container>
       )}
@@ -199,7 +165,7 @@ export default function TodayFilmPage() {
   );
 }
 const hideBox = styled.div`
-display : none;
+  display: none;
 `;
 
 const Container = styled.div`

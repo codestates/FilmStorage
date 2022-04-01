@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 const { kakao } = window;
 
-export default function FilmLogLocation({ place }) {
+export default function FilmLogLocation({ place, setClickLocation }) {
+  // 클릭된 장소 장소 상태 관리
+
   useEffect(() => {
     let infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
     const container = document.getElementById("myMap");
@@ -43,7 +45,16 @@ export default function FilmLogLocation({ place }) {
             "</div>"
         );
         infowindow.open(map, marker);
-        console.log(marker);
+        console.log(place.y, place.x);
+        const choice = {
+          Location: place.place_name,
+          Lat: place.y,
+          Log: place.x,
+        };
+
+        console.log(choice);
+
+        setClickLocation(choice);
       });
     }
   }, [place]);
