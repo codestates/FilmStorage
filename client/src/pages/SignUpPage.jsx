@@ -1,8 +1,9 @@
 /* TODO : 로그인 페이지 만들기. */
 import React from "react";
-import { useState, useRef, useHistory } from "react";
+import { useState, useRef } from "react";
 import styled from "styled-components";
 import { initialState } from "../assets/state";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
@@ -16,8 +17,11 @@ export default function SignUpPage() {
     nickname: "",
     password: "",
     repassword: "",
-    phone: "",
+    mobile: "",
   });
+
+  const history = useHistory();
+  
   //* 유효성 검사
   const validateFuntion = {
     Email: (email) => {
@@ -63,8 +67,8 @@ export default function SignUpPage() {
 
   // * 유저 회원가입 입력값 확인 후 서버 전송
   const handleSignup = () => {
-    const { email, nickname, password, repassword, phone } = userInfo;
-    if (!email || !nickname || !password || !repassword || !phone) {
+    const { email, nickname, password, repassword, mobile } = userInfo;
+    if (!email || !nickname || !password || !repassword || !mobile) {
       setErrorMessage("모든 항목은 필수입니다");
       // let minutTimer = setTimeout(() => setErrorMessage(""), 3000);
       // return () => {
@@ -84,7 +88,7 @@ export default function SignUpPage() {
       // return () => {
       //   clearTimeout(minutTimer);
       // };
-    } else if (!validateFuntion.Phone(phone)) {
+    } else if (!validateFuntion.Phone(mobile)) {
       setErrorMessage("유효하지 않는 핸드폰번호 입니다.");
       // let minutTimer = setTimeout(() => setErrorMessage(""), 3000);
       // return () => {
@@ -102,8 +106,9 @@ export default function SignUpPage() {
           "Content-Type": "application/json",
         })
         .then((res) => {
+          alert("회원가입이 완료되었습니다")
           if (res.data.message === "Successfully Signed Up") {
-            // history.push("/login")
+            history.push("/signin")
           }
         })
         .catch((err) => {
@@ -144,7 +149,7 @@ export default function SignUpPage() {
             <InputType>비밀번호 확인</InputType>
             <Input type="password" onChange={handleInputValue("repassword")} />
             <InputType>휴대폰 번호</InputType>
-            <Input type="tel" onChange={handleInputValue("phone")} />
+            <Input type="tel" onChange={handleInputValue("mobile")} />
             <ErrorMessage>{errorMessage}</ErrorMessage>
             <Term>
               <input

@@ -8,12 +8,11 @@ import { useHistory } from "react-router-dom";
 axios.defaults.withCredentials = true;
 
 export default function SignInPage({ handleResponseSuccess }) {
-
   const history = useHistory();
 
   const handleSignUp = () => {
     history.push("/signup");
-  }
+  };
   // * 카카오 로그인 *//
   useEffect(() => {
     kakaoInit();
@@ -91,7 +90,9 @@ export default function SignInPage({ handleResponseSuccess }) {
           }
         )
         .then((res) => {
+          alert("로그인이 완료되었습니다");
           handleResponseSuccess();
+          history.push("/");
         })
         .catch((err) => {
           setErrorMessage("이메일 혹은 비밀번호가 일치하지 않습니다.");
