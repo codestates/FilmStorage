@@ -16,7 +16,7 @@ import FilmTalkResigsterPage from "./pages/FilmTalkRegisterPage";
 import OauthPage from "./pages/OauthPage";
 import MapContainer from "./pages/map";
 import MyLogPage from "./pages/MyLogPage";
-import WeekendFilmPage from "./pages/weekendFilmPage"
+import WeekendFilmPage from "./pages/weekendFilmPage";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -62,6 +62,8 @@ function App() {
   const handleResponseSuccess = () => {
     isAuthenticated();
   };
+
+  // 카카오 맵에서 현재 위치 가져오기 구현
 
   return (
     <div className="App">

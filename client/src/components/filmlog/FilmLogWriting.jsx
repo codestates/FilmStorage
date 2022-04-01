@@ -17,6 +17,11 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
   const [inputText, setInputText] = useState("");
   const [place, setPlace] = useState("");
 
+  // 선택된 장소
+  const [clickLocation, setClickLocation] = useState({});
+
+  console.log(clickLocation);
+
   const onChange = (e) => {
     setInputText(e.target.value);
   };
@@ -165,10 +170,13 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                     />
                   </form>
                 </Search>
-                <ChoiceBox></ChoiceBox>
+                <ChoiceBox>{clickLocation.Location}</ChoiceBox>
               </LocationSearch>
               <LocationArea>
-                <FilmLogLocation place={place} />
+                <FilmLogLocation
+                  place={place}
+                  setClickLocation={setClickLocation}
+                />
               </LocationArea>
             </Content>
           </ModalImageBox>
@@ -371,6 +379,6 @@ const Search = styled.div`
 
 const ChoiceBox = styled.div`
   border: 1px solid green;
-  width: 100px;
+  width: 200px;
   margin-left: 1rem;
 `;
