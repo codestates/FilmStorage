@@ -6,7 +6,6 @@ import { initialState } from "../assets/state";
 import ReplyList from "../components/reply/ReplyList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { useHistory } from "react-router-dom";
 
 export default function FilmTalkView({ userInfo }) {
   // const { category, title, writer, date, views } = initialState.post;
@@ -23,12 +22,10 @@ export default function FilmTalkView({ userInfo }) {
     views: 0,
   });
   const [isOwner, setIsOwner] = useState(false);
-  const history = useHistory();
 
   useEffect(() => {
     getFilmtalkDetail();
   }, []);
-
 
   // getFilmtalkDetail에 의해 state가 변경되면 owner check
   useEffect(() => {

@@ -1,13 +1,12 @@
 /* TODO : 필름토크 페이지 만들기. */
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import FilmTalkTotal from "../components/filmtalk/FilmTalkTatal";
 import { initialState } from "../assets/state";
 import Pagination from "../components/filmtalk/Pagination";
 import axios from "axios";
 import Guide from "../components/Guide";
-
 
 const Container = styled.section`
   width: 100%;
@@ -66,7 +65,6 @@ const Button = styled.button`
   }
 `;
 
-
 function FilmTalkPage({ isLogin }) {
   // * 모달 창 상태 저장
   const [modalClose, setModalClose] = useState(false);
@@ -91,7 +89,6 @@ function FilmTalkPage({ isLogin }) {
   const handleClickView = (id) => {
     history.push(`/filmtalks/view/${id}`);
   };
-
 
   const getTotalLength = () => {
     axios
@@ -121,6 +118,7 @@ function FilmTalkPage({ isLogin }) {
         setPosts(res.data.data);
       })
       .catch((err) => console.log(err));
+  };
 
   // * 글쓰기
   const handleUpdate = () => {
