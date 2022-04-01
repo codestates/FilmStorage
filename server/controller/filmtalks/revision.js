@@ -27,14 +27,12 @@ module.exports = {
     const fileNames = req.files.map((file) => file.filename);
 
     const makeURL = (fileNames) => {
-      let profileURLs = `${process.env.DOMAIN}/filmtalks/images/${fileNames[0]}`;
+      let profileURLs = `https://localhost:4000/filmtalks/images/${fileNames[0]}`;
       for (let i = 1; i < fileNames.length; i++) {
-        profileURLs += `&${process.env.DOMAIN}/filmtalks/images/${fileNames[i]}`;
+        profileURLs += `https://localhost:4000/filmtalks/images/${fileNames[i]}`;
       }
       return profileURLs;
     };
-    console.log('??????####', makeURL(fileNames))
-
     const { user_id, filmtalk_id } = req.params;
 
     try {
@@ -55,7 +53,6 @@ module.exports = {
           user_id: user_id,
         },
       });
-      console.log('??????', getUpdatedInfo.dataValues)
       res.status(200).json({
         message: "Successfully modified",
         data: getUpdatedInfo.dataValues,
