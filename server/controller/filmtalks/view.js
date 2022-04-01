@@ -1,13 +1,14 @@
-const { filmtalks } = require("../../models");
+const { filmtalks, users } = require("../../models");
 
 module.exports = {
   get: async (req, res) => {
-    const { board_id } = req.params;
+    const { filmtalk_id } = req.params;
 
     try {
       const filmTalkData = await filmtalks.findOne({
+        include: [{ model: users }],
         where: {
-          id: board_id,
+          id: filmtalk_id,
         },
       });
 
@@ -20,14 +21,28 @@ module.exports = {
           { views: 1 },
           {
             where: {
-              id: board_id,
+              id: filmtalk_id,
             },
           }
         );
 
+        const { id, category, title, image, contents, views, createdAt } =
+          filmTalkData;
+
+        const filmTalkDetailData = {
+          id,
+          category,
+          title,
+          image,
+          contents,
+          views,
+          createdAt,
+          nickname: filmTalkData.user.nickname,
+        };
+
         res.status(200).json({
           message: "ok",
-          data: filmTalkData,
+          data: filmTalkDetailData,
         });
       }
     } catch (err) {
@@ -37,4 +52,4 @@ module.exports = {
       });
     }
   },
-}
+};
