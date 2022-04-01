@@ -1,10 +1,11 @@
 /* TODO : 필름토크 페이지 만들기. */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import FilmTalkTotal from "../components/filmtalk/FilmTalkTatal";
 import { initialState } from "../assets/state";
 import Pagination from "../components/filmtalk/Pagination";
+import axios from "axios";
 
 const Container = styled.section`
   width: 100%;
@@ -64,20 +65,58 @@ const Button = styled.button`
 `;
 
 function FilmTalkPage() {
-
   // * 필름토크 페이지 게시글 데이터
   const [posts, setPosts] = useState(initialState.post);
   // * 페이지네이션 기능 *//
   const [page, setPage] = useState(1);
+  const [totalLength, setTotalLength] = useState(10);
   const offset = (page - 1) * 10;
 
   // * 필름토크 게시글 페이지 이동
-  const [viewInx, setViewIdx] = useState(0)
   const history = useHistory();
+
+  useEffect(() => {
+    getTotalLength();
+  }, []);
+
+  useEffect(() => {
+    getAllFilmTalkData();
+  }, [page]);
+
   const handleClickView = (id) => {
-    setViewIdx(id);
     history.push(`/filmtalks/view/${id}`);
-  }
+  };
+
+  const getTotalLength = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/filmtalks/total`, {
+        headers: {
+          Accept: "application/json",
+        },
+      })
+      .then((res) => {
+        // console.log(res)
+        setTotalLength(res.data.data.length);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const getAllFilmTalkData = () => {
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/filmtalks/total?offset=${offset}`,
+        {
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        setPosts(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
       <Container>
@@ -97,7 +136,7 @@ function FilmTalkPage() {
               </Tr>
             </Thead>
             <Tbody>
-              {posts.slice(offset, offset + 10).map((post) => (
+              {posts.slice(0, 10).map((post) => (
                 <FilmTalkTotal
                   post={post}
                   key={post.id}
@@ -106,7 +145,7 @@ function FilmTalkPage() {
               ))}
             </Tbody>
           </Table>
-          <Pagination total={posts.length} page={page} setPage={setPage} />
+          <Pagination totalLength={totalLength} page={page} setPage={setPage} />
         </Article>
       </Container>
     </>

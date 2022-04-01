@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import FilmTalkRegister from "../components/filmtalk/FilmTalkRegister";
@@ -12,10 +12,10 @@ export default function FilmTalkRegisterPage({ userInfo }) {
 
   const [post, setPost] = useState({
     title: "",
-    category: "",
+    category: "기타",
     content: "",
-    imageURL: "",
   });
+
   const handleTitleChange = (e) => {
     setPost({ ...post, title: e.target.value });
   };
@@ -59,13 +59,10 @@ export default function FilmTalkRegisterPage({ userInfo }) {
             type="text"
             placeholder="제목을 작성해주세요"
             name="title"
+            value={post.title}
             onChange={handleTitleChange}
           />
-          <FilmTalkRegister
-            post={post}
-            setPost={setPost}
-            userInfo={userInfo}
-          />
+          <FilmTalkRegister post={post} setPost={setPost} userInfo={userInfo} />
           <Button right>돌아가기</Button>
           <Button type="button" onClick={postRegister}>
             작성완료

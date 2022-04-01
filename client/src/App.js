@@ -16,7 +16,7 @@ import FilmTalkResigsterPage from "./pages/FilmTalkRegisterPage";
 import OauthPage from "./pages/OauthPage";
 import MapContainer from "./pages/map";
 import MyLogPage from "./pages/MyLogPage";
-import WeekendFilmPage from "./pages/weekendFilmPage"
+import WeekendFilmPage from "./pages/weekendFilmPage";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -85,10 +85,10 @@ function App() {
           <FilmLogPage userInfo={userInfo} />
         </Route>
         <Route path="/filmtalks/total">
-          <FilmTalkPage />
+          <FilmTalkPage isLogin={isLogin} />
         </Route>
         <Route path="/filmtalks/view">
-          <FilmTalkView />
+          <FilmTalkView userInfo={userInfo} />
         </Route>
         <Route path="/todayfilm">
           <TodayFilmPage />
