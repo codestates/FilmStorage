@@ -101,6 +101,9 @@ function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
         <Link to="/map">
             <NavListItem>지도</NavListItem>
           </Link>
+          <Link to="/weekend">
+            <NavListItem>주말의 필름</NavListItem>
+          </Link>
           <Link to="/todayfilm">
             <NavListItem>오늘의 필름</NavListItem>
           </Link>

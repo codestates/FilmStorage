@@ -16,6 +16,7 @@ import FilmTalkResigsterPage from "./pages/FilmTalkRegisterPage";
 import OauthPage from "./pages/OauthPage";
 import MapContainer from "./pages/map";
 import MyLogPage from "./pages/MyLogPage";
+import WeekendFilmPage from "./pages/weekendFilmPage"
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -73,6 +74,9 @@ function App() {
       <Switch>
         <Route exact path="/map">
           <MapContainer />
+        </Route>
+        <Route exact path="/weekend">
+          <WeekendFilmPage />
         </Route>
         <Route exact path="/">
           <MainPage />
