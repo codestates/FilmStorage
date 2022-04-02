@@ -9,6 +9,7 @@ export default function FilmTalkRegisterPage({ userInfo }) {
   /* 카테고리 종류 */
   const filmCategory = ["카메라", "필름", "현상", "출사", "기타"];
   const history = useHistory();
+  const filmtalk_id = window.location.href.split("register/")[1];
 
   const [post, setPost] = useState({
     title: "",
@@ -16,30 +17,72 @@ export default function FilmTalkRegisterPage({ userInfo }) {
     content: "",
   });
 
+  useEffect(() => {
+    const getPrevContents = (id) => {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/filmtalks/view/${id}`, {
+          headers: {
+            Accept: "application/json",
+          },
+        })
+        .then((res) => {
+          const { category, contents, title } = res.data.data;
+          setPost({ ...post, title, category, content: contents });
+        })
+        .catch((err) => console.log(err));
+    };
+    if (filmtalk_id) {
+      getPrevContents(filmtalk_id);
+    }
+  }, [filmtalk_id]);
+
+  useEffect(() => {
+    setPost({ ...post });
+  }, [post.title]);
+
+
   const handleTitleChange = (e) => {
+    e.preventDefault();
     setPost({ ...post, title: e.target.value });
   };
 
   const postRegister = () => {
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/filmtalks/register/${userInfo.id}`,
-        {
-          category: post.category,
-          title: post.title,
-          contents: post.content,
-        },
-        {
-          headers: {
-            "Content-type": "application/json",
+    if (!filmtalk_id) {
+      axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/filmtalks/register/${userInfo.id}`,
+          {
+            category: post.category,
+            title: post.title,
+            contents: post.content,
           },
-        }
-      )
-      .then((res) => {
-        alert("등록이 완료되었습니다");
-        history.push(`/filmtalks/view/${res.data.data.id}`);
-      })
-      .catch((err) => console.log(err));
+          {
+            headers: {
+              "Content-type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          alert("등록이 완료되었습니다");
+          history.push(`/filmtalks/view/${res.data.data.id}`);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      axios
+        .patch(
+          `${process.env.REACT_APP_API_URL}/filmtalks/revision/${filmtalk_id}`,
+          {
+            category: post.category,
+            title: post.title,
+            contents: post.content,
+          }
+        )
+        .then((res) => {
+          alert("수정이 완료되었습니다");
+          history.push(`/filmtalks/view/${res.data.id}`);
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -62,12 +105,10 @@ export default function FilmTalkRegisterPage({ userInfo }) {
             value={post.title}
             onChange={handleTitleChange}
           />
-          <FilmTalkRegister
-            post={post}
-            setPost={setPost}
-            userInfo={userInfo}
-          />
-          <Button right onClick={() => history.goBack()}>돌아가기</Button>
+          <FilmTalkRegister post={post} setPost={setPost} userInfo={userInfo} />
+          <Button right onClick={() => history.goBack()}>
+            돌아가기
+          </Button>
           <Button type="button" onClick={postRegister}>
             작성완료
           </Button>
