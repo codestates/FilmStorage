@@ -36,7 +36,6 @@ export default function TodayFilmPage() {
         withCredentials: false,
       })
       .then((res) => {
-        console.log(res);
         // console.log("지역", res.data.name);
 
         const { clouds, main, sys, weather, name } = res.data;
@@ -62,15 +61,12 @@ export default function TodayFilmPage() {
         };
 
         setCurWeather(weatherInfo);
-        console.log("현재위치", curWeather);
       });
   };
 
   const error = (err) => {
     alert("위치 정보를 가져오는데 실패했습니다");
   };
-
-  console.log(curWeather.main);
 
   const getWeatherOfCurLocation = () => {
     navigator.geolocation.getCurrentPosition(successAndGetWeather, error, {
@@ -114,7 +110,7 @@ export default function TodayFilmPage() {
 
   // 로딩 페이지 구현
   const handleLoading = () => {
-    let secondTimer = setTimeout(() => setIsLoaded(false), 1000);
+    let secondTimer = setTimeout(() => setIsLoaded(false), 1200);
     return () => {
       clearTimeout(secondTimer);
     };
@@ -122,7 +118,7 @@ export default function TodayFilmPage() {
 
   useEffect(() => {
     handleIcon(curWeather.main);
-  }, [curWeather]);
+  }, [curWeather.main]);
 
   return (
     <>
