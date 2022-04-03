@@ -1,8 +1,8 @@
 /* TODO : 필름토크 페이지 만들기. */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import FilmTalkTotal from "../components/filmtalk/FilmTalkTatal";
+import FilmTalkTotal from "../components/filmtalk/FilmTalkTotalList";
 import { initialState } from "../assets/state";
 import Pagination from "../components/filmtalk/Pagination";
 import axios from "axios";
@@ -78,17 +78,25 @@ function FilmTalkPage({ isLogin }) {
   // * 필름토크 게시글 페이지 이동
   const history = useHistory();
 
-  useEffect(() => {
-    getTotalLength();
-  }, []);
+  const getAllFilmTalkData = useCallback(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/filmtalks/total?offset=${offset}`,
+        {
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        setPosts(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, [offset]);
 
   useEffect(() => {
     getAllFilmTalkData();
-  }, [page]);
-
-  const handleClickView = (id) => {
-    history.push(`/filmtalks/view/${id}`);
-  };
+  }, [page, getAllFilmTalkData]);
 
   const getTotalLength = () => {
     axios
@@ -104,20 +112,12 @@ function FilmTalkPage({ isLogin }) {
       .catch((err) => console.log(err));
   };
 
-  const getAllFilmTalkData = () => {
-    axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/filmtalks/total?offset=${offset}`,
-        {
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        setPosts(res.data.data);
-      })
-      .catch((err) => console.log(err));
+  useEffect(() => {
+    getTotalLength();
+  }, []);
+
+  const handleClickView = (id) => {
+    history.push(`/filmtalks/view/${id}`);
   };
 
   // * 글쓰기

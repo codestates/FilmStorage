@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { initialState } from "../assets/state";
@@ -9,9 +9,9 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function FilmTalkView({ userInfo }) {
   // const { category, title, writer, date, views } = initialState.post;
-
+  
   const history = useHistory();
-
+  
   const [filmTalkInfo, setFilmTalkInfo] = useState({
     user_id: "",
     category: "",
@@ -22,23 +22,11 @@ export default function FilmTalkView({ userInfo }) {
     views: 0,
   });
   const [isOwner, setIsOwner] = useState(false);
-
-  useEffect(() => {
-    getFilmtalkDetail();
-  }, []);
-
-  // getFilmtalkDetail에 의해 state가 변경되면 owner check
-  useEffect(() => {
-    const checkOwner = async () => {
-      if (userInfo.id === filmTalkInfo.user_id) await setIsOwner(true);
-    };
-    checkOwner();
-  }, [filmTalkInfo]);
-
   const url = window.location.href;
   const filmtalk_id = url.split("view/")[1];
-  // view 정보 가져오기
-  const getFilmtalkDetail = () => {
+  
+  // missing dependency 해결을 위해 useCallback 사용
+  const getFilmtalkDetail = useCallback(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/filmtalks/view/${filmtalk_id}`, {
         headers: {
@@ -66,7 +54,21 @@ export default function FilmTalkView({ userInfo }) {
         });
       })
       .catch((err) => console.log(err));
-  };
+  }, [filmtalk_id]);
+
+  useEffect(() => {
+    getFilmtalkDetail();
+  }, [getFilmtalkDetail]);
+
+  // getFilmtalkDetail에 의해 state가 변경되면 owner check
+  useEffect(() => {
+    const checkOwner = async () => {
+      if (userInfo.id === filmTalkInfo.user_id) await setIsOwner(true);
+    };
+    checkOwner();
+  }, [filmTalkInfo, userInfo]);
+
+  // view 정보 가져오기
   // 삭제하기
   const handleDelete = () => {
     if (window.confirm("삭제하시겠습니까?")) {
@@ -93,7 +95,7 @@ export default function FilmTalkView({ userInfo }) {
           <FontAwesomeIcon
             icon={faChevronLeft}
             className="icon"
-            onClick={() => history.goBack()}
+            onClick={() => history.push("/filmtalks/total")}
           />
           {isOwner ? (
             <>
@@ -102,7 +104,7 @@ export default function FilmTalkView({ userInfo }) {
                 rigth={"120px"}
                 onClick={() =>
                   history.push({
-                    pathname: "/filmtalks/register",
+                    pathname: `/filmtalks/register/${filmtalk_id}`,
                     state: { filmTalkInfo: filmTalkInfo },
                   })
                 }
