@@ -14,7 +14,7 @@ const Td = styled.td`
   font-size: 14px;
   color: #222;
   text-align: ${(props) => (props.left ? "left" : "center")};
-  cursor: ${props => props.cursor ? "pointer" : null};
+  cursor: ${(props) => (props.pointer ? "pointer" : null)};
 `;
 
 function FilmTalkTatal({ post, handleClickView }) {
@@ -24,7 +24,7 @@ function FilmTalkTatal({ post, handleClickView }) {
       <Tr key={id}>
         <Td>{id}</Td>
         <Td>{category}</Td>
-        <Td cursor left onClick={() => handleClickView(id)}>
+        <Td pointer left onClick={() => handleClickView(id)}>
           {title}
         </Td>
         <Td>{nickname}</Td>
