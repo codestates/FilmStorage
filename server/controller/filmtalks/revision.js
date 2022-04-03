@@ -14,12 +14,21 @@ module.exports = {
         },
         {
           where: {
-            filmtalk_id,
+            id: filmtalk_id,
           },
         }
       );
 
-      res.staus(200).send({
+      const filmTalkData = await filmtalks.findOne({
+        where: {
+          id: filmtalk_id,
+        },
+      });
+
+      const { id } = filmTalkData;
+
+      res.status(200).send({
+        id,
         message: "Successfully modified",
       });
     } catch (err) {
