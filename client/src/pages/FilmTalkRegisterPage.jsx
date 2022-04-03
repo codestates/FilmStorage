@@ -7,13 +7,13 @@ import { useHistory } from "react-router-dom";
 
 export default function FilmTalkRegisterPage({ userInfo }) {
   /* 카테고리 종류 */
-  const filmCategory = ["카메라", "필름", "현상", "출사", "기타"];
+  const filmCategory = ["카테고리", "카메라", "필름", "현상", "출사", "기타"];
   const history = useHistory();
   const filmtalk_id = window.location.href.split("register/")[1];
 
   const [post, setPost] = useState({
     title: "",
-    category: "기타",
+    category: "",
     content: "",
   });
 
@@ -39,8 +39,11 @@ export default function FilmTalkRegisterPage({ userInfo }) {
   useEffect(() => {
     setPost({ ...post });
   }, [post.title]);
-
-
+  const handlePostCategory = (e) => {
+    if (e.target.value !== "카테고리") {
+      setPost({ ...post, category: e.target.value });
+    }
+  };
   const handleTitleChange = (e) => {
     e.preventDefault();
     setPost({ ...post, title: e.target.value });
@@ -48,40 +51,56 @@ export default function FilmTalkRegisterPage({ userInfo }) {
 
   const postRegister = () => {
     if (!filmtalk_id) {
-      axios
-        .post(
-          `${process.env.REACT_APP_API_URL}/filmtalks/register/${userInfo.id}`,
-          {
-            category: post.category,
-            title: post.title,
-            contents: post.content,
-          },
-          {
-            headers: {
-              "Content-type": "application/json",
+      if (post.title === "") {
+        alert("제목을 작성해 주세요");
+      } else if (post.category === "") {
+        alert("카테고리를 선택해주세요");
+      } else if (post.content === "") {
+        alert("내용을 작성해 주세요");
+      } else {
+        axios
+          .post(
+            `${process.env.REACT_APP_API_URL}/filmtalks/register/${userInfo.id}`,
+            {
+              category: post.category,
+              title: post.title,
+              contents: post.content,
             },
-          }
-        )
-        .then((res) => {
-          alert("등록이 완료되었습니다");
-          history.push(`/filmtalks/view/${res.data.data.id}`);
-        })
-        .catch((err) => console.log(err));
+            {
+              headers: {
+                "Content-type": "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            alert("등록이 완료되었습니다");
+            history.push(`/filmtalks/view/${res.data.data.id}`);
+          })
+          .catch((err) => console.log(err));
+      }
     } else {
-      axios
-        .patch(
-          `${process.env.REACT_APP_API_URL}/filmtalks/revision/${filmtalk_id}`,
-          {
-            category: post.category,
-            title: post.title,
-            contents: post.content,
-          }
-        )
-        .then((res) => {
-          alert("수정이 완료되었습니다");
-          history.push(`/filmtalks/view/${res.data.id}`);
-        })
-        .catch((err) => console.log(err));
+      if (post.title === "") {
+        alert("제목을 작성해 주세요");
+      } else if (post.category === "") {
+        alert("카테고리를 선택해주세요");
+      } else if (post.content === "") {
+        alert("내용을 작성해 주세요");
+      } else {
+        axios
+          .patch(
+            `${process.env.REACT_APP_API_URL}/filmtalks/revision/${filmtalk_id}`,
+            {
+              category: post.category,
+              title: post.title,
+              contents: post.content,
+            }
+          )
+          .then((res) => {
+            alert("수정이 완료되었습니다");
+            history.push(`/filmtalks/view/${res.data.id}`);
+          })
+          .catch((err) => console.log(err));
+      }
     }
   };
 
@@ -89,22 +108,29 @@ export default function FilmTalkRegisterPage({ userInfo }) {
     <>
       <Container>
         <Article onSubmit={(e) => e.preventDefault()}>
-          {filmCategory.map((film) => {
-            return (
-              <FimlCategory
-                onClick={() => setPost({ ...post, category: film })}
-              >
-                {film}
-              </FimlCategory>
-            );
-          })}
-          <TitleInput
-            type="text"
-            placeholder="제목을 작성해주세요"
-            name="title"
-            value={post.title}
-            onChange={handleTitleChange}
-          />
+          <div for="post-category" className="category">
+            <CategorySelect
+              name="category"
+              id="post-category"
+              onChange={handlePostCategory}
+              value={post.category}
+            >
+              {filmCategory.map((film) => {
+                return (
+                  <CategoryOption type="button" value={film}>
+                    {film}
+                  </CategoryOption>
+                );
+              })}
+            </CategorySelect>
+            <TitleInput
+              type="text"
+              placeholder="제목을 작성해주세요"
+              name="title"
+              value={post.title}
+              onChange={handleTitleChange}
+            />
+          </div>
           <FilmTalkRegister post={post} setPost={setPost} userInfo={userInfo} />
           <Button right onClick={() => history.goBack()}>
             돌아가기
@@ -117,26 +143,36 @@ export default function FilmTalkRegisterPage({ userInfo }) {
     </>
   );
 }
-
 const Container = styled.section`
   width: 100%;
   height: 90vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  position: relative;
+  padding: 50px 0;
+  /* position: relative; */
 `;
 
 const Article = styled.form`
   /* border: 1px solid green; */
-  width: 800px;
+  width: 60%;
   position: absolute;
-  top: 100px;
+  top: 150px;
+  div.category {
+    /* border: 1px solid red; */
+    display: flex;
+  }
 `;
 
 // * 필름 카테고리 컴포넌트
-const FimlCategory = styled.span`
+const CategorySelect = styled.select`
+  border: 1px solid Gainsboro;
+  padding: 10px 20px;
+  margin: 20px 5px 20px 0px;
+  outline: none;
+  cursor: pointer;
+`;
+const CategoryOption = styled.option`
   background: none;
   margin: 0 5px;
   padding: 10px 30px;
@@ -144,19 +180,13 @@ const FimlCategory = styled.span`
   border: 1px solid Gainsboro;
   border-radius: 20px;
   transition: 0.3s;
+  outline: none;
   cursor: pointer;
   &:hover {
     color: tomato;
-    border: 1px solid tomato;
-    box-shadow: 2px 2px 5px Gainsboro;
-  }
-  &:active,
-  &:focus {
-    color: white;
-    background: tomato;
+    /* border: 1px solid tomato; */
   }
 `;
-
 // * 제목 작성 컴포넌트
 const TitleInput = styled.input`
   outline: none;
