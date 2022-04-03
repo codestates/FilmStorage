@@ -13,7 +13,7 @@ import axios from "axios";
 import Loader from "../components/Loader";
 import TodayFilmResult from "../components/todayfilm/TodayFilmResult";
 
-export default function WeekendFilmPage({curName}) {
+export default function WeekendFilmPage() {
   // 날씨정보 상태 관리
   const [curWeather, setCurWeather] = useState({});
   // 날씨아이콘 상태 관리
@@ -28,39 +28,37 @@ export default function WeekendFilmPage({curName}) {
   
  //주말 날짜 구현 함수
   //현재 유저 접속 날짜
-  let userDate = new Date().getDay()
-  // 날씨 api에 사용될 숫자
-  let dayNum;
   
+  let userDate = new Date().getDay()
+  let dayNum;
+
   function Saturday(userDate){
-      //monday 
-      if(userDate===1){
-          dayNum = 5
+    // 날씨 api에 사용될 숫자
+
+    //반복문으로 정리
+    for(let i=1; i<=5; i++){
+      //오늘이 토요일인 경우 그대로 리턴
+      if(userDate === 6){
+        dayNum = 0
       }
-      //tuesday    
-      if(userDate===2){
-          dayNum = 4
+      //오늘이 일요일인 경우 그대로 리턴
+      if(userDate === 0){
+        dayNum = 0
       }
-      //wendsday    
-      if(userDate===3){
-          dayNum = 3
+      //평일인 경우 토요일로 설정
+      if(userDate===i){
+        dayNum = 6-i
       }
-      //thursday    
-      if(userDate===4){
-          dayNum = 2
-      }
-      //friday    
-      if(userDate===5){
-          dayNum = 1
-      }
-      return dayNum
-  }
+    }
+    return dayNum
+}
+
   
   const successAndGetWeather = (position) => {
     
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
-    const apiKey = "3ec77581799218a8534c31f41598f3f4";
+    const apiKey = process.env.REACT_APP_WEATHER_KEY;
     //주말날씨 api 요청
     const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=kr&appid=${apiKey}`
     const url2 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=kr&appid=${apiKey}`
@@ -72,19 +70,20 @@ export default function WeekendFilmPage({curName}) {
       //7일치 날씨
       //daily[var] 들어갈 var 선언
       //
-      console.log(dayNum)
-      console.log('7일 날씨정보',res.data)
+      console.log('현재요일정보',dayNum)
+      // console.log('7일 날씨정보',res.data)
 
       const weatherMain = res.data.daily[dayNum].weather[0].main
       const weatherDescription = res.data.daily[dayNum].weather[0].description      
 
-    //   setCurWeather({weatherMain,weatherDescription})
-      console.log(curWeather)
+      // setCurWeather({weatherMain,weatherDescription})
+      // console.log('주말날씨',weatherMain,'주말날씨묘사',weatherDescription)
+      
       axios.get(url2,{
           withCredentials : false,
       })
       .then(res => {
-          console.log('현재날씨정보',res.data.name)
+          console.log('현재지역명',res.data.name)
           const weatherName = res.data.name
           setCurWeather({weatherMain,weatherDescription,weatherName})
           console.log('현재날씨정보',curWeather)
@@ -96,7 +95,7 @@ export default function WeekendFilmPage({curName}) {
     alert("위치 정보를 가져오는데 실패했습니다");
   };
 
-  console.log(curWeather.main);
+  // console.log(curWeather.main);
 
   const getWeatherOfCurLocation = () => {
     navigator.geolocation.getCurrentPosition(successAndGetWeather, error, {
@@ -105,7 +104,7 @@ export default function WeekendFilmPage({curName}) {
   };
 
   useEffect(() => {
-    Saturday(userDate)
+    Saturday(userDate) 
     getWeatherOfCurLocation();
     handleLoading();
   }, []);
@@ -164,7 +163,7 @@ export default function WeekendFilmPage({curName}) {
             <FontAwesomeIcon icon={weatherIcon} />
           </WeatherBox>
           <h3>
-            토요일의 {curWeather.name}의 날씨는 {curWeather.weatherMain}
+            토요일의 {curWeather.weatherName}의 날씨는 {curWeather.weatherMain}
             <br />
             {curWeather.weatherDescription} 환경에서는 감도가 높은 필름을 추천해드려요.
           </h3>
