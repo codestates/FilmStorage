@@ -104,7 +104,7 @@ export default function SignUpPage() {
       setErrorMessage("이용약관에 동의해주세요");
     } else {
       axios
-        .post("https://localhost:4000/users/signup", userInfo, {
+        .post(`${process.env.REACT_APP_API_URL}/users/signup`, userInfo, {
           "Content-Type": "application/json",
         })
         .then((res) => {

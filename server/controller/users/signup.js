@@ -27,7 +27,7 @@ module.exports = {
         res.status(201)
           .cookie("accessToken", accessToken, {
             sameSite: "none",
-            domain: "localhost",
+            domain: "filmstorage.ga",
             path: "/",
             secure: true,
             httpOnly: true,

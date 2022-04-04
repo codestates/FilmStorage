@@ -28,7 +28,7 @@ module.exports = {
           html: `<h1>이메일 인증</h1>
                             <div>
                               아래 버튼을 눌러 인증을 완료해주세요.
-                              <a href='http://localhost:4000/users/auth/verification/${req.params.user_id}'>이메일 인증하기</a>
+                              <a href='${process.env.SERVER_DOMAIN}/users/signin'>이메일 인증하기</a>
                             </div>`,
           text: "인증메일입니다.",
         };

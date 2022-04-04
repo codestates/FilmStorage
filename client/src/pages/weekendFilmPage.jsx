@@ -37,12 +37,8 @@ export default function WeekendFilmPage() {
 
     //반복문으로 정리
     for(let i=1; i<=5; i++){
-      //오늘이 토요일인 경우 그대로 리턴
-      if(userDate === 6){
-        dayNum = 0
-      }
-      //오늘이 일요일인 경우 그대로 리턴
-      if(userDate === 0){
+      //오늘이 토요일 혹은 일요일 경우 그대로 리턴
+      if(userDate === 6 || userDate === 0){
         dayNum = 0
       }
       //평일인 경우 토요일로 설정
@@ -59,6 +55,7 @@ export default function WeekendFilmPage() {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
     const apiKey = process.env.REACT_APP_WEATHER_KEY;
+    console.log('키키키킼',apiKey)
     //주말날씨 api 요청
     const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=kr&appid=${apiKey}`
     const url2 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=kr&appid=${apiKey}`
