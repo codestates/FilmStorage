@@ -25,6 +25,7 @@ export default function TodayFilmPage() {
   const { Clouds, Clear, Rain, Snow } = TodayFilmResult;
   const [filmResult, setFilmResult] = useState(Clouds);
 
+
   const successAndGetWeather = (position) => {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
@@ -37,7 +38,7 @@ export default function TodayFilmPage() {
       })
       .then((res) => {
         console.log(res);
-        // console.log("지역", res.data.name);
+        console.log("지역", res.data);
 
         const { clouds, main, sys, weather, name } = res.data;
 
@@ -156,15 +157,15 @@ export default function TodayFilmPage() {
               );
             })}
           </Section>
-          <hideBox>
+          <HideBox>
             <WeekendFilmPage curName={curWeather} />
-          </hideBox>
+          </HideBox>
         </Container>
       )}
     </>
   );
 }
-const hideBox = styled.div`
+const HideBox = styled.div`
   display: none;
 `;
 
