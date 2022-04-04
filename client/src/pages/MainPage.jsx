@@ -3,6 +3,7 @@ import styled, { keyframes } from "styled-components";
 import GoToMostUsedFilm from "../components/main/GoToMostUsedFilm";
 import GoToTodayFilm from "../components/main/GoToTodayFilm";
 import GoToFindingFilmType from "../components/main/GoToFindingFilmType";
+import GoToFilmSpot from "../components/main/GoToFilmSpot";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
@@ -82,6 +83,7 @@ function MainPage() {
         <GoToMostUsedFilm />
         <GoToTodayFilm />
         <GoToFindingFilmType />
+        <GoToFilmSpot />
       </ContentBox>
     </>
   );
