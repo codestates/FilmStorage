@@ -7,20 +7,35 @@ import { Link } from "react-router-dom";
 export default function Guide({ handleModalClose }) {
   return (
     <>
-      <Modal>
-        <FontAwesomeIcon
-          icon={faXmark}
-          className="icon"
-          onClick={handleModalClose}
-        />
-        로그인 후 이용하실 수 있습니다
-        <Link to="/signin">
-          <Button type="button">로그인 하러 가기</Button>
-        </Link>
-      </Modal>
+      <ModalBG>
+        <Modal>
+          <FontAwesomeIcon
+            icon={faXmark}
+            className="icon"
+            onClick={handleModalClose}
+          />
+          로그인 후 이용하실 수 있습니다
+          <Link to="/signin">
+            <Button type="button">로그인 하러 가기</Button>
+          </Link>
+        </Modal>
+      </ModalBG>
     </>
   );
 }
+
+const ModalBG = styled.div`
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+`;
 
 const Modal = styled.div`
   /* border: 3px solid red; */
@@ -32,12 +47,9 @@ const Modal = styled.div`
   align-items: center;
   font-size: 14px;
   border-radius: 20px;
-  box-shadow: 5px 5px 10px Gainsboro;
-  position: absolute;
-  top: 300px;
+  /* box-shadow: 5px 5px 10px Gainsboro; */
   position: fixed;
   background: #fff;
-  z-index: 1;
 
   .icon {
     /* border: 1px solid red; */

@@ -60,8 +60,6 @@ export default function MapContainer() {
     setInputText("");
   };
 
-  console.log("검색위치렌더링");
-
   useEffect(() => {
     let infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
     const container = document.getElementById("myMap");
