@@ -2,16 +2,15 @@ import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { initialState } from "../assets/state";
 import ReplyList from "../components/reply/ReplyList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function FilmTalkView({ userInfo }) {
   // const { category, title, writer, date, views } = initialState.post;
-  
+
   const history = useHistory();
-  
+
   const [filmTalkInfo, setFilmTalkInfo] = useState({
     user_id: "",
     category: "",
@@ -21,10 +20,11 @@ export default function FilmTalkView({ userInfo }) {
     nickname: "",
     views: 0,
   });
-  const [isOwner, setIsOwner] = useState(false);
+  const [comment, setComment] = useState("");
+  const [filmTalkComments, setFilmTalkComments] = useState([]);
   const url = window.location.href;
   const filmtalk_id = url.split("view/")[1];
-  
+
   // missing dependency 해결을 위해 useCallback 사용
   const getFilmtalkDetail = useCallback(() => {
     axios
@@ -56,17 +56,26 @@ export default function FilmTalkView({ userInfo }) {
       .catch((err) => console.log(err));
   }, [filmtalk_id]);
 
+  const getFTCommentsInfo = useCallback(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/filmtalk_comments/total/${filmtalk_id}`,
+        {
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        setFilmTalkComments(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, [filmtalk_id]);
+
   useEffect(() => {
     getFilmtalkDetail();
-  }, [getFilmtalkDetail]);
-
-  // getFilmtalkDetail에 의해 state가 변경되면 owner check
-  useEffect(() => {
-    const checkOwner = async () => {
-      if (userInfo.id === filmTalkInfo.user_id) await setIsOwner(true);
-    };
-    checkOwner();
-  }, [filmTalkInfo, userInfo]);
+    getFTCommentsInfo();
+  }, [getFilmtalkDetail, getFTCommentsInfo]);
 
   // view 정보 가져오기
   // 삭제하기
@@ -84,6 +93,27 @@ export default function FilmTalkView({ userInfo }) {
     }
   };
 
+  const postComment = () => {
+    if (comment === "") {
+      alert("댓글을 입력해주세요");
+    } else {
+      axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/filmtalk_comments/register/${userInfo.id}/${filmtalk_id}`,
+          {
+            contents: comment,
+          },
+          {
+            headers: {
+              "Content-type": "application/json",
+            },
+          }
+        )
+        .then((res) => setComment(""))
+        .catch((err) => console.log(err));
+    }
+  };
+
   const convertDate = (date) => {
     return date.split(" ")[0];
   };
@@ -97,7 +127,7 @@ export default function FilmTalkView({ userInfo }) {
             className="icon"
             onClick={() => history.push("/filmtalks/total")}
           />
-          {isOwner ? (
+          {userInfo.id === filmTalkInfo.user_id ? (
             <>
               <Button
                 top
@@ -135,9 +165,18 @@ export default function FilmTalkView({ userInfo }) {
             dangerouslySetInnerHTML={{ __html: filmTalkInfo.contents }}
           ></ContentBox>
           <ReplyForm>
-            <ReplyList replyList={initialState.reply} />
-            <ReplyInput></ReplyInput>
-            <Button bottom>댓글 쓰기</Button>
+            <ReplyList
+              filmTalkComments={filmTalkComments}
+              getFTCommentsInfo={getFTCommentsInfo}
+              convertDate={convertDate}
+              userFTInfo={userInfo}
+            />
+            <ReplyInput
+              onChange={(e) => setComment(e.target.value)}
+            ></ReplyInput>
+            <Button bottom onClick={postComment}>
+              댓글 쓰기
+            </Button>
           </ReplyForm>
         </Article>
       </Container>

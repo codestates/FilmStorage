@@ -98,17 +98,17 @@ function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
           <LogoImg src="https://user-images.githubusercontent.com/87605663/159270833-8f5397dc-9f5b-4fab-86a6-b245d08eeaa8.png" />
         </Link>
         <NavList>
-        <Link to="/map">
-            <NavListItem>지도</NavListItem>
+          <Link to="/filmtype">
+            <NavListItem>필름 취향 찾기</NavListItem>
           </Link>
-          <Link to="/weekend">
+          {/* <Link to="/weekend">
             <NavListItem>주말의 필름</NavListItem>
-          </Link>
+          </Link> */}
           <Link to="/todayfilm">
             <NavListItem>오늘의 필름</NavListItem>
           </Link>
-          <Link to="/filmtype">
-            <NavListItem>필름 취향 찾기</NavListItem>
+          <Link to="/map">
+            <NavListItem>필름 스팟</NavListItem>
           </Link>
           <Link to="/filmlog">
             <NavListItem>필름 로그</NavListItem>

@@ -17,6 +17,8 @@ import MapContainer from "./map";
 export default function WeekendFilmPage() {
   // 날씨정보 상태 관리
   const [curWeather, setCurWeather] = useState({});
+
+  console.log(curWeather);
   // 날씨아이콘 상태 관리
   const [weatherIcon, setWeatherIcon] = useState(faCloud);
   // 로딩 관리
@@ -61,6 +63,7 @@ export default function WeekendFilmPage() {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
     const apiKey = process.env.REACT_APP_WEATHER_KEY;
+
     //주말날씨 api 요청
     const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=kr&appid=${apiKey}`;
     const url2 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=kr&appid=${apiKey}`;
@@ -88,6 +91,7 @@ export default function WeekendFilmPage() {
             withCredentials: false,
           })
           .then((res) => {
+
             console.log(
               "현재위치위도",
               res.data.coord.lat,
