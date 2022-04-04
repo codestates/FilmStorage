@@ -1,55 +1,115 @@
 import React, { useEffect, useState } from "react";
 // import SearchPlace from "./SearchPlace";
 import styled from "styled-components";
-const { kakao } = window;
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
+import { faChevronCircleUp } from "@fortawesome/free-solid-svg-icons";
 
-const Form = styled.form` 
-border: 1px solid tomato; width: 100% height: 200px; 
-`;
+const { kakao } = window;
 
 const Container = styled.section`
   /* border: 1px solid red; */
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
 `;
 const Article = styled.article`
   /* border: 1px solid blue; */
-  width: 1000px;
-  padding: 50px;
-`;
-
-// * 검색 컴포넌트
-const Search = styled.div`
-  border: 1px solid green;
-  padding: 10px 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 30px;
+`;
+
+// * 검색 컴포넌트
+const SearchForm = styled.form`
+  border-bottom: 2px solid #444;
+  width: 60%;
+  box-sizing: border-box;
+  display: flex;
+  margin: 10px 0;
+  input {
+    /* border: 1px solid tomato; */
+    color: #444;
+    border: none;
+    outline: none;
+    padding: 10px;
+    flex: 14;
+    font-size: 24px;
+  }
+  button {
+    padding: 0;
+    border: none;
+    background: none;
+    flex: 1;
+    cursor: pointer;
+    .icon {
+      /* border: 1px solid tomato; */
+      font-size: 22px;
+      color: #444;
+      &:active,
+      &:hover {
+        color: tomato;
+      }
+    }
+  }
+`;
+
+const SearchList = styled.ul`
+  /* border: 1px solid red; */
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+  
+  span {
+    margin-right: 20px;
+    font-weight: 600;
+  }
+  li {
+    padding: 0 10px;
+  }
 `;
 
 // * 지도 컴포넌트
 const Map = styled.div`
-  border: 1px solid green;
-  width: 1000px;
-  height: 500px;
+  /* border: 1px solid green; */
+  width: 100%;
+  height: 90vh;
 `;
 
-// const Demo = styled.div`
-// background-color: tomato;
-//   width: 800px;
-//   height: 200px;
-// `
+const ScrollToTop = styled.div`
+  font-size: 40px;
+  color: #ffffff88;
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  z-index: 1;
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    color: #ff6347;
+  }
+`;
 
-export default function MapContainer() {
+export default function FilmSpotPage() {
   const [inputText, setInputText] = useState("");
   const [place, setPlace] = useState("");
 
+  // * 많이 검색한 지역 저장
+  const [searchList, setSearchList] = useState([
+    "제주도",
+    "대구",
+    "서울",
+    "경기",
+    "부산",
+    "경주",
+  ]);
+
+  // * 스크롤 핸들링
+  const handleScroll = () => {
+    window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+  };
+  
   const onChange = (e) => {
     setInputText(e.target.value);
   };
@@ -104,39 +164,30 @@ export default function MapContainer() {
     }
   }, [place]);
 
-  //   return (
-  //     <>
-  //       <Container>
-  //         <div>
-  //           <SearchPlace />
-  //         </div>
-  //         <div
-  //           id="myMap"
-  //           style={{
-  //             width: "890px",
-  //             height: "200px",
-  //           }}
-  //         ></div>
-  //       </Container>
-  //     </>
-  //   );
-  // };
-
   return (
     <>
       <Container>
         <Article>
-          <Search>
-            <Form className="inputForm" onSubmit={handleSubmit}>
-              <input
-                placeholder="Search Place..."
-                onChange={onChange}
-                value={inputText}
-              />
-              <button type="submit">검색</button>
-            </Form>
-          </Search>
+          <SearchForm className="inputForm" onSubmit={handleSubmit}>
+            <input
+              placeholder="Search Place..."
+              onChange={onChange}
+              value={inputText}
+            />
+            <button type="submit">
+              <FontAwesomeIcon icon={faArrowRightLong} className="icon" />
+            </button>
+          </SearchForm>
+          <SearchList>
+            <span>많이 검색한 지역</span>
+            {searchList.map((search) => {
+              return <li>{search}</li>;
+            })}
+          </SearchList>
           <Map id="myMap"></Map>
+          <ScrollToTop onClick={handleScroll}>
+            <FontAwesomeIcon icon={faChevronCircleUp} />
+          </ScrollToTop>
         </Article>
       </Container>
     </>
