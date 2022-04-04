@@ -1,5 +1,6 @@
 /* TODO : 오늘의 필름 페이지 입니다. */
 import React, { useState, useEffect } from "react";
+import Select from "react-select";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloud } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +14,7 @@ import axios from "axios";
 import Loader from "../components/Loader";
 import TodayFilmResult from "../components/todayfilm/TodayFilmResult";
 import WeekendFilmPage from "./weekendFilmPage";
+import { faBluetooth } from "@fortawesome/free-brands-svg-icons";
 
 export default function TodayFilmPage() {
   // 날씨정보 상태 관리
@@ -24,6 +26,49 @@ export default function TodayFilmPage() {
   // 필름 결과 관리
   const { Clouds, Clear, Rain, Snow } = TodayFilmResult;
   const [filmResult, setFilmResult] = useState(Clouds);
+
+  // * React Select * //
+  // select를 두개 만들고, 첫번째 값이 변경될때마다 useEffect 실행해서
+  // 두번째 셀렉트 목록을 다르게 출력하도록 구현
+  const dayOptions = [
+    { value: "오늘의 날씨", label: "오늘의 날씨" },
+    { value: "주말의 날씨", label: "주말의 날씨" },
+  ];
+  const cityOptions = [
+    { value: "서울", label: "서울" },
+    { value: "춘천", label: "춘천" },
+    { value: "강릉", label: "강릉" },
+    { value: "대전", label: "대전" },
+    { value: "청주", label: "청주" },
+    { value: "대구", label: "대구" },
+    { value: "전주", label: "전주" },
+    { value: "광주", label: "광주" },
+    { value: "부산", label: "부산" },
+    { value: "제주", label: "제주" },
+    { value: "백령", label: "백령" },
+    { value: "울릉/독도", label: "울릉/독도" },
+  ];
+
+  // const customStyles = {
+  //   option: (provided, state) => ({
+  //     ...provided,
+  //     borderBottom: "1px dooted pink",
+  //     color: state.isSelected ? "#fff" : "#444",
+  //     backgroundColor: state.isSelected ? "tomato" : "white",
+  //     // padding: 20,
+  //     width: 300,
+  //   }),
+  //   control: () => ({
+  //     // none of react-select's styles are passed to <Control />
+  //     // width: 300,
+  //   }),
+  //   singleValue: (provided, state) => {
+  //     const opacity = state.isDisabled ? 0.5 : 2;
+  //     const transition = "opacity 300ms";
+
+  //     return { ...provided, opacity, transition };
+  //   },
+  // };
 
   const successAndGetWeather = (position) => {
     const lat = position.coords.latitude;
@@ -132,15 +177,29 @@ export default function TodayFilmPage() {
         </LoadingContainer>
       ) : (
         <Container>
-          <h2>현재 위치의 날씨에 따라 적합한 필름을 추천해 드려요!</h2>
+          <SelectOptionWrap>
+            <SelectOption
+              options={dayOptions}
+              // styles={customStyles}
+              defaultValue={dayOptions[0]}
+            />
+            <SelectOption
+              options={cityOptions}
+              // styles={customStyles}
+            />
+          </SelectOptionWrap>
           <WeatherBox>
             <FontAwesomeIcon icon={weatherIcon} />
           </WeatherBox>
-          <h3>
-            오늘의 {curWeather.name}의 날씨는 {curWeather.main}
-            <br />
-            {curWeather.weatherDesc} 환경에서는 감도가 높은 필름을 추천해드려요.
-          </h3>
+          <div className="text-box">
+            <p>현재 위치의 날씨에 따라 적합한 필름을 추천해 드려요!</p>
+            <h3>
+              오늘의 {curWeather.name}의 날씨는 {curWeather.main}
+              <br />
+              {curWeather.weatherDesc} 환경에서는 감도가 높은 필름을
+              추천해드려요.
+            </h3>
+          </div>
           {/* <h3 className="filmtitle">일출사진 : {curWeather.sunrise}</h3>
           <h3 className="filmtitle">일몰사진 : {curWeather.sunset}</h3> */}
           <Section>
@@ -176,6 +235,22 @@ const Container = styled.div`
   justify-content: center;
   text-align: center;
   align-items: center;
+
+  p {
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background-color: tomato;
+    border-radius: 20px;
+  }
+  div.text-box {
+    /* border: 1px solid red; */
+    /* padding: 50px 200px; */
+    /* margin: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 20px Gainsboro; */
+  }
 `;
 
 const Section = styled.section`
@@ -187,6 +262,18 @@ const Section = styled.section`
   margin-top: 3rem;
   margin-bottom: 10rem;
   flex-wrap: wrap;
+`;
+
+const SelectOptionWrap = styled.form`
+  /* border: 1px solid red; */
+  display: flex;
+`;
+
+const SelectOption = styled(Select)`
+  /* border: 1px solid red; */
+  /* padding: 10px; */
+  margin: 50px 5px 10px 5px;
+  width: 250px;
 `;
 
 const FilmBox = styled.div`
