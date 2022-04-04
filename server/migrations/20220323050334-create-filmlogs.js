@@ -20,6 +20,15 @@ module.exports = {
       contents: {
         type: Sequelize.TEXT
       },
+      location: {
+        type : Sequelize.STRING,
+      },
+      lat: {
+        type : Sequelize.DECIMAL(20,[17]),
+      },
+      log: {
+        type : Sequelize.DECIMAL(20,[17]),
+      },
       views: {
         type: Sequelize.INTEGER,
         defaultValue: 0

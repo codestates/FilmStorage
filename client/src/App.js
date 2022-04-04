@@ -31,6 +31,7 @@ function App() {
     nickname: "",
     profile: "",
   });
+  const [nowLocation,setNowLocation] = useState()
 
   useEffect(() => {
     isAuthenticated();

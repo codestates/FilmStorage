@@ -26,7 +26,7 @@ export default function TodayFilmPage() {
   // 필름 결과 관리
   const { Clouds, Clear, Rain, Snow } = TodayFilmResult;
   const [filmResult, setFilmResult] = useState(Clouds);
-
+  
   // * React Select * //
   // select를 두개 만들고, 첫번째 값이 변경될때마다 useEffect 실행해서
   // 두번째 셀렉트 목록을 다르게 출력하도록 구현
@@ -81,8 +81,6 @@ export default function TodayFilmPage() {
         withCredentials: false,
       })
       .then((res) => {
-        // console.log("지역", res.data.name);
-
         const { clouds, main, sys, weather, name } = res.data;
 
         const timeConvert = (time) => {
@@ -211,15 +209,15 @@ export default function TodayFilmPage() {
               );
             })}
           </Section>
-          <hideBox>
+          <HideBox>
             <WeekendFilmPage curName={curWeather} />
-          </hideBox>
+          </HideBox>
         </Container>
       )}
     </>
   );
 }
-const hideBox = styled.div`
+const HideBox = styled.div`
   display: none;
 `;
 

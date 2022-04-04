@@ -12,6 +12,7 @@ import { faSmog } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loader from "../components/Loader";
 import TodayFilmResult from "../components/todayfilm/TodayFilmResult";
+import MapContainer from "./map";
 
 export default function WeekendFilmPage() {
   // 날씨정보 상태 관리
@@ -25,6 +26,9 @@ export default function WeekendFilmPage() {
   // 필름 결과 관리
   const { Clouds, Clear, Rain, Snow } = TodayFilmResult;
   const [filmResult, setFilmResult] = useState(Clouds);
+
+  //현재위치 위도,경도 관리
+  const [curLocation, setCurLocation] = useState([]);
 
   // console.log(Clouds);
 
@@ -87,10 +91,18 @@ export default function WeekendFilmPage() {
             withCredentials: false,
           })
           .then((res) => {
-            console.log("현재지역명", res.data.name);
+
+            console.log(
+              "현재위치위도",
+              res.data.coord.lat,
+              "현재위치경도",
+              res.data.coord.lon
+            );
             const weatherName = res.data.name;
+            setCurLocation([res.data.coord.lat, res.data.coord.lon]);
             setCurWeather({ weatherMain, weatherDescription, weatherName });
             console.log("현재날씨정보", curWeather);
+            console.log("현재위치위도zz", curLocation);
           });
       });
   };
@@ -186,6 +198,9 @@ export default function WeekendFilmPage() {
                 </div>
               );
             })}
+            <HideBox>
+              <MapContainer curLocation={curLocation} />
+            </HideBox>
           </Section>
         </Container>
       )}
@@ -193,6 +208,9 @@ export default function WeekendFilmPage() {
   );
 }
 
+const HideBox = styled.div`
+  display: none;
+`;
 const Container = styled.div`
   /* border: 1px solid red; */
   width: 100%;
