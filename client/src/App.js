@@ -14,9 +14,9 @@ import FilmTalkView from "./pages/FilmTalkView";
 import UserInfoUpdatePage from "./pages/UserPage";
 import FilmTalkResigsterPage from "./pages/FilmTalkRegisterPage";
 import OauthPage from "./pages/OauthPage";
-import MapContainer from "./pages/map";
+import FilmSpotPage from "./pages/FilmSpotPage";
 import MyLogPage from "./pages/MyLogPage";
-import WeekendFilmPage from "./pages/weekendFilmPage";
+
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -31,7 +31,7 @@ function App() {
     nickname: "",
     profile: "",
   });
-  const [nowLocation,setNowLocation] = useState()
+  const [nowLocation, setNowLocation] = useState();
 
   useEffect(() => {
     isAuthenticated();
@@ -76,10 +76,7 @@ function App() {
       />
       <Switch>
         <Route exact path="/map">
-          <MapContainer />
-        </Route>
-        <Route exact path="/weekend">
-          <WeekendFilmPage />
+          <FilmSpotPage />
         </Route>
         <Route exact path="/">
           <MainPage />
