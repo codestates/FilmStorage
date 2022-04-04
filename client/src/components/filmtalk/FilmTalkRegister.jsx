@@ -102,7 +102,13 @@ export default function FilmTalkRegister({ post, setPost, userInfo }) {
     <>
       <ReactQuill
         ref={(ele) => (quillRef.current = ele)}
-        style={{ width: "100%", height: "350px" }}
+        style={{
+          width: "100%",
+          // height: "50vh",
+          // minHeight: "450px",
+          margin: "20px 0",
+          padding: "0px 0 40px 0",
+        }}
         theme="snow"
         placeholder={"내용을 입력해주세요"}
         name="content"

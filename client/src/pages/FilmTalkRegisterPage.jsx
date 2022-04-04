@@ -131,13 +131,20 @@ export default function FilmTalkRegisterPage({ userInfo }) {
               onChange={handleTitleChange}
             />
           </div>
-          <FilmTalkRegister post={post} setPost={setPost} userInfo={userInfo} />
-          <Button right onClick={() => history.goBack()}>
-            돌아가기
-          </Button>
-          <Button type="button" onClick={postRegister}>
-            작성완료
-          </Button>
+          <FilmTalkRegister
+            className="react-quill"
+            post={post}
+            setPost={setPost}
+            userInfo={userInfo}
+          />
+          <div className="button-box">
+            <Button right onClick={() => history.goBack()}>
+              돌아가기
+            </Button>
+            <Button type="button" onClick={postRegister}>
+              작성완료
+            </Button>
+          </div>
         </Article>
       </Container>
     </>
@@ -145,22 +152,29 @@ export default function FilmTalkRegisterPage({ userInfo }) {
 }
 const Container = styled.section`
   width: 100%;
-  height: 90vh;
+  /* height: 90vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 0;
+  padding: 80px 0;
   /* position: relative; */
+  /* border: 1px solid green; */
 `;
 
 const Article = styled.form`
   /* border: 1px solid green; */
   width: 60%;
-  position: absolute;
+  margin: 0px;
   top: 150px;
   div.category {
     /* border: 1px solid red; */
     display: flex;
+  }
+  div.button-box {
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: space-between;
+    /* padding: 10px; */
   }
 `;
 
@@ -168,7 +182,7 @@ const Article = styled.form`
 const CategorySelect = styled.select`
   border: 1px solid Gainsboro;
   padding: 10px 20px;
-  margin: 20px 5px 20px 0px;
+  margin-right: 5px;
   outline: none;
   cursor: pointer;
 `;
@@ -192,8 +206,8 @@ const TitleInput = styled.input`
   outline: none;
   width: 100%;
   padding: 15px;
-  margin: 20px 0;
-  margin-bottom: 20px;
+  /* margin: 20px 0; */
+  /* margin-bottom: 20px; */
   font-size: 14px;
   box-sizing: border-box;
   border: 1px solid Gainsboro;
@@ -210,9 +224,10 @@ const Button = styled.button`
   padding: 10px 30px;
   border: none;
   border-radius: 20px;
-  position: absolute;
-  right: ${(props) => (props.right ? "120px" : 0)};
-  bottom: -100px;
+  /* position: absolute; */
+  /* right: ${(props) => (props.right ? "120px" : "120px")}; */
+  
+  /* bottom: -100px; */
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
