@@ -28,7 +28,7 @@ export default function TodayFilmPage() {
   const successAndGetWeather = (position) => {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
-    const apiKey = "3ec77581799218a8534c31f41598f3f4";
+    const apiKey = process.env.REACT_APP_WEATHER_KEY;
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&lang=kr&appid=${apiKey}`;
 
     axios

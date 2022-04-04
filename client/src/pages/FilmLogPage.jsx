@@ -8,8 +8,9 @@ import SimpleSlider from "../components/filmlog/SimpleSlider";
 import filmdummydata from "../components/dummydata/filmdummydata";
 import FilmType from "../components/filmlog/FilmType";
 import Loader from "../components/Loader";
+import Guide from "../components/Guide";
 
-export default function FilmLogPage({ userInfo }) {
+export default function FilmLogPage({ userInfo, isLogin }) {
   // 작성창 띄우기
   const [isOpen, setIsOpen] = useState(false);
   // 이미지 스크롤시 로딩 표시 보이게 하기
@@ -23,6 +24,9 @@ export default function FilmLogPage({ userInfo }) {
 
   // 무한스크롤 마지막
   const [isClose, setIsClose] = useState(true);
+
+  // * 모달 창 상태 저장
+  const [modalClose, setModalClose] = useState(false);
 
   const dummydata = [...filmdummydata];
 
@@ -76,6 +80,20 @@ export default function FilmLogPage({ userInfo }) {
     return history.push("/filmlogdetail/");
   };
 
+  // * 글쓰기
+  const handleUpdate = () => {
+    if (!isLogin) {
+      setModalClose(true);
+    } else {
+      handleWriteRegister();
+    }
+  };
+
+  // * 모달 창 닫기
+  const handleModalClose = () => {
+    setModalClose(false);
+  };
+
   return (
     <>
       <section className="filmlog-first">
@@ -90,7 +108,10 @@ export default function FilmLogPage({ userInfo }) {
             <FilmType />
             <div className="nav-flex"></div>
             <div>
-              <Button onClick={handleWriteRegister}>사진등록</Button>
+              {modalClose ? (
+                <Guide handleModalClose={handleModalClose} />
+              ) : null}
+              <Button onClick={handleUpdate}>사진등록</Button>
               {isOpen ? (
                 <FilmLogWriting userInfo={userInfo} setIsOpen={setIsOpen} />
               ) : null}
