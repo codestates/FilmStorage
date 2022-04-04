@@ -14,6 +14,7 @@ export MAIL_PASSWORD=$(aws ssm get-parameters --region ap-northeast-2 --names MA
 export NODE_ENV=$(aws ssm get-parameters --region ap-northeast-2 --names NODE_ENV --query Parameters[0].Value | sed 's/"//g')
 export SERVER_DOMAIN=$(aws ssm get-parameters --region ap-northeast-2 --names SERVER_DOMAIN --query Parameters[0].Value | sed 's/"//g')
 
+npx sequelize-cli db:migrate
 
 authbind --deep pm2 start app.js
 
