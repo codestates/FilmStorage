@@ -57,7 +57,7 @@ export default function FilmLogDetailPage({ userInfo }) {
 
   // 삭제요청 핸들러 함수
   const handleDeleteData = () => {
-    if (window.confirm("진짜로 삭제 고고?")) {
+    if (window.confirm("삭제를 진행 하시겠습니까?")) {
       axios
         .delete(
           `${process.env.REACT_APP_API_URL}/filmlogs/deletion/${filmlog_id}`

@@ -4,6 +4,7 @@ import FilmType from "./FilmType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import FilmLogLocation from "./FilmLogLocation";
 
 export default function FilmLogRevison({ userInfo, setIsOpen, photoInfo }) {
   // 수정하는 페이지
@@ -11,9 +12,26 @@ export default function FilmLogRevison({ userInfo, setIsOpen, photoInfo }) {
     photo: {},
     type: "",
     contents: "",
+    location: "",
+    lat: "",
+    log: "",
   });
+  // 위치 정보 상태 관리
+  const [inputText, setInputText] = useState("");
+  const [place, setPlace] = useState("");
 
-  // console.log("사진정보 확인", photoInfo.photo);
+  // 선택된 장소
+  const [clickLocation, setClickLocation] = useState({});
+
+  const onChange = (e) => {
+    setInputText(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setPlace(inputText);
+    setInputText("");
+  };
 
   // 이미지 미리보는 상태
   const [files, setFiles] = useState(photoInfo.photo);
@@ -45,6 +63,9 @@ export default function FilmLogRevison({ userInfo, setIsOpen, photoInfo }) {
     const postData = {
       filmtype: photoInfo.type,
       contents: myPhotoInfo.contents,
+      location: myPhotoInfo.Location,
+      lat: myPhotoInfo.Lat,
+      log: myPhotoInfo.Log,
     };
     axios
       .post(
@@ -146,6 +167,25 @@ export default function FilmLogRevison({ userInfo, setIsOpen, photoInfo }) {
                   onChange={handleContents}
                 ></textarea>
               </Textarea>
+              <LocationSearch>
+                <div className="searchTitle">장소선택</div>
+                <Search>
+                  <form onSubmit={handleSubmit}>
+                    <input
+                      placeholder="Search Place..."
+                      onChange={onChange}
+                      value={inputText}
+                    />
+                  </form>
+                </Search>
+                <ChoiceBox>{clickLocation.Location}</ChoiceBox>
+              </LocationSearch>
+              <LocationArea>
+                <FilmLogLocation
+                  place={place}
+                  setClickLocation={setClickLocation}
+                />
+              </LocationArea>
             </Content>
           </ModalImageBox>
         </ModalBox>
@@ -314,4 +354,39 @@ const UserImg = styled.img`
   border: 1px solid #eee;
   background: #eee;
   object-fit: cover;
+`;
+
+const LocationArea = styled.div`
+  width: 30vw;
+  height: 100%;
+  margin: 1rem;
+  margin-top: 0;
+`;
+
+const LocationSearch = styled.div`
+  width: 30vw;
+  height: 30px;
+  display: flex;
+  /* justify-content: space-between; */
+  margin: 1rem;
+  margin-bottom: 0.5rem;
+  > div.searchTitle {
+    width: 5vw;
+  }
+`;
+
+const Search = styled.div`
+  /* border: 1px solid green; */
+  /* width: 100%; */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ChoiceBox = styled.div`
+  border: 1px solid green;
+  width: 200px;
+  margin-left: 1rem;
 `;

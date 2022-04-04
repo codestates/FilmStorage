@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Select from "react-select";
-// import filmData from "../dummydata/filmtypedummydata";
 
 const options = [
   { value: "코닥", label: "kodak" },
@@ -19,54 +18,51 @@ const kodak = [
   { value: "울트라맥스 400", label: "울트라맥스 400" },
   { value: "프로이미지 100", label: "프로이미지 100" },
   { value: "엑타 100", label: "엑타 100" },
-  { value: "vanilla", label: "포트라 160" },
-  { value: "vanilla", label: "포트라 400" },
-  { value: "vanilla", label: "티맥스 100" },
-  { value: "vanilla", label: "티맥스 400" },
+  { value: "포트라 160", label: "포트라 160" },
+  { value: "포트라 400", label: "포트라 400" },
+  { value: "티맥스 100", label: "티맥스 100" },
+  { value: "티맥스 400", label: "티맥스 400" },
 ];
 
 const fuji = [
-  { value: "chocolate", label: "후지 C200" },
-  { value: "strawberry", label: "후지 SUPERIA 400" },
-  { value: "vanilla", label: "후지 PRO 400H" },
+  { value: "후지 C200", label: "후지 C200" },
+  { value: "후지 SUPERIA 400", label: "후지 SUPERIA 400" },
+  { value: "후지 PRO 400H", label: "후지 PRO 400H" },
 ];
 
 const agfa = [
-  { value: "chocolate", label: "APX 100" },
-  { value: "strawberry", label: "APX 400" },
+  { value: "APX 100", label: "APX 100" },
+  { value: "APX 400", label: "APX 400" },
 ];
 
 const lomography = [
-  { value: "chocolate", label: "Earl Grey B&W 100" },
-  { value: "strawberry", label: "Lady Grey B&W 400" },
-  { value: "vanilla", label: "메트로폴리스" },
-  { value: "strawberry", label: "컬러네거티브 ISO 400" },
-  { value: "vanilla", label: "컬러네거티브 ISO 800" },
+  { value: "Earl Grey B&W 100", label: "Earl Grey B&W 100" },
+  { value: "Lady Grey B&W 400", label: "Lady Grey B&W 400" },
+  { value: "메트로폴리스", label: "메트로폴리스" },
+  { value: "컬러네거티브 ISO 400", label: "컬러네거티브 ISO 400" },
+  { value: "컬러네거티브 ISO 800", label: "컬러네거티브 ISO 800" },
 ];
 
 const ilford = [
-  { value: "chocolate", label: "켄트미어 100" },
-  { value: "strawberry", label: "켄트미어 400" },
-  { value: "vanilla", label: "XP2 400" },
-  { value: "strawberry", label: "델타 100 프로페셔널" },
-  { value: "vanilla", label: "델타 400 프로페셔널" },
+  { value: "켄트미어 100", label: "켄트미어 100" },
+  { value: "켄트미어 400", label: "켄트미어 400" },
+  { value: "XP2 400", label: "XP2 400" },
+  { value: "델타 100 프로페셔널", label: "델타 100 프로페셔널" },
+  { value: "델타 400 프로페셔널", label: "델타 400 프로페셔널" },
 ];
 
 const rollei = [
-  { value: "chocolate", label: "슈퍼팬 200" },
-  { value: "strawberry", label: "RPX 25" },
-  { value: "vanilla", label: "RPX 100" },
-  { value: "strawberry", label: "RPX 400" },
-  { value: "vanilla", label: "RPX 400" },
+  { value: "슈퍼팬 200", label: "슈퍼팬 200" },
+  { value: "RPX 25", label: "RPX 25" },
+  { value: "RPX 100", label: "RPX 100" },
+  { value: "RPX 400", label: "RPX 400" },
 ];
 
 const etc = [{ value: "chocolate", label: "기타" }];
 
 export default function FilmType({ photoInfo, setPhotoInfo }) {
   const handleType = (e) => {
-    console.log("선택된 값", e);
     setPhotoInfo({ ...photoInfo, type: e.label });
-    console.log("선택된 값 상태변화 확인", photoInfo);
   };
   const [selectedOption, setSelectedOption] = useState(null);
 
