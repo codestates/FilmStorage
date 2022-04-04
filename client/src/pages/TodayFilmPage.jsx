@@ -13,8 +13,7 @@ import { faSmog } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loader from "../components/Loader";
 import TodayFilmResult from "../components/todayfilm/TodayFilmResult";
-import WeekendFilmPage from "./weekendFilmPage";
-import { faBluetooth } from "@fortawesome/free-brands-svg-icons";
+import WeekendFilm from "../components/todayfilm/WeekendFilm";
 
 export default function TodayFilmPage() {
   // 날씨정보 상태 관리
@@ -210,7 +209,7 @@ export default function TodayFilmPage() {
             })}
           </Section>
           <HideBox>
-            <WeekendFilmPage curName={curWeather} />
+            <WeekendFilm curName={curWeather} />
           </HideBox>
         </Container>
       )}

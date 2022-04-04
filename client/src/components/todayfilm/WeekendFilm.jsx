@@ -10,11 +10,11 @@ import { faUmbrella } from "@fortawesome/free-solid-svg-icons";
 import { faSnowflake } from "@fortawesome/free-solid-svg-icons";
 import { faSmog } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import Loader from "../components/Loader";
-import TodayFilmResult from "../components/todayfilm/TodayFilmResult";
-import MapContainer from "./map";
+import Loader from "../Loader";
+import TodayFilmResult from "./TodayFilmResult";
+import FilmSpotPage from "../../pages/FilmSpotPage";
 
-export default function WeekendFilmPage() {
+export default function WeekendFilm() {
   // 날씨정보 상태 관리
   const [curWeather, setCurWeather] = useState({});
 
@@ -199,7 +199,7 @@ export default function WeekendFilmPage() {
               );
             })}
             <HideBox>
-              <MapContainer curLocation={curLocation} />
+              <FilmSpotPage curLocation={curLocation} />
             </HideBox>
           </Section>
         </Container>

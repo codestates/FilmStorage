@@ -101,9 +101,6 @@ function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
           <Link to="/filmtype">
             <NavListItem>필름 취향 찾기</NavListItem>
           </Link>
-          {/* <Link to="/weekend">
-            <NavListItem>주말의 필름</NavListItem>
-          </Link> */}
           <Link to="/todayfilm">
             <NavListItem>오늘의 필름</NavListItem>
           </Link>
