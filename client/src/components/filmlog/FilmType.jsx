@@ -64,7 +64,9 @@ const etc = [{ value: "chocolate", label: "기타" }];
 
 export default function FilmType({ photoInfo, setPhotoInfo }) {
   const handleType = (e) => {
-    setPhotoInfo({ ...photoInfo, type: e.target.value });
+    console.log("선택된 값", e);
+    setPhotoInfo({ ...photoInfo, type: e.label });
+    console.log("선택된 값 상태변화 확인", photoInfo);
   };
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -105,7 +107,11 @@ export default function FilmType({ photoInfo, setPhotoInfo }) {
         </Widthbox>
         <Widthbox2>
           <Marginbox>
-            <Select defaultValue={selectedOption2} options={selectedOption2} />
+            <Select
+              defaultValue={selectedOption2}
+              options={selectedOption2}
+              onChange={handleType}
+            />
           </Marginbox>
         </Widthbox2>
       </Selectlist>
