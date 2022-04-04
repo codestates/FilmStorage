@@ -28,6 +28,6 @@ export default {
     "델타 100 프로페셔널",
     "델타 400 프로페셔널",
   ],
-  rollei: ["슈퍼팬 200", "RPX 25", "RPX 100", "RPX 400", "RETRO 80S"],
+  rollei: ["슈퍼팬 200", "RPX 25", "RPX 100", "RPX 400", "RPX 400"],
   etc: ["기타"],
 };
