@@ -1,4 +1,4 @@
-const { filmtalk_comments } = require("../../models");
+const { filmtalk_comments, users } = require("../../models");
 
 module.exports = {
   get: async (req, res) => {
@@ -9,6 +9,7 @@ module.exports = {
         where: {
           filmtalk_id,
         },
+        include: [{ model: users }],
         order: [
           ["createdAt", "DESC"],
           ["id", "DESC"],
@@ -19,11 +20,23 @@ module.exports = {
         res.status(404).send({
           message: "Failed to load information",
         });
+      } else {
+        const organizedInfo = commentsInfo.map((info) => {
+          const { contents, createdAt, id, user_id } = info;
+          return {
+            contents,
+            createdAt,
+            id,
+            user_id,
+            nickname: info.user.nickname,
+          };
+        });
+
+        res.status(200).json({
+          message: "ok",
+          data: organizedInfo,
+        });
       }
-      res.status(200).json({
-        message: "ok",
-        data: commentsInfo,
-      });
     } catch (err) {
       console.error(err);
       res.status(500).send({
