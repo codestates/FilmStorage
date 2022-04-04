@@ -1,41 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { useHistory } from "react-router-dom";
 import ReplyList from "../components/reply/ReplyList";
 import FilmLogRevison from "../components/filmlog/FilmLogRevison";
-import { initialState } from "../assets/state";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 export default function FilmLogDetailPage({ userInfo }) {
   const history = useHistory();
-
   const [isOpen, setIsOpen] = useState(false);
-
   // 사진 정보 상태 관리
   const [photoInfo, setPhotoInfo] = useState({});
-
   // 삭제 버튼 상태 관리
-  const [isDeleteButton, setIsDeleteButton] = useState(false);
-
-  useEffect(() => {
-    getDetailInfo();
-  }, []);
-
-  useEffect(() => {
-    if (userInfo.id === photoInfo.user_id) {
-      setIsDeleteButton(true);
-    } else {
-      setIsDeleteButton(false);
-    }
-  }, [photoInfo]);
-
-  // 상세페이지 해당 파람스
+  const [comment, setComment] = useState("");
+  const [filmLogComments, setFilmLogComments] = useState([]);
   const url = window.location.href;
   const filmlog_id = url.split("filmlogdetail/")[1];
 
-  const getDetailInfo = () => {
+  const getDetailInfo = useCallback(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/filmlogs/view/${filmlog_id}`, {
         headers: {
@@ -45,9 +28,28 @@ export default function FilmLogDetailPage({ userInfo }) {
       .then((res) => {
         setPhotoInfo(res.data.data);
       });
-  };
+  }, [filmlog_id]);
 
-  console.log(photoInfo);
+  const getFLCommentsInfo = useCallback(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/filmlog_comments/total/${filmlog_id}`,
+        {
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        setFilmLogComments(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, [filmlog_id]);
+
+  useEffect(() => {
+    getDetailInfo();
+    getFLCommentsInfo();
+  }, [getDetailInfo, getFLCommentsInfo]);
 
   const handleWriteRegister = () => {
     setIsOpen(!isOpen);
@@ -69,8 +71,26 @@ export default function FilmLogDetailPage({ userInfo }) {
     }
   };
 
-  // 유저정보에 따른 삭제버튼 조건부 랜더링
-  // const handleDeleteButton = () => {};
+  const postComment = () => {
+    if (comment === "") {
+      alert("댓글을 입력해주세요");
+    } else {
+      axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/filmlog_comments/register/${userInfo.id}/${filmlog_id}`,
+          {
+            contents: comment,
+          },
+          {
+            headers: {
+              "Content-type": "application/json",
+            },
+          }
+        )
+        .then(() => setComment(""))
+        .catch((err) => console.log(err));
+    }
+  };
 
   return (
     <Container>
@@ -82,7 +102,7 @@ export default function FilmLogDetailPage({ userInfo }) {
             </Button>
           </NavDiv>
           <Navflex />
-          {isDeleteButton ? (
+          {userInfo.id === photoInfo.user_id ? (
             <>
               <NavDiv>
                 <Button onClick={handleWriteRegister}>수정하기</Button>
@@ -117,9 +137,15 @@ export default function FilmLogDetailPage({ userInfo }) {
         </InfoBox>
         <TextBox>{photoInfo.contents}</TextBox>
         <ReplyForm>
-          <ReplyList replyList={initialState.reply} />
-          <ReplyInput></ReplyInput>
-          <Button rigth>댓글 쓰기</Button>
+          <ReplyList
+            filmLogComments={filmLogComments}
+            userFLInfo={userInfo}
+            getFLCommentsInfo={getFLCommentsInfo}
+          />
+          <ReplyInput onChange={(e) => setComment(e.target.value)}></ReplyInput>
+          <Button rigth onClick={postComment}>
+            댓글 쓰기
+          </Button>
         </ReplyForm>
       </Article>
     </Container>

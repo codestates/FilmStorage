@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Loader from "../Loader";
 
 const Tr = styled.tr`
   /* border: 3px solid red; */
@@ -19,18 +20,28 @@ const Td = styled.td`
 
 function FilmTalkTotalList({ post, handleClickView }) {
   const { id, category, title, nickname, createdAt, views } = post;
+
+  const convertDate = () => {
+    if (createdAt) {
+      return createdAt.split(" ")[0];
+    }
+  };
   return (
     <>
-      <Tr key={id}>
-        <Td>{id}</Td>
-        <Td>{category}</Td>
-        <Td pointer left onClick={() => handleClickView(id)}>
-          {title}
-        </Td>
-        <Td>{nickname}</Td>
-        <Td>{createdAt}</Td>
-        <Td>{views}</Td>
-      </Tr>
+      {post ? (
+        <Tr key={id}>
+          <Td>{id}</Td>
+          <Td>{category}</Td>
+          <Td pointer left onClick={() => handleClickView(id)}>
+            {title}
+          </Td>
+          <Td>{nickname}</Td>
+          <Td>{convertDate()}</Td>
+          <Td>{views}</Td>
+        </Tr>
+      ) : (
+        <Loader />
+      )}
     </>
   );
 }
