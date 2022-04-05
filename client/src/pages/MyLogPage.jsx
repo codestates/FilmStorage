@@ -1,6 +1,6 @@
 /* TODO : 필름로그 페이지 만들기. */
-import React, { useState, useEffect } from "react";
-import { useHistory, Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import "./FilmLogPage.css";
 import styled, { css } from "styled-components";
 import FilmLogWriting from "../components/filmlog/FilmLogWriting";
@@ -13,80 +13,64 @@ export default function FilmLogPage({ userInfo }) {
   const [isOpen, setIsOpen] = useState(false);
   // 이미지 스크롤시 로딩 표시 보이게 하기
   const [isLoaded, setIsLoaded] = useState(false);
-
-  // 스크롤 타겟 설정
-  const [target, setTarget] = useState(null);
-
+  // 로딩상태
+  const [isClose, setIsClose] = useState(true);
   // 이미지 상태 설정
   const [itemLists, setItemLists] = useState([]);
 
-  // 로딩상태
-  const [isClose, setIsClose] = useState(true);
+  const [page, setPage] = useState(1);
+  const observer = useRef();
 
-  useEffect(() => {
-    getMylogData();
-  }, []);
-
-  const getMylogData = () => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/filmlogs/mylog/${userInfo.id}`, {
-        headers: {
-          accept: "application/json",
-        },
-      })
-      .then((res) => {
-        setItemLists(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const getMoreItem = async () => {
-    // 8장씩 스크롤 되도록 하기
-    let curlist = itemLists.splice(0, 8);
-    setIsLoaded(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setItemLists((itemLists) => itemLists.concat(curlist));
-    setIsLoaded(false);
-    if (itemLists.length === 0) {
-      CloseScroll();
+  const getMylogData = async (page) => {
+    const offset = page * 8 - 8;
+    if (userInfo.id) {
+      setIsLoaded(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/filmlogs/mylog/${userInfo.id}?offset=${offset}&limit=8`,
+          {
+            headers: {
+              accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.message === "end") {
+            setIsClose(false);
+          }
+          setItemLists((prev) => [...prev, ...res.data.data]);
+          setIsLoaded(false);
+        })
+        .catch((err) => {
+          setIsClose(false);
+          console.log(err);
+        });
     }
   };
 
-  // 타겟 찾기
-  const onIntersect = async ([entry], observer) => {
-    if (entry.isIntersecting && !isLoaded) {
-      observer.unobserve(entry.target);
-      await getMoreItem();
-      observer.observe(entry.target);
+  useEffect(() => page !== 0 && getMylogData(page), [page]);
+
+  const onIntersect = (entries) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      setPage((prev) => prev + 1);
     }
   };
 
   useEffect(() => {
-    const option = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 1,
-    };
-    let observer;
-    if (target) {
-      observer = new IntersectionObserver(onIntersect, option);
-      observer.observe(target);
-    }
-    return () => observer && observer.disconnect();
-  }, [target]);
+    if (!observer.current) return;
 
-  const CloseScroll = () => {
-    setIsClose(false);
-  };
+    const io = new IntersectionObserver(onIntersect, { threshold: 0.5 });
+    io.observe(observer.current);
+
+    return () => io && io.disconnect();
+  }, [observer]);
 
   // 사진 등록 페이지 핸들러
   const handleWriteRegister = () => {
     setIsOpen(!isOpen);
   };
-
-  const history = useHistory();
 
   return (
     <>
@@ -111,7 +95,7 @@ export default function FilmLogPage({ userInfo }) {
             ))}
           </div>
           {isClose ? (
-            <div ref={setTarget} className="Target-Element">
+            <div ref={observer} className="Target-Element">
               {isLoaded && <Loader />}
             </div>
           ) : null}

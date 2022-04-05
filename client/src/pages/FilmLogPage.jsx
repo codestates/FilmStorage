@@ -1,73 +1,91 @@
 /* TODO : 필름로그 페이지 만들기. */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import "./FilmLogPage.css";
 import styled, { css } from "styled-components";
 import FilmLogWriting from "../components/filmlog/FilmLogWriting";
 import SimpleSlider from "../components/filmlog/SimpleSlider";
-import filmdummydata from "../components/dummydata/filmdummydata";
 import FilmType from "../components/filmlog/FilmType";
 import Loader from "../components/Loader";
 import Guide from "../components/Guide";
+import axios from "axios";
 
 export default function FilmLogPage({ userInfo, isLogin }) {
-  // 작성창 띄우기
-  const [isOpen, setIsOpen] = useState(false);
   // 이미지 스크롤시 로딩 표시 보이게 하기
   const [isLoaded, setIsLoaded] = useState(false);
-
-  // 스크롤 타겟 설정
-  const [target, setTarget] = useState(null);
-
-  // 이미지 상태 설정
+  // 무한스크롤 이미지리스트
   const [itemLists, setItemLists] = useState([]);
-
   // 무한스크롤 마지막
   const [isClose, setIsClose] = useState(true);
-
-  // * 모달 창 상태 저장
+  // 무한스크롤 페이지 및 참조 지정
+  const [page, setPage] = useState(1);
+  const observer = useRef();
+  // Top3
+  const [topThree, setTopThree] = useState([]);
+  // 작성창 띄우기
+  const [isOpen, setIsOpen] = useState(false);
+  // 모달 창 상태 저장
   const [modalClose, setModalClose] = useState(false);
 
-  const dummydata = [...filmdummydata];
-
-  const getMoreItem = async () => {
-    // 8장씩 스크롤 되도록 하기
-    let curlist = dummydata.splice(0, 8);
-    setIsLoaded(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setItemLists((itemLists) => itemLists.concat(curlist));
-    setIsLoaded(false);
-    if (dummydata.length === 0) {
-      CloseScroll();
-    }
+  const getTopThree = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/filmlogs/topthree`, {
+        headers: {
+          accept: "application/json",
+        },
+      })
+      .then((res) => {
+        setTopThree(() => [...res.data.data]);
+      })
+      .catch((err) => console.log(err));
   };
 
-  // 타겟 찾기
-  const onIntersect = async ([entry], observer) => {
-    if (entry.isIntersecting && !isLoaded) {
-      observer.unobserve(entry.target);
-      await getMoreItem();
-      observer.observe(entry.target);
+  useEffect(() => {
+    getTopThree();
+  }, []);
+
+  const getFilmlogData = async (page) => {
+    const offset = page * 8 - 8;
+    setIsLoaded(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/filmlogs/total?offset=${offset}&limit=8`,
+        {
+          headers: {
+            accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        setItemLists((prev) => [...prev, ...res.data.data]);
+        setIsLoaded(false);
+        if (res.data.message === "end") {
+          setIsClose(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => page !== 0 && getFilmlogData(page), [page]);
+
+  const onIntersect = (entries) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      setPage((prev) => prev + 1);
     }
   };
 
   useEffect(() => {
-    const option = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 1,
-    };
-    let observer;
-    if (target) {
-      observer = new IntersectionObserver(onIntersect, option);
-      observer.observe(target);
-    }
-    return () => observer && observer.disconnect();
-  }, [target]);
+    if (!observer.current) return;
 
-  const CloseScroll = () => {
-    setIsClose(false);
-  };
+    const io = new IntersectionObserver(onIntersect, { threshold: 0.5 });
+    io.observe(observer.current);
+
+    return () => io && io.disconnect();
+  }, [observer]);
 
   // 사진 등록 페이지 핸들러
   const handleWriteRegister = () => {
@@ -76,8 +94,8 @@ export default function FilmLogPage({ userInfo, isLogin }) {
 
   const history = useHistory();
 
-  const handlePictureDetail = () => {
-    return history.push("/filmlogdetail/");
+  const handlePictureDetail = (id) => {
+    return history.push(`/filmlogdetail/${id}`);
   };
 
   // * 글쓰기
@@ -98,7 +116,7 @@ export default function FilmLogPage({ userInfo, isLogin }) {
     <>
       <section className="filmlog-first">
         <div className="filmlog-first-img">
-          <SimpleSlider />
+          <SimpleSlider topThree={topThree} />
         </div>
       </section>
       <article className="filmlog-second">
@@ -120,16 +138,16 @@ export default function FilmLogPage({ userInfo, isLogin }) {
           <div className="filmlog-second-content">
             {itemLists.map((el, key) => (
               <FilmLogImg
-                key={key}
-                src={el}
+                key={el.id}
+                src={el.photo}
                 onClick={() => {
-                  handlePictureDetail();
+                  handlePictureDetail(el.id);
                 }}
               />
             ))}
           </div>
           {isClose ? (
-            <div ref={setTarget} className="Target-Element">
+            <div ref={observer} className="Target-Element">
               {isLoaded && <Loader />}
             </div>
           ) : null}
