@@ -13,43 +13,41 @@ import { faSmog } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loader from "../components/Loader";
 import TodayFilmResult from "../components/todayfilm/TodayFilmResult";
-import WeekendFilm from "../components/todayfilm/WeekendFilm";
 
 export default function TodayFilmPage() {
-  // 날씨정보 상태 관리
+  // * 날씨정보 상태 관리
   const [curWeather, setCurWeather] = useState({});
-  // 날씨아이콘 상태 관리
+  // * 날씨아이콘 상태 관리
   const [weatherIcon, setWeatherIcon] = useState(faCloud);
-  // 로딩 관리
+  // * 로딩 관리
   const [isLoaded, setIsLoaded] = useState(true);
-  // 필름 결과 관리
+  // * 필름 결과 관리
   const { Clouds, Clear, Rain, Snow } = TodayFilmResult;
   const [filmResult, setFilmResult] = useState(Clouds);
+  //* 오늘,주말 선택 관리
+  const [selectDay, setSelectDay] = useState("오늘");
 
-  // Day Option 저장
+  // * Day Option 저장
   const [dayOption, setDayOption] = useState("오늘의 날씨");
-  // City Option 저장
+  // * City Option 저장
   const [cityOption, setCityOption] = useState("현재 위치");
 
   const [selectLat, setSelectLat] = useState(""); // 위도 저장
-  const [selectLng, setSelectLng] = useState(""); // 경도 저장
+  const [selectLon, setSelectLon] = useState(""); // 경도 저장
 
-  console.log(
-    "데이옵션 : ",
-    dayOption,
-    "시티옵션 : ",
-    cityOption,
-    "위도 :",
-    selectLat,
-    "경도 :",
-    selectLng
-  );
+  // console.log( "데이옵션 : ", dayOption, "시티옵션 : ", cityOption, "위도 :", selectLat, "경도 :", selectLon );
+
   // * React Select Option
   // select를 두개 만들고, 첫번째 값이 변경될때마다 useEffect 실행해서
   // 두번째 셀렉트 목록을 다르게 출력하도록 구현
   const dayOptions = [
-    { value: "오늘의 날씨", label: "오늘의 날씨" },
-    { value: "주말의 날씨", label: "주말의 날씨" },
+    { value: "오늘의 날씨", label: "오늘의 날씨", today: "오늘" },
+    {
+      value: "주말의 날씨",
+      label: "주말의 날씨",
+      sat: "토요일",
+      sun: "일요일",
+    },
   ];
   const cityOptions = [
     { value: "현재 위치", label: "현재 위치" },
@@ -60,62 +58,136 @@ export default function TodayFilmPage() {
     { value: "청주", label: "청주", lat: "36.64389", lng: "127.48944" },
     { value: "대구", label: "대구", lat: "35.87222", lng: "128.60250" },
     { value: "전주", label: "전주", lat: "35.82500", lng: "127.15000" },
-    { value: "광주", label: "광주", lat: "35.15972", lng: "126.85306" },
+    { value: "광주", label: "광주", lat: "35.16667", lng: "126.91667" },
     { value: "울산", label: "울산", lat: "35.53889", lng: "129.31667" },
     { value: "부산", label: "부산", lat: "35.17944", lng: "129.07556" },
     { value: "제주", label: "제주", lat: "33.50000", lng: "126.51667" },
     { value: "거제", label: "거제", lat: "34.88333", lng: "128.62500" },
   ];
 
-  // * 현재 위치를 기준으로 날씨 정보 호출
+  // * 현재 요일을 기준으로 주말 인덱스 구하는 함수
+  // 날짜를 받아서 Saturday 함수를 이용해 토요일,일요일만 출력
+  let userDate = new Date().getDay();
+  let dayNum;
+
+  function Saturday(userDate) {
+    // 날씨 api에 사용될 숫자
+
+    //반복문으로 정리
+    for (let i = 1; i <= 5; i++) {
+      //오늘이 토요일인 경우 그대로 리턴
+      if (userDate === 6) {
+        dayNum = 0;
+      }
+      //오늘이 일요일인 경우 그대로 리턴
+      if (userDate === 0) {
+        dayNum = 0;
+      }
+      //평일인 경우 토요일로 설정
+      if (userDate === i) {
+        dayNum = 6 - i;
+      }
+    }
+    return dayNum;
+  }
+
+  // * 현재 위치, 선택 위치를 기준으로 날씨 정보 호출
   const successAndGetWeather = (position) => {
-    // 셀렉 정보가 오늘 + 현재 위치 일 경우
     let url;
     const apiKey = process.env.REACT_APP_WEATHER_KEY;
+    // 현재 위치 좌표 저장
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
 
-    if(cityOption === "현재 위치"){
-      const lat = position.coords.latitude;
-      const log = position.coords.longitude;
-      url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${log}&units=metric&lang=kr&appid=${apiKey}`;
-    } else {
-      // 현재 위치가 아닐 때
-      url = `https://api.openweathermap.org/data/2.5/weather?lat=${selectLat}&lon=${selectLng}&units=metric&lang=kr&appid=${apiKey}`;
+    // * 오늘의 날씨 선택 시
+    if (dayOption === "오늘의 날씨") {
+      setSelectDay("오늘");
+
+      if (cityOption === "현재 위치") {
+        // * 오늘의 날씨 + 현재 위치
+        url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=kr&appid=${apiKey}`;
+        setSelectDay("오늘");
+      } else {
+        // * 오늘의 날씨 + 선택 위치
+        url = `https://api.openweathermap.org/data/2.5/weather?lat=${selectLat}&lon=${selectLon}&units=metric&lang=kr&appid=${apiKey}`;
+      }
+
+      axios
+        .get(url, {
+          withCredentials: false,
+        })
+        .then((res) => {
+          const { clouds, main, weather, name } = res.data;
+          console.log("받아오는 데이터 : ", res.data);
+
+          // * 날씨 전체 정보 저장
+          let weatherInfo = {
+            clouds: clouds.all, // %
+            temp: main.temp,
+            weatherIcon: weather[0].icon,
+            weatherDesc: weather[0].description,
+            name: name,
+            main: weather[0].main,
+          };
+          console.log("받아온 데이터확이니니니ㅣ닌이ㅣ이니인", weatherInfo);
+          setCurWeather(weatherInfo);
+          // console.log("현ㄹ재 위치이이이이", curWeather);
+        });
     }
-    // console.log("위도오오오오오오!!!!", selectLat);
-    // console.log("경동경도경도경도오오오!!!!", selectLng);
-    axios
-      .get(url, {
-        withCredentials: false,
-      })
-      .then((res) => {
-        const { clouds, main, sys, weather, name } = res.data;
 
-        // split를 이용해서 시간(숫자만) 출력
-        const timeConvert = (time) => {
-          return `${time.split(" ")[0]} ${time.split(" ")[1].split(":")[0]}시 ${
-            time.split(" ")[1].split(":")[1]
-          }분`;
-        };
+    // * 주말의 날씨 선택
+    if (dayOption === "주말의 날씨") {
+      setSelectDay("이번 주 주말");
+      let curUrl;
+      if (cityOption === "현재 위치") {
+        // * 주말의 날씨 + 현재 위치
+        url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=kr&appid=${apiKey}`;
+        curUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=kr&appid=${apiKey}`;
+      } else {
+        // * 주말의 날씨 + 선택 위치
+        url = `https://api.openweathermap.org/data/2.5/onecall?lat=${selectLat}&lon=${selectLon}&lang=kr&appid=${apiKey}`;
+        curUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${selectLat}&lon=${selectLon}&units=metric&lang=kr&appid=${apiKey}`;
+      }
 
-        // 일몰,일출 시간 저장
-        const sunriseTime = new Date(sys.sunrise * 1000).toLocaleTimeString();
-        const sunsetTime = new Date(sys.sunset * 1000).toLocaleTimeString();
-        // console.log(timeConvert(sunriseTime))
-        // 날씨 전체 정보 저장
-        let weatherInfo = {
-          clouds: clouds.all, // %
-          temp: main.temp,
-          sunrise: timeConvert(sunriseTime), // 시간
-          sunset: timeConvert(sunsetTime),
-          weatherIcon: weather[0].icon,
-          weatherDesc: weather[0].description,
-          name: name,
-          main: weather[0].main,
-        };
+      axios
+        .get(url, {
+          withCredentials: false,
+        })
+        .then((res) => {
+          console.log("받아온 데이터", res.data);
+          // 주말(dayNum)의 날씨 main 정보 저장 => Clear
+          const weatherMain = res.data.daily[dayNum].weather[0].main;
+          // 주말(dayNum)의 날씨 description 정보 저장 => 맑음
+          const weatherDescription =
+            res.data.daily[dayNum].weather[0].description;
 
-        setCurWeather(weatherInfo);
-        // console.log("현ㄹ재 위치이이이이", curWeather);
-      });
+          // setCurWeather({weatherMain,weatherDescription})
+          console.log('주말날씨',weatherMain,'주말날씨묘사',weatherDescription)
+
+          axios
+            .get(curUrl, {
+              withCredentials: false,
+            })
+            .then((res) => {
+              console.log("받아오는 데이터 : ", res.data);
+              // 현재 위치 이름 저장
+              const weatherName = res.data.name;
+
+              // * 날씨 전체 정보 저장
+              let weatherInfo = {
+                weatherDesc: weatherDescription,
+                name: weatherName,
+                main: weatherMain,
+              };
+              // 현재 위치 위도, 경도 저장
+              setSelectLat(res.data.coord.lat);
+              setSelectLon(res.data.coord.lon);
+              setCurWeather(weatherInfo);
+              // console.log("현재날씨정보", curWeather);
+              // console.log("현재위치위도zz", curLocation);
+            });
+        });
+    }
   };
 
   const error = (err) => {
@@ -129,11 +201,18 @@ export default function TodayFilmPage() {
   };
 
   useEffect(() => {
+    Saturday(userDate);
     getWeatherOfCurLocation();
     handleLoading();
-  }, [selectLat, selectLng]);
+    console.log(
+      "curWeater 정보 변경 확인",
+      curWeather.name,
+      curWeather.main,
+      curWeather.weatherDesc
+    );
+  }, [selectLat, selectLon, dayOption]);
 
-  // 날씨에 따른 아이콘 변경 함수
+  // * 날씨에 따른 아이콘 변경 함수
   const handleIcon = (info) => {
     if (info === "Clouds") {
       setWeatherIcon(faCloud);
@@ -162,7 +241,7 @@ export default function TodayFilmPage() {
     }
   };
 
-  // 로딩 페이지 구현
+  // * 로딩 페이지 구현
   const handleLoading = () => {
     let secondTimer = setTimeout(() => setIsLoaded(false), 1200);
     return () => {
@@ -193,7 +272,7 @@ export default function TodayFilmPage() {
               onChange={(e) => {
                 setCityOption(e.value);
                 setSelectLat(e.lat);
-                setSelectLng(e.lng);
+                setSelectLon(e.lng);
               }}
               defaultValue={cityOptions[0]}
             />
@@ -204,7 +283,7 @@ export default function TodayFilmPage() {
           <div className="text-box">
             <p>현재 위치의 날씨에 따라 적합한 필름을 추천해 드려요!</p>
             <h3>
-              오늘의 {curWeather.name}의 날씨는 {curWeather.main}
+              {selectDay} {curWeather.name}의 날씨는 {curWeather.main}
               <br />
               {curWeather.weatherDesc} 환경에서는 감도가 높은 필름을
               추천해드려요.
@@ -225,16 +304,14 @@ export default function TodayFilmPage() {
               );
             })}
           </Section>
-          <HideBox>
-            <WeekendFilm curName={curWeather} />
-          </HideBox>
+          <HideBox>{/* <WeekendFilm curName={curWeather} /> */}</HideBox>
         </Container>
       )}
     </>
   );
 }
 const HideBox = styled.div`
-  display: none;
+  /* display: none; */
 `;
 
 const Container = styled.div`

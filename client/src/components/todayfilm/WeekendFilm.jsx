@@ -18,7 +18,7 @@ export default function WeekendFilm() {
   // 날씨정보 상태 관리
   const [curWeather, setCurWeather] = useState({});
 
-  console.log(curWeather);
+  // console.log(curWeather);
   // 날씨아이콘 상태 관리
   const [weatherIcon, setWeatherIcon] = useState(faCloud);
   // 로딩 관리
@@ -35,6 +35,8 @@ export default function WeekendFilm() {
   //주말 날짜 구현 함수
   //현재 유저 접속 날짜
 
+  // * 현재 요일을 기준으로 주말 인덱스 구하는 함수
+  // 날짜를 받아서 Saturday 함수를 이용해 토요일,일요일만 출력
   let userDate = new Date().getDay();
   let dayNum;
 
@@ -64,8 +66,10 @@ export default function WeekendFilm() {
     const lon = position.coords.longitude;
     const apiKey = process.env.REACT_APP_WEATHER_KEY;
 
-    //주말날씨 api 요청
+    // * 날씨 api 요청
+    // 현재 날씨, 예보, 과거 데이터 모두 불러오는 api
     const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=kr&appid=${apiKey}`;
+    // 현재 날씨만 받아오는 api
     const url2 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=kr&appid=${apiKey}`;
 
     axios
@@ -76,12 +80,19 @@ export default function WeekendFilm() {
         //7일치 날씨
         //daily[var] 들어갈 var 선언
         //
-        console.log("현재요일정보", dayNum);
+        // console.log("현재요일정보", dayNum);
         // console.log('7일 날씨정보',res.data)
+        // console.log("데이이ㅣ이이일ㄹ리ㅣ릴", res.data.daily);
+        // res.data.daily[0] 오늘(화요일)
+        // res.data.daily[7] 오늘
 
+        // 주말(dayNum)의 날씨 main 정보 저장 => Clear
         const weatherMain = res.data.daily[dayNum].weather[0].main;
+        // 주말(dayNum)의 날씨 description 정보 저장 => 맑음
         const weatherDescription =
           res.data.daily[dayNum].weather[0].description;
+
+        // console.log("daily 데이터 정보", res.data);
 
         // setCurWeather({weatherMain,weatherDescription})
         // console.log('주말날씨',weatherMain,'주말날씨묘사',weatherDescription)
@@ -91,18 +102,21 @@ export default function WeekendFilm() {
             withCredentials: false,
           })
           .then((res) => {
+            // console.log(
+            //   "현재위치위도",
+            //   res.data.coord.lat,
+            //   "현재위치경도",
+            //   res.data.coord.lon
+            // );
+            // console.log("url2@@@@@@@:", res.data);
 
-            console.log(
-              "현재위치위도",
-              res.data.coord.lat,
-              "현재위치경도",
-              res.data.coord.lon
-            );
+            // 현재 위치 이름 저장
             const weatherName = res.data.name;
-            setCurLocation([res.data.coord.lat, res.data.coord.lon]);
+            // 현재 위치 위도, 경도 저장
+            // setCurLocation([res.data.coord.lat, res.data.coord.lon]);
             setCurWeather({ weatherMain, weatherDescription, weatherName });
-            console.log("현재날씨정보", curWeather);
-            console.log("현재위치위도zz", curLocation);
+            // console.log("현재날씨정보", curWeather);
+            // console.log("현재위치위도zz", curLocation);
           });
       });
   };
@@ -179,7 +193,8 @@ export default function WeekendFilm() {
             <FontAwesomeIcon icon={weatherIcon} />
           </WeatherBox>
           <h3>
-            토요일의 {curWeather.weatherName}의 날씨는 {curWeather.weatherMain}
+            이번 주 토요일의 {curWeather.weatherName}의 날씨는{" "}
+            {curWeather.weatherMain}
             <br />
             {curWeather.weatherDescription} 환경에서는 감도가 높은 필름을
             추천해드려요.

@@ -5,9 +5,12 @@ import ReplyList from "../components/reply/ReplyList";
 import FilmLogRevison from "../components/filmlog/FilmLogRevison";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { faPhotoFilm } from "@fortawesome/free-solid-svg-icons";
+import { faFilm } from "@fortawesome/free-solid-svg-icons";
+import Guide from "../components/Guide";
 import axios from "axios";
 
-export default function FilmLogDetailPage({ userInfo }) {
+export default function FilmLogDetailPage({ userInfo, isLogin }) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   // 사진 정보 상태 관리
@@ -15,6 +18,13 @@ export default function FilmLogDetailPage({ userInfo }) {
   // 삭제 버튼 상태 관리
   const [comment, setComment] = useState("");
   const [filmLogComments, setFilmLogComments] = useState([]);
+
+  // * 로그인 여부 확인 상태 관리
+  const [modalClose, setModalClose] = useState(false);
+
+  // * 좋아요 상태 관리
+  const [isLike, setIsLike] = useState(false);
+
   const url = window.location.href;
   const filmlog_id = url.split("filmlogdetail/")[1];
 
@@ -92,6 +102,23 @@ export default function FilmLogDetailPage({ userInfo }) {
     }
   };
 
+  // * 댓글 쓰기 로그인 여부 확인
+  const handleReplayUpdate = () => {
+    if (!isLogin) {
+      setModalClose(true);
+    } else {
+      postComment();
+    }
+  };
+
+  const handleModalClose = () => {
+    setModalClose(false);
+  };
+
+  const handleFilmLike = () => {
+    setIsLike(!isLike);
+  };
+
   return (
     <Container>
       <Article>
@@ -122,10 +149,25 @@ export default function FilmLogDetailPage({ userInfo }) {
             <NavDiv></NavDiv>
           )}
         </Nav>
-        <DetailImgBox>
-          <DetailImg src={photoInfo.photo} alt="demo" />
-          <LikeBox>좋아요</LikeBox>
-        </DetailImgBox>
+        <div className="detailImageBox">
+          <img
+            className="detailImageBox_image"
+            src={photoInfo.photo}
+            alt="demo"
+          />
+          <div
+            className="detailImageBox_textBox"
+            onClick={() => handleFilmLike()}
+          >
+            <div className="detailImageBox_Like">
+              {isLike ? (
+                <FontAwesomeIcon icon={faPhotoFilm} />
+              ) : (
+                <FontAwesomeIcon icon={faFilm} />
+              )}
+            </div>
+          </div>
+        </div>
         <InfoBox>
           <Info fontsize="16px" fontweight orange>
             {photoInfo.nickname}
@@ -144,8 +186,9 @@ export default function FilmLogDetailPage({ userInfo }) {
             getFLCommentsInfo={getFLCommentsInfo}
           />
           <ReplyInput onChange={(e) => setComment(e.target.value)}></ReplyInput>
-          <Button rigth onClick={postComment}>
-            댓글 쓰기
+          {modalClose ? <Guide handleModalClose={handleModalClose} /> : null}
+          <Button rigth onClick={handleReplayUpdate}>
+            댓글 기능 구현중
           </Button>
         </ReplyForm>
       </Article>
