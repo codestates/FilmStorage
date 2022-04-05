@@ -72,6 +72,7 @@ const UserMenuContent = styled.li`
   color: #444;
   font-size: 14px;
   font-weight: 500;
+  text-align: center;
   &:hover {
     color: white;
     background: tomato;
@@ -119,7 +120,7 @@ function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
                 <NavListItemUser>{userInfo.nickname} 님</NavListItemUser>
                 <UserMenu>
                   <Link to="/mylog">
-                    <UserMenuContent>마이갤러리</UserMenuContent>
+                    <UserMenuContent>마이 로그</UserMenuContent>
                   </Link>
                   <Link to="/users/update">
                     <UserMenuContent>계정 관리</UserMenuContent>
