@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 import FilmLogWriting from "../components/filmlog/FilmLogWriting";
 import FilmType from "../components/filmlog/FilmType";
 import Loader from "../components/Loader";
-import axois from "axios";
+import axios from "axios";
 
 export default function FilmLogPage({ userInfo }) {
   // 작성창 띄우기
@@ -28,7 +28,7 @@ export default function FilmLogPage({ userInfo }) {
   }, []);
 
   const getMylogData = () => {
-    axois
+    axios
       .get(`${process.env.REACT_APP_API_URL}/filmlogs/mylog/${userInfo.id}`, {
         headers: {
           accept: "application/json",
