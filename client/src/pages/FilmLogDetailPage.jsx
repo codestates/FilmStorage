@@ -5,6 +5,7 @@ import ReplyList from "../components/reply/ReplyList";
 import FilmLogRevison from "../components/filmlog/FilmLogRevison";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { faPhotoFilm } from "@fortawesome/free-solid-svg-icons";
 import Guide from "../components/Guide";
 import axios from "axios";
 
@@ -141,10 +142,18 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
             <NavDiv></NavDiv>
           )}
         </Nav>
-        <DetailImgBox>
-          <DetailImg src={photoInfo.photo} alt="demo" />
-          <LikeBox>좋아요</LikeBox>
-        </DetailImgBox>
+        <div className="detailImageBox">
+          <img
+            className="detailImageBox_image"
+            src={photoInfo.photo}
+            alt="demo"
+          />
+          <div className="detailImageBox_textBox">
+            <div className="detailImageBox_Like">
+              <FontAwesomeIcon icon={faPhotoFilm} />
+            </div>
+          </div>
+        </div>
         <InfoBox>
           <Info fontsize="16px" fontweight orange>
             {photoInfo.nickname}
