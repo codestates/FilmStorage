@@ -3,8 +3,12 @@ import React, { useEffect, useState } from "react";
 // import SearchPlace from "./SearchPlace";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRightLong,
+  faSpaghettiMonsterFlying,
+} from "@fortawesome/free-solid-svg-icons";
 import { faChevronCircleUp } from "@fortawesome/free-solid-svg-icons";
+import Loader from "../components/Loader";
 
 const { kakao } = window;
 
@@ -20,6 +24,11 @@ const Article = styled.article`
   justify-content: center;
   align-items: center;
   padding-top: 30px;
+`;
+
+const LoaderBox = styled.div`
+  width: 100%;
+  height: 100vh;
 `;
 
 // * 검색 컴포넌트
@@ -61,7 +70,7 @@ const SearchList = styled.ul`
   color: #666;
   font-size: 14px;
   margin-bottom: 20px;
-  
+
   span {
     margin-right: 20px;
     font-weight: 600;
@@ -95,7 +104,8 @@ const ScrollToTop = styled.div`
 export default function FilmSpotPage() {
   const [inputText, setInputText] = useState("");
   const [place, setPlace] = useState("");
-  const [mapInfo, setMapInfo] = useState([]);
+  // const [mapInfo, setMapInfo] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // * 많이 검색한 지역 저장
   const [searchList, setSearchList] = useState([
@@ -111,18 +121,30 @@ export default function FilmSpotPage() {
   const handleScroll = () => {
     window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
   };
-  
+
   const onChange = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     setInputText(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     setPlace(inputText);
     setInputText("");
   };
 
-  useEffect(() => {
+  const handleLoading = () => {
+    let secondTimer = setTimeout(() => setIsLoading(true), 1200);
+    return () => {
+      clearTimeout(secondTimer);
+    };
+  };
+
+  let mapInfo;
+
+  const getInfo = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/filmlogs/register/maps`, {
         headers: {
@@ -130,14 +152,17 @@ export default function FilmSpotPage() {
         },
       })
       .then((res) => {
-        const Info = res.data.data;
-        setMapInfo([Info]);
-        console.log("요청정보", mapInfo);
+        console.log("필름로그데이터", res.data.data);
+        mapInfo = res.data.data;
+        console.log("mapInfo", mapInfo);
+        realMap();
       })
       .catch((err) => {
         console.error(err);
       });
+  };
 
+  const realMap = () => {
     let infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
     const container = document.getElementById("myMap");
     const options = {
@@ -146,6 +171,46 @@ export default function FilmSpotPage() {
     };
 
     const map = new kakao.maps.Map(container, options);
+    //받아온 위도,경도로 지도 위에 렌더링
+    const positions = [];
+
+    for (let i = 0; i < mapInfo.length; i++) {
+      positions.push({
+        content: `<div>${mapInfo[i].location}</div>`,
+        latlng: new kakao.maps.LatLng(
+          Number(mapInfo[i].lat),
+          Number(mapInfo[i].log)
+        ),
+      });
+    }
+    console.log("포지션", positions);
+
+    for (let i = 0; i < positions.length; i++) {
+      // 마커를 생성합니다
+      const marker = new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: positions[i].latlng, // 마커의 위치
+      });
+
+      // 마커에 표시할 인포윈도우를 생성합니다
+      const infowindow = new kakao.maps.InfoWindow({
+        content: positions[i].content, // 인포윈도우에 표시할 내용
+      });
+
+      // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+      // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+      (function (marker, infowindow) {
+        // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다
+        kakao.maps.event.addListener(marker, "mouseover", function () {
+          infowindow.open(map, marker);
+        });
+
+        // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
+        kakao.maps.event.addListener(marker, "mouseout", function () {
+          infowindow.close();
+        });
+      })(marker, infowindow);
+    }
 
     //지도에 현재위치 표시하기
     if (navigator.geolocation) {
@@ -218,33 +283,49 @@ export default function FilmSpotPage() {
       // 지도 중심좌표를 접속위치로 변경합니다
       map.setCenter(locPosition);
     }
+  };
+
+  useEffect(() => {
+    getInfo();
+    handleLoading();
+    return () => {
+      console.log("getInfo실행안됨");
+    };
   }, []);
 
   return (
     <>
       <Container>
-        <Article>
-          <SearchForm className="inputForm" onSubmit={handleSubmit}>
-            <input
-              placeholder="Search Place..."
-              onChange={onChange}
-              value={inputText}
-            />
-            <button type="submit">
-              <FontAwesomeIcon icon={faArrowRightLong} className="icon" />
-            </button>
-          </SearchForm>
-          <SearchList>
-            <span>많이 검색한 지역</span>
-            {searchList.map((search) => {
-              return <li>{search}</li>;
-            })}
-          </SearchList>
-          <Map id="myMap"></Map>
-          <ScrollToTop onClick={handleScroll}>
-            <FontAwesomeIcon icon={faChevronCircleUp} />
-          </ScrollToTop>
-        </Article>
+        {isLoading ? (
+          <>
+          <Article>
+            <SearchForm className="inputForm" onSubmit={handleSubmit}>
+              <input
+                placeholder="Search Place..."
+                onChange={(e) => e.stopPropagation()}
+                value={inputText}
+              />
+              <button type="submit" onClick={() => getInfo()}>
+                <FontAwesomeIcon icon={faArrowRightLong} className="icon" />
+              </button>
+            </SearchForm>
+            <SearchList>
+              <span>많이 검색한 지역</span>
+              {searchList.map((search) => {
+                return <li>{search}</li>;
+              })}
+            </SearchList>
+            <Map id="myMap"></Map>
+            <ScrollToTop onClick={handleScroll}>
+              <FontAwesomeIcon icon={faChevronCircleUp} />
+            </ScrollToTop>
+          </Article>
+          </>
+        ) : (
+          <LoaderBox>
+            <Loader />
+          </LoaderBox>
+        )}
       </Container>
     </>
   );
