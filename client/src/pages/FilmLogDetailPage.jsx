@@ -6,6 +6,7 @@ import FilmLogRevison from "../components/filmlog/FilmLogRevison";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faPhotoFilm } from "@fortawesome/free-solid-svg-icons";
+import { faFilm } from "@fortawesome/free-solid-svg-icons";
 import Guide from "../components/Guide";
 import axios from "axios";
 
@@ -20,6 +21,9 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
 
   // * 로그인 여부 확인 상태 관리
   const [modalClose, setModalClose] = useState(false);
+
+  // * 좋아요 상태 관리
+  const [isLike, setIsLike] = useState(false);
 
   const url = window.location.href;
   const filmlog_id = url.split("filmlogdetail/")[1];
@@ -102,7 +106,6 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
   const handleReplayUpdate = () => {
     if (!isLogin) {
       setModalClose(true);
-      return;
     } else {
       postComment();
     }
@@ -110,6 +113,10 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
 
   const handleModalClose = () => {
     setModalClose(false);
+  };
+
+  const handleFilmLike = () => {
+    setIsLike(!isLike);
   };
 
   return (
@@ -148,9 +155,16 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
             src={photoInfo.photo}
             alt="demo"
           />
-          <div className="detailImageBox_textBox">
+          <div
+            className="detailImageBox_textBox"
+            onClick={() => handleFilmLike()}
+          >
             <div className="detailImageBox_Like">
-              <FontAwesomeIcon icon={faPhotoFilm} />
+              {isLike ? (
+                <FontAwesomeIcon icon={faPhotoFilm} />
+              ) : (
+                <FontAwesomeIcon icon={faFilm} />
+              )}
             </div>
           </div>
         </div>
