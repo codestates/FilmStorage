@@ -17,7 +17,6 @@ import OauthPage from "./pages/OauthPage";
 import FilmSpotPage from "./pages/FilmSpotPage";
 import MyLogPage from "./pages/MyLogPage";
 
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -103,7 +102,7 @@ function App() {
           <FindingFilmTypePage />
         </Route>
         <Route path="/filmlogdetail">
-          <FilmLogDetailPage userInfo={userInfo} />
+          <FilmLogDetailPage userInfo={userInfo} isLogin={isLogin} />
         </Route>
         <Route path="/filmlogs/total">
           <FilmLogPage />
