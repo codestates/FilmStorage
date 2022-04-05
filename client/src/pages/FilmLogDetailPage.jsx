@@ -122,9 +122,10 @@ export default function FilmLogDetailPage({ userInfo }) {
             <NavDiv></NavDiv>
           )}
         </Nav>
-        <DetailImg>
-          <img className="detailImg" src={photoInfo.photo} alt="demo" />
-        </DetailImg>
+        <DetailImgBox>
+          <DetailImg src={photoInfo.photo} alt="demo" />
+          <LikeBox>좋아요</LikeBox>
+        </DetailImgBox>
         <InfoBox>
           <Info fontsize="16px" fontweight orange>
             {photoInfo.nickname}
@@ -183,14 +184,38 @@ const Navflex = styled.div`
   flex-grow: 1;
 `;
 
-const DetailImg = styled.div`
+const DetailImgBox = styled.div`
   width: 100%;
   height: 75vh;
-  /* border: 1px solid Gainsboro; */
-  > img.detailImg {
-    width: 100%;
-    height: 75vh;
-    object-fit: fill;
+  cursor: pointer;
+  position: relative;
+`;
+
+const DetailImg = styled.img`
+  width: 100%;
+  height: 75vh;
+  /* object-fit: fill; */
+  opacity: 1;
+  display: block;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+  &:hover {
+    opacity: 0.3;
+  }
+`;
+
+const LikeBox = styled.div`
+  display: none;
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  &:hover {
+    opacity: 1;
   }
 `;
 
@@ -255,9 +280,6 @@ const ReplyForm = styled.form`
 `;
 
 const InfoBox = styled.div`
-  /* border: 1px solid red; */
-  /* width: 100%; */
-  /* height: 10vh; */
   display: flex;
 `;
 const Info = styled.span`

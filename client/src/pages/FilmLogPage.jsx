@@ -145,6 +145,12 @@ const FilmLogImg = styled.img`
   border: 1px solid black;
   margin: 11px;
   object-fit: cover;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+    background: tomato;
+    transition: 0.3s;
+  }
 `;
 
 const Button = styled.button`
