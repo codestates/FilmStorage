@@ -25,7 +25,7 @@ export default function FilmLogPage({ userInfo, isLogin }) {
   // 무한스크롤 마지막
   const [isClose, setIsClose] = useState(true);
 
-  // * 모달 창 상태 저장
+  // * 로그인 여부 확인 상태 관리
   const [modalClose, setModalClose] = useState(false);
 
   const dummydata = [...filmdummydata];
