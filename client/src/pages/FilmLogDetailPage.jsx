@@ -6,7 +6,6 @@ import FilmLogRevison from "../components/filmlog/FilmLogRevison";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faPhotoFilm } from "@fortawesome/free-solid-svg-icons";
-import { faFilm } from "@fortawesome/free-solid-svg-icons";
 import Guide from "../components/Guide";
 import axios from "axios";
 
@@ -25,6 +24,9 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
   // * 좋아요 상태 관리
   const [isLike, setIsLike] = useState(false);
 
+  // * 등록일 변환
+  const [createdDate, setCreatedDate] = useState("");
+
   const url = window.location.href;
   const filmlog_id = url.split("filmlogdetail/")[1];
 
@@ -36,7 +38,9 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
         },
       })
       .then((res) => {
+        console.log("포터인포 ========>", res.data.data);
         setPhotoInfo(res.data.data);
+        setCreatedDate(res.data.data.createdAt.split(" ")[0]);
       });
   }, [filmlog_id]);
 
@@ -116,7 +120,22 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
   };
 
   const handleFilmLike = () => {
-    setIsLike(!isLike);
+    handlePostLike();
+  };
+
+  const handlePostLike = () => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/filmlogs/likes/${userInfo.id}/${filmlog_id}`,
+        {
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        setIsLike(res.data.data.like);
+      });
   };
 
   return (
@@ -155,15 +174,16 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
             src={photoInfo.photo}
             alt="demo"
           />
+          {/* 이미지 클릭시 좋아요 버튼 이벤트 기능 */}
           <div
             className="detailImageBox_textBox"
             onClick={() => handleFilmLike()}
           >
             <div className="detailImageBox_Like">
               {isLike ? (
-                <FontAwesomeIcon icon={faPhotoFilm} />
+                <FontAwesomeIcon icon={faPhotoFilm} color="tomato" />
               ) : (
-                <FontAwesomeIcon icon={faFilm} />
+                <FontAwesomeIcon icon={faPhotoFilm} />
               )}
             </div>
           </div>
@@ -175,6 +195,8 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
           <Info fontsize="16px" flex="9">
             {photoInfo.filmtype}
           </Info>
+          <Info rigth>장소 {photoInfo.location}</Info>
+          <Info rigth>등록일 {createdDate}</Info>
           <Info rigth>좋아요 {photoInfo.likesCount}</Info>
           <Info rigth>조회수 {photoInfo.views}</Info>
         </InfoBox>
@@ -225,41 +247,6 @@ const NavDiv = styled.div`
 
 const Navflex = styled.div`
   flex-grow: 1;
-`;
-
-const DetailImgBox = styled.div`
-  width: 100%;
-  height: 75vh;
-  cursor: pointer;
-  position: relative;
-`;
-
-const DetailImg = styled.img`
-  width: 100%;
-  height: 75vh;
-  /* object-fit: fill; */
-  opacity: 1;
-  display: block;
-  transition: 0.5s ease;
-  backface-visibility: hidden;
-  &:hover {
-    opacity: 0.3;
-  }
-`;
-
-const LikeBox = styled.div`
-  display: none;
-  transition: 0.5s ease;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  text-align: center;
-  &:hover {
-    opacity: 1;
-  }
 `;
 
 const Button = styled.button`
