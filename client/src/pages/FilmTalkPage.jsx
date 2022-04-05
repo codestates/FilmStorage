@@ -69,7 +69,7 @@ function FilmTalkPage({ isLogin }) {
   // * 모달 창 상태 저장
   const [modalClose, setModalClose] = useState(false);
   // * 필름토크 페이지 게시글 데이터
-  const [posts, setPosts] = useState(initialState.post);
+  const [posts, setPosts] = useState([]);
   // * 페이지네이션 기능 *//
   const [page, setPage] = useState(1);
   const [totalLength, setTotalLength] = useState(10);

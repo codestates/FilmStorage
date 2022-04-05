@@ -25,8 +25,26 @@ export default function TodayFilmPage() {
   // 필름 결과 관리
   const { Clouds, Clear, Rain, Snow } = TodayFilmResult;
   const [filmResult, setFilmResult] = useState(Clouds);
-  
-  // * React Select * //
+
+  // Day Option 저장
+  const [dayOption, setDayOption] = useState("오늘의 날씨");
+  // City Option 저장
+  const [cityOption, setCityOption] = useState("현재 위치");
+
+  const [selectLat, setSelectLat] = useState(""); // 위도 저장
+  const [selectLng, setSelectLng] = useState(""); // 경도 저장
+
+  console.log(
+    "데이옵션 : ",
+    dayOption,
+    "시티옵션 : ",
+    cityOption,
+    "위도 :",
+    selectLat,
+    "경도 :",
+    selectLng
+  );
+  // * React Select Option
   // select를 두개 만들고, 첫번째 값이 변경될때마다 useEffect 실행해서
   // 두번째 셀렉트 목록을 다르게 출력하도록 구현
   const dayOptions = [
@@ -34,47 +52,37 @@ export default function TodayFilmPage() {
     { value: "주말의 날씨", label: "주말의 날씨" },
   ];
   const cityOptions = [
-    { value: "서울", label: "서울" },
-    { value: "춘천", label: "춘천" },
-    { value: "강릉", label: "강릉" },
-    { value: "대전", label: "대전" },
-    { value: "청주", label: "청주" },
-    { value: "대구", label: "대구" },
-    { value: "전주", label: "전주" },
-    { value: "광주", label: "광주" },
-    { value: "부산", label: "부산" },
-    { value: "제주", label: "제주" },
-    { value: "백령", label: "백령" },
-    { value: "울릉/독도", label: "울릉/독도" },
+    { value: "현재 위치", label: "현재 위치" },
+    { value: "서울", label: "서울", lat: "37.56667", lng: "126.97806" },
+    { value: "인천", label: "인천", lat: "37.45639", lng: "126.70528" },
+    { value: "강릉", label: "강릉", lat: "37.75000", lng: "128.88333" },
+    { value: "대전", label: "대전", lat: "36.35111", lng: "127.38500" },
+    { value: "청주", label: "청주", lat: "36.64389", lng: "127.48944" },
+    { value: "대구", label: "대구", lat: "35.87222", lng: "128.60250" },
+    { value: "전주", label: "전주", lat: "35.82500", lng: "127.15000" },
+    { value: "광주", label: "광주", lat: "35.15972", lng: "126.85306" },
+    { value: "울산", label: "울산", lat: "35.53889", lng: "129.31667" },
+    { value: "부산", label: "부산", lat: "35.17944", lng: "129.07556" },
+    { value: "제주", label: "제주", lat: "33.50000", lng: "126.51667" },
+    { value: "거제", label: "거제", lat: "34.88333", lng: "128.62500" },
   ];
 
-  // const customStyles = {
-  //   option: (provided, state) => ({
-  //     ...provided,
-  //     borderBottom: "1px dooted pink",
-  //     color: state.isSelected ? "#fff" : "#444",
-  //     backgroundColor: state.isSelected ? "tomato" : "white",
-  //     // padding: 20,
-  //     width: 300,
-  //   }),
-  //   control: () => ({
-  //     // none of react-select's styles are passed to <Control />
-  //     // width: 300,
-  //   }),
-  //   singleValue: (provided, state) => {
-  //     const opacity = state.isDisabled ? 0.5 : 2;
-  //     const transition = "opacity 300ms";
-
-  //     return { ...provided, opacity, transition };
-  //   },
-  // };
-
+  // * 현재 위치를 기준으로 날씨 정보 호출
   const successAndGetWeather = (position) => {
-    const lat = position.coords.latitude;
-    const lng = position.coords.longitude;
+    // 셀렉 정보가 오늘 + 현재 위치 일 경우
+    let url;
     const apiKey = process.env.REACT_APP_WEATHER_KEY;
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&lang=kr&appid=${apiKey}`;
 
+    if(cityOption === "현재 위치"){
+      const lat = position.coords.latitude;
+      const log = position.coords.longitude;
+      url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${log}&units=metric&lang=kr&appid=${apiKey}`;
+    } else {
+      // 현재 위치가 아닐 때
+      url = `https://api.openweathermap.org/data/2.5/weather?lat=${selectLat}&lon=${selectLng}&units=metric&lang=kr&appid=${apiKey}`;
+    }
+    // console.log("위도오오오오오오!!!!", selectLat);
+    // console.log("경동경도경도경도오오오!!!!", selectLng);
     axios
       .get(url, {
         withCredentials: false,
@@ -82,15 +90,18 @@ export default function TodayFilmPage() {
       .then((res) => {
         const { clouds, main, sys, weather, name } = res.data;
 
+        // split를 이용해서 시간(숫자만) 출력
         const timeConvert = (time) => {
           return `${time.split(" ")[0]} ${time.split(" ")[1].split(":")[0]}시 ${
             time.split(" ")[1].split(":")[1]
           }분`;
         };
 
+        // 일몰,일출 시간 저장
         const sunriseTime = new Date(sys.sunrise * 1000).toLocaleTimeString();
         const sunsetTime = new Date(sys.sunset * 1000).toLocaleTimeString();
         // console.log(timeConvert(sunriseTime))
+        // 날씨 전체 정보 저장
         let weatherInfo = {
           clouds: clouds.all, // %
           temp: main.temp,
@@ -103,6 +114,7 @@ export default function TodayFilmPage() {
         };
 
         setCurWeather(weatherInfo);
+        // console.log("현ㄹ재 위치이이이이", curWeather);
       });
   };
 
@@ -119,7 +131,7 @@ export default function TodayFilmPage() {
   useEffect(() => {
     getWeatherOfCurLocation();
     handleLoading();
-  }, []);
+  }, [selectLat, selectLng]);
 
   // 날씨에 따른 아이콘 변경 함수
   const handleIcon = (info) => {
@@ -173,12 +185,17 @@ export default function TodayFilmPage() {
           <SelectOptionWrap>
             <SelectOption
               options={dayOptions}
-              // styles={customStyles}
+              onChange={(e) => setDayOption(e.value)}
               defaultValue={dayOptions[0]}
             />
             <SelectOption
               options={cityOptions}
-              // styles={customStyles}
+              onChange={(e) => {
+                setCityOption(e.value);
+                setSelectLat(e.lat);
+                setSelectLng(e.lng);
+              }}
+              defaultValue={cityOptions[0]}
             />
           </SelectOptionWrap>
           <WeatherBox>
