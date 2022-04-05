@@ -39,8 +39,10 @@ module.exports = {
           };
         });
 
+        const message = totalInfo.length < limit ? "end" : "ok";
+
         res.status(200).json({
-          message: "ok",
+          message: message,
           data: filteredInfo,
         });
       }

@@ -29,6 +29,7 @@ const Rotate = styled.div`
     position: absolute;
     top: 0;
     left: 0;
+    height: 3em;
     width: 100%;
     /* border-bottom: 16px solid tomato; */
     animation: colorChange 1s linear infinite;

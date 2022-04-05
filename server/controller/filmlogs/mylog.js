@@ -3,10 +3,17 @@ const { filmlogs } = require("../../models");
 module.exports = {
   get: async (req, res) => {
     try {
+      const { offset, limit } = req.query;
       const { user_id } = req.params;
 
       const getMyLogData = await filmlogs.findAll({
         where: { user_id },
+        offset: Number(offset),
+        limit: Number(limit),
+        order: [
+          ["createdAt", "DESC"],
+          ["id", "DESC"],
+        ],
       });
 
       if (!getMyLogData) {
@@ -17,12 +24,17 @@ module.exports = {
         const myLogData = getMyLogData.map((log) => {
           const { id, user_id, photo, filmtype } = log;
           return {
-            id, user_id, photo, filmtype
-          }
+            id,
+            user_id,
+            photo,
+            filmtype,
+          };
         });
 
+        const message = getMyLogData.length < limit ? "end" : "ok";
+
         res.status(200).json({
-          message: "ok",
+          message: message,
           data: myLogData,
         });
       }
