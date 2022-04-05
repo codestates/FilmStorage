@@ -20,8 +20,6 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
   // 선택된 장소
   const [clickLocation, setClickLocation] = useState({});
 
-  console.log(clickLocation);
-
   const onChange = (e) => {
     setInputText(e.target.value);
   };
@@ -59,7 +57,13 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
   };
 
   const filmlogRegister = () => {
-    const postData = { filmtype: photoInfo.type, contents: photoInfo.contents, location:clickLocation.Location, lat:clickLocation.Lat, log:clickLocation.Log };
+    const postData = {
+      filmtype: photoInfo.type,
+      contents: photoInfo.contents,
+      location: clickLocation.Location,
+      lat: clickLocation.Lat,
+      log: clickLocation.Log,
+    };
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/filmlogs/register/${userInfo.id}`,
