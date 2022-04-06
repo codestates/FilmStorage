@@ -3,6 +3,7 @@ dotenv.config();
 
 module.exports = {
   "development": {
+    "port": process.env.DATABASE_PORT,
     "username": process.env.DATABASE_USER,
     "password": process.env.DATABASE_PASSWORD,
     "database": process.env.DATABASE_NAME,
@@ -32,6 +33,7 @@ module.exports = {
   },
 
   "production": {
+    "port": process.env.DATABASE_PORT,
     "username": process.env.DATABASE_USER,
     "password": process.env.DATABASE_PASSWORD,
     "database": process.env.DATABASE_NAME,
