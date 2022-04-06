@@ -23,14 +23,7 @@ module.exports = {
     }
 
   },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "timezone": "+09: 00"
-  },
+
 
   "production": {
     "port": process.env.DATABASE_PORT,
@@ -39,7 +32,7 @@ module.exports = {
     "database": process.env.DATABASE_NAME,
     "host": process.env.DATABASE_HOST,
     "dialect": "mysql",
-    "timezone": "+09: 00",
+    "timezone": "+09:00",
     "dialectOptions": {
       charset: 'utf8mb4',
       dateStrings: true,
