@@ -29,6 +29,7 @@ function App() {
     email: "",
     nickname: "",
     profile: "",
+    mobile: "",
   });
   // const [nowLocation, setNowLocation] = useState();
 
@@ -45,12 +46,13 @@ function App() {
       })
       .then((res) => {
         // console.log(res);
-        const { id, email, nickname, profile } = res.data.data;
+        const { id, email, nickname, profile, mobile } = res.data.data;
         setUserInfo({
           id,
           email,
           nickname,
           profile,
+          mobile,
         });
         setIsLogin(true);
       })
@@ -108,7 +110,11 @@ function App() {
           <FilmLogPage />
         </Route>
         <Route path="/users/update">
-          <UserInfoUpdatePage userInfo={userInfo} />
+          <UserInfoUpdatePage
+            userInfo={userInfo}
+            setUserInfo={setUserInfo}
+            setIsLogin={setIsLogin}
+          />
         </Route>
         <Route path="/filmtalks/register">
           <FilmTalkResigsterPage userInfo={userInfo} />

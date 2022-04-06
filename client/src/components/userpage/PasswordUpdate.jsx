@@ -1,23 +1,99 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
-export default function PasswordUpdate () {
+export default function PasswordUpdate({}) {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [password, setPassword] = useState({
+    current: "",
+    change: "",
+    check: "",
+  });
+  const history = useHistory();
+
+  const setCheckPW = (e) => {
+    setPassword({ ...password, check: e.target.value });
+    if (password.change !== e.target.value) {
+      setErrorMessage("비밀번호가 일치하지 않습니다");
+    } else {
+      setErrorMessage("");
+    }
+  };
+  console.log(password);
+
+  const handleUpdate = (e) => {
+    const { current, change, check } = password;
+    if (!current || !change || !check) {
+      setErrorMessage("비밀번호를 입력해주세요");
+    } else {
+      axios
+        .patch(
+          `${process.env.REACT_APP_API_URL}/users/update/password`,
+          {
+            curPw: password.current,
+            changePw: password.change,
+          },
+          {
+            headers: {
+              "Content-type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          alert("비밀번호가 수정되었습니다");
+          setPassword({
+            current: "",
+            change: "",
+            check: "",
+          });
+          //TODO: 로그아웃 요청 작성할 것
+          // setIsLogin(false);
+          // history.push("/signin");
+        })
+        .catch((err) => {
+          if (err.response.status === 400) {
+            setErrorMessage("현재 비밀번호가 일치하지 않습니다");
+          } else {
+            console.log(err);
+          }
+        });
+    }
+  };
+
   return (
     <>
       <InfoUpdate>
         <InfoType>
           <InputType>현재 비밀번호</InputType>
-          <Input placeholder="현재 비밀번호" />
+          <Input
+            placeholder="현재 비밀번호"
+            type="password"
+            onChange={(e) =>
+              setPassword({ ...password, current: e.target.value })
+            }
+          />
         </InfoType>
         <InfoType>
           <InputType>변경 비밀번호</InputType>
-          <Input placeholder="변경 비밀번호" />
+          <Input
+            placeholder="변경 비밀번호"
+            type="password"
+            onChange={(e) =>
+              setPassword({ ...password, change: e.target.value })
+            }
+          />
         </InfoType>
         <InfoType>
           <InputType>비밀번호 확인</InputType>
-          <Input placeholder="비밀번호 확인" />
+          <Input
+            placeholder="비밀번호 확인"
+            type="password"
+            onChange={(e) => setCheckPW(e)}
+          />
         </InfoType>
-        <Button>정보 수정하기</Button>
+        <ErrorMessage>{errorMessage}</ErrorMessage>
+        <Button onClick={(e) => handleUpdate(e)}>정보 수정하기</Button>
       </InfoUpdate>
     </>
   );
@@ -46,6 +122,7 @@ const Input = styled.input`
   margin: 10px 0;
   border: 1px solid Gainsboro;
   outline: none;
+  margin-left: 9px;
   /* border-radius: 10px; */
   box-sizing: border-box;
   &:focus {
@@ -59,6 +136,7 @@ const ErrorMessage = styled.p`
   /* border: 1px solid tomato; */
   color: tomato;
   font-size: 12px;
+  text-align: center;
 `;
 
 const Button = styled.button`
