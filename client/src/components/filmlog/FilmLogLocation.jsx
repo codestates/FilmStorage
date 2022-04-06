@@ -68,7 +68,7 @@ export default function FilmLogLocation({ place, setClickLocation }) {
             "</div>"
         );
         infowindow.open(map, marker);
-        console.log(place.y, place.x);
+        console.log(place);
         const choice = {
           Location: place.place_name,
           Lat: place.y,
