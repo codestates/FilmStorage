@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 // import SearchPlace from "./SearchPlace";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -106,6 +107,8 @@ export default function FilmSpotPage() {
   const [place, setPlace] = useState("");
   // const [mapInfo, setMapInfo] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  //필름로그 고유 아이디 저장
+  const [mapId, setMapId] = useState();
 
   // * 많이 검색한 지역 저장
   const [searchList, setSearchList] = useState([
@@ -141,6 +144,11 @@ export default function FilmSpotPage() {
       clearTimeout(secondTimer);
     };
   };
+  const history = useHistory();
+
+  const handleFilmLogDetailPage = (id) => {
+    history.push(`/filmlogdetail/${id}`);
+  };
 
   let mapInfo;
 
@@ -152,7 +160,7 @@ export default function FilmSpotPage() {
         },
       })
       .then((res) => {
-        console.log("필름로그데이터", res.data.data);
+        console.log("필름로그데이터", res.data);
         mapInfo = res.data.data;
         console.log("mapInfo", mapInfo);
         realMap();
@@ -196,14 +204,23 @@ export default function FilmSpotPage() {
       const infowindow = new kakao.maps.InfoWindow({
         content: positions[i].content, // 인포윈도우에 표시할 내용
       });
+      // console.log('인포윈도우###',infowindow.content)
 
       // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
       // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
       (function (marker, infowindow) {
         // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다
         kakao.maps.event.addListener(marker, "mouseover", function () {
+          console.log('marker######',marker)
+          console.log('map$#$$$$$$',map)
           infowindow.open(map, marker);
         });
+        //마우스 오버 후 클릭시 axios 요청
+        // kakao.maps.event.addListener(marker, "click", function () {
+        //   // handleFilmLogDetailPage();
+        //   infowindow.open(map, marker);
+        //   console.log('marker######',marker)
+        // });
 
         // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
         kakao.maps.event.addListener(marker, "mouseout", function () {
@@ -298,28 +315,28 @@ export default function FilmSpotPage() {
       <Container>
         {isLoading ? (
           <>
-          <Article>
-            <SearchForm className="inputForm" onSubmit={handleSubmit}>
-              <input
-                placeholder="Search Place..."
-                onChange={(e) => e.stopPropagation()}
-                value={inputText}
-              />
-              <button type="submit" onClick={() => getInfo()}>
-                <FontAwesomeIcon icon={faArrowRightLong} className="icon" />
-              </button>
-            </SearchForm>
-            <SearchList>
-              <span>많이 검색한 지역</span>
-              {searchList.map((search) => {
-                return <li>{search}</li>;
-              })}
-            </SearchList>
-            <Map id="myMap"></Map>
-            <ScrollToTop onClick={handleScroll}>
-              <FontAwesomeIcon icon={faChevronCircleUp} />
-            </ScrollToTop>
-          </Article>
+            <Article>
+              <SearchForm className="inputForm" onSubmit={handleSubmit}>
+                <input
+                  placeholder="Search Place..."
+                  onChange={(e) => e.stopPropagation()}
+                  value={inputText}
+                />
+                <button type="submit" onClick={() => getInfo()}>
+                  <FontAwesomeIcon icon={faArrowRightLong} className="icon" />
+                </button>
+              </SearchForm>
+              <SearchList>
+                <span>많이 검색한 지역</span>
+                {searchList.map((search) => {
+                  return <li>{search}</li>;
+                })}
+              </SearchList>
+              <Map id="myMap"></Map>
+              <ScrollToTop onClick={handleScroll}>
+                <FontAwesomeIcon icon={faChevronCircleUp} />
+              </ScrollToTop>
+            </Article>
           </>
         ) : (
           <LoaderBox>
