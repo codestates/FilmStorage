@@ -162,7 +162,12 @@ export default function TodayFilmPage() {
             res.data.daily[dayNum].weather[0].description;
 
           // setCurWeather({weatherMain,weatherDescription})
-          console.log('주말날씨',weatherMain,'주말날씨묘사',weatherDescription)
+          console.log(
+            "주말날씨",
+            weatherMain,
+            "주말날씨묘사",
+            weatherDescription
+          );
 
           axios
             .get(curUrl, {
@@ -204,12 +209,6 @@ export default function TodayFilmPage() {
     Saturday(userDate);
     getWeatherOfCurLocation();
     handleLoading();
-    console.log(
-      "curWeater 정보 변경 확인",
-      curWeather.name,
-      curWeather.main,
-      curWeather.weatherDesc
-    );
   }, [selectLat, selectLon, dayOption]);
 
   // * 날씨에 따른 아이콘 변경 함수
@@ -281,7 +280,9 @@ export default function TodayFilmPage() {
             <FontAwesomeIcon icon={weatherIcon} />
           </WeatherBox>
           <div className="text-box">
-            <p>현재 위치의 날씨에 따라 적합한 필름을 추천해 드려요!</p>
+            <p className="sub-title">
+              현재 위치의 날씨에 따라 적합한 필름을 추천해 드려요!
+            </p>
             <h3>
               {selectDay} {curWeather.name}의 날씨는 {curWeather.main}
               <br />
@@ -298,7 +299,18 @@ export default function TodayFilmPage() {
                   <FilmBox>
                     <img className="filmimg" src={el.imglink} alt="film" />
                     <h3 className="filmtitle">{el.filmname}</h3>
-                    <p className="filminfo">필름설명이 필요한곳 입니다.</p>
+                    <div className="filminfo-box">
+                      <span className="filminfo">
+                        <span className="bold">필름 타입</span> {el.type} |
+                      </span>
+                      <span className="filminfo">
+                        <span className="bold">촬영 횟수</span> {el.shots} |
+                      </span>
+                      <span className="filminfo">
+                        <span className="bold">감도</span> ISO{el.iso}
+                      </span>
+                    </div>
+                    <span className="filminfo-text">{el.content}</span>
                   </FilmBox>
                 </div>
               );
@@ -323,7 +335,7 @@ const Container = styled.div`
   text-align: center;
   align-items: center;
 
-  p {
+  p.sub-title {
     padding: 5px 10px;
     font-size: 14px;
     font-weight: 600;
@@ -370,15 +382,32 @@ const FilmBox = styled.div`
   flex-direction: column;
   align-items: center;
   > h3.filmtitle {
-    margin-top: 10px;
+    margin: 10px 0 0 0;
+    /* border: 1px solid red; */
   }
   > img.filmimg {
     height: 15vh;
     /* width: 10vw; */
     object-fit: cover;
   }
-  > p.filminfo {
-    font-size: 13px;
+
+  > div.filminfo-box {
+    /* border: 1px solid red; */
+    > span.filminfo {
+      /* border: 1px solid red; */
+      padding: 2px;
+      font-size: 11px;
+      .bold {
+        font-weight: 600;
+      }
+    }
+  }
+  > .filminfo-text {
+    border: 1px solid Gainsboro;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 40px;
+    font-size: 14px;
   }
 `;
 
