@@ -92,12 +92,12 @@ export default function TodayFilmPage() {
   }
 
   // * 현재 위치, 선택 위치를 기준으로 날씨 정보 호출
-  const successAndGetWeather = (position) => {
+  const successAndGetWeather = async (position) => {
     let url;
     const apiKey = process.env.REACT_APP_WEATHER_KEY;
     // 현재 위치 좌표 저장
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
+    const lat = await position.coords.latitude;
+    const lon = await position.coords.longitude;
 
     // * 오늘의 날씨 선택 시
     if (dayOption === "오늘의 날씨") {
@@ -112,7 +112,7 @@ export default function TodayFilmPage() {
         url = `https://api.openweathermap.org/data/2.5/weather?lat=${selectLat}&lon=${selectLon}&units=metric&lang=kr&appid=${apiKey}`;
       }
 
-      axios
+      await axios
         .get(url, {
           withCredentials: false,
         })
@@ -149,11 +149,11 @@ export default function TodayFilmPage() {
         curUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${selectLat}&lon=${selectLon}&units=metric&lang=kr&appid=${apiKey}`;
       }
 
-      axios
+      await axios
         .get(url, {
           withCredentials: false,
         })
-        .then((res) => {
+        .then(async (res) => {
           console.log("받아온 데이터", res.data);
           // 주말(dayNum)의 날씨 main 정보 저장 => Clear
           const weatherMain = res.data.daily[dayNum].weather[0].main;
@@ -162,14 +162,14 @@ export default function TodayFilmPage() {
             res.data.daily[dayNum].weather[0].description;
 
           // setCurWeather({weatherMain,weatherDescription})
-          console.log(
-            "주말날씨",
-            weatherMain,
-            "주말날씨묘사",
-            weatherDescription
-          );
+          // console.log(
+          //   "주말날씨",
+          //   weatherMain,
+          //   "주말날씨묘사",
+          //   weatherDescription
+          // );
 
-          axios
+          await axios
             .get(curUrl, {
               withCredentials: false,
             })
@@ -185,8 +185,8 @@ export default function TodayFilmPage() {
                 main: weatherMain,
               };
               // 현재 위치 위도, 경도 저장
-              setSelectLat(res.data.coord.lat);
-              setSelectLon(res.data.coord.lon);
+              // setSelectLat(res.data.coord.lat);
+              // setSelectLon(res.data.coord.lon);
               setCurWeather(weatherInfo);
               // console.log("현재날씨정보", curWeather);
               // console.log("현재위치위도zz", curLocation);
