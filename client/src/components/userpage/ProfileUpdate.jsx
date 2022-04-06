@@ -1,18 +1,59 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 export default function ProfileUpdate({ userInfo }) {
+  const [updatedUserInfo, setUpdatedUserInfo] = useState({
+    nickname: "",
+    mobile: "",
+  });
+
+  const handleUpdate = (e) => {
+    const { nickname, mobile } = updatedUserInfo;
+    if (!nickname || !mobile) {
+      alert("정보를 입력해주세요");
+    } else {
+      axios
+        .patch(
+          `${process.env.REACT_APP_API_URL}/users/update`,
+          updatedUserInfo,
+          {
+            headers: {
+              "Content-type": "application/json",
+            },
+          }
+        )
+        .catch((err) => console.log(err));
+    }
+  };
+
+  const placeholderMSG = userInfo.mobile || "번호를 등록해주세요";
+
   return (
     <InfoUpdate>
-      <InfoType>
-        <InputType>닉네임</InputType>
-        <Input placeholder={`${userInfo.nickname}`} />
-      </InfoType>
       <InfoType>
         <InputType>아이디</InputType>
         <InputType>{userInfo.email}</InputType>
       </InfoType>
-      <Button>정보 수정하기</Button>
+      <InfoType>
+        <InputType>닉네임</InputType>
+        <Input
+          placeholder={`${userInfo.nickname}`}
+          onChange={(e) =>
+            setUpdatedUserInfo({ ...updatedUserInfo, nickname: e.target.value })
+          }
+        />
+      </InfoType>
+      <InfoType>
+        <InputType>휴대폰</InputType>
+        <Input
+          placeholder={placeholderMSG}
+          onChange={(e) =>
+            setUpdatedUserInfo({ ...updatedUserInfo, mobile: e.target.value })
+          }
+        />
+      </InfoType>
+      <Button onClick={handleUpdate}>정보 수정하기</Button>
     </InfoUpdate>
   );
 }
@@ -20,7 +61,7 @@ export default function ProfileUpdate({ userInfo }) {
 const InfoUpdate = styled.form`
   /* border: 1px solid red; */
   width: 390px;
-  padding: 10px 40px;
+  padding: 10px 3 0px;
   box-sizing: border-box;
 `;
 const InfoType = styled.div`
@@ -39,6 +80,7 @@ const Input = styled.input`
   margin: 10px 0;
   border: 1px solid Gainsboro;
   outline: none;
+  margin-left: 11px;
   /* border-radius: 10px; */
   box-sizing: border-box;
   &:focus {

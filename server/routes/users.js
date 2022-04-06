@@ -25,14 +25,15 @@ usersRouter.get("/auth", usersController.auth.get);
 // 카카오 로그인
 usersRouter.post("/oauth", usersController.signin.kakao);
 
-// 프로필 제외 회원 정보 수정
+// 회원 정보 수정
 usersRouter.patch("/update", usersController.update.patch);
+// 비밀번호 변경
+usersRouter.patch("/update/password", usersController.update.password);
 // 프로필 수정
 usersRouter.patch("/update/profile/:user_id", upload.single("profile"), usersController.update.profile);
 
 // 회원 탈퇴
 usersRouter.delete("/withdrawal", usersController.withdrawal.delete);
-
 // 비밀번호 초기화 이메일
 usersRouter.patch("/reset_password", usersController.reset_password.patch);
 

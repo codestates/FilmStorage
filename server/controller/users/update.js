@@ -1,60 +1,58 @@
 require("dotenv").config();
 const { users } = require("../../models");
-const { verify } = require("jsonwebtoken")
+const { verify } = require("jsonwebtoken");
 
 module.exports = {
   patch: async (req, res) => {
-    const { nickname, mobile } = req.body
+    const { nickname, mobile } = req.body;
     //유저 토큰 해독 후 검증
     if (!req.cookies.accessToken) {
       res.status(400).send({
         data: null,
-        message: 'not Authorized'
+        message: "not Authorized",
       });
     } else {
       try {
         const accessToken = req.cookies.accessToken;
         const decoded = verify(accessToken, process.env.ACCESS_SECRET);
-        const userInfo = await users.findByPk(decoded.id)
-        console.log(userInfo.dataValues);
+        const userInfo = await users.findByPk(decoded.id);
         if (userInfo.dataValues.nickname === nickname) {
           res.status(409).json({
             data: null,
             message: "nickname already exists",
           });
         } else {
-          await users.update({
-            nickname,
-            mobile
-          },
+          await users.update(
+            {
+              nickname,
+              mobile,
+            },
             {
               where: {
-                email: decoded.email
-              }
+                email: decoded.email,
+              },
             }
-          )
+          );
         }
         const modifiedUserData = await users.findByPk(decoded.id);
         res.status(200).send({
           message: "ok",
           data: {
-            userInfo: modifiedUserData
-          }
-        })
-
-      } catch (err) {
-        console.log(err)
+            userInfo: modifiedUserData,
+          },
+        });
+      } catch (error) {
+        console.error(error);
         res.status(500).send({ message: "Internal Server Error" });
       }
     }
   },
 
   profile: async (req, res) => {
-
     try {
       await users.update(
         {
-          profile: `${process.env.DOMAIN}/users/profiles/${req.file.filename}`,
+          profile: `${process.env.SERVER_DOMAIN}/users/profiles/${req.file.filename}`,
         },
         {
           where: {
@@ -72,6 +70,44 @@ module.exports = {
         message: "Profile has been updated",
         data: getUpdatedUserInfo.dataValues,
       });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "Internal Server Error",
+      });
+    }
+  },
+
+  password: async (req, res) => {
+    try {
+      const { accessToken } = req.cookies;
+      const { curPw, changePw } = req.body;
+      const decoded = verify(accessToken, process.env.ACCESS_SECRET);
+      const userInfo = await users.findByPk(decoded.id);
+
+      console.log(req.body);
+      console.log(userInfo.password)
+
+      if (userInfo.password !== curPw) {
+        return res.status(400).send({
+          message: "Wrong Password",
+        });
+      } else {
+        await users.update(
+          {
+            password: changePw,
+          },
+          {
+            where: {
+              id: userInfo.id,
+            },
+          }
+        );
+
+        res.status(200).send({
+          message: "Successfully modified",
+        });
+      }
     } catch (error) {
       console.error(error);
       res.status(500).send({
