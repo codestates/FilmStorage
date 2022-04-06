@@ -90,6 +90,7 @@ module.exports = {
           email: email,
           profile: profile.profile_image_url,
           nickname: profile.nickname,
+          kakaouser: true,
         });
       }
 
