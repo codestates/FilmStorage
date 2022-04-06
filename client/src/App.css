@@ -55,7 +55,7 @@ select {
 }
 
 .detailImageBox_Like {
-  color: black;
+  color: lightgray;
   font-size: 3rem;
   padding: 16px 32px;
 }
@@ -65,5 +65,5 @@ select {
 }
 
 .detailImageBox:hover .detailImageBox_textBox {
-  opacity: 0.8;
+  opacity: 1;
 }
