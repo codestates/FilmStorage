@@ -87,7 +87,11 @@ export default function UserInfoUpdatePage({
           {currentTab === 0 ? (
             <ProfileUpdate userInfo={userInfo} />
           ) : (
-            <PasswordUpdate setUserInfo={setUserInfo} />
+            <PasswordUpdate
+              userInfo={userInfo}
+              setIsLogin={setIsLogin}
+              setUserInfo={setUserInfo}
+            />
           )}
           <Withdraw onClick={() => handleDelete()}>탈퇴하기</Withdraw>
         </Article>

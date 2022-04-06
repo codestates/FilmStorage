@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
-export default function PasswordUpdate({}) {
+export default function PasswordUpdate({ userInfo, setIsLogin, setUserInfo }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [password, setPassword] = useState({
     current: "",
@@ -41,15 +41,15 @@ export default function PasswordUpdate({}) {
           }
         )
         .then((res) => {
-          alert("비밀번호가 수정되었습니다");
           setPassword({
             current: "",
             change: "",
             check: "",
           });
+          alert(
+            "비밀번호가 수정되었습니다. 변경된 비밀번호로 다시 로그인해주세요"
+          );
           //TODO: 로그아웃 요청 작성할 것
-          // setIsLogin(false);
-          // history.push("/signin");
         })
         .catch((err) => {
           if (err.response.status === 400) {
@@ -61,42 +61,59 @@ export default function PasswordUpdate({}) {
     }
   };
 
-  return (
-    <>
-      <InfoUpdate>
-        <InfoType>
-          <InputType>현재 비밀번호</InputType>
-          <Input
-            placeholder="현재 비밀번호"
-            type="password"
-            onChange={(e) =>
-              setPassword({ ...password, current: e.target.value })
-            }
-          />
-        </InfoType>
-        <InfoType>
-          <InputType>변경 비밀번호</InputType>
-          <Input
-            placeholder="변경 비밀번호"
-            type="password"
-            onChange={(e) =>
-              setPassword({ ...password, change: e.target.value })
-            }
-          />
-        </InfoType>
-        <InfoType>
-          <InputType>비밀번호 확인</InputType>
-          <Input
-            placeholder="비밀번호 확인"
-            type="password"
-            onChange={(e) => setCheckPW(e)}
-          />
-        </InfoType>
-        <ErrorMessage>{errorMessage}</ErrorMessage>
-        <Button onClick={(e) => handleUpdate(e)}>정보 수정하기</Button>
-      </InfoUpdate>
-    </>
-  );
+  if (userInfo.kakaouser) {
+    return (
+      <>
+        <InfoUpdate>
+          <InfoType>
+            <img
+              src="https://user-images.githubusercontent.com/89354370/161878401-90513d87-40b8-4db7-a1dc-4bb9739fe7f2.png"
+              width="325px"
+              height="220px"
+              alt="kakaouser"
+            />
+          </InfoType>
+        </InfoUpdate>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <InfoUpdate>
+          <InfoType>
+            <InputType>현재 비밀번호</InputType>
+            <Input
+              placeholder="현재 비밀번호"
+              type="password"
+              onChange={(e) =>
+                setPassword({ ...password, current: e.target.value })
+              }
+            />
+          </InfoType>
+          <InfoType>
+            <InputType>변경 비밀번호</InputType>
+            <Input
+              placeholder="변경 비밀번호"
+              type="password"
+              onChange={(e) =>
+                setPassword({ ...password, change: e.target.value })
+              }
+            />
+          </InfoType>
+          <InfoType>
+            <InputType>비밀번호 확인</InputType>
+            <Input
+              placeholder="비밀번호 확인"
+              type="password"
+              onChange={(e) => setCheckPW(e)}
+            />
+          </InfoType>
+          <ErrorMessage>{errorMessage}</ErrorMessage>
+          <Button onClick={(e) => handleUpdate(e)}>정보 수정하기</Button>
+        </InfoUpdate>
+      </>
+    );
+  }
 }
 
 const InfoUpdate = styled.form`

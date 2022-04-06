@@ -30,6 +30,7 @@ function App() {
     nickname: "",
     profile: "",
     mobile: "",
+    kakaouser: false,
   });
   // const [nowLocation, setNowLocation] = useState();
 
@@ -46,13 +47,14 @@ function App() {
       })
       .then((res) => {
         // console.log(res);
-        const { id, email, nickname, profile, mobile } = res.data.data;
+        const { id, email, nickname, profile, mobile, kakaouser } = res.data.data;
         setUserInfo({
           id,
           email,
           nickname,
           profile,
           mobile,
+          kakaouser
         });
         setIsLogin(true);
       })
