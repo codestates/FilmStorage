@@ -28,8 +28,15 @@ const Content = styled.div`
 
 const Title = styled.h1`
   font-size: 40px;
-  margin: ${(props) => props.morginBottom || "0px"};
+  margin: 10px 0px;
   color: #444;
+`;
+const SubTitle = styled.p`
+  font-size: 30px;
+  line-height: 1.6em;
+  margin: 0 0 0 3px;
+  color: #444;
+  /* border: 3px solid blue; */
 `;
 const Img = styled.img`
   width: 200px;
@@ -37,19 +44,24 @@ const Img = styled.img`
   animation-fill-mode: forwards;
 `;
 const Button = styled.button`
-  width: 250px;
-  padding: 20px;
-  margin: 30px 0;
+  width: 90%;
+  text-align: left;
+  padding: 20px 3px;
   border: none;
-  border-radius: 30px;
+  /* border: 1px solid red; */
+  /* border-radius: 30px; */
   font-size: 18px;
   font-weight: 700;
-  color: #444;
+  background: none;
+  color: tomato;
   cursor: pointer;
   &:hover {
-    background: tomato;
-    color: white;
-    transition: 0.4s
+    /* background: tomato; */
+    color: #666;
+    transition: 0.2s;
+  }
+  .icon {
+    /* margin-left: 200px; */
   }
 `;
 
@@ -63,10 +75,9 @@ function GoToFindingFilmType() {
           data-aos-duration="700"
           data-aos-easing="ease-in-sine"
         >
+          <SubTitle>간단한 테스트로 알아보는</SubTitle>
           <Title>
-            내 취향에 맞는
-            <br />
-            필름을 제대로 찾아보자!
+            내 취향 저격 필름
           </Title>
           <Link to="filmtype">
             <Button>

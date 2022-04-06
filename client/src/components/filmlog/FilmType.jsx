@@ -102,13 +102,11 @@ export default function FilmType({ photoInfo, setPhotoInfo }) {
           />
         </Widthbox>
         <Widthbox2>
-          <Marginbox>
             <Select
               defaultValue={selectedOption2}
               options={selectedOption2}
               onChange={handleType}
             />
-          </Marginbox>
         </Widthbox2>
       </Selectlist>
     </>
@@ -116,18 +114,19 @@ export default function FilmType({ photoInfo, setPhotoInfo }) {
 }
 
 const Selectlist = styled.div`
+  /* border: 1px solid red; */
   display: flex;
-  width: 500px;
-`;
-
-const Marginbox = styled.div`
-  margin-left: 20px;
+  justify-content: space-between;
+  padding: 10px 0;
 `;
 
 const Widthbox = styled.div`
+  /* border: 1px solid red; */
   width: 150px;
+  margin-right: 10px;
 `;
 
 const Widthbox2 = styled.div`
-  width: 250px;
+  width: 300px;
+  /* border: 1px solid red; */
 `;

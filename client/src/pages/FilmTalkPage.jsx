@@ -49,14 +49,17 @@ const Th = styled.th`
 `;
 
 const Button = styled.button`
-  padding: 10px 30px;
-  border: none;
-  border-radius: 20px;
   position: absolute;
   right: 0px;
   top: -50px;
+  padding: 10px 30px;
+  border: 1px solid tomato;
+  background: none;
+  color: tomato;
+  border-radius: 20px;
+  font-family: "SCoreDream";
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   &:hover {
     color: white;

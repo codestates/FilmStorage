@@ -119,9 +119,11 @@ export default function SignInPage({ handleResponseSuccess }) {
             <Account onClick={handleSignUp}>회원가입</Account>
           </AccountBox>
           <SocialAccountBox>
-            <SocialAccount onClick={() => kakaoSignIn()}>
-              카카오로 로그인하기
-            </SocialAccount>
+            <img
+              onClick={() => kakaoSignIn()}
+              src="https://user-images.githubusercontent.com/87605663/162007911-72b49851-4a30-421c-9633-7db1f888d405.png"
+              alt="kakao"
+            />
           </SocialAccountBox>
         </Article>
       </Container>
@@ -144,8 +146,8 @@ const Article = styled.article`
 
 const SigninForm = styled.form`
   /* border: 1px solid green; */
-  width: 390px;
-  padding: 10px 40px;
+  width: 100%;
+  /* padding: 10px 40px; */
   box-sizing: border-box;
 `;
 
@@ -178,6 +180,7 @@ const ErrorMessage = styled.p`
 const Button = styled.button`
   width: 100%;
   padding: 10px 30px;
+  margin: 10px 0;
   border: none;
   border-radius: 20px;
   right: 0px;
@@ -193,7 +196,7 @@ const Button = styled.button`
 const AccountBox = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0 40px;
+  padding: 5px 0;
 `;
 const Account = styled.span`
   font-size: 12px;
@@ -202,16 +205,12 @@ const Account = styled.span`
 `;
 const SocialAccountBox = styled.div`
   display: flex;
-  margin: 40px;
-  padding: 15px;
-  border-radius: 12px;
-  background: #fee500;
-  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
   cursor: pointer;
-  &:hover {
-    color: white;
-    background: #000;
-    transition: 0.3s;
+  img {
+    width: 300px;
   }
 `;
 const SocialAccount = styled.span`

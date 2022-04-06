@@ -172,10 +172,11 @@ export default function SignUpPage() {
             </Button>
           </SigninForm>
           <SocialAccountBox>
-            <SocialAccount onClick={() => kakaoSignIn()}>
-              {/* <img src="https://user-images.githubusercontent.com/89354370/161745889-ce360dd3-8464-434e-b65f-d43c0d696fc5.png" alt="kakao"/> */}
-              카카오로 로그인하기
-            </SocialAccount>
+            <img
+              onClick={() => kakaoSignIn()}
+              src="https://user-images.githubusercontent.com/87605663/162007911-72b49851-4a30-421c-9633-7db1f888d405.png"
+              alt="kakao"
+            />
           </SocialAccountBox>
         </Article>
       </Container>
@@ -199,8 +200,12 @@ const Article = styled.article`
 
 const SigninForm = styled.form`
   /* border: 1px solid green; */
-  width: 390px;
-  padding: 10px 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+  /* padding: 10px 40px; */
   box-sizing: border-box;
 `;
 
@@ -254,22 +259,15 @@ const Button = styled.button`
   }
 `;
 const SocialAccountBox = styled.div`
+  /* border: 1px solid red; */
   display: flex;
-  margin: 10px 40px;
-  padding: 15px;
-  border-radius: 12px;
-  background: #fee500;
-  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
   cursor: pointer;
-  &:hover {
-    color: white;
-    background: #000;
-    transition: 0.3s;
+  img {
+    width: 300px;
   }
-`;
-const SocialAccount = styled.span`
-  flex: 1;
-  flex-wrap: wrap;
 `;
 
 //* 이용약관 모달 *//
