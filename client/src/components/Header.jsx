@@ -72,6 +72,7 @@ const UserMenuContent = styled.li`
   color: #444;
   font-size: 14px;
   font-weight: 500;
+  text-align: center;
   &:hover {
     color: white;
     background: tomato;
@@ -98,17 +99,14 @@ function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
           <LogoImg src="https://user-images.githubusercontent.com/87605663/159270833-8f5397dc-9f5b-4fab-86a6-b245d08eeaa8.png" />
         </Link>
         <NavList>
-        <Link to="/map">
-            <NavListItem>지도</NavListItem>
-          </Link>
-          <Link to="/weekend">
-            <NavListItem>주말의 필름</NavListItem>
+          <Link to="/filmtype">
+            <NavListItem>필름 취향 찾기</NavListItem>
           </Link>
           <Link to="/todayfilm">
             <NavListItem>오늘의 필름</NavListItem>
           </Link>
-          <Link to="/filmtype">
-            <NavListItem>필름 취향 찾기</NavListItem>
+          <Link to="/map">
+            <NavListItem>필름 스팟</NavListItem>
           </Link>
           <Link to="/filmlog">
             <NavListItem>필름 로그</NavListItem>
@@ -122,7 +120,7 @@ function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
                 <NavListItemUser>{userInfo.nickname} 님</NavListItemUser>
                 <UserMenu>
                   <Link to="/mylog">
-                    <UserMenuContent>마이갤러리</UserMenuContent>
+                    <UserMenuContent>마이 로그</UserMenuContent>
                   </Link>
                   <Link to="/users/update">
                     <UserMenuContent>계정 관리</UserMenuContent>

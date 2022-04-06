@@ -26,3 +26,44 @@ select {
   margin-bottom: 3rem;
   color: rgb(47, 47, 158);
 }
+
+/* 이미지 좋아요 버튼 CSS */
+
+.detailImageBox {
+  position: relative;
+  cursor: pointer;
+}
+
+.detailImageBox_image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: 75vh;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+}
+
+.detailImageBox_textBox {
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.detailImageBox_Like {
+  color: lightgray;
+  font-size: 3rem;
+  padding: 16px 32px;
+}
+
+.detailImageBox:hover .detailImageBox_image {
+  opacity: 0.6;
+}
+
+.detailImageBox:hover .detailImageBox_textBox {
+  opacity: 1;
+}

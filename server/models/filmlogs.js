@@ -18,6 +18,9 @@ module.exports = (sequelize, DataTypes) => {
     photo: DataTypes.STRING,
     filmtype: DataTypes.STRING,
     contents: DataTypes.TEXT,
+    location: DataTypes.STRING,
+    lat:DataTypes.DECIMAL(20,[17]),
+    log:DataTypes.DECIMAL(20,[17]),
     likesCount: DataTypes.INTEGER,
     views: DataTypes.INTEGER,
   }, {

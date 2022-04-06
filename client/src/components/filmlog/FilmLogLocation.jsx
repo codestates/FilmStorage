@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 const { kakao } = window;
 
@@ -10,9 +10,32 @@ export default function FilmLogLocation({ place, setClickLocation }) {
     const container = document.getElementById("myMap");
     const options = {
       center: new kakao.maps.LatLng(33.450701, 126.570667),
-      level: 7,
+      level: 8,
     };
-    const map = new kakao.maps.Map(container, options);
+    let map = new kakao.maps.Map(container, options);
+
+    if (navigator.geolocation) {
+      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+      navigator.geolocation.getCurrentPosition(function (position) {
+        //스코프 내부는 const
+        const lat = position.coords.latitude; // 위도
+        const lon = position.coords.longitude; // 경도
+
+        // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        const locPosition = {
+          center: new kakao.maps.LatLng(lat, lon),
+          level: 8,
+        };
+
+        // 마커와 인포윈도우를 표시합니다
+        map = new kakao.maps.Map(container, locPosition);
+
+        displayMarker(locPosition);
+
+        // console.log("navigator.geolocation", position);
+      });
+    }
+    //지도에 현재위치 표시하기
 
     const ps = new kakao.maps.services.Places();
 
@@ -45,7 +68,7 @@ export default function FilmLogLocation({ place, setClickLocation }) {
             "</div>"
         );
         infowindow.open(map, marker);
-        console.log(place.y, place.x);
+        console.log(place);
         const choice = {
           Location: place.place_name,
           Lat: place.y,

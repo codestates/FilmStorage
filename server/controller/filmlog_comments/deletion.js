@@ -3,13 +3,11 @@ const { filmlog_comments } = require("../../models");
 module.exports = {
   delete: async (req, res) => {
     try {
-      const { user_id, filmlog_id, filmlog_comments_id } = req.params;
+      const { filmlog_comments_id } = req.params;
 
       await filmlog_comments.destroy({
         where: {
           id: filmlog_comments_id,
-          user_id,
-          filmlog_id,
         },
       });
 

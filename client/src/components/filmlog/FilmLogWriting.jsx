@@ -20,8 +20,6 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
   // 선택된 장소
   const [clickLocation, setClickLocation] = useState({});
 
-  console.log(clickLocation);
-
   const onChange = (e) => {
     setInputText(e.target.value);
   };
@@ -59,7 +57,13 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
   };
 
   const filmlogRegister = () => {
-    const postData = { filmtype: photoInfo.type, contents: photoInfo.contents };
+    const postData = {
+      filmtype: photoInfo.type,
+      contents: photoInfo.contents,
+      location: clickLocation.Location,
+      lat: clickLocation.Lat,
+      log: clickLocation.Log,
+    };
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/filmlogs/register/${userInfo.id}`,
@@ -135,6 +139,8 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                 <input
                   className="upload"
                   type="file"
+                  accept="image/*"
+                  required="true"
                   onChange={(e) => {
                     encodeFileTobase64(e.target.files[0]);
                   }}
@@ -191,8 +197,8 @@ const ModalBG = styled.div`
   z-index: 999;
   left: 0;
   top: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

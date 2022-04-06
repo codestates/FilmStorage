@@ -3,10 +3,57 @@ import { useState } from "react";
 import styled, { css } from "styled-components";
 import ProfileUpdate from "../components/userpage/ProfileUpdate";
 import PasswordUpdate from "../components/userpage/PasswordUpdate";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 
-export default function UserInfoUpdatePage({ userInfo }) {
+axios.defaults.withCredentials = true;
+
+export default function UserInfoUpdatePage({
+  userInfo,
+  setIsLogin,
+  setUserInfo,
+}) {
+  const history = useHistory();
   const [currentTab, setCurrentTab] = useState(0);
+  // const [profile, setProfile] = useState({});
   const menuArr = ["프로필 편집", "비밀번호 변경"];
+
+  const postProfile = async (e) => {
+    // console.log(e.target.files[0]);
+    const imgFile = e.target.files[0];
+    if (imgFile && userInfo.id) {
+      // setProfile(imgFile);
+      const formData = new FormData();
+      formData.set("profile", imgFile);
+      axios
+        .patch(
+          `${process.env.REACT_APP_API_URL}/users/update/profile/${userInfo.id}`,
+          formData,
+          {
+            headers: {
+              "Content-type": "multipart/form-data",
+            },
+          }
+        )
+        .then((res) => {
+          setUserInfo({ ...userInfo, profile: res.data.data.profile });
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  const handleDelete = () => {
+    if (window.confirm("정말로 탈퇴하실건가요..?")) {
+      axios
+        .delete(`${process.env.REACT_APP_API_URL}/users/withdrawal`)
+        .then(() => {
+          alert("탈퇴가 완료되었습니다. 다시 찾아오시길 기다릴게요");
+          setIsLogin(false);
+          history.push("/");
+        })
+        .catch((err) => console.log(err));
+    }
+  };
 
   const selectMenuHandler = (idx) => {
     setCurrentTab(idx);
@@ -17,7 +64,16 @@ export default function UserInfoUpdatePage({ userInfo }) {
         <Article>
           <ImgUpdate>
             <Img src={`${userInfo.profile}`} />
-            <UpdateButton>사진 수정</UpdateButton>
+            <UpdateButton>
+              사진 수정
+              <input
+                className="profile"
+                type="file"
+                required="true"
+                accept="image/*"
+                onChange={(e) => postProfile(e)}
+              />
+            </UpdateButton>
           </ImgUpdate>
           <TabMenu>
             {menuArr.map((menu, idx) => {
@@ -28,8 +84,16 @@ export default function UserInfoUpdatePage({ userInfo }) {
               );
             })}
           </TabMenu>
-          {currentTab === 0 ? <ProfileUpdate userInfo={userInfo} /> : <PasswordUpdate />}
-          <Withdraw>탈퇴하기</Withdraw>
+          {currentTab === 0 ? (
+            <ProfileUpdate userInfo={userInfo} />
+          ) : (
+            <PasswordUpdate
+              userInfo={userInfo}
+              setIsLogin={setIsLogin}
+              setUserInfo={setUserInfo}
+            />
+          )}
+          <Withdraw onClick={() => handleDelete()}>탈퇴하기</Withdraw>
         </Article>
       </Container>
     </>
@@ -65,7 +129,7 @@ const Img = styled.img`
   object-fit: cover;
   border-radius: 50px;
 `;
-const UpdateButton = styled.button`
+const UpdateButton = styled.label`
   border: none;
   background: none;
   margin: 10px;
@@ -73,6 +137,9 @@ const UpdateButton = styled.button`
   cursor: pointer;
   &:hover {
     color: tomato;
+  }
+  > input.profile {
+    display: none;
   }
 `;
 const TabMenu = styled.div`

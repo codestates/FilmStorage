@@ -8,7 +8,7 @@ module.exports = {
     const decoded = verify(accessToken, process.env.ACCESS_SECRET);
     console.log(decoded)
     try {
-      const userDelete = await users.destroy({
+      await users.destroy({
         where: {
           email: decoded.email
         }

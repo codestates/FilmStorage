@@ -32,4 +32,7 @@ filmlogsRouter.get("/bestfilm", filmlogsController.ranking.bestfilm);
 filmlogsRouter.get("/mylog/:user_id", filmlogsController.mylog.get);
 filmlogsRouter.get("/view/:filmlog_id", filmlogsController.view.get);
 
+//필름로그 지도정보 조회 기능
+filmlogsRouter.get("/register/maps",filmlogsController.register.maps);
+
 module.exports = filmlogsRouter;

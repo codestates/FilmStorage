@@ -1,5 +1,5 @@
 /* TODO : 로그인 페이지 만들기. */
-import React from "react";
+import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import styled from "styled-components";
 import { initialState } from "../assets/state";
@@ -19,8 +19,25 @@ export default function SignUpPage() {
     repassword: "",
     mobile: "",
   });
-
   const history = useHistory();
+
+  // * 카카오 로그인 *//
+  useEffect(() => {
+    kakaoInit();
+  }, []);
+
+  const kakao = window.Kakao;
+  const kakaoInit = () => {
+    if (kakao.isInitialized() === false) {
+      kakao.init(process.env.REACT_APP_KAKAO_INIT_KEY);
+    }
+  };
+
+  const kakaoSignIn = () => {
+    kakao.Auth.authorize({
+      redirectUri: `${process.env.REACT_APP_KAKAO_REDIRECT_URI}`,
+    });
+  };
 
   //* 유효성 검사
   const validateFuntion = {
@@ -59,12 +76,6 @@ export default function SignUpPage() {
     setUserInfo({ ...userInfo, [key]: e.target.value });
   };
 
-  // * 메인화면으로 이동
-  // const history = useHistory();
-  // const handleCoback = () => {
-  //   return history.push("/");
-  // }
-
   // * 유저 회원가입 입력값 확인 후 서버 전송
   const handleSignup = () => {
     const { email, nickname, password, repassword, mobile } = userInfo;
@@ -76,30 +87,14 @@ export default function SignUpPage() {
       // };
     } else if (!validateFuntion.Email(email)) {
       setErrorMessage("이메일 형식과 맞지 않습니다.");
-      // let minutTimer = setTimeout(() => setErrorMessage(""), 3000);
-      // return () => {
-      //   clearTimeout(minutTimer);
-      // };
     } else if (!validateFuntion.PW(password)) {
       setErrorMessage(
         "비밀번호는 문자,숫자,특수문자를 포함한 8자리 이상이여야 합니다."
       );
-      // let minutTimer = setTimeout(() => setErrorMessage(""), 3000);
-      // return () => {
-      //   clearTimeout(minutTimer);
-      // };
     } else if (!validateFuntion.Phone(mobile)) {
       setErrorMessage("유효하지 않는 핸드폰번호 입니다.");
-      // let minutTimer = setTimeout(() => setErrorMessage(""), 3000);
-      // return () => {
-      //   clearTimeout(minutTimer);
-      // };
     } else if (!validateFuntion.DoubleCheck(password, repassword)) {
       setErrorMessage("비밀번호가 일치 하지 않습니다.");
-      // let minutTimer = setTimeout(() => setErrorMessage(""), 3000);
-      // return () => {
-      //   clearTimeout(minutTimer);
-      // };
     } else if (!termCheck) {
       setErrorMessage("이용약관에 동의해주세요");
     } else {
@@ -177,7 +172,10 @@ export default function SignUpPage() {
             </Button>
           </SigninForm>
           <SocialAccountBox>
-            <SocialAccount>카카오로 로그인하기</SocialAccount>
+            <SocialAccount onClick={() => kakaoSignIn()}>
+              {/* <img src="https://user-images.githubusercontent.com/89354370/161745889-ce360dd3-8464-434e-b65f-d43c0d696fc5.png" alt="kakao"/> */}
+              카카오로 로그인하기
+            </SocialAccount>
           </SocialAccountBox>
         </Article>
       </Container>

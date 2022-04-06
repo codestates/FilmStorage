@@ -19,7 +19,6 @@ module.exports = {
           message: "nickname or email already exists",
         });
       } else {
-        console.log('유저정보#######>>>', userData.dataValues)
         const accessToken = sign(userData.dataValues, process.env.ACCESS_SECRET, {
           expiresIn: 1000 * 60 * 60 * 2
         })

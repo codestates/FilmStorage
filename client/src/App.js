@@ -14,9 +14,8 @@ import FilmTalkView from "./pages/FilmTalkView";
 import UserInfoUpdatePage from "./pages/UserPage";
 import FilmTalkResigsterPage from "./pages/FilmTalkRegisterPage";
 import OauthPage from "./pages/OauthPage";
-import MapContainer from "./pages/map";
+import FilmSpotPage from "./pages/FilmSpotPage";
 import MyLogPage from "./pages/MyLogPage";
-import WeekendFilmPage from "./pages/weekendFilmPage";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -30,7 +29,10 @@ function App() {
     email: "",
     nickname: "",
     profile: "",
+    mobile: "",
+    kakaouser: false,
   });
+  // const [nowLocation, setNowLocation] = useState();
 
   useEffect(() => {
     isAuthenticated();
@@ -45,12 +47,14 @@ function App() {
       })
       .then((res) => {
         // console.log(res);
-        const { id, email, nickname, profile } = res.data.data;
+        const { id, email, nickname, profile, mobile, kakaouser } = res.data.data;
         setUserInfo({
           id,
           email,
           nickname,
           profile,
+          mobile,
+          kakaouser
         });
         setIsLogin(true);
       })
@@ -75,16 +79,13 @@ function App() {
       />
       <Switch>
         <Route exact path="/map">
-          <MapContainer />
-        </Route>
-        <Route exact path="/weekend">
-          <WeekendFilmPage />
+          <FilmSpotPage />
         </Route>
         <Route exact path="/">
           <MainPage />
         </Route>
         <Route path="/filmlog">
-          <FilmLogPage userInfo={userInfo} />
+          <FilmLogPage userInfo={userInfo} isLogin={isLogin} />
         </Route>
         <Route path="/filmtalks/total">
           <FilmTalkPage isLogin={isLogin} />
@@ -105,13 +106,17 @@ function App() {
           <FindingFilmTypePage />
         </Route>
         <Route path="/filmlogdetail">
-          <FilmLogDetailPage userInfo={userInfo} />
+          <FilmLogDetailPage userInfo={userInfo} isLogin={isLogin} />
         </Route>
         <Route path="/filmlogs/total">
           <FilmLogPage />
         </Route>
         <Route path="/users/update">
-          <UserInfoUpdatePage userInfo={userInfo} />
+          <UserInfoUpdatePage
+            userInfo={userInfo}
+            setUserInfo={setUserInfo}
+            setIsLogin={setIsLogin}
+          />
         </Route>
         <Route path="/filmtalks/register">
           <FilmTalkResigsterPage userInfo={userInfo} />
