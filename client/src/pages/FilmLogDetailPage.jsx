@@ -24,7 +24,6 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
   const [replyCount, setReplyCount] = useState(0);
   // * 좋아요 상태 관리
   const [isLike, setIsLike] = useState(false);
-
   // * 등록일 변환
   const [createdDate, setCreatedDate] = useState("");
 
@@ -39,7 +38,10 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
         },
       })
       .then((res) => {
-        setPhotoInfo(res.data.data);
+        const detailInfo = res.data.data;
+        if (detailInfo) {
+          setPhotoInfo(detailInfo);
+        }
         setCreatedDate(res.data.data.createdAt.split(" ")[0]);
       })
       .catch((err) => {
@@ -65,8 +67,11 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
 
   useEffect(() => {
     getDetailInfo();
+  }, [getDetailInfo]);
+
+  useEffect(() => {
     getFLCommentsInfo();
-  }, [getDetailInfo, getFLCommentsInfo, replyCount]);
+  }, [getFLCommentsInfo, replyCount]);
 
   const getLikeInfo = () => {
     if (userInfo.id) {
@@ -114,7 +119,8 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
     }
   };
 
-  const postComment = () => {
+  const postComment = (e) => {
+    e.preventDefault();
     if (comment === "") {
       alert("댓글을 입력해주세요");
     } else if (!isLogin) {
@@ -249,9 +255,16 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
             convertDate={createdDate}
             userFLInfo={userInfo}
           />
-          <ReplyInput onChange={(e) => setComment(e.target.value)}></ReplyInput>
+          <ReplyInput
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          ></ReplyInput>
           {modalClose ? <Guide handleModalClose={handleModalClose} /> : null}
-          <Button bottom type="button" onClick={postComment}>
+          <Button
+            bottom
+            onKeyUp={(e) => (e.key === "Enter" ? postComment : null)}
+            onClick={postComment}
+          >
             댓글 쓰기
           </Button>
         </ReplyForm>

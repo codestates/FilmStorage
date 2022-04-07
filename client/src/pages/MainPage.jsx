@@ -112,7 +112,7 @@ function MainPage() {
             ></Img>
             <Description>
               필름카메라 사용자들을 위한 필름 정보 공유
-              플랫폼 <b>FILM SOTORAGE</b>
+              플랫폼 <b>FILM STORAGE</b>
             </Description>
           </TextBox>
         </MainBox>
