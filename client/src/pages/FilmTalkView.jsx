@@ -14,7 +14,6 @@ export default function FilmTalkView({ userInfo, isLogin }) {
   const [modalClose, setModalClose] = useState(false);
   // * 임시 댓글 정보 저장
   const [replyCount, setReplyCount] = useState(0)
-  // console.log(replyCount);
   const [filmTalkInfo, setFilmTalkInfo] = useState({
     user_id: "",
     category: "",
@@ -27,7 +26,6 @@ export default function FilmTalkView({ userInfo, isLogin }) {
 
   // * 작성한 댓글 서버에 저장
   const [comment, setComment] = useState("");
-console.log("댓그르ㅡ으으으응 : ",comment);
   // * 서버에서 불러와서 저장하고 댓글 목록에 출력
   const [filmTalkComments, setFilmTalkComments] = useState([]);
   const url = window.location.href;
@@ -85,8 +83,6 @@ console.log("댓그르ㅡ으으으응 : ",comment);
     getFTCommentsInfo();
   }, [getFilmtalkDetail, getFTCommentsInfo, replyCount]);
 
-  // view 정보 가져오기
-  // 삭제하기
   const handleDelete = () => {
     if (window.confirm("삭제하시겠습니까?")) {
       axios
