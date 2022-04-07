@@ -38,7 +38,6 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
         },
       })
       .then((res) => {
-        console.log("포터인포 ========>", res.data.data);
         setPhotoInfo(res.data.data);
         setCreatedDate(res.data.data.createdAt.split(" ")[0]);
       });
@@ -64,6 +63,32 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
     getDetailInfo();
     getFLCommentsInfo();
   }, [getDetailInfo, getFLCommentsInfo]);
+
+  const getLikeInfo = () => {
+    if (userInfo.id) {
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/filmlogs/likes/${userInfo.id}/${filmlog_id}`,
+          {
+            headers: {
+              Accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          const { like, likesCount } = res.data.data;
+          setIsLike(like);
+          setPhotoInfo({ ...photoInfo, likesCount: likesCount });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  useEffect(() => {
+    getLikeInfo();
+  }, [isLike]);
 
   const handleWriteRegister = () => {
     setIsOpen(!isOpen);
@@ -124,18 +149,21 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
   };
 
   const handlePostLike = () => {
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/filmlogs/likes/${userInfo.id}/${filmlog_id}`,
-        {
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        setIsLike(res.data.data.like);
-      });
+    if (userInfo.id) {
+      axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/filmlogs/likes/${userInfo.id}/${filmlog_id}`,
+          {
+            headers: {
+              "Content-type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          setIsLike(res.data.data.like);
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
