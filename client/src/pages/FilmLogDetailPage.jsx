@@ -24,28 +24,33 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
   const [replyCount, setReplyCount] = useState(0);
   // * 좋아요 상태 관리
   const [isLike, setIsLike] = useState(false);
-
   // * 등록일 변환
   const [createdDate, setCreatedDate] = useState("");
 
   const url = window.location.href;
   const filmlog_id = url.split("filmlogdetail/")[1];
 
-  const getDetailInfo = useCallback(() => {
-    axios
+  const getDetailInfo = useCallback(async () => {
+    await axios
       .get(`${process.env.REACT_APP_API_URL}/filmlogs/view/${filmlog_id}`, {
         headers: {
           accept: "application/json",
         },
       })
       .then((res) => {
-        setPhotoInfo(res.data.data);
+        const detailInfo = res.data.data;
+        if (detailInfo) {
+          setPhotoInfo(detailInfo);
+        }
         setCreatedDate(res.data.data.createdAt.split(" ")[0]);
+      })
+      .catch((err) => {
+        console.log("디테일 에러", err);
       });
   }, [filmlog_id]);
 
-  const getFLCommentsInfo = useCallback(() => {
-    axios
+  const getFLCommentsInfo = useCallback(async () => {
+    await axios
       .get(
         `${process.env.REACT_APP_API_URL}/filmlog_comments/total/${filmlog_id}`,
         {
@@ -62,8 +67,11 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
 
   useEffect(() => {
     getDetailInfo();
+  }, [getDetailInfo]);
+
+  useEffect(() => {
     getFLCommentsInfo();
-  }, [getDetailInfo, getFLCommentsInfo, replyCount]);
+  }, [getFLCommentsInfo, replyCount]);
 
   const getLikeInfo = () => {
     if (userInfo.id) {
@@ -111,7 +119,8 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
     }
   };
 
-  const postComment = () => {
+  const postComment = (e) => {
+    e.preventDefault();
     if (comment === "") {
       alert("댓글을 입력해주세요");
     } else if (!isLogin) {
@@ -247,10 +256,15 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
             userFLInfo={userInfo}
           />
           <ReplyInput
+            value={comment}
             onChange={(e) => setComment(e.target.value)}
           ></ReplyInput>
           {modalClose ? <Guide handleModalClose={handleModalClose} /> : null}
-          <Button bottom onClick={postComment}>
+          <Button
+            bottom
+            onKeyUp={(e) => (e.key === "Enter" ? postComment : null)}
+            onClick={postComment}
+          >
             댓글 쓰기
           </Button>
         </ReplyForm>

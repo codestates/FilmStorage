@@ -27,6 +27,9 @@ export default function TodayFilmPage() {
   //* 오늘,주말 선택 관리
   const [selectDay, setSelectDay] = useState("오늘");
 
+  // 필름멘트관리
+  const [isFilmComment, setIsFilmComment] = useState("낮은");
+
   // * Day Option 저장
   const [dayOption, setDayOption] = useState("오늘의 날씨");
   // * City Option 저장
@@ -34,8 +37,6 @@ export default function TodayFilmPage() {
 
   const [selectLat, setSelectLat] = useState(""); // 위도 저장
   const [selectLon, setSelectLon] = useState(""); // 경도 저장
-
-  // console.log( "데이옵션 : ", dayOption, "시티옵션 : ", cityOption, "위도 :", selectLat, "경도 :", selectLon );
 
   // * React Select Option
   // select를 두개 만들고, 첫번째 값이 변경될때마다 useEffect 실행해서
@@ -72,7 +73,6 @@ export default function TodayFilmPage() {
 
   function Saturday(userDate) {
     // 날씨 api에 사용될 숫자
-
     //반복문으로 정리
     for (let i = 1; i <= 5; i++) {
       //오늘이 토요일인 경우 그대로 리턴
@@ -118,7 +118,6 @@ export default function TodayFilmPage() {
         })
         .then((res) => {
           const { clouds, main, weather, name } = res.data;
-          console.log("받아오는 데이터 : ", res.data);
 
           // * 날씨 전체 정보 저장
           let weatherInfo = {
@@ -129,9 +128,8 @@ export default function TodayFilmPage() {
             name: name,
             main: weather[0].main,
           };
-          console.log("받아온 데이터확이니니니ㅣ닌이ㅣ이니인", weatherInfo);
+
           setCurWeather(weatherInfo);
-          // console.log("현ㄹ재 위치이이이이", curWeather);
         });
     }
 
@@ -161,14 +159,6 @@ export default function TodayFilmPage() {
           const weatherDescription =
             res.data.daily[dayNum].weather[0].description;
 
-          // setCurWeather({weatherMain,weatherDescription})
-          // console.log(
-          //   "주말날씨",
-          //   weatherMain,
-          //   "주말날씨묘사",
-          //   weatherDescription
-          // );
-
           await axios
             .get(curUrl, {
               withCredentials: false,
@@ -184,12 +174,7 @@ export default function TodayFilmPage() {
                 name: weatherName,
                 main: weatherMain,
               };
-              // 현재 위치 위도, 경도 저장
-              // setSelectLat(res.data.coord.lat);
-              // setSelectLon(res.data.coord.lon);
               setCurWeather(weatherInfo);
-              // console.log("현재날씨정보", curWeather);
-              // console.log("현재위치위도zz", curLocation);
             });
         });
     }
@@ -216,27 +201,34 @@ export default function TodayFilmPage() {
     if (info === "Clouds") {
       setWeatherIcon(faCloud);
       setFilmResult(Clouds);
+      setIsFilmComment("중간인");
     } else if (info === "Clear") {
       setWeatherIcon(faSun);
       setFilmResult(Clear);
+      setIsFilmComment("낮은");
     } else if (info === "Thunderstorm") {
       setWeatherIcon(faBolt);
       setFilmResult(Rain);
+      setIsFilmComment("중간인");
     } else if (info === "Drizzle") {
       setWeatherIcon(faWater);
       setFilmResult(Rain);
+      setIsFilmComment("높은");
     } else if (info === "Rain") {
       setWeatherIcon(faUmbrella);
       setFilmResult(Rain);
     } else if (info === "Snow") {
       setWeatherIcon(faSnowflake);
       setFilmResult(Snow);
+      setIsFilmComment("높은");
     } else if (info === "Fog") {
       setWeatherIcon(faSmog);
       setFilmResult(Clouds);
+      setIsFilmComment("중간인");
     } else {
       setWeatherIcon(faSmog);
       setFilmResult(Clouds);
+      setIsFilmComment("중간인");
     }
   };
 
@@ -286,7 +278,7 @@ export default function TodayFilmPage() {
             <h3>
               {selectDay} {curWeather.name}의 날씨는 {curWeather.main}
               <br />
-              {curWeather.weatherDesc} 환경에서는 감도가 높은 필름을
+              {curWeather.weatherDesc} 환경에서는 감도가 {isFilmComment} 필름을
               추천해드려요.
             </h3>
           </div>
