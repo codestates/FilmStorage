@@ -21,16 +21,16 @@ module.exports = {
         59
       );
 
-      const topOne = await filmlogs.max("views", {
+      const topOne = await filmlogs.max("likesCount", {
         where: {
           createdAt: {
             [Op.between]: [startOfWeek, endOfWeek],
           },
         },
       });
-      const topTwo = await filmlogs.max("views", {
+      const topTwo = await filmlogs.max("likesCount", {
         where: {
-          views: {
+          likesCount: {
             [Op.lt]: topOne,
           },
           createdAt: {
@@ -38,10 +38,10 @@ module.exports = {
           },
         },
       });
-      const topthree = await filmlogs.max("views", {
+      const topthree = await filmlogs.max("likesCount", {
         where: {
-          views: {
-            [Op.lt]: topTwo,
+          likesCount: {
+            [Op.lte]: topTwo,
           },
           createdAt: {
             [Op.between]: [startOfWeek, endOfWeek],
@@ -50,8 +50,9 @@ module.exports = {
       });
 
       const getTopThreeData = await filmlogs.findAll({
+        limit: 3,
         where: {
-          views: {
+          likesCount: {
             [Op.or]: [topOne, topTwo, topthree],
           },
           createdAt: {
