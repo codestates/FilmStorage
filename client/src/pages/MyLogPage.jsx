@@ -8,7 +8,7 @@ import FilmType from "../components/filmlog/FilmType";
 import Loader from "../components/Loader";
 import axios from "axios";
 
-export default function FilmLogPage({ userInfo }) {
+export default function MyLogPage({ userInfo }) {
   // 작성창 띄우기
   const [isOpen, setIsOpen] = useState(false);
   // 이미지 스크롤시 로딩 표시 보이게 하기
@@ -75,61 +75,74 @@ export default function FilmLogPage({ userInfo }) {
 
   return (
     <>
-      <article className="filmlog-second">
-        <div className="filmlog-second-container">
-          <nav className="filmlog-second-nav">
-            <div className="filmlog-second-nav-title">필름 종류</div>
-            <FilmType />
-            <div className="nav-flex"></div>
-            <div>
-              <Button onClick={handleWriteRegister}>사진등록</Button>
-              {isOpen ? (
-                <FilmLogWriting userInfo={userInfo} setIsOpen={setIsOpen} />
-              ) : null}
+      <Container>
+        <article className="filmlog-second">
+          <div className="filmlog-second-container">
+            <nav className="filmlog-second-nav">
+              <div className="nav-flex">
+                <div className="filmlog-second-nav-title">필름 종류</div>
+                <FilmType />
+              </div>
+              <div className="nav-flex">
+                <div>
+                  <Button onClick={handleWriteRegister}>사진등록</Button>
+                  {isOpen ? (
+                    <FilmLogWriting
+                      userInfo={userInfo}
+                      setIsOpen={setIsOpen}
+                    />
+                  ) : null}
+                </div>
+              </div>
+            </nav>
+            <div className="filmlog-second-content">
+              {itemLists.map((el, key) => (
+                <Link to={`/filmlogdetail/${el.id}`}>
+                  <FilmLogImg key={key} src={el.photo} />
+                </Link>
+              ))}
             </div>
-          </nav>
-          <div className="filmlog-second-content">
-            {itemLists.map((el, key) => (
-              <Link to={`/filmlogdetail/${el.id}`}>
-                <FilmLogImg key={key} src={el.photo} />
-              </Link>
-            ))}
+            {isClose ? (
+              <div ref={observer} className="Target-Element">
+                {isLoaded && <Loader />}
+              </div>
+            ) : null}
           </div>
-          {isClose ? (
-            <div ref={observer} className="Target-Element">
-              {isLoaded && <Loader />}
-            </div>
-          ) : null}
-        </div>
-      </article>
+        </article>
+      </Container>
     </>
   );
 }
 
+const Container = styled.section`
+  border: 2px solid red;
+  width: 100%;
+  min-height: 90vh;
+  display: flex;
+  justify-content: 
+  /* flex-direction: column; */
+  align-items: left;
+  padding: 50px 0;
+`;
+
 const FilmLogImg = styled.img`
+  /* border: 1px solid black; */
   width: 20rem;
   height: 20rem;
-  border: 1px solid black;
   margin: 11px;
   object-fit: cover;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+    background: tomato;
+    transition: 0.3s;
+  }
 `;
 
 const Button = styled.button`
   padding: 10px 30px;
   border: none;
   border-radius: 20px;
-  right: ${(props) => props.rigth || 0};
-  ${(props) => {
-    if (props.top) {
-      return css`
-        top: -50px;
-      `;
-    } else if (props.bottom) {
-      return css`
-        bottom: -50px;
-      `;
-    }
-  }}
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
