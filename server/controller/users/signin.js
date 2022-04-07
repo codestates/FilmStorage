@@ -19,7 +19,6 @@ module.exports = {
         if (!userData) {
           res.status(404).send({ message: "No matching user information" });
         } else {
-          // console.log("유저정보#######>>>", userData.dataValues);
           const accessToken = sign(
             userData.dataValues,
             process.env.ACCESS_SECRET,
@@ -52,7 +51,6 @@ module.exports = {
 
   kakao: async (req, res) => {
     // 인가 코드가 잘 받아와졌는지 확인
-    // console.log(req.query);
     try {
       const oauthData = {
         grant_type: "authorization_code",
@@ -81,17 +79,30 @@ module.exports = {
         }
       );
 
-      const { profile, email } = getKakaoUserInfo.data.kakao_account;
+      const { profile } = getKakaoUserInfo.data.kakao_account;
 
-      let userInfo = await users.findOne({ where: { email } });
+      let userInfo;
 
-      if (!userInfo) {
-        userInfo = await users.create({
-          email: email,
-          profile: profile.profile_image_url,
-          nickname: profile.nickname,
-          kakaouser: true,
+      if (!getKakaoUserInfo.data.kakao_account.email) {
+        const [withOutEmail, created] = await users.findOrCreate({
+          where: {
+            profile: profile.profile_image_url,
+            nickname: profile.nickname,
+            kakaouser: true,
+          },
         });
+        userInfo = withOutEmail;
+      } else {
+        const [withEmail, created] = await users.findOrCreate({
+          where: {
+            email: getKakaoUserInfo.data.kakao_account.email,
+            profile: profile.profile_image_url,
+            nickname: profile.nickname,
+            kakaouser: true,
+          },
+        });
+
+        userInfo = withEmail;
       }
 
       const accessToken = sign(userInfo.dataValues, process.env.ACCESS_SECRET, {

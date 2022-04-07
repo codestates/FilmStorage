@@ -11,8 +11,8 @@ module.exports = {
         },
         include: [{ model: users }],
         order: [
-          ["createdAt", "DESC"],
-          ["id", "DESC"],
+          ["createdAt", "ASC"],
+          ["id", "ASC"],
         ],
       });
 

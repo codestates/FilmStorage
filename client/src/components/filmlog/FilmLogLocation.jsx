@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 const { kakao } = window;
 
-export default function FilmLogLocation({ place, setClickLocation }) {
+export default function FilmLogLocation({ place, setClickLocation, setLocationClose }) {
   // 클릭된 장소 장소 상태 관리
 
   useEffect(() => {
@@ -78,6 +78,7 @@ export default function FilmLogLocation({ place, setClickLocation }) {
         console.log(choice);
 
         setClickLocation(choice);
+        setLocationClose(true);
       });
     }
   }, [place]);
@@ -93,18 +94,18 @@ export default function FilmLogLocation({ place, setClickLocation }) {
 
 const Container = styled.section`
   /* border: 1px solid red; */
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* width: 100%; */
+  height: 400px;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center; */
   /* position: relative; */
 `;
 
 // * 지도 컴포넌트
 const Map = styled.div`
-  border: 1px solid #black;
+  /* border: 1px solid black; */
   width: 100%;
   height: 100%;
 `;
