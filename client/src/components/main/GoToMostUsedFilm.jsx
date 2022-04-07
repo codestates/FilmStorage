@@ -28,12 +28,14 @@ const Content = styled.div`
 
 const Title = styled.h1`
   font-size: 70px;
-  margin: ${(props) => props.morginBottom || "0px"};
+  margin: 0;
+  padding: 20px 0;
   color: #444;
 `;
 const SubTitle = styled.p`
-  font-size: 30px;
-  margin: ${(props) => props.morginBottom || "0px"};
+  font-size: 24px;
+  line-height: 1.6em;
+  margin: 0 0 0 3px;
   color: #444;
   /* border: 3px solid blue; */
 `;
@@ -42,6 +44,7 @@ const Description = styled.p`
   margin: 10px 0 0 0;
   line-height: 1.5em;
   color: #666;
+  /* color: #f4f2e8; */
   /* border: 3px solid blue; */
 `;
 const Img = styled.img`
@@ -50,19 +53,24 @@ const Img = styled.img`
   animation-fill-mode: forwards;
 `;
 const Button = styled.button`
-  width: 250px;
-  padding: 20px;
-  margin: 30px 0;
+  width: 90%;
+  text-align: left;
+  padding: 10px 3px;
   border: none;
-  border-radius: 30px;
+  /* border: 1px solid red; */
+  /* border-radius: 30px; */
   font-size: 18px;
   font-weight: 700;
-  color: #444;
+  background: none;
+  color: tomato;
   cursor: pointer;
   &:hover {
-    background: tomato;
-    color: white;
-    transition: 0.4s;
+    /* background: tomato; */
+    color: #666;
+    transition: 0.2s;
+  }
+  .icon {
+    /* margin-left: 200px; */
   }
 `;
 
@@ -72,21 +80,18 @@ function GoToMostUsedFilm() {
     <>
       <Container>
         <Content
-          data-aos="fade-right"
-          data-aos-offset="300"
-          data-aos-duration="700"
-          data-aos-easing="ease-in-sine"
+        data-aos="fade-right"
+        data-aos-offset="300"
+        data-aos-duration="700"
+        data-aos-easing="ease-in-sine"
         >
-          <SubTitle>
-            필름 로그에 가장 많이 <br />
-            업로드된 필름
-          </SubTitle>
+          <SubTitle>필름 로그에 가장 많이 <br/>업로드된 필름</SubTitle>
           <Title>코닥 컬러 200</Title>
-          <Description>
+          {/* <Description>
             컷수 : 36컷 | 필름크기 : 135 | 용도 : 주광용 | 감도(필름) : ISO200 |
             <br />
-            품목 : 컬러필름 | 필름종류 : 35mm필름 | 매수 : 36장 | 수량 : 3롤
-          </Description>
+            품목 : 컬러필름 | 필름종류 : 35mm필름 | 매수 : 36장
+          </Description> */}
           <Link to="/filmlog">
             <Button>
               필름로그로 가기

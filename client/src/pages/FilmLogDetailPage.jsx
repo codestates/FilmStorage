@@ -20,7 +20,8 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
 
   // * 로그인 여부 확인 상태 관리
   const [modalClose, setModalClose] = useState(false);
-
+  // * 임시 댓글 정보 저장
+  const [replyCount, setReplyCount] = useState(0);
   // * 좋아요 상태 관리
   const [isLike, setIsLike] = useState(false);
 
@@ -62,7 +63,7 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
   useEffect(() => {
     getDetailInfo();
     getFLCommentsInfo();
-  }, [getDetailInfo, getFLCommentsInfo]);
+  }, [getDetailInfo, getFLCommentsInfo, replyCount]);
 
   const getLikeInfo = () => {
     if (userInfo.id) {
@@ -113,6 +114,8 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
   const postComment = () => {
     if (comment === "") {
       alert("댓글을 입력해주세요");
+    } else if (!isLogin) {
+      setModalClose(true);
     } else {
       axios
         .post(
@@ -126,20 +129,15 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
             },
           }
         )
-        .then(() => setComment(""))
+        .then(() => {
+          setComment("");
+          setReplyCount(replyCount + 1);
+        })
         .catch((err) => console.log(err));
     }
   };
 
-  // * 댓글 쓰기 로그인 여부 확인
-  const handleReplayUpdate = () => {
-    if (!isLogin) {
-      setModalClose(true);
-    } else {
-      postComment();
-    }
-  };
-
+  // * 모달 창 닫기
   const handleModalClose = () => {
     setModalClose(false);
   };
@@ -170,31 +168,34 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
     <Container>
       <Article>
         <Nav>
-          <NavDiv>
-            <Button onClick={() => history.goBack()}>
-              <FontAwesomeIcon icon={faAngleLeft} />
-            </Button>
-          </NavDiv>
-          <Navflex />
-          {userInfo.id === photoInfo.user_id ? (
-            <>
-              <NavDiv>
-                <Button onClick={handleWriteRegister}>수정하기</Button>
-                {isOpen ? (
-                  <FilmLogRevison
-                    userInfo={userInfo}
-                    setIsOpen={setIsOpen}
-                    photoInfo={photoInfo}
-                  />
-                ) : null}
-              </NavDiv>
-              <NavDiv>
-                <Button onClick={() => handleDeleteData()}>삭제하기</Button>
-              </NavDiv>
-            </>
-          ) : (
-            <NavDiv></NavDiv>
-          )}
+          <Navflex>
+            <FontAwesomeIcon
+              icon={faAngleLeft}
+              className="icon"
+              onClick={() => history.goBack()}
+            />
+          </Navflex>
+          <Navflex>
+            {userInfo.id === photoInfo.user_id ? (
+              <>
+                <NavDiv>
+                  <Button onClick={handleWriteRegister}>수정하기</Button>
+                  {isOpen ? (
+                    <FilmLogRevison
+                      userInfo={userInfo}
+                      setIsOpen={setIsOpen}
+                      photoInfo={photoInfo}
+                    />
+                  ) : null}
+                </NavDiv>
+                <NavDiv>
+                  <Button onClick={() => handleDeleteData()}>삭제하기</Button>
+                </NavDiv>
+              </>
+            ) : (
+              <NavDiv></NavDiv>
+            )}
+          </Navflex>
         </Nav>
         <div className="detailImageBox">
           <img
@@ -217,28 +218,38 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
           </div>
         </div>
         <InfoBox>
-          <Info fontsize="16px" fontweight orange>
+          <Info fontsize="14px" fontweight tomato>
             {photoInfo.nickname}
           </Info>
-          <Info fontsize="16px" flex="9">
+          <Info fontsize="14px" fontweight flex="9">
             {photoInfo.filmtype}
           </Info>
-          <Info rigth>장소 {photoInfo.location}</Info>
-          <Info rigth>등록일 {createdDate}</Info>
-          <Info rigth>좋아요 {photoInfo.likesCount}</Info>
-          <Info rigth>조회수 {photoInfo.views}</Info>
+          <Info rigth>
+            <span>장소</span> {photoInfo.location}
+          </Info>
+          <Info rigth flex="3">
+            <span>등록일</span>
+            {createdDate}
+          </Info>
+          <Info rigth>
+            <span>좋아요</span> {photoInfo.likesCount}
+          </Info>
+          <Info rigth>
+            <span>조회수</span> {photoInfo.views}
+          </Info>
         </InfoBox>
         <TextBox>{photoInfo.contents}</TextBox>
         <ReplyForm>
           <ReplyList
             filmLogComments={filmLogComments}
-            userFLInfo={userInfo}
             getFLCommentsInfo={getFLCommentsInfo}
+            convertDate={createdDate}
+            userFLInfo={userInfo}
           />
           <ReplyInput onChange={(e) => setComment(e.target.value)}></ReplyInput>
           {modalClose ? <Guide handleModalClose={handleModalClose} /> : null}
-          <Button rigth onClick={handleReplayUpdate}>
-            댓글 기능 구현중
+          <Button bottom type="button" onClick={postComment}>
+            댓글 쓰기
           </Button>
         </ReplyForm>
       </Article>
@@ -247,6 +258,7 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
 }
 
 const Container = styled.div`
+  /* border: 1px solid red; */
   width: 100%;
   /* height: 90vh; */
   display: flex;
@@ -264,42 +276,51 @@ const Article = styled.article`
 
 const Nav = styled.nav`
   width: 100%;
-  height: 8rem;
+  /* height: 8rem; */
   /* border: 1px solid red; */
   display: flex;
-`;
-
-const NavDiv = styled.div`
-  margin-top: 4rem;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
 `;
 
 const Navflex = styled.div`
-  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  .icon {
+    font-size: 28px;
+    margin: 0px;
+    cursor: pointer;
+    /* padding: 5px; */
+    /* border: 1px solid red; */
+  }
+`;
+
+const NavDiv = styled.div`
+  /* border: 1px solid red; */
+  margin-left: 10px;
+  /* margin: 2rem 0; */
 `;
 
 const Button = styled.button`
-  margin-right: 10px;
+  border: 1px solid tomato;
+  background: none;
+  color: tomato;
+  font-family: "SCoreDream";
+  font-size: 16px;
+  font-weight: 500;
   padding: 10px 30px;
-  border: none;
+  /* border: none; */
   border-radius: 20px;
-  right: ${(props) => props.rigth || 0};
   ${(props) => {
-    if (props.top) {
+    if (props.bottom) {
       return css`
-        top: -50px;
-      `;
-    } else if (props.bottom) {
-      return css`
+        position: absolute;
+        right: 0;
         bottom: -50px;
-      `;
-    } else if (props.rigth) {
-      return css`
-        rigth: -50px;
       `;
     }
   }}
-  font-size: 16px;
-  font-weight: 600;
   cursor: pointer;
   &:hover {
     color: white;
@@ -338,15 +359,22 @@ const ReplyForm = styled.form`
 `;
 
 const InfoBox = styled.div`
+  /* border: 1px solid red; */
   display: flex;
+  align-items: center;
+  margin: 15px 10px;
 `;
 const Info = styled.span`
   /* border: 1px solid red; */
   padding: 5px;
-  margin: 5px;
-  color: ${(props) => (props.orange ? "Chocolate" : "none")};
+  color: ${(props) => (props.tomato ? "tomato" : "none")};
   flex: ${(props) => props.flex || "1 30px"};
   font-size: ${(props) => props.fontsize || "12px"};
   font-weight: ${(props) => (props.fontweight ? 500 : 400)};
   text-align: ${(props) => (props.rigth ? "center" : "none")};
+  span {
+    /* border: 1px solid red; */
+    font-weight: 600;
+    margin-right: 5px;
+  }
 `;

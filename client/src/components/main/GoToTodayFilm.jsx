@@ -28,12 +28,13 @@ const Content = styled.div`
 
 const Title = styled.h1`
   font-size: 70px;
-  margin: ${(props) => props.morginBottom || "0px"};
+  margin: 10px 0px;
   color: #444;
 `;
 const SubTitle = styled.p`
   font-size: 30px;
-  margin: ${(props) => props.morginBottom || "0px"};
+  line-height: 1.6em;
+  margin: 0 0 0 3px;
   color: #444;
   /* border: 3px solid blue; */
 `;
@@ -43,19 +44,24 @@ const Img = styled.img`
   animation-fill-mode: forwards;
 `;
 const Button = styled.button`
-  width: 250px;
-  padding: 20px;
-  margin: 30px 0;
+  width: 90%;
+  text-align: left;
+  padding: 20px 3px;
   border: none;
-  border-radius: 30px;
+  /* border: 1px solid red; */
+  /* border-radius: 30px; */
   font-size: 18px;
   font-weight: 700;
-  color: #444;
+  background: none;
+  color: tomato;
   cursor: pointer;
   &:hover {
-    background: tomato;
-    color: white;
-    transition: 0.4s;
+    /* background: tomato; */
+    color: #666;
+    transition: 0.2s;
+  }
+  .icon {
+    /* margin-left: 200px; */
   }
 `;
 
@@ -72,12 +78,10 @@ function GoToTodayFilm() {
         </Content>
         <Content>
           <SubTitle>
-            오늘의 날씨는 맑음 ☀️
-            <br />
+            오늘의 날씨는 맑음 ☀️<br/>
             청량한 분위기의
           </SubTitle>
           <Title>후지 c200</Title>
-          <SubTitle>를 사용해 보세요</SubTitle>
           <Link to="todayfilm">
             <Button>
               오늘의 필름 추천 받기

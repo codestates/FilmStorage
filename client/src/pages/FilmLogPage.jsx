@@ -116,23 +116,27 @@ export default function FilmLogPage({ userInfo, isLogin }) {
     <>
       <section className="filmlog-first">
         <div className="filmlog-first-img">
+          <h1 className="filmlog-first-img-text">Photo of the month</h1>
           <SimpleSlider topThree={topThree} />
         </div>
       </section>
       <article className="filmlog-second">
         <div className="filmlog-second-container">
           <nav className="filmlog-second-nav">
-            <div className="filmlog-second-nav-title">필름 종류</div>
-            <FilmType />
-            <div className="nav-flex"></div>
-            <div>
-              {modalClose ? (
-                <Guide handleModalClose={handleModalClose} />
-              ) : null}
-              <Button onClick={handleUpdate}>사진등록</Button>
-              {isOpen ? (
-                <FilmLogWriting userInfo={userInfo} setIsOpen={setIsOpen} />
-              ) : null}
+            <div className="nav-flex">
+              <div className="filmlog-second-nav-title">필름 종류</div>
+              <FilmType />
+            </div>
+            <div className="nav-flex">
+              <div>
+                {modalClose ? (
+                  <Guide handleModalClose={handleModalClose} />
+                ) : null}
+                <Button onClick={handleUpdate}>사진등록</Button>
+                {isOpen ? (
+                  <FilmLogWriting userInfo={userInfo} setIsOpen={setIsOpen} />
+                ) : null}
+              </div>
             </div>
           </nav>
           <div className="filmlog-second-content">
@@ -160,7 +164,7 @@ export default function FilmLogPage({ userInfo, isLogin }) {
 const FilmLogImg = styled.img`
   width: 20rem;
   height: 20rem;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   margin: 11px;
   object-fit: cover;
   cursor: pointer;
@@ -173,22 +177,13 @@ const FilmLogImg = styled.img`
 
 const Button = styled.button`
   padding: 10px 30px;
-  border: none;
+  border: 1px solid tomato;
+  background: none;
+  color: tomato;
   border-radius: 20px;
-  right: ${(props) => props.rigth || 0};
-  ${(props) => {
-    if (props.top) {
-      return css`
-        top: -50px;
-      `;
-    } else if (props.bottom) {
-      return css`
-        bottom: -50px;
-      `;
-    }
-  }}
+  font-family: "SCoreDream";
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   &:hover {
     color: white;

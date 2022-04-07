@@ -1,5 +1,5 @@
 .filmlog-first {
-  border: 2px solid black;
+  /* border: 2px solid black; */
   width: 100vw;
   height: 90vh;
   text-align: center;
@@ -12,12 +12,21 @@
 }
 
 .filmlog-first-img {
-  border: 3px solid black;
+  /* border: 3px solid black; */
   margin-top: 1rem;
   margin-right: 2rem;
   margin-left: 2rem;
   width: 95.5vw;
   height: 80vh;
+  position: relative;
+}
+
+.filmlog-first-img-text {
+  position: absolute;
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.356);
+  top: 100px;
+  left: 600px;
 }
 
 /* 필름로그 이미지 무한스크롤 */
@@ -30,6 +39,10 @@
 
 .filmlog-second-container {
   /* border: 1px solid black; */
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
   margin-top: 4rem;
   margin-right: 8rem;
   margin-left: 8rem;
@@ -40,19 +53,29 @@
 
 .filmlog-second-nav {
   /* border: 1px solid red; */
+  width: 85%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 1rem 1rem 1rem 1rem;
+  padding: 10px;
 }
 
 .filmlog-second-nav-title {
+  /* text-align: center; */
   margin-right: 1rem;
-  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-  font-size: 1.5rem;
+  padding: 10px;
+  /* padding: 0.5rem 0.5rem 0.5rem 0.5rem; */
+  /* border: 1px solid gainsboro; */
+  /* border-radius: 5px;; */
+  /* background-color: tomato; */
+  color: #444;
+  font-weight: 600;
 }
 
 .nav-flex {
-  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  /* flex-grow: 1; */
 }
 
 ul {
