@@ -23,12 +23,12 @@ export default {
     },
     {
       id: 3,
-      filmname: "아그파 APX 400",
+      filmname: "롤라이 슈퍼팬 200",
       imglink:
-        "https://m.log135.com/web/product/big/202103/bf384d7c3e46727015b5cfe5edffc263.jpg",
+        "https://thumbnail9.coupangcdn.com/thumbnails/remote/492x492ex/image/rs_quotation_api/sbvnypgh/ffcb8b51d9044433b6e8128df3a7dc8f.jpg",
       type: "흑백",
       shots: "36컷",
-      iso: "400",
+      iso: "200",
       content: "높은 해상도와 부드러운 입자감의 흑백필름",
     },
   ],
@@ -56,12 +56,12 @@ export default {
     },
     {
       id: 3,
-      filmname: "후지 PRO 400H",
+      filmname: "로모그래피 메트로폴리스",
       imglink:
-        "https://asset.fujifilm.com/www/kr/files/styles/600x400/public/2019-09/fcdadd8823be2b6e64e3ff7c9a8592f6/thumb_films_negative-and-reversal_03.jpg?itok=I7EIrxl5",
+        "https://cdn.shop.lomography.com/media/catalog/product/cache/d48ee8365af56e523deee8f9725f2022/m/e/metropolis-135-film_2021-formular_box_roll_front.jpg",
       type: "컬러",
       shots: "36컷",
-      iso: "400",
+      iso: "100~400",
       content: "고운 입자로 부드러운 색상 그라데이션을 느낄 수 있는 컬러 필름",
     },
   ],
@@ -84,7 +84,8 @@ export default {
       type: "컬러",
       shots: "36컷",
       iso: "400",
-      content: "우수한 컬러 재현성과 고감도 입자로 인물 사진에 적합한 컬러 필름",
+      content:
+        "우수한 컬러 재현성과 고감도 입자로 인물 사진에 적합한 컬러 필름",
     },
     {
       id: 3,
