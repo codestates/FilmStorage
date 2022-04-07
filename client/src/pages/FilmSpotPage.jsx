@@ -20,6 +20,7 @@ const Container = styled.section`
 const Article = styled.article`
   /* border: 1px solid blue; */
   width: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
