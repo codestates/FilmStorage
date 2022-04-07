@@ -19,6 +19,7 @@ export default function FilmLogPage({ userInfo }) {
   const [itemLists, setItemLists] = useState([]);
 
   const [page, setPage] = useState(1);
+
   const observer = useRef();
 
   const getMylogData = async (page) => {

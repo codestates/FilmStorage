@@ -5,12 +5,16 @@ import styled, { css } from "styled-components";
 import ReplyList from "../components/reply/ReplyList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import Guide from "../components/Guide";
 
-export default function FilmTalkView({ userInfo }) {
-  // const { category, title, writer, date, views } = initialState.post;
+export default function FilmTalkView({ userInfo, isLogin }) {
 
   const history = useHistory();
-
+  // * 로그인 여부 확인 상태 관리
+  const [modalClose, setModalClose] = useState(false);
+  // * 임시 댓글 정보 저장
+  const [replyCount, setReplyCount] = useState(0)
+  // console.log(replyCount);
   const [filmTalkInfo, setFilmTalkInfo] = useState({
     user_id: "",
     category: "",
@@ -20,7 +24,11 @@ export default function FilmTalkView({ userInfo }) {
     nickname: "",
     views: 0,
   });
+
+  // * 작성한 댓글 서버에 저장
   const [comment, setComment] = useState("");
+console.log("댓그르ㅡ으으으응 : ",comment);
+  // * 서버에서 불러와서 저장하고 댓글 목록에 출력
   const [filmTalkComments, setFilmTalkComments] = useState([]);
   const url = window.location.href;
   const filmtalk_id = url.split("view/")[1];
@@ -75,7 +83,7 @@ export default function FilmTalkView({ userInfo }) {
   useEffect(() => {
     getFilmtalkDetail();
     getFTCommentsInfo();
-  }, [getFilmtalkDetail, getFTCommentsInfo]);
+  }, [getFilmtalkDetail, getFTCommentsInfo, replyCount]);
 
   // view 정보 가져오기
   // 삭제하기
@@ -96,6 +104,8 @@ export default function FilmTalkView({ userInfo }) {
   const postComment = () => {
     if (comment === "") {
       alert("댓글을 입력해주세요");
+    } else if (!isLogin) {
+      setModalClose(true);
     } else {
       axios
         .post(
@@ -109,9 +119,17 @@ export default function FilmTalkView({ userInfo }) {
             },
           }
         )
-        .then((res) => setComment(""))
+        .then((res) => {
+          setComment("");
+          setReplyCount(replyCount + 1);
+        })
         .catch((err) => console.log(err));
     }
+  };
+
+  // * 모달 창 닫기
+  const handleModalClose = () => {
+    setModalClose(false);
   };
 
   const convertDate = (date) => {
@@ -164,7 +182,7 @@ export default function FilmTalkView({ userInfo }) {
           <ContentBox
             dangerouslySetInnerHTML={{ __html: filmTalkInfo.contents }}
           ></ContentBox>
-          <ReplyForm>
+          <ReplyForm onSubmit={(e) => e.preventDefault()}>
             <ReplyList
               filmTalkComments={filmTalkComments}
               getFTCommentsInfo={getFTCommentsInfo}
@@ -172,8 +190,10 @@ export default function FilmTalkView({ userInfo }) {
               userFTInfo={userInfo}
             />
             <ReplyInput
+              value={comment}
               onChange={(e) => setComment(e.target.value)}
             ></ReplyInput>
+            {modalClose ? <Guide handleModalClose={handleModalClose} /> : null}
             <Button bottom onClick={postComment}>
               댓글 쓰기
             </Button>
@@ -203,7 +223,7 @@ const Article = styled.article`
   .icon {
     /* border: 1px solid green; */
     padding: 10px;
-    font-size: 24px;
+    font-size: 28px;
     cursor: pointer;
   }
 `;
@@ -229,7 +249,6 @@ const ContentBox = styled.div`
   border-bottom: 2px solid #444;
   padding: 20px 2px 100px;
   font-size: 14px;
-  line-height: 2em;
 
   img {
     /* border: 3px solid yellow; */

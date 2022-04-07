@@ -86,15 +86,15 @@ export default function SignUpPage() {
       //   clearTimeout(minutTimer);
       // };
     } else if (!validateFuntion.Email(email)) {
-      setErrorMessage("이메일 형식과 맞지 않습니다.");
+      setErrorMessage("이메일 형식과 맞지 않습니다");
     } else if (!validateFuntion.PW(password)) {
       setErrorMessage(
-        "비밀번호는 문자,숫자,특수문자를 포함한 8자리 이상이여야 합니다."
+        "비밀번호는 문자, 숫자, 특수문자 포함 8자리 이상이어야 합니다"
       );
     } else if (!validateFuntion.Phone(mobile)) {
-      setErrorMessage("유효하지 않는 핸드폰번호 입니다.");
+      setErrorMessage("유효하지 않는 핸드폰번호 입니다");
     } else if (!validateFuntion.DoubleCheck(password, repassword)) {
-      setErrorMessage("비밀번호가 일치 하지 않습니다.");
+      setErrorMessage("비밀번호가 일치 하지 않습니다");
     } else if (!termCheck) {
       setErrorMessage("이용약관에 동의해주세요");
     } else {
@@ -109,7 +109,7 @@ export default function SignUpPage() {
           }
         })
         .catch((err) => {
-          setErrorMessage("이미 사용중인 이메일주소 혹은 닉네임이 존재합니다.");
+          setErrorMessage("이미 사용중인 이메일주소 혹은 닉네임이 존재합니다");
         });
     }
   };
@@ -172,10 +172,11 @@ export default function SignUpPage() {
             </Button>
           </SigninForm>
           <SocialAccountBox>
-            <SocialAccount onClick={() => kakaoSignIn()}>
-              {/* <img src="https://user-images.githubusercontent.com/89354370/161745889-ce360dd3-8464-434e-b65f-d43c0d696fc5.png" alt="kakao"/> */}
-              카카오로 로그인하기
-            </SocialAccount>
+            <img
+              onClick={() => kakaoSignIn()}
+              src="https://user-images.githubusercontent.com/87605663/162007911-72b49851-4a30-421c-9633-7db1f888d405.png"
+              alt="kakao"
+            />
           </SocialAccountBox>
         </Article>
       </Container>
@@ -199,8 +200,12 @@ const Article = styled.article`
 
 const SigninForm = styled.form`
   /* border: 1px solid green; */
-  width: 390px;
-  padding: 10px 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+  /* padding: 10px 40px; */
   box-sizing: border-box;
 `;
 
@@ -254,22 +259,15 @@ const Button = styled.button`
   }
 `;
 const SocialAccountBox = styled.div`
+  /* border: 1px solid red; */
   display: flex;
-  margin: 10px 40px;
-  padding: 15px;
-  border-radius: 12px;
-  background: #fee500;
-  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
   cursor: pointer;
-  &:hover {
-    color: white;
-    background: #000;
-    transition: 0.3s;
+  img {
+    width: 300px;
   }
-`;
-const SocialAccount = styled.span`
-  flex: 1;
-  flex-wrap: wrap;
 `;
 
 //* 이용약관 모달 *//

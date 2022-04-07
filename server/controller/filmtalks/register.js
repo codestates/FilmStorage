@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { filmtalks } = require("../../models");
 
 module.exports = {

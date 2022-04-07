@@ -32,7 +32,6 @@ function App() {
     mobile: "",
     kakaouser: false,
   });
-  // const [nowLocation, setNowLocation] = useState();
 
   useEffect(() => {
     isAuthenticated();
@@ -47,14 +46,15 @@ function App() {
       })
       .then((res) => {
         // console.log(res);
-        const { id, email, nickname, profile, mobile, kakaouser } = res.data.data;
+        const { id, email, nickname, profile, mobile, kakaouser } =
+          res.data.data;
         setUserInfo({
           id,
           email,
           nickname,
           profile,
           mobile,
-          kakaouser
+          kakaouser,
         });
         setIsLogin(true);
       })
@@ -66,8 +66,6 @@ function App() {
   const handleResponseSuccess = () => {
     isAuthenticated();
   };
-
-  // 카카오 맵에서 현재 위치 가져오기 구현
 
   return (
     <div className="App">
@@ -91,7 +89,7 @@ function App() {
           <FilmTalkPage isLogin={isLogin} />
         </Route>
         <Route path="/filmtalks/view">
-          <FilmTalkView userInfo={userInfo} />
+          <FilmTalkView userInfo={userInfo} isLogin={isLogin} />
         </Route>
         <Route path="/todayfilm">
           <TodayFilmPage />

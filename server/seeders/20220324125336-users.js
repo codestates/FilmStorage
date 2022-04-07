@@ -31,9 +31,9 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        email: "boo1996@naver.com",
+        email: "yaya202@naver.com",
         password: "4321abc!",
-        nickname: "hyeongeolife",
+        nickname: "girl",
         mobile: "010-7583-9848",
         profile: "https://user-images.githubusercontent.com/89354370/161719211-8d182204-a775-417e-9165-399fa6df48ef.png",
         createdAt: new Date(),

@@ -77,9 +77,42 @@ module.exports = {
       });
     } catch (err) {
       res.status(500).send({
-        message: "internal server error",
+        message: "Internal server error",
       });
       console.log(err);
+    }
+  },
+
+  get: async (req, res) => {
+    try {
+      const { user_id, filmlog_id } = req.params;
+      const getLikesData = await likes.findOne({
+        attributes: ["like"],
+        where: {
+          user_id,
+          filmlog_id,
+        },
+      });
+
+      const getLikesCountData = await filmlogs.findOne({
+        attributes: ["likesCount"],
+        where: {
+          id: filmlog_id,
+        },
+      });
+
+      res.status(200).send({
+        message: "ok",
+        data: {
+          like: getLikesData.like,
+          likesCount: getLikesCountData.likesCount,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({
+        message: "Internal Server Error",
+      });
     }
   },
 };

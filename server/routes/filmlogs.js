@@ -24,6 +24,8 @@ filmlogsRouter.patch("/revision/:user_id/:filmlog_id", filmlogsController.revisi
 filmlogsRouter.delete("/deletion/:filmlog_id", filmlogsController.deletion.delete);
 // 좋아요 기능
 filmlogsRouter.post("/likes/:user_id/:filmlog_id", filmlogsController.likes.post);
+filmlogsRouter.get("/likes/:user_id/:filmlog_id", filmlogsController.likes.get);
+
 
 // 필름로그 조회 기능
 filmlogsRouter.get("/total", filmlogsController.total.get);

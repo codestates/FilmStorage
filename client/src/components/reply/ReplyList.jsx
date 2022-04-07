@@ -2,6 +2,8 @@ import axios from "axios";
 import React from "react";
 import styled from "styled-components";
 import Loader from "../Loader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons"
 
 export default function ReplyList({
   getFTCommentsInfo,
@@ -56,17 +58,16 @@ export default function ReplyList({
               <Reply key={idx}>
                 <Writer>{comment.nickname}</Writer>
                 <Text>{comment.contents}</Text>
-                <Date>{convertDate(comment.createdAt)}</Date>
                 {userInfo.id === comment.user_id ? (
                   <>
-                    <Button
-                      type="button"
+                    <FontAwesomeIcon
+                      icon={faTrashCan}
+                      className="icon"
                       onClick={() => handleDelete(comment.id)}
-                    >
-                      삭제
-                    </Button>
+                    />
                   </>
                 ) : null}
+                <Date>{convertDate(comment.createdAt)}</Date>
               </Reply>
             );
           })}
@@ -81,45 +82,45 @@ const ReplyBox = styled.ul`
   display: flex;
   flex-direction: column;
   padding: 10px 0;
-  font-size: 14px;
 `;
 const Reply = styled.li`
   /* border-bottom: 1px solid Gainsboro; */
   background: #f8f8f8;
   margin: 5px 0px;
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   padding: 5px;
+  .icon {
+    /* border: 1px solid green; */
+    padding: 0px;
+    font-size: 14px;
+    color: #888;
+    transition: 0.3s;
+    &:hover {
+      color: tomato;
+      cursor: pointer;
+    }
+  }
 `;
 const Writer = styled.span`
   /* border: 1px solid green; */
   flex: 1 80px;
-  padding: 5px 10px;
+  padding: 10px;
   font-weight: 500;
 `;
 const Text = styled.span`
   /* border: 1px solid green; */
   flex: 18 100px;
+  font-size: 14px;
   padding: 5px;
 `;
 const Date = styled.span`
   /* border: 1px solid green; */
   flex: 1 80px;
+  text-align: right;
   padding: 5px 10px;
   font-size: 13px;
   font-weight: 500;
   color: #999;
-`;
-
-const Button = styled.button`
-  border: none;
-  border-radius: 10px;
-  padding: 5px 10px;
-  margin-left: 5px;
-
-  &:hover {
-    color: white;
-    background-color: tomato;
-    cursor: pointer;
-  }
 `;
