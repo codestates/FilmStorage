@@ -109,7 +109,7 @@ export default function FilmSpotPage() {
   const [isLoading, setIsLoading] = useState(true);
   //필름로그 고유 아이디 저장
   const [mapId, setMapId] = useState();
-
+  
   // * 많이 검색한 지역 저장
   const [searchList, setSearchList] = useState([
     "제주도",
@@ -119,7 +119,8 @@ export default function FilmSpotPage() {
     "부산",
     "경주",
   ]);
-
+  
+  const history = useHistory();
   // * 스크롤 핸들링
   const handleScroll = () => {
     window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
@@ -144,7 +145,6 @@ export default function FilmSpotPage() {
       clearTimeout(secondTimer);
     };
   };
-  const history = useHistory();
 
   const handleFilmLogDetailPage = (id) => {
     history.push(`/filmlogdetail/${id}`);
@@ -160,9 +160,7 @@ export default function FilmSpotPage() {
         },
       })
       .then((res) => {
-        console.log("필름로그데이터", res.data);
         mapInfo = res.data.data;
-        console.log("mapInfo", mapInfo);
         realMap();
       })
       .catch((err) => {
@@ -189,38 +187,39 @@ export default function FilmSpotPage() {
           Number(mapInfo[i].lat),
           Number(mapInfo[i].log)
         ),
+        id : mapInfo[i].id,
       });
     }
     console.log("포지션", positions);
 
+    const imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+
     for (let i = 0; i < positions.length; i++) {
       // 마커를 생성합니다
+      const imageSize = new kakao.maps.Size(24, 35); 
+      const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
       const marker = new kakao.maps.Marker({
         map: map, // 마커를 표시할 지도
         position: positions[i].latlng, // 마커의 위치
+        image:markerImage
       });
 
       // 마커에 표시할 인포윈도우를 생성합니다
       const infowindow = new kakao.maps.InfoWindow({
         content: positions[i].content, // 인포윈도우에 표시할 내용
       });
-      // console.log('인포윈도우###',infowindow.content)
 
       // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
       // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
       (function (marker, infowindow) {
         // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다
         kakao.maps.event.addListener(marker, "mouseover", function () {
-          console.log('marker######',marker)
-          console.log('map$#$$$$$$',map)
           infowindow.open(map, marker);
         });
         //마우스 오버 후 클릭시 axios 요청
-        // kakao.maps.event.addListener(marker, "click", function () {
-        //   // handleFilmLogDetailPage();
-        //   infowindow.open(map, marker);
-        //   console.log('marker######',marker)
-        // });
+        kakao.maps.event.addListener(marker, "click", function () {
+          handleFilmLogDetailPage(positions[i].id)
+        });
 
         // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
         kakao.maps.event.addListener(marker, "mouseout", function () {
