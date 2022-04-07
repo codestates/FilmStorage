@@ -246,9 +246,11 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
             convertDate={createdDate}
             userFLInfo={userInfo}
           />
-          <ReplyInput onChange={(e) => setComment(e.target.value)}></ReplyInput>
+          <ReplyInput
+            onChange={(e) => setComment(e.target.value)}
+          ></ReplyInput>
           {modalClose ? <Guide handleModalClose={handleModalClose} /> : null}
-          <Button bottom type="button" onClick={postComment}>
+          <Button bottom onClick={postComment}>
             댓글 쓰기
           </Button>
         </ReplyForm>
@@ -287,7 +289,7 @@ const Nav = styled.nav`
 const Navflex = styled.div`
   display: flex;
   justify-content: space-between;
-  .icon {
+  > .icon {
     font-size: 28px;
     margin: 0px;
     cursor: pointer;
