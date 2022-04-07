@@ -86,20 +86,20 @@ export default function SignUpPage() {
       //   clearTimeout(minutTimer);
       // };
     } else if (!validateFuntion.Email(email)) {
-      setErrorMessage("이메일 형식과 맞지 않습니다.");
+      setErrorMessage("이메일 형식과 맞지 않습니다");
     } else if (!validateFuntion.PW(password)) {
       setErrorMessage(
-        "비밀번호는 문자,숫자,특수문자를 포함한 8자리 이상이여야 합니다."
+        "비밀번호는 문자, 숫자, 특수문자 포함 8자리 이상이어야 합니다"
       );
     } else if (!validateFuntion.Phone(mobile)) {
-      setErrorMessage("유효하지 않는 핸드폰번호 입니다.");
+      setErrorMessage("유효하지 않는 핸드폰번호 입니다");
     } else if (!validateFuntion.DoubleCheck(password, repassword)) {
-      setErrorMessage("비밀번호가 일치 하지 않습니다.");
+      setErrorMessage("비밀번호가 일치 하지 않습니다");
     } else if (!termCheck) {
       setErrorMessage("이용약관에 동의해주세요");
     } else {
       axios
-        .post("https://localhost:4000/users/signup", userInfo, {
+        .post(`${process.env.REACT_APP_API_URL}/users/signup`, userInfo, {
           "Content-Type": "application/json",
         })
         .then((res) => {
@@ -109,7 +109,7 @@ export default function SignUpPage() {
           }
         })
         .catch((err) => {
-          setErrorMessage("이미 사용중인 이메일주소 혹은 닉네임이 존재합니다.");
+          setErrorMessage("이미 사용중인 이메일주소 혹은 닉네임이 존재합니다");
         });
     }
   };

@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { filmtalks } = require("../../models");
 
 module.exports = {
@@ -23,7 +24,7 @@ module.exports = {
 
   imageURL: async (req, res) => {
     try {
-      const imgURL = `https://localhost:4000/filmtalks/${req.file.path}`;
+      const imgURL = `${process.env.SERVER_DOMAIN}/filmtalks/${req.file.path}`;
       res.status(200).send({
         message: "URL Successfully Created",
         url: imgURL,

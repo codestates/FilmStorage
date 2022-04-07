@@ -37,7 +37,7 @@ module.exports = {
     try {
       await filmlogs.update(
         {
-          photo: `https://localhost:4000/filmlogs/photos/${req.file.filename}`,
+          photo: `${process.env.SERVER_DOMAIN}/filmlogs/photos/${req.file.filename}`,
         },
         {
           where: {

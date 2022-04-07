@@ -19,8 +19,6 @@ module.exports = {
       profile: {
         type: Sequelize.STRING,
         allowNull: true,
-        defaultVaule:
-          "https://user-images.githubusercontent.com/89354370/161719211-8d182204-a775-417e-9165-399fa6df48ef.png",
       },
       nickname: {
         type: Sequelize.STRING,
