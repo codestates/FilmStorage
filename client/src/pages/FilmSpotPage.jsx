@@ -109,7 +109,7 @@ export default function FilmSpotPage() {
   const [isLoading, setIsLoading] = useState(true);
   //필름로그 고유 아이디 저장
   const [mapId, setMapId] = useState();
-  
+
   // * 많이 검색한 지역 저장
   const [searchList, setSearchList] = useState([
     "제주도",
@@ -119,7 +119,7 @@ export default function FilmSpotPage() {
     "부산",
     "경주",
   ]);
-  
+
   const history = useHistory();
   // * 스크롤 핸들링
   const handleScroll = () => {
@@ -187,21 +187,22 @@ export default function FilmSpotPage() {
           Number(mapInfo[i].lat),
           Number(mapInfo[i].log)
         ),
-        id : mapInfo[i].id,
+        id: mapInfo[i].id,
       });
     }
     console.log("포지션", positions);
 
-    const imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+    const imageSrc =
+      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 
     for (let i = 0; i < positions.length; i++) {
       // 마커를 생성합니다
-      const imageSize = new kakao.maps.Size(24, 35); 
-      const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+      const imageSize = new kakao.maps.Size(24, 35);
+      const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
       const marker = new kakao.maps.Marker({
         map: map, // 마커를 표시할 지도
         position: positions[i].latlng, // 마커의 위치
-        image:markerImage
+        image: markerImage,
       });
 
       // 마커에 표시할 인포윈도우를 생성합니다
@@ -218,7 +219,7 @@ export default function FilmSpotPage() {
         });
         //마우스 오버 후 클릭시 axios 요청
         kakao.maps.event.addListener(marker, "click", function () {
-          handleFilmLogDetailPage(positions[i].id)
+          handleFilmLogDetailPage(positions[i].id);
         });
 
         // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다

@@ -31,8 +31,8 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
   const url = window.location.href;
   const filmlog_id = url.split("filmlogdetail/")[1];
 
-  const getDetailInfo = useCallback(() => {
-    axios
+  const getDetailInfo = useCallback(async () => {
+    await axios
       .get(`${process.env.REACT_APP_API_URL}/filmlogs/view/${filmlog_id}`, {
         headers: {
           accept: "application/json",
@@ -41,11 +41,14 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
       .then((res) => {
         setPhotoInfo(res.data.data);
         setCreatedDate(res.data.data.createdAt.split(" ")[0]);
+      })
+      .catch((err) => {
+        console.log("디테일 에러", err);
       });
   }, [filmlog_id]);
 
-  const getFLCommentsInfo = useCallback(() => {
-    axios
+  const getFLCommentsInfo = useCallback(async () => {
+    await axios
       .get(
         `${process.env.REACT_APP_API_URL}/filmlog_comments/total/${filmlog_id}`,
         {
