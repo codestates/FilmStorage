@@ -72,15 +72,15 @@ export default function SignInPage({ handleResponseSuccess }) {
     if (!email || !password) {
       setErrorMessage("이메일과 비밀번호를 입력하세요");
     } else if (!validateFuntion.Email(email)) {
-      setErrorMessage("이메일 형식에 맞지 않습니다.");
+      setErrorMessage("이메일 형식에 맞지 않습니다");
     } else if (!validateFuntion.PW(password)) {
       setErrorMessage(
-        "비밀번호를 문자,숫자,특수문자를 포함한 8자리 이상이여야 합니다."
+        "비밀번호는 문자, 숫자, 특수문자 포함 8자리 이상이어야 합니다"
       );
     } else {
       axios
         .post(
-          "https://localhost:4000/users/signin",
+          `${process.env.REACT_APP_API_URL}/users/signin`,
           {
             email: loginInfo.email,
             password: loginInfo.password,
@@ -95,7 +95,7 @@ export default function SignInPage({ handleResponseSuccess }) {
           history.push("/");
         })
         .catch((err) => {
-          setErrorMessage("이메일 혹은 비밀번호가 일치하지 않습니다.");
+          setErrorMessage("이메일 혹은 비밀번호가 일치하지 않습니다");
         });
     }
   };
