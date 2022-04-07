@@ -122,11 +122,13 @@ const Selectlist = styled.div`
 
 const Widthbox = styled.div`
   /* border: 1px solid red; */
-  width: 150px;
+  flex: 1;
+  /* width: 150px; */
   margin-right: 10px;
 `;
 
 const Widthbox2 = styled.div`
-  width: 300px;
+  /* width: 300px; */
+  flex: 2;
   /* border: 1px solid red; */
 `;
