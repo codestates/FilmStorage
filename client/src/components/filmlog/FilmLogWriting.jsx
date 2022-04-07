@@ -30,6 +30,8 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
     setInputText("");
   };
 
+  // 등록성공시 뒤로 가기
+
   // 이미지 미리보는 상태
   const [files, setFiles] = useState("");
 
