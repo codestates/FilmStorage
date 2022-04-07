@@ -21,6 +21,8 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
   // 선택된 장소
   const [clickLocation, setClickLocation] = useState({});
 
+  // 선택한 장소 삭제 버튼 관리
+  const [locationClose, setLocationClose] = useState(false);
   const onChange = (e) => {
     setInputText(e.target.value);
   };
@@ -59,6 +61,11 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
     setPhotoInfo({ ...photoInfo, contents: e.target.value });
   };
 
+  // 선택한 위치 삭제 함수
+  const handleClickLocation = () => {
+    setClickLocation({});
+    setLocationClose(false);
+  };
   const filmlogRegister = () => {
     const postData = {
       filmtype: photoInfo.type,
@@ -130,11 +137,12 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
             <ImageBox>
               {files && (
                 <>
-                  <FontAwesomeIcon icon={faXmark} onClick={() => handleRevison()} className="icon"/>
-                  <img
-                    src={files}
-                    alt="preview-img"
+                  <FontAwesomeIcon
+                    icon={faXmark}
+                    onClick={() => handleRevison()}
+                    className="icon"
                   />
+                  <img src={files} alt="preview-img" />
                 </>
               )}
               <div className="imginsert">사진을 등록 해주세요</div>
@@ -159,20 +167,19 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                 <div className="userinfo">{userInfo.nickname}</div>
               </UserInfo>
               <Tagarea>
-                <span className="film-tag">필름선택</span>
+                <span className="tag-title">필름 선택</span>
                 <FilmType setPhotoInfo={setPhotoInfo} photoInfo={photoInfo} />
               </Tagarea>
               <Textarea>
+                <span className="text-title">내용 입력</span>
                 <textarea
                   className="filmcontent"
                   placeholder="내용을 입력해 주세요"
                   onChange={handleContents}
-                  // rows="15"
-                  // cols="55"
                 ></textarea>
               </Textarea>
               <LocationSearch>
-                <div className="search-title">장소선택</div>
+                <div className="search-title">장소 선택</div>
                 <Search>
                   <form onSubmit={handleSubmit}>
                     <input
@@ -182,12 +189,22 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                     />
                   </form>
                 </Search>
-                <ChoiceBox>{clickLocation.Location}</ChoiceBox>
+                <ChoiceBox>
+                  {clickLocation.Location}
+                  {locationClose ? (
+                    <FontAwesomeIcon
+                      icon={faXmark}
+                      className="icon"
+                      onClick={handleClickLocation}
+                    />
+                  ) : null}
+                </ChoiceBox>
               </LocationSearch>
               <LocationArea>
                 <FilmLogLocation
                   place={place}
                   setClickLocation={setClickLocation}
+                  setLocationClose={setLocationClose}
                 />
               </LocationArea>
             </Content>
@@ -215,19 +232,18 @@ const ModalBox = styled.div.attrs((props) => ({
   role: "dialog",
 }))`
   /* border: 1px solid red; */
-  width: 70vw;
-  height: 80vh;
+  width: 1200px;
+  height: 650px;
   background: white;
   border-radius: 1rem;
   margin: 0;
+  overflow: hidden;
 `;
 
 // * Nav bar * //
 const ModalNav = styled.nav`
   /* border: 3px solid green; */
   padding: 15px;
-  /* width: 70vw; */
-  height: 10vh;
   border-bottom: 1px solid gainsboro;
   display: flex;
   font-size: 22px;
@@ -271,16 +287,16 @@ const Button = styled.button`
 // * 전체 입력 부분 *//
 const ModalImageBox = styled.div`
   display: flex;
-  height: 70vh;
+  height: 100%;
   box-sizing: border-box;
   /* border: 3px solid red; */
 `;
 
-// * 이미지 업로드
+// * 이미지 업로드(왼쪽)
 const ImageBox = styled.div`
   /* border: 3px solid red; */
-  width: 35vw;
-  height: 70vh;
+  flex: 1 500px;
+  height: 570px;
   border-right: 1px solid gainsboro;
   display: flex;
   flex-direction: column;
@@ -289,7 +305,7 @@ const ImageBox = styled.div`
   text-align: center;
   position: relative;
   > img {
-    border: 1px solid green;
+    /* border: 1px solid green; */
     width: 100%;
     height: 100%;
     border-bottom-left-radius: 1rem;
@@ -301,7 +317,7 @@ const ImageBox = styled.div`
   > div.imginsert {
     margin-bottom: 1rem;
   }
-  .icon {
+  > .icon {
     transition: 0.3s;
     position: absolute;
     right: 20px;
@@ -333,25 +349,22 @@ const Label = styled.label`
   }
 `;
 
-// * 내용 입력
+// * 내용 입력(오른쪽)
 const Content = styled.div`
   /* border: 3px solid red; */
-  width: 35vw;
-  height: 70vh;
+  flex: 1 500px;
+  height: 570px;
   display: flex;
   padding: 20px;
   flex-direction: column;
   box-sizing: border-box;
-  /* overflow: auto; */
-  /* justify-content: center; */
-  /* align-items: center; */
+  overflow: overlay;
+  z-index: 1;
 `;
 
 // * 유저 정보
 const UserInfo = styled.div`
   /* border: 1px solid red; */
-  /* width: 30vw; */
-  /* height: 10vh; */
   display: flex;
   align-items: center;
   padding-bottom: 10px;
@@ -370,26 +383,26 @@ const UserImg = styled.img`
 
 // * 필름 선택
 const Tagarea = styled.div`
-  padding: 10px 0;
-  > span.film-tag {
-    /* border: 1px solid green; */
-    /* padding-bottom: 5px; */
-    /* margin: 10px; */
-  }
-  /* width: 30vw; */
-  /* margin-left: 1rem; */
-  /* margin-bottom: 1rem; */
-  /* padding: 10px; */
   /* border: 1px solid red; */
+  padding-top: 20px;
+  z-index: 2;
+  > span.tag-title {
+    font-size: 14px;
+    color: #666;
+    /* border: 1px solid green; */
+  }
 `;
 
 // * 본문 입력
 const Textarea = styled.div`
-  /* padding: 10px 0; */
-  /* height: 30vh; */
-  /* margin-left: 1rem; */
-  /* margin-right: 1rem; */
   /* border: 1px solid blue; */
+  > .text-title {
+    font-size: 14px;
+    color: #666;
+    display: block;
+    padding: 10px 0;
+    /* border: 1px solid blue; */
+  }
   > textarea.filmcontent {
     box-sizing: border-box;
     width: 100%;
@@ -398,76 +411,68 @@ const Textarea = styled.div`
     outline: none;
     border: 1px solid gainsboro;
     border-radius: 5px;
+    font-size: 14px;
+    line-height: 1.5em;
     &::placeholder {
       font-size: 14px;
     }
     &:focus {
       box-shadow: 5px 5px 10px gainsboro;
     }
-
-    /* width: 100%; */
-    /* height: 10vh; */
-    /* box-sizing: border-box; */
-    /* rows: "5";
-    cols: "30"; */
   }
 `;
 
 // * 장소 검색
 const LocationSearch = styled.div`
-  /* width: 30vw; */
-  /* height: 30px; */
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   padding: 5px 0;
-  /* margin-bottom: 0.5rem; */
   > div.search-title {
+    font-size: 14px;
+    color: #666;
     /* border: 1px solid blue; */
-    /* width: 5vw; */
-    padding: 5px 0;
+    padding-top: 10px;
   }
   /* border: 1px solid blue; */
 `;
 
 const Search = styled.div`
   /* border: 1px solid green; */
-  /* width: 100%; */
-  /* height: 100%; */
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content: center; */
-  /* align-items: center; */
+  padding: 5px 0 10px 0;
   input {
     /* border: 1px solid green; */
+    width: 95%;
     border: none;
     border-bottom: 1px solid gainsboro;
     outline: none;
     transition: 0.2s;
-    padding: 5px 10px;
+    padding: 10px;
+    font-size: 16px;
     &:focus {
-      border-bottom: 1px solid #444;
+      border-bottom: 1px solid #222;
     }
   }
 `;
 
 const ChoiceBox = styled.div`
-  /* border: 1px solid green; */
-  border: 1px solid gainsboro;
-  width: 200px;
-  height: 15px;
-  overflow: auto;
-  padding: 5px 10px;
+  width: 95%;
+  padding: 5px;
   transition: 0.2s;
-  /* margin-left: 1rem; */
-  &:hover {
-    border: 1px solid #444;
+  > .icon {
+    padding-left: 20px;
+    color: #999;
+    &:hover {
+      color: #444;
+    }
   }
 `;
 
 const LocationArea = styled.div`
   /* width: 30vw; */
-  height: 200px;
+  /* height: 300px; */
+  /* display: block; */
   /* margin: 1rem; */
-  margin-top: 0;
+  /* margin-top: 0; */
   /* border: 1px solid blue; */
 `;

@@ -303,7 +303,7 @@ const Nav = styled.nav`
 const Navflex = styled.div`
   display: flex;
   justify-content: space-between;
-  .icon {
+  > .icon {
     font-size: 28px;
     margin: 0px;
     cursor: pointer;

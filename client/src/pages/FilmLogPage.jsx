@@ -116,7 +116,7 @@ export default function FilmLogPage({ userInfo, isLogin }) {
     <>
       <section className="filmlog-first">
         <div className="filmlog-first-img">
-          <h1 className="filmlog-first-img-text">Photo of the month</h1>
+          <h1 className="filmlog-first-img-text">Photo of the weekly</h1>
           <SimpleSlider topThree={topThree} />
         </div>
       </section>
@@ -162,9 +162,9 @@ export default function FilmLogPage({ userInfo, isLogin }) {
 }
 
 const FilmLogImg = styled.img`
+  /* border: 1px solid black; */
   width: 20rem;
   height: 20rem;
-  /* border: 1px solid black; */
   margin: 11px;
   object-fit: cover;
   cursor: pointer;
