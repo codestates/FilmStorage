@@ -216,7 +216,7 @@ const Article = styled.article`
   width: 60%;
   position: relative;
 
-  .icon {
+  > .icon {
     /* border: 1px solid green; */
     padding: 10px;
     font-size: 28px;
@@ -256,7 +256,7 @@ const ReplyForm = styled.form`
   /* height: 30vh; */
 `;
 const ReplyInput = styled.input`
-  border: 1px solid Gainsboro;
+  border: 1px solid #000;
   border-radius: 10px;
   width: 97%;
   font-size: 14px;

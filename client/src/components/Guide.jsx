@@ -3,8 +3,11 @@ import styled, { css } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function Guide({ handleModalClose }) {
+  const [text, setText] = useState("로그인 후 사용하실 수 있는 기능입니다");
+  const [button, setButton] = useState(true);
   return (
     <>
       <ModalBG>
@@ -14,9 +17,9 @@ export default function Guide({ handleModalClose }) {
             className="icon"
             onClick={handleModalClose}
           />
-          로그인 후 이용하실 수 있습니다
+          {text}
           <Link to="/signin">
-            <Button type="button">로그인 하러 가기</Button>
+            {button ? <Button type="button">로그인 하러 가기</Button> : null}
           </Link>
         </Modal>
       </ModalBG>

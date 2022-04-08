@@ -39,9 +39,8 @@ select {
 
 .detailImageBox_image {
   opacity: 1;
-  display: block;
+  /* display: block; */
   width: 100%;
-  height: 75vh;
   transition: 0.5s ease;
   backface-visibility: hidden;
 }
