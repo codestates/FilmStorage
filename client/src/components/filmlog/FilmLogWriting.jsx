@@ -11,7 +11,7 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
   // 유저 정보 상태 관리
   const [photoInfo, setPhotoInfo] = useState({
     photo: {},
-    type: "",
+    filmtype: "",
     contents: "",
   });
   // 위치 정보 상태 관리
@@ -32,8 +32,6 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
     setPlace(inputText);
     setInputText("");
   };
-
-  // 등록성공시 뒤로 가기
 
   // 이미지 미리보는 상태
   const [files, setFiles] = useState("");
@@ -67,49 +65,53 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
     setLocationClose(false);
   };
   const filmlogRegister = () => {
-    const postData = {
-      filmtype: photoInfo.type,
-      contents: photoInfo.contents,
-      location: clickLocation.Location,
-      lat: clickLocation.Lat,
-      log: clickLocation.Log,
-    };
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/filmlogs/register/${userInfo.id}`,
-        postData,
-        {
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        const { id } = res.data.data;
-        const formData = new FormData();
-        formData.set("photo", photoInfo.photo);
-        // console.log("폼데이터 확인", formData);
-        axios
-          .patch(
-            `${process.env.REACT_APP_API_URL}/filmlogs/revision/photo/${userInfo.id}/${id}`,
-            formData,
-            {
-              headers: {
-                "Content-type": "multipart/form-data",
-              },
-            }
-          )
-          .then((res) => {
-            alert("등록이 완료되었습니다");
-            // isOpen 상태 변경 / setIsOpen(true)// 상위에서 props로 전달받아 적용
-            setIsOpen(false);
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("서버 연결이 불안정 합니다.");
-      });
+    if (!photoInfo.filmtype) {
+      alert("필름타입을 설정해주세요");
+    } else if (!photoInfo.photo.name) {
+      alert("사진을 등록해주세요");
+    } else {
+      const postData = {
+        filmtype: photoInfo.filmtype,
+        contents: photoInfo.contents,
+        location: clickLocation.Location,
+        lat: clickLocation.Lat,
+        log: clickLocation.Log,
+      };
+      axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/filmlogs/register/${userInfo.id}`,
+          postData,
+          {
+            headers: {
+              "Content-type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          const { id } = res.data.data;
+          const formData = new FormData();
+          formData.set("photo", photoInfo.photo);
+          axios
+            .patch(
+              `${process.env.REACT_APP_API_URL}/filmlogs/revision/photo/${userInfo.id}/${id}`,
+              formData,
+              {
+                headers: {
+                  "Content-type": "multipart/form-data",
+                },
+              }
+            )
+            .then((res) => {
+              alert("등록이 완료되었습니다");
+              setIsOpen(false);
+            })
+            .catch((err) => console.log(err));
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("서버 연결이 불안정 합니다.");
+        });
+    }
   };
 
   return (

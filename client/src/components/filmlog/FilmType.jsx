@@ -62,7 +62,7 @@ const etc = [{ value: "chocolate", label: "기타" }];
 
 export default function FilmType({ photoInfo, setPhotoInfo }) {
   const handleType = (e) => {
-    setPhotoInfo({ ...photoInfo, type: e.label });
+    setPhotoInfo({ ...photoInfo, filmtype: e.label });
   };
   const [selectedOption, setSelectedOption] = useState(null);
 

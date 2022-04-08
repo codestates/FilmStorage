@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import FilmType from "./FilmType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,15 +6,16 @@ import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import FilmLogLocation from "./FilmLogLocation";
 
-export default function FilmLogRevison({ userInfo, setIsOpen, photoInfo }) {
+export default function FilmLogRevison({
+  userInfo,
+  setIsOpen,
+  photoInfo,
+  filmlog_id,
+}) {
   // 수정하는 페이지
   const [myPhotoInfo, setMyPhotoInfo] = useState({
-    photo: {},
-    type: "",
-    contents: "",
-    location: "",
-    lat: "",
-    log: "",
+    filmtype: "",
+    contents: photoInfo.contents,
   });
   // 위치 정보 상태 관리
   const [inputText, setInputText] = useState("");
@@ -22,6 +23,13 @@ export default function FilmLogRevison({ userInfo, setIsOpen, photoInfo }) {
 
   // 선택된 장소
   const [clickLocation, setClickLocation] = useState({});
+  const [locationClose, setLocationClose] = useState(false);
+
+  useEffect(() => {
+    if (photoInfo.location !== "") {
+      setPlace(photoInfo.location);
+    }
+  }, []);
 
   const onChange = (e) => {
     setInputText(e.target.value);
@@ -33,76 +41,41 @@ export default function FilmLogRevison({ userInfo, setIsOpen, photoInfo }) {
     setInputText("");
   };
 
-  // 이미지 미리보는 상태
-  const [files, setFiles] = useState(photoInfo.photo);
-
-  // 이미지 미리보기 삽입 기능
-  const encodeFileTobase64 = (fileBlob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setFiles(reader.result);
-        setMyPhotoInfo({ ...myPhotoInfo, photo: fileBlob });
-        resolve();
-      };
-    });
-  };
-  // 이미지 수정 버튼
-  const handleRevison = () => {
-    setFiles("");
-    setMyPhotoInfo({ ...myPhotoInfo, photo: "" });
-  };
-
   // 내용 상태 관리 함수
   const handleContents = (e) => {
     setMyPhotoInfo({ ...myPhotoInfo, contents: e.target.value });
   };
 
-  const filmlogRegister = () => {
-    const postData = {
-      filmtype: photoInfo.type,
-      contents: myPhotoInfo.contents,
-      location: myPhotoInfo.Location,
-      lat: myPhotoInfo.Lat,
-      log: myPhotoInfo.Log,
-    };
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/filmlogs/register/${userInfo.id}`,
-        postData,
-        {
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        const { id } = res.data.data;
-        const formData = new FormData();
-        formData.set("photo", photoInfo.photo);
-        // console.log("폼데이터 확인", formData);
-        axios
-          .patch(
-            `${process.env.REACT_APP_API_URL}/filmlogs/revision/photo/${userInfo.id}/${id}`,
-            formData,
-            {
-              headers: {
-                "Content-type": "multipart/form-data",
-              },
-            }
-          )
-          .then((res) => {
-            alert("등록이 완료되었습니다");
-            // isOpen 상태 변경 / setIsOpen(true)// 상위에서 props로 전달받아 적용
-            setIsOpen(false);
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("서버 연결이 불안정 합니다.");
-      });
+  const filmlogRevision = () => {
+    if (!myPhotoInfo.filmtype) {
+      alert("필름타입을 설정해주세요");
+    } else {
+      const patchData = {
+        filmtype: myPhotoInfo.filmtype,
+        contents: myPhotoInfo.contents,
+        location: clickLocation.Location,
+        lat: clickLocation.Lat,
+        log: clickLocation.Log,
+      };
+      axios
+        .patch(
+          `${process.env.REACT_APP_API_URL}/filmlogs/revision/${userInfo.id}/${filmlog_id}`,
+          patchData,
+          {
+            headers: {
+              "Content-type": "application/json",
+            },
+          }
+        )
+        .then(() => {
+          alert("수정이 완료되었습니다");
+          setIsOpen(false);
+          window.location.assign(`/filmlogdetail/${filmlog_id}`);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -117,15 +90,14 @@ export default function FilmLogRevison({ userInfo, setIsOpen, photoInfo }) {
             </div>
             <div className="navtitle">사진 수정 하기</div>
             <div className="navtitle">
-              <Button onClick={() => handleRevison()}>이미지 수정</Button>
-              <Button onClick={() => filmlogRegister()}>수정요청</Button>
+              <Button onClick={() => filmlogRevision()}>수정요청</Button>
             </div>
           </ModalNav>
           <ModalImageBox>
             <ImageBox>
-              {files && (
+              {photoInfo.photo && (
                 <img
-                  src={files}
+                  src={photoInfo.photo}
                   alt="preview-img"
                   width="100%"
                   height="100%"
@@ -137,16 +109,6 @@ export default function FilmLogRevison({ userInfo, setIsOpen, photoInfo }) {
                 사진을 <br />
                 등록 해주세요.
               </div>
-              <Label>
-                업로드
-                <input
-                  className="upload"
-                  type="file"
-                  onChange={(e) => {
-                    encodeFileTobase64(e.target.files[0]);
-                  }}
-                ></input>
-              </Label>
             </ImageBox>
             <Content>
               <UserInfo>
@@ -163,7 +125,7 @@ export default function FilmLogRevison({ userInfo, setIsOpen, photoInfo }) {
                 <textarea
                   className="filmcontent"
                   placeholder="내용입력"
-                  value={photoInfo.contents}
+                  value={myPhotoInfo.contents}
                   onChange={handleContents}
                 ></textarea>
               </Textarea>
@@ -184,6 +146,7 @@ export default function FilmLogRevison({ userInfo, setIsOpen, photoInfo }) {
                 <FilmLogLocation
                   place={place}
                   setClickLocation={setClickLocation}
+                  setLocationClose={setLocationClose}
                 />
               </LocationArea>
             </Content>
@@ -279,36 +242,6 @@ const Button = styled.button`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const Label = styled.label`
-  background: #eee;
-  padding: 10px 30px;
-  border: none;
-  border-radius: 20px;
-  right: ${(props) => props.rigth || 0};
-  ${(props) => {
-    if (props.top) {
-      return css`
-        top: -50px;
-      `;
-    } else if (props.bottom) {
-      return css`
-        bottom: -50px;
-      `;
-    }
-  }}
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  &:hover {
-    color: white;
-    background: tomato;
-    transition: 0.3s;
-  }
-  > input.upload {
-    display: none;
-  }
 `;
 
 const UserInfo = styled.div`
