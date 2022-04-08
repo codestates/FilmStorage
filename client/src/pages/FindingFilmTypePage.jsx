@@ -1,145 +1,158 @@
 /* TODO : 필름 취향 찾기 페이지 만들기. */
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import FilmDataResult from "../components/findingfilmtype/FilmDataResult";
+import FirstFilmTypeData from "../components/findingfilmtype/FirstFilmTypeTest";
+
 import Loader from "../components/Loader";
 
+// 더미데이터 랜덤 배열
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
 export default function FindingFilmTypePage() {
-  const firstTest = [
-    [
-      "흑백",
-      "https://user-images.githubusercontent.com/89363048/161432068-1fef271b-8e31-4e53-b6d8-20f6fd82b57a.jpeg",
-    ],
+  // 1.토글기능 만들어서 이미지 선택 여부 확인
 
-    [
-      "칼러",
-      "https://user-images.githubusercontent.com/87605663/160955300-7963c2f2-ff03-4d7d-8bdb-f132c5aabf35.JPG",
-    ],
+  // 2.스플릿해서 선택된 값 분류 하기
 
-    [
-      "기타",
-      "https://user-images.githubusercontent.com/87605663/160956248-734d6fd4-7631-471e-b5b3-a66ca2e25143.JPG",
-    ],
-  ];
+  // 3. 분류가 된 배열을 통계 내기
 
-  const blackFilm1 = [
-    [
-      "흑백인물",
-      "https://user-images.githubusercontent.com/87605663/160955665-178f0031-5b00-4d18-987c-0cc71455c629.JPG",
-    ],
-    [
-      "흑백풍경",
-      "https://user-images.githubusercontent.com/87605663/160955958-30c00cd1-a2e5-49ba-b3a1-a643682fa0fd.JPG",
-    ],
-  ];
+  // 4. 통계결과에 따른 필름결과 보여주기
 
-  const blackFilm2 = [
-    [
-      "흑백인물실내",
-      "https://user-images.githubusercontent.com/87605663/160956219-de688f20-bffb-4e77-957d-5c6ea690bbdb.JPG",
-    ],
-    [
-      "흑백인물실외",
-      "https://user-images.githubusercontent.com/87605663/160956648-5d06eadf-5c8b-455a-8cf6-487965f372a8.JPG",
-    ],
-  ];
+  // 5. 더미데이터 랜덤하게 9장씩 3번씩 보여주기
 
-  const blackFilm3 = [
-    [
-      "흑백인물실내밝음",
-      "https://user-images.githubusercontent.com/87605663/160957215-574748e1-2693-4659-85b0-2816da24a856.JPG",
-    ],
-    [
-      "흑백인물실내어둠",
-      "https://user-images.githubusercontent.com/87605663/160956749-7dbd2485-95fe-490f-8d2c-169c906e529c.JPG",
-    ],
-  ];
-  // 진행바 상태 관리
   const [count, setCount] = useState(0);
 
+  // 결과창 로딩구현
   const [isLoaded, setIsLoaded] = useState(true);
 
-  //
-  const [filmResult, setFilmResult] = useState(true);
+  // 결과창 조건부 랜더링
+  const [isLoadResult, setIsLoadResult] = useState(true);
+
+  const [filmResult, setFilmResult] = useState([]);
 
   const [resultCommet, setResultCommet] = useState(FilmDataResult);
 
-  const [testName, setTestName] = useState([...firstTest]);
+  const [filmTypeTest, setFilmTypeTest] = useState(
+    shuffleArray(FirstFilmTypeData)
+  );
 
-  // 테스틑진행 핸들러
+  const [filmTypeList, setFilmTypeList] = useState([]);
+
+  // 테스트 시작 버튼
+  const [isStart, setIsStart] = useState(true);
+
+  const handleStart = () => {
+    setIsStart(false);
+    setFilmTypeList(filmTypeTest.splice(0, 9));
+  };
+
   const handleCounter = () => {
-    if (count === 4) {
-      setCount(0);
+    if (count === 2) {
+      setCount(count + 1);
+      setIsLoaded(false);
+      handleFilmResult();
     } else {
       setCount(count + 1);
     }
   };
 
+  const testRef = useRef({});
+
+  testRef.current = { type: [], company: [], iso: [] };
+
+  // 사진 배열 바꾸기 슬라이스 함수
+  const handleNextPageTest = (e) => {
+    // 통계 데이터 수집
+    const { type, iso, company } = testRef.current;
+    const choiceValue = e.target.alt.split("&");
+
+    iso.push(choiceValue[0]);
+    type.push(choiceValue[1]);
+    company.push(choiceValue[2]);
+
+    if (type.length === 3) {
+      setFilmResult(filmResult.concat(testRef.current));
+      setFilmTypeList(filmTypeTest.splice(0, 9));
+      handleCounter();
+    }
+
+    console.log("타입랭스==========>", type.length);
+  };
+
+  console.log("============>결과", filmResult);
+
+  // const onToggle = (id) => {
+  //   setUsers(
+  //     users.map((user) =>
+  //       user.id === id ? { ...user, active: !user.active } : user
+  //     )
+  //   );
+  // };
+
+  //  결과 로딩 함수
   const handleFilmResult = () => {
-    let secondTimer = setTimeout(() => setFilmResult(false), 2000);
+    let secondTimer = setTimeout(() => setIsLoadResult(false), 2000);
     return () => {
       clearTimeout(secondTimer);
     };
-  };
-
-  // 사진 배열 바꾸기 슬라이스 함수
-
-  const handleTest = (e) => {
-    console.log(e.target.alt);
-    // alt값에 따라서 상태변경
-    let choiceImg = e.target.alt;
-    if (choiceImg === "흑백") {
-      setTestName([...blackFilm1]);
-      handleCounter();
-    }
-    if (choiceImg === "흑백인물") {
-      setTestName([...blackFilm2]);
-      handleCounter();
-    }
-    if (choiceImg === "흑백인물실내") {
-      setTestName([...blackFilm3]);
-      handleCounter();
-    }
-    if (choiceImg === "흑백인물실내어둠") {
-      handleCounter();
-      setIsLoaded(false);
-      handleFilmResult();
-    }
   };
 
   return (
     <>
       <Container>
         <ProceedContainer>
-          <Progress width={(count / 4) * 100 + "%"} />
+          <Progress width={(count / 3) * 100 + "%"} />
           <Dot />
         </ProceedContainer>
-        <ChoiceBox>
-          {isLoaded ? (
-            <>
-              <ImgContainer>
-                {testName.map((el, idx) => {
+        {isStart ? (
+          <>
+            <ImgContainer>마음에 드는 사진 3장씩 선택해주세요.</ImgContainer>
+            <StartButtonBox>
+              <button
+                onClick={() => {
+                  handleStart();
+                }}
+              >
+                시작
+              </button>
+            </StartButtonBox>
+          </>
+        ) : (
+          <>
+            {isLoaded ? (
+              <GridContainer>
+                {filmTypeList.map((test, idx) => {
                   return (
                     <ImgBox
-                      src={el[1]}
-                      alt={el[0]}
                       key={idx}
+                      src={test.src}
+                      alt={`${test.iso}&${test.type}&${test.company}`}
                       onClick={(e) => {
-                        handleTest(e);
+                        handleNextPageTest(e);
                       }}
                     />
                   );
                 })}
-              </ImgContainer>
-            </>
-          ) : (
-            <>
-              <ImgContainer>
-                {filmResult ? <Loader /> : <ImgBox src={resultCommet[0].src} />}
-              </ImgContainer>
-            </>
-          )}
-        </ChoiceBox>
+              </GridContainer>
+            ) : (
+              <>
+                <ImgContainer>
+                  {isLoadResult ? (
+                    <Loader />
+                  ) : (
+                    <ImgBox src={resultCommet[0].src} />
+                  )}
+                </ImgContainer>
+              </>
+            )}
+          </>
+        )}
       </Container>
     </>
   );
@@ -193,21 +206,36 @@ const Dot = styled.div`
 
 const ImgContainer = styled.div`
   display: flex;
-  justify-content: center;
-  width: 30rem;
+  justify-content: ;
 `;
 
 const ImgBox = styled.img`
-  margin: 2rem;
+  display: block;
   width: 100%;
-  height: 300px;
   object-fit: cover;
   border-radius: 20px;
   border: 1px solid lightgrey;
-  box-shadow: 5px 5px 10px Gainsboro;
+  box-shadow: 2px 2px 2px 2px #000;
   cursor: pointer;
+  opacity: ${(props) => props || 1};
   &:hover {
-    opacity: 0.8;
+    opacity: 0.6;
     transition: 0.3s;
   }
+`;
+
+const StartButtonBox = styled.div`
+  width: 30rem;
+  height: 10rem;
+  border: 1px solid lightgrey;
+  margin-top: 80px;
+  text-align: center;
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  width: 100%;
+  max-width: 900px;
+  grid-gap: 20px;
+  grid-template-columns: 1.2fr 1.2fr 1.2fr;
 `;
