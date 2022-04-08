@@ -115,7 +115,7 @@ export default function MyLogPage({ userInfo }) {
 }
 
 const Container = styled.section`
-  border: 2px solid red;
+  /* border: 2px solid red; */
   width: 100%;
   min-height: 90vh;
   display: flex;
