@@ -128,15 +128,12 @@ export default function FilmSpotPage() {
 
   const onChange = (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    setInputText(e.target.value);
+    setPlace(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    setPlace(inputText);
-    setInputText("");
+    setPlace("");
   };
 
   const handleLoading = () => {
@@ -256,17 +253,18 @@ export default function FilmSpotPage() {
     //장소 검색 객체 생성 후 키워드로 장소검색(keywordSearch)
     const ps = new kakao.maps.services.Places();
 
-    ps.keywordSearch(locPosition, placesSearchCB);
+    ps.keywordSearch(place, placesSearchCB);
     //input으로 입력한 키워드로 검색완료 시 실행되는 콜백함수
 
     function placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
         let bounds = new kakao.maps.LatLngBounds();
         //검색결과가 있으면 마커표시
-        for (let i = 0; i < data.length; i++) {
-          displayMarker(data[i]);
-          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+        for (let i = 0; i < 5 ; i++) {
+          // displayMarker(data[i]);
+          bounds.extend(new kakao.maps.LatLng(data[0].y, data[0].x));
         }
+        map.setMinLevel(5);
         //최초 지도를 그릴 때 지정했던 위도, 경도에서 검색 결과의 위도, 경도로 변경
         map.setBounds(bounds);
         console.log("placeSearchCB");
@@ -319,8 +317,8 @@ export default function FilmSpotPage() {
               <SearchForm className="inputForm" onSubmit={handleSubmit}>
                 <input
                   placeholder="Search Place..."
-                  onChange={(e) => e.stopPropagation()}
-                  value={inputText}
+                  onChange={(e) => onChange(e)}
+                  value={place}
                 />
                 <button type="submit" onClick={() => getInfo()}>
                   <FontAwesomeIcon icon={faArrowRightLong} className="icon" />

@@ -6,12 +6,15 @@ module.exports = {
     const { user_id, filmlog_id } = req.params;
 
     try {
-      const { filmtype, contents } = req.body;
+      const { filmtype, contents, location, lat, log } = req.body;
 
       await filmlogs.update(
         {
           filmtype,
           contents,
+          location,
+          lat,
+          log,
         },
         {
           where: {

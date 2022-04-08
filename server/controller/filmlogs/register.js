@@ -1,5 +1,5 @@
 const { filmlogs } = require("../../models");
-const {Op} = require("sequelize");
+const { Op } = require("sequelize");
 
 // user_id / filmtype / contents /
 
@@ -16,7 +16,7 @@ module.exports = {
         contents,
         location,
         lat,
-        log
+        log,
       });
 
       res.status(201).json({
@@ -31,24 +31,23 @@ module.exports = {
     }
   },
 
-  maps: async(req,res) => {
+  maps: async (req, res) => {
     //요청이 들어오면 바로 위도,경도 정보 리턴
-    try{
-const mapInfo = await filmlogs.findAll({
-  where : {
-lat : {
-  [Op.not]: null
-},
-log:{
-  [Op.not]: null
-}
-  }
-})
-console.log("위도경도정보####>",mapInfo)
-res.status(200).send({data : mapInfo,message : "성공적인 응답입니다."})
-    }catch(err){
-      console.log(err)
-      res.status(500).send({message : "잘못된 요청입니다."})
+    try {
+      const mapInfo = await filmlogs.findAll({
+        where: {
+          lat: {
+            [Op.not]: null,
+          },
+          log: {
+            [Op.not]: null,
+          },
+        },
+      });
+      res.status(200).send({ data: mapInfo, message: "성공적인 응답입니다." });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({ message: "잘못된 요청입니다." });
     }
-  }
+  },
 };
