@@ -261,7 +261,7 @@ export default function FilmSpotPage() {
       if (status === kakao.maps.services.Status.OK) {
         let bounds = new kakao.maps.LatLngBounds();
         //검색결과가 있으면 마커표시
-        for (let i = 0; i < 5 ; i++) {
+        for (let i = 0; i < 5; i++) {
           // displayMarker(data[i]);
           bounds.extend(new kakao.maps.LatLng(data[0].y, data[0].x));
         }

@@ -1,12 +1,9 @@
 /* TODO : 필름 취향 찾기 페이지 만들기. */
 import React, { useRef, useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import FilmDataResult from "../components/findingfilmtype/FilmDataResult";
 import FirstFilmTypeData from "../components/findingfilmtype/FirstFilmTypeTest";
-
 import Loader from "../components/Loader";
-
-// 더미데이터 랜덤 배열
 
 export default function FindingFilmTypePage() {
   // 1.토글기능 만들어서 이미지 선택 여부 확인
@@ -39,6 +36,7 @@ export default function FindingFilmTypePage() {
   // 테스트그림들 나열하기
   const [filmTypeList, setFilmTypeList] = useState([]);
 
+  // 이미지 선택 정해지기
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -88,14 +86,6 @@ export default function FindingFilmTypePage() {
     }
   };
 
-  // const onToggle = (id) => {
-  //   setUsers(
-  //     users.map((user) =>
-  //       user.id === id ? { ...user, active: !user.active } : user
-  //     )
-  //   );
-  // };
-
   // 타입별 결과 함수
   // const getTypeResult = (result) => {
   //   // console.log("이거 중요하다", result);
@@ -142,13 +132,10 @@ export default function FindingFilmTypePage() {
 
   //  결과 로딩 함수
   const handleFilmResult = () => {
-    console.log("나와라 뚝딱========>", filmResult);
     // const typeResult = getTypeResult(filmResult);
     const companyResult = getCompanyResult(filmResult);
 
     setResultForRender(FilmDataResult[companyResult]);
-
-    console.log("결과 회사확인=========>", companyResult);
 
     let secondTimer = setTimeout(() => setIsLoadResult(false), 2000);
     return () => {
@@ -201,14 +188,16 @@ export default function FindingFilmTypePage() {
               <GridContainer>
                 {filmTypeList.map((test, idx) => {
                   return (
-                    <ImgBox
-                      key={idx}
-                      src={test.src}
-                      alt={`${test.iso}&${test.type}&${test.company}`}
-                      onClick={(e) => {
-                        handleNextPageTest(e);
-                      }}
-                    />
+                    <BlockBox key={idx}>
+                      <ImgBox
+                        active={"1"}
+                        src={test.src}
+                        alt={`${test.iso}&${test.type}&${test.company}`}
+                        onClick={(e) => {
+                          handleNextPageTest(e);
+                        }}
+                      />
+                    </BlockBox>
                   );
                 })}
               </GridContainer>
@@ -235,7 +224,7 @@ export default function FindingFilmTypePage() {
                           {resultForRender.shots} |
                         </span>
                         <span className="filminfo">
-                          <span className="bold">감도</span> ISO
+                          <span className="bold">감도</span>ISO
                           {resultForRender.iso}
                         </span>
                       </div>
@@ -260,11 +249,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const ChoiceBox = styled.div`
-  width: 100%;
-  /* display: none; */
 `;
 
 const ProceedContainer = styled.div`
@@ -300,20 +284,6 @@ const Dot = styled.div`
 
 const ImgContainer = styled.div`
   display: flex;
-`;
-
-const ImgBox = styled.img`
-  display: block;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 20px;
-  box-shadow: 2px 2px 2px 2px #000;
-  cursor: pointer;
-  opacity: ${(props) => props || 1};
-  &:hover {
-    opacity: 0.6;
-    transition: 0.3s;
-  }
 `;
 
 const StartButtonBox = styled.div`
@@ -380,6 +350,22 @@ const Button = styled.button`
   &:hover {
     color: white;
     background: tomato;
+    transition: 0.3s;
+  }
+`;
+
+const BlockBox = styled.div`
+  /* display: block; */
+`;
+
+const ImgBox = styled.img`
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
     transition: 0.3s;
   }
 `;

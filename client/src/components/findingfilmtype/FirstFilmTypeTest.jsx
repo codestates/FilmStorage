@@ -74,7 +74,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162212249-2a47f12e-12d0-465b-b624-d586be3ad572.JPG",
   },
   {
-    id: 1,
+    id: 10,
     ios: 200,
     type: "컬러",
     company: "후지",
@@ -82,7 +82,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162340872-5aa50397-7c17-4de2-8ccd-0860cb2c4738.jpeg",
   },
   {
-    id: 2,
+    id: 11,
     ios: 200,
     type: "컬러",
     company: "코닥",
@@ -90,7 +90,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162339982-55733170-5d51-470c-942b-29f9d8474b77.JPG",
   },
   {
-    id: 3,
+    id: 12,
     ios: 0,
     type: "기타",
     company: "모양",
@@ -98,7 +98,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162216622-835f9f5a-9445-4f9b-a53c-caaa49677013.jpeg",
   },
   {
-    id: 4,
+    id: 13,
     ios: 400,
     type: "흑백",
     company: "일포드",
@@ -106,7 +106,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162212828-03f96cb5-130f-430a-a991-55459258e71b.jpeg",
   },
   {
-    id: 5,
+    id: 14,
     ios: 200,
     type: "컬러",
     company: "코닥",
@@ -114,7 +114,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162340252-d866b75b-395c-468f-b085-4ef3be07fa47.JPG",
   },
   {
-    id: 6,
+    id: 15,
     ios: 800,
     type: "컬러",
     company: "로모그래피",
@@ -122,7 +122,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162217031-b598ae0e-ec31-498d-967e-8ec8b9ceef41.jpeg",
   },
   {
-    id: 7,
+    id: 16,
     ios: 400,
     type: "흑백",
     company: "일포드",
@@ -130,7 +130,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162212907-4434c838-ae83-47f4-9173-125d76157ff9.jpeg",
   },
   {
-    id: 8,
+    id: 17,
     ios: 0,
     type: "기타",
     company: "모양",
@@ -138,7 +138,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162212621-acbdc596-324f-4801-adc7-d03311c08f00.jpeg",
   },
   {
-    id: 9,
+    id: 18,
     ios: 800,
     type: "컬러",
     company: "로모그래피",
@@ -146,7 +146,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162217009-f1e8d6a2-59f4-4655-8e25-a4209da0e736.jpeg",
   },
   {
-    id: 1,
+    id: 19,
     ios: 200,
     type: "컬러",
     company: "코닥",
@@ -154,7 +154,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162345091-e2e5b71a-ac5d-4417-8805-212c63d83fc2.JPG",
   },
   {
-    id: 2,
+    id: 20,
     ios: 800,
     type: "컬러",
     company: "일회용",
@@ -162,7 +162,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162215008-a7c82a0e-d16b-4916-a8d1-4c08f8298c88.JPG",
   },
   {
-    id: 3,
+    id: 21,
     ios: 100,
     type: "흑백",
     company: "코닥티맥스",
@@ -170,7 +170,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162216027-7bc7f3f0-321b-45e9-986a-a0be4d4f1c67.jpeg",
   },
   {
-    id: 4,
+    id: 22,
     ios: 0,
     type: "기타",
     company: "컬러 ",
@@ -178,7 +178,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162344602-91272c9d-bf52-482e-a3a7-1860fa2ade8b.jpeg",
   },
   {
-    id: 5,
+    id: 23,
     ios: 800,
     type: "컬러",
     company: "씨네스틸",
@@ -186,7 +186,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162210805-de0d8132-3e0b-4db9-8a69-45a96b6091fa.jpeg",
   },
   {
-    id: 6,
+    id: 24,
     ios: 800,
     type: "컬러",
     company: "로모그래피",
@@ -194,7 +194,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162217044-f7ae4338-295e-4ad3-b2a6-87f2451d19dd.jpeg",
   },
   {
-    id: 7,
+    id: 25,
     ios: 100,
     type: "흑백",
     company: "코닥티맥스",
@@ -202,7 +202,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162216041-f3474ecc-22d7-4137-9d1c-5e589db0c28e.jpeg",
   },
   {
-    id: 8,
+    id: 26,
     ios: 0,
     type: "기타",
     company: "모양",
@@ -210,7 +210,7 @@ export default [
     src: "https://user-images.githubusercontent.com/87605663/162216683-184a31fc-71c8-488e-b082-1aa015c1ef68.jpeg",
   },
   {
-    id: 9,
+    id: 27,
     ios: 200,
     type: "컬러",
     company: "후지",
