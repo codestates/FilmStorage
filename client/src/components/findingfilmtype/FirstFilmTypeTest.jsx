@@ -3,7 +3,7 @@
 export default [
   {
     id: 1,
-    ios: 400,
+    iso: 400,
     type: "흑백",
     company: "롤라이",
     active: false,
@@ -11,7 +11,7 @@ export default [
   },
   {
     id: 2,
-    ios: 800,
+    iso: 800,
     type: "컬러",
     company: "씨네스틸",
     active: false,
@@ -165,7 +165,7 @@ export default [
     id: 3,
     ios: 100,
     type: "흑백",
-    company: "코닥 티맥스",
+    company: "코닥티맥스",
     active: false,
     src: "https://user-images.githubusercontent.com/87605663/162216027-7bc7f3f0-321b-45e9-986a-a0be4d4f1c67.jpeg",
   },
@@ -197,7 +197,7 @@ export default [
     id: 7,
     ios: 100,
     type: "흑백",
-    company: "코닥 티맥스",
+    company: "코닥티맥스",
     active: false,
     src: "https://user-images.githubusercontent.com/87605663/162216041-f3474ecc-22d7-4137-9d1c-5e589db0c28e.jpeg",
   },
