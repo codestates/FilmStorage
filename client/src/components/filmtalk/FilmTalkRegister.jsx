@@ -104,8 +104,7 @@ export default function FilmTalkRegister({ post, setPost, userInfo }) {
         ref={(ele) => (quillRef.current = ele)}
         style={{
           width: "100%",
-          // height: "50vh",
-          // minHeight: "450px",
+          height: "50vh",
           margin: "20px 0",
           padding: "0px 0 40px 0",
         }}
