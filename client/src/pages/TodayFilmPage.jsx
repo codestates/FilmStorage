@@ -308,15 +308,11 @@ export default function TodayFilmPage() {
               );
             })}
           </Section>
-          <HideBox>{/* <WeekendFilm curName={curWeather} /> */}</HideBox>
         </Container>
       )}
     </>
   );
 }
-const HideBox = styled.div`
-  /* display: none; */
-`;
 
 const Container = styled.div`
   /* border: 1px solid red; */
