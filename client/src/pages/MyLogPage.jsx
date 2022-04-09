@@ -7,6 +7,7 @@ import FilmLogWriting from "../components/filmlog/FilmLogWriting";
 import FilmType from "../components/filmlog/FilmType";
 import Loader from "../components/Loader";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function MyLogPage({ userInfo }) {
   // 작성창 띄우기
@@ -16,9 +17,11 @@ export default function MyLogPage({ userInfo }) {
   // 로딩상태
   const [isClose, setIsClose] = useState(true);
   // 이미지 상태 설정
-  const [itemLists, setItemLists] = useState([]);
+  const [myLogItemLists, setMyLogItemLists] = useState([]);
 
   const [page, setPage] = useState(1);
+
+  const [myLogFilter, setMyLogFilter] = useState("");
 
   const observer = useRef();
 
@@ -40,7 +43,7 @@ export default function MyLogPage({ userInfo }) {
           if (res.data.message === "end") {
             setIsClose(false);
           }
-          setItemLists((prev) => [...prev, ...res.data.data]);
+          setMyLogItemLists((prev) => [...prev, ...res.data.data]);
           setIsLoaded(false);
         })
         .catch((err) => {
@@ -52,6 +55,39 @@ export default function MyLogPage({ userInfo }) {
 
   useEffect(() => page !== 0 && getMylogData(page), [page]);
 
+  useEffect(() => {
+    if (myLogFilter !== "") {
+      setIsLoaded(true);
+      new Promise((resolve) => setTimeout(resolve, 1000));
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/filmlogs/mylog/${userInfo.id}?filmtype=${myLogFilter}`,
+          {
+            headers: {
+              accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          if (!res.data.data.length) {
+            return Swal.fire({
+              text: "선택하신 필름으로 등록된 사진이 없습니다",
+              icon: "info",
+              iconColor: "#ff6347",
+              showConfirmButton: false,
+              timer: 1200,
+            }).then(() => {
+              return window.location.assign("/mylog");
+            });
+          }
+          setMyLogItemLists(() => [...res.data.data]);
+          setIsLoaded(false);
+          setIsClose(false);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [myLogFilter]);
+
   const onIntersect = (entries) => {
     const target = entries[0];
     if (target.isIntersecting) {
@@ -62,6 +98,7 @@ export default function MyLogPage({ userInfo }) {
   useEffect(() => {
     if (!observer.current) return;
 
+    // TODO: rootMargin 혹은 threshold 설정으로 트리거가 최대한 밑에서 적용되게 코드 수정 필요
     const io = new IntersectionObserver(onIntersect, { threshold: 0.5 });
     io.observe(observer.current);
 
@@ -81,7 +118,7 @@ export default function MyLogPage({ userInfo }) {
             <nav className="filmlog-second-nav">
               <div className="nav-flex">
                 <div className="filmlog-second-nav-title">필름 종류</div>
-                <FilmType />
+                <FilmType setMyLogFilter={setMyLogFilter} myLogItemLists={myLogItemLists} />
               </div>
               <div className="nav-flex">
                 <div>
@@ -96,7 +133,7 @@ export default function MyLogPage({ userInfo }) {
               </div>
             </nav>
             <div className="filmlog-second-content">
-              {itemLists.map((el, key) => (
+              {myLogItemLists.map((el, key) => (
                 <Link to={`/filmlogdetail/${el.id}`}>
                   <FilmLogImg key={key} src={el.photo} />
                 </Link>
