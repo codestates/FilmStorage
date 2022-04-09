@@ -4,10 +4,7 @@ import { useHistory } from "react-router-dom";
 // import SearchPlace from "./SearchPlace";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowRightLong,
-  faSpaghettiMonsterFlying,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { faChevronCircleUp } from "@fortawesome/free-solid-svg-icons";
 import Loader from "../components/Loader";
 
@@ -167,7 +164,6 @@ export default function FilmSpotPage() {
   };
 
   const realMap = () => {
-    let infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
     const container = document.getElementById("myMap");
     const options = {
       center: new kakao.maps.LatLng(33.450701, 126.570667),
@@ -188,14 +184,13 @@ export default function FilmSpotPage() {
         id: mapInfo[i].id,
       });
     }
-    console.log("포지션", positions);
 
     const imageSrc =
-      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+      "https://user-images.githubusercontent.com/87605663/162559702-9d461eeb-c70c-47b4-84ab-22e30f17fab8.png";
 
     for (let i = 0; i < positions.length; i++) {
       // 마커를 생성합니다
-      const imageSize = new kakao.maps.Size(24, 35);
+      const imageSize = new kakao.maps.Size(35, 35);
       const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
       const marker = new kakao.maps.Marker({
         map: map, // 마커를 표시할 지도
@@ -235,20 +230,16 @@ export default function FilmSpotPage() {
         const lat = position.coords.latitude; // 위도
         const lon = position.coords.longitude; // 경도
 
-        const locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-          message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
+        const locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 
-        // 마커와 인포윈도우를 표시합니다
-        displayMarker(locPosition, message);
-        console.log("navigator.geolocation", position);
+        displayMarker(locPosition);
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 
-      var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
-        message = "geolocation을 사용할수 없어요..";
+      const locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
 
-      displayMarker(locPosition, message);
+      displayMarker(locPosition);
     }
 
     //장소 검색 객체 생성 후 키워드로 장소검색(keywordSearch)
@@ -268,34 +259,9 @@ export default function FilmSpotPage() {
         map.setMinLevel(5);
         //최초 지도를 그릴 때 지정했던 위도, 경도에서 검색 결과의 위도, 경도로 변경
         map.setBounds(bounds);
-        console.log("placeSearchCB");
       }
     }
-    function displayMarker(locPosition, message) {
-      console.log("locPositioin", locPosition);
-
-      const markerPosition = new kakao.maps.LatLng(
-        locPosition.Ma,
-        locPosition.La
-      );
-      // 마커를 생성합니다
-      const marker = new kakao.maps.Marker({
-        map: map,
-        position: markerPosition,
-      });
-
-      const iwContent = message, // 인포윈도우에 표시할 내용
-        iwRemoveable = true;
-
-      // 인포윈도우를 생성합니다
-      const infowindow = new kakao.maps.InfoWindow({
-        content: iwContent,
-        removable: iwRemoveable,
-      });
-
-      // 인포윈도우를 마커위에 표시합니다
-      infowindow.open(map, marker);
-
+    function displayMarker(locPosition) {
       // 지도 중심좌표를 접속위치로 변경합니다
       map.setCenter(locPosition);
     }
@@ -304,9 +270,6 @@ export default function FilmSpotPage() {
   useEffect(() => {
     getInfo();
     handleLoading();
-    return () => {
-      console.log("getInfo실행안됨");
-    };
   }, []);
 
   return (

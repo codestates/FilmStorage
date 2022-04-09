@@ -3,10 +3,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import FilmTalkTotal from "../components/filmtalk/FilmTalkTotalList";
-import { initialState } from "../assets/state";
 import Pagination from "../components/filmtalk/Pagination";
 import axios from "axios";
-import Guide from "../components/Guide";
+import Swal from "sweetalert2";
 
 const Container = styled.section`
   width: 100%;
@@ -69,8 +68,6 @@ const Button = styled.button`
 `;
 
 function FilmTalkPage({ isLogin }) {
-  // * 모달 창 상태 저장
-  const [modalClose, setModalClose] = useState(false);
   // * 필름토크 페이지 게시글 데이터
   const [posts, setPosts] = useState([]);
   // * 페이지네이션 기능 *//
@@ -109,7 +106,6 @@ function FilmTalkPage({ isLogin }) {
         },
       })
       .then((res) => {
-        // console.log(res)
         setTotalLength(res.data.data.length);
       })
       .catch((err) => console.log(err));
@@ -126,21 +122,29 @@ function FilmTalkPage({ isLogin }) {
   // * 글쓰기
   const handleUpdate = () => {
     if (!isLogin) {
-      setModalClose(true);
+      Swal.fire({
+        text: "로그인 후 사용하실 수 있습니다",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        confirmButtonColor: "#189cc4",
+        cancelButtonColor: "#ff6347"
+      }).then((result) => {
+        if(result.isConfirmed) {
+          history.push("/signin")
+        }
+      })
     } else {
       history.push("/filmtalks/register");
     }
   };
 
-  // * 모달 창 닫기
-  const handleModalClose = () => {
-    setModalClose(false);
-  };
-
   return (
     <>
       <Container>
-        {modalClose ? <Guide handleModalClose={handleModalClose} /> : null}
         <Article>
           <Button onClick={handleUpdate}>글쓰기</Button>
           <Table>

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import FilmLogLocation from "./FilmLogLocation";
+import Swal from "sweetalert2";
 
 export default function FilmLogRevison({
   userInfo,
@@ -48,7 +49,13 @@ export default function FilmLogRevison({
 
   const filmlogRevision = () => {
     if (!myPhotoInfo.filmtype) {
-      alert("필름타입을 설정해주세요");
+      Swal.fire({
+        text: "필름타입을 설정해주세요",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: false,
+        timer: 1200,
+      });
     } else {
       const patchData = {
         filmtype: myPhotoInfo.filmtype,
@@ -68,9 +75,16 @@ export default function FilmLogRevison({
           }
         )
         .then(() => {
-          alert("수정이 완료되었습니다");
-          setIsOpen(false);
-          window.location.assign(`/filmlogdetail/${filmlog_id}`);
+          Swal.fire({
+            text: "수정이 완료되었습니다",
+            icon: "success",
+            iconColor: "#ff6347",
+            showConfirmButton: false,
+            timer: 1200,
+          }).then(() => {
+            setIsOpen(false);
+            window.location.assign(`/filmlogdetail/${filmlog_id}`);
+          })
         })
         .catch((err) => {
           console.log(err);

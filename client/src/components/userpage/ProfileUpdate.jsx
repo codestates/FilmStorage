@@ -1,17 +1,28 @@
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 export default function ProfileUpdate({ userInfo }) {
   const [updatedUserInfo, setUpdatedUserInfo] = useState({
     nickname: "",
     mobile: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const validatePhone = (phone_number) => {
+    const regPhone = /(01[0|1|6|9|7])[-](\d{3}|\d{4})[-](\d{4}$)/g;
+    return regPhone.test(phone_number);
+  };
 
   const handleUpdate = (e) => {
     const { nickname, mobile } = updatedUserInfo;
     if (!nickname || !mobile) {
-      alert("정보를 입력해주세요");
+      e.preventDefault();
+      setErrorMessage("정보를 입력해주세요");
+    } else if (!validatePhone(mobile)) {
+      e.preventDefault();
+      setErrorMessage("유효하지 않는 핸드폰번호 입니다");
     } else {
       axios
         .patch(
@@ -23,6 +34,15 @@ export default function ProfileUpdate({ userInfo }) {
             },
           }
         )
+        .then(() => {
+          Swal.fire({
+            text: "수정이 완료되었습니다",
+            icon: "success",
+            iconColor: "#ff6347",
+            showConfirmButton: false,
+            timer: 1200,
+          });
+        })
         .catch((err) => console.log(err));
     }
   };
@@ -53,6 +73,7 @@ export default function ProfileUpdate({ userInfo }) {
           }
         />
       </InfoType>
+      <ErrorMessage>{errorMessage}</ErrorMessage>
       <Button onClick={handleUpdate}>정보 수정하기</Button>
     </InfoUpdate>
   );
@@ -94,6 +115,7 @@ const ErrorMessage = styled.p`
   /* border: 1px solid tomato; */
   color: tomato;
   font-size: 12px;
+  text-align: center;
 `;
 
 const Button = styled.button`
