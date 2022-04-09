@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 export default function PasswordUpdate({ userInfo, setIsLogin, setUserInfo }) {
   const [errorMessage, setErrorMessage] = useState("");
@@ -10,7 +10,6 @@ export default function PasswordUpdate({ userInfo, setIsLogin, setUserInfo }) {
     change: "",
     check: "",
   });
-  const history = useHistory();
 
   const setCheckPW = (e) => {
     setPassword({ ...password, check: e.target.value });
@@ -20,11 +19,11 @@ export default function PasswordUpdate({ userInfo, setIsLogin, setUserInfo }) {
       setErrorMessage("");
     }
   };
-  console.log(password);
 
   const handleUpdate = (e) => {
     const { current, change, check } = password;
     if (!current || !change || !check) {
+      e.preventDefault();
       setErrorMessage("비밀번호를 입력해주세요");
     } else {
       axios
@@ -40,18 +39,26 @@ export default function PasswordUpdate({ userInfo, setIsLogin, setUserInfo }) {
             },
           }
         )
-        .then((res) => {
-          setPassword({
-            current: "",
-            change: "",
-            check: "",
+        .then(() => {
+          Swal.fire({
+            html: "비밀번호가 변경되었습니다<br>변경된 비밀번호로 로그인해주세요",
+            icon: "success",
+            iconColor: "#ff6347",
+            showConfirmButton: false,
+            timer: 1800,
+          }).then(() => {
+            axios
+              .post(`${process.env.REACT_APP_API_URL}/users/signout`)
+              .then(() => {
+                window.location.assign('/signin')
+                setUserInfo({});
+                setIsLogin(false);
+              })
+              .catch((err) => console.log(err));
           });
-          alert(
-            "비밀번호가 수정되었습니다. 변경된 비밀번호로 다시 로그인해주세요"
-          );
-          //TODO: 로그아웃 요청 작성할 것
         })
         .catch((err) => {
+          e.preventDefault();
           if (err.response.status === 400) {
             setErrorMessage("현재 비밀번호가 일치하지 않습니다");
           } else {
@@ -109,7 +116,7 @@ export default function PasswordUpdate({ userInfo, setIsLogin, setUserInfo }) {
             />
           </InfoType>
           <ErrorMessage>{errorMessage}</ErrorMessage>
-          <Button onClick={(e) => handleUpdate(e)}>정보 수정하기</Button>
+          <Button type="button" onClick={(e) => handleUpdate(e)}>정보 수정하기</Button>
         </InfoUpdate>
       </>
     );
@@ -128,7 +135,7 @@ const InfoType = styled.div`
 `;
 const InputType = styled.div`
   /* border: 1px solid green; */
-  padding: 10px 10px;
+  padding: 10px 8px;
   font-size: 12px;
   /* margin-top: 5px; */
 `;

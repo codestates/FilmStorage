@@ -90,7 +90,6 @@ export default function SignInPage({ handleResponseSuccess }) {
           }
         )
         .then((res) => {
-          alert("로그인이 완료되었습니다");
           handleResponseSuccess();
           history.push("/");
         })

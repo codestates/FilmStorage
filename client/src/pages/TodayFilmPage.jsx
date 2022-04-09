@@ -13,6 +13,7 @@ import { faSmog } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loader from "../components/Loader";
 import TodayFilmResult from "../components/todayfilm/TodayFilmResult";
+import Swal from "sweetalert2";
 
 export default function TodayFilmPage() {
   // * 날씨정보 상태 관리
@@ -181,7 +182,13 @@ export default function TodayFilmPage() {
   };
 
   const error = (err) => {
-    alert("위치 정보를 가져오는데 실패했습니다");
+    Swal.fire({
+      text: "위치정보를 가져오는데 실패했습니다",
+      icon: "warning",
+      iconColor: "#ff6347",
+      showConfirmButton: false,
+      timer: 1500
+    })
   };
 
   const getWeatherOfCurLocation = () => {

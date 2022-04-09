@@ -5,6 +5,7 @@ import ProfileUpdate from "../components/userpage/ProfileUpdate";
 import PasswordUpdate from "../components/userpage/PasswordUpdate";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 axios.defaults.withCredentials = true;
 
@@ -43,16 +44,32 @@ export default function UserInfoUpdatePage({
   };
 
   const handleDelete = () => {
-    if (window.confirm("정말로 탈퇴하실건가요..?")) {
-      axios
-        .delete(`${process.env.REACT_APP_API_URL}/users/withdrawal`)
-        .then(() => {
-          alert("탈퇴가 완료되었습니다. 다시 찾아오시길 기다릴게요");
-          setIsLogin(false);
-          history.push("/");
-        })
-        .catch((err) => console.log(err));
-    }
+    Swal.fire({
+      text: "정말 탈퇴하실건가요..?",
+      imageUrl: "https://user-images.githubusercontent.com/89354370/161719211-8d182204-a775-417e-9165-399fa6df48ef.png",
+      imageHeight: 150,
+      showCancelButton: true,
+      confirmButtonColor: "#189cc4",
+      cancelButtonColor: "#ff6347",
+      cancelButtonText: "취소",
+      confirmButtonText: "탈퇴",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`${process.env.REACT_APP_API_URL}/users/withdrawal`)
+          .then(() => {
+            Swal.fire({
+              text: "탈퇴가 완료되었습니다. 다시 찾아오시길 기다릴게요",
+              showConfirmButton: false,
+              timer: 1200,
+            }).then(() => {
+              setIsLogin(false);
+              history.push("/");
+            });
+          })
+          .catch((err) => console.log(err));
+      }
+    });
   };
 
   const selectMenuHandler = (idx) => {
