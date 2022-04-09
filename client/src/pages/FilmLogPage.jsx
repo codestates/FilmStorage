@@ -141,9 +141,6 @@ export default function FilmLogPage({ userInfo, isLogin }) {
               </div>
               <div className="nav-flex">
                 <div>
-                  {modalClose ? (
-                    <Guide handleModalClose={handleModalClose} />
-                  ) : null}
                   <Button onClick={handleUpdate}>사진등록</Button>
                   {isOpen ? (
                     <FilmLogWriting userInfo={userInfo} setIsOpen={setIsOpen} />
