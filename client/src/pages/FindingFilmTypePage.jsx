@@ -1,19 +1,9 @@
 /* TODO : 필름 취향 찾기 페이지 만들기. */
-import React, { useRef, useState } from "react";
-import styled from "styled-components";
+import React, { useRef, useState, useEffect } from "react";
+import styled, { css } from "styled-components";
 import FilmDataResult from "../components/findingfilmtype/FilmDataResult";
 import FirstFilmTypeData from "../components/findingfilmtype/FirstFilmTypeTest";
-
 import Loader from "../components/Loader";
-
-// 더미데이터 랜덤 배열
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
 
 export default function FindingFilmTypePage() {
   // 1.토글기능 만들어서 이미지 선택 여부 확인
@@ -26,6 +16,9 @@ export default function FindingFilmTypePage() {
 
   // 5. 더미데이터 랜덤하게 9장씩 3번씩 보여주기
 
+  // 더미데이터 복사해서 만들기
+  const copyFilmTypeTestData = [...FirstFilmTypeData];
+
   const [count, setCount] = useState(0);
 
   // 결과창 로딩구현
@@ -34,15 +27,26 @@ export default function FindingFilmTypePage() {
   // 결과창 조건부 랜더링
   const [isLoadResult, setIsLoadResult] = useState(true);
 
+  // 유저가 선택한 이미지 정보 수집
   const [filmResult, setFilmResult] = useState([]);
 
-  const [resultCommet, setResultCommet] = useState(FilmDataResult);
+  // 결과 랜더링 용
+  const [resultForRender, setResultForRender] = useState({});
 
-  const [filmTypeTest, setFilmTypeTest] = useState(
-    shuffleArray(FirstFilmTypeData)
-  );
-
+  // 테스트그림들 나열하기
   const [filmTypeList, setFilmTypeList] = useState([]);
+
+  // 이미지 선택 정해지기
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+  const [filmTypeTest, setFilmTypeTest] = useState(
+    shuffleArray(copyFilmTypeTestData)
+  );
 
   // 테스트 시작 버튼
   const [isStart, setIsStart] = useState(true);
@@ -56,7 +60,6 @@ export default function FindingFilmTypePage() {
     if (count === 2) {
       setCount(count + 1);
       setIsLoaded(false);
-      handleFilmResult();
     } else {
       setCount(count + 1);
     }
@@ -81,27 +84,83 @@ export default function FindingFilmTypePage() {
       setFilmTypeList(filmTypeTest.splice(0, 9));
       handleCounter();
     }
-
-    console.log("타입랭스==========>", type.length);
   };
 
-  console.log("============>결과", filmResult);
-
-  // const onToggle = (id) => {
-  //   setUsers(
-  //     users.map((user) =>
-  //       user.id === id ? { ...user, active: !user.active } : user
-  //     )
-  //   );
+  // 타입별 결과 함수
+  // const getTypeResult = (result) => {
+  //   // console.log("이거 중요하다", result);
+  //   let types = result[0].type.concat(result[1].type, result[2].type);
+  //   let countBW = 0,
+  //     countColor = 0,
+  //     countEtc = 0;
+  //   for (let i = 0; i < types.length; i++) {
+  //     if (types[i] === "흑백") {
+  //       countBW++;
+  //     } else if (types[i] === "컬러") {
+  //       countColor++;
+  //     } else {
+  //       countEtc++;
+  //     }
+  //   }
+  //   let max = Math.max(countBW, countColor, countEtc);
+  //   if (max === countBW) return "흑백";
+  //   if (max === countColor) return "컬러";
+  //   if (max === countEtc) return "기타";
   // };
+
+  // 타입에 따른 통계 함수
+  const getCompanyResult = (result) => {
+    const companies = result[0].company.concat(
+      result[1].company,
+      result[2].company
+    );
+    const obj = {};
+    for (let i = 0; i < companies.length; i++) {
+      if (!obj[companies[i]]) {
+        obj[companies[i]] = 1;
+      } else {
+        obj[companies[i]]++;
+      }
+    }
+    const values = Object.values(obj);
+    const max = Math.max(...values);
+    for (let key in obj) {
+      let value = obj[key];
+      if (value === max) return key;
+    }
+  };
 
   //  결과 로딩 함수
   const handleFilmResult = () => {
+    // const typeResult = getTypeResult(filmResult);
+    const companyResult = getCompanyResult(filmResult);
+
+    setResultForRender(FilmDataResult[companyResult]);
+
     let secondTimer = setTimeout(() => setIsLoadResult(false), 2000);
     return () => {
       clearTimeout(secondTimer);
     };
   };
+
+  useEffect(() => {
+    if (filmResult.length === 3) {
+      handleFilmResult();
+    }
+  }, [filmResult]);
+
+  // 상태 원상태로 돌리는 함수
+  useEffect(() => {
+    return () => {
+      setIsLoaded(true);
+      setIsStart(true);
+      setIsLoadResult(true);
+      setCount(0);
+      setResultForRender({});
+      setFilmTypeList([]);
+      setFilmTypeTest(copyFilmTypeTestData);
+    };
+  }, []);
 
   return (
     <>
@@ -114,13 +173,13 @@ export default function FindingFilmTypePage() {
           <>
             <ImgContainer>마음에 드는 사진 3장씩 선택해주세요.</ImgContainer>
             <StartButtonBox>
-              <button
+              <Button
                 onClick={() => {
                   handleStart();
                 }}
               >
                 시작
-              </button>
+              </Button>
             </StartButtonBox>
           </>
         ) : (
@@ -129,14 +188,16 @@ export default function FindingFilmTypePage() {
               <GridContainer>
                 {filmTypeList.map((test, idx) => {
                   return (
-                    <ImgBox
-                      key={idx}
-                      src={test.src}
-                      alt={`${test.iso}&${test.type}&${test.company}`}
-                      onClick={(e) => {
-                        handleNextPageTest(e);
-                      }}
-                    />
+                    <BlockBox key={idx}>
+                      <ImgBox
+                        active={"1"}
+                        src={test.src}
+                        alt={`${test.iso}&${test.type}&${test.company}`}
+                        onClick={(e) => {
+                          handleNextPageTest(e);
+                        }}
+                      />
+                    </BlockBox>
                   );
                 })}
               </GridContainer>
@@ -146,7 +207,31 @@ export default function FindingFilmTypePage() {
                   {isLoadResult ? (
                     <Loader />
                   ) : (
-                    <ImgBox src={resultCommet[0].src} />
+                    <FilmBox>
+                      <img
+                        className="filmimg"
+                        src={resultForRender.imglink}
+                        alt="film"
+                      />
+                      <h3 className="filmtitle">{resultForRender.filmname}</h3>
+                      <div className="filminfo-box">
+                        <span className="filminfo">
+                          <span className="bold">필름 타입</span>{" "}
+                          {resultForRender.type} |
+                        </span>
+                        <span className="filminfo">
+                          <span className="bold">촬영 횟수</span>{" "}
+                          {resultForRender.shots} |
+                        </span>
+                        <span className="filminfo">
+                          <span className="bold">감도</span>ISO
+                          {resultForRender.iso}
+                        </span>
+                      </div>
+                      <span className="filminfo-text">
+                        {resultForRender.content}
+                      </span>
+                    </FilmBox>
                   )}
                 </ImgContainer>
               </>
@@ -164,13 +249,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const ChoiceBox = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  /* display: none; */
 `;
 
 const ProceedContainer = styled.div`
@@ -206,28 +284,11 @@ const Dot = styled.div`
 
 const ImgContainer = styled.div`
   display: flex;
-  justify-content: ;
-`;
-
-const ImgBox = styled.img`
-  display: block;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 20px;
-  border: 1px solid lightgrey;
-  box-shadow: 2px 2px 2px 2px #000;
-  cursor: pointer;
-  opacity: ${(props) => props || 1};
-  &:hover {
-    opacity: 0.6;
-    transition: 0.3s;
-  }
 `;
 
 const StartButtonBox = styled.div`
   width: 30rem;
   height: 10rem;
-  border: 1px solid lightgrey;
   margin-top: 80px;
   text-align: center;
 `;
@@ -238,4 +299,73 @@ const GridContainer = styled.div`
   max-width: 900px;
   grid-gap: 20px;
   grid-template-columns: 1.2fr 1.2fr 1.2fr;
+`;
+
+const FilmBox = styled.div`
+  width: 20vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  > h3.filmtitle {
+    margin: 10px 0 0 0;
+    /* border: 1px solid red; */
+  }
+  > img.filmimg {
+    height: 15vh;
+    /* width: 10vw; */
+    object-fit: cover;
+  }
+
+  > div.filminfo-box {
+    /* border: 1px solid red; */
+    > span.filminfo {
+      /* border: 1px solid red; */
+      padding: 2px;
+      font-size: 11px;
+      .bold {
+        font-weight: 600;
+      }
+    }
+  }
+  > .filminfo-text {
+    border: 1px solid Gainsboro;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 40px;
+    font-size: 14px;
+  }
+`;
+
+const Button = styled.button`
+  padding: 10px 30px;
+  border: 1px solid tomato;
+  background: none;
+  color: tomato;
+  border-radius: 20px;
+  font-family: "SCoreDream";
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background: tomato;
+    transition: 0.3s;
+  }
+`;
+
+const BlockBox = styled.div`
+  /* display: block; */
+`;
+
+const ImgBox = styled.img`
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+    transition: 0.3s;
+  }
 `;
