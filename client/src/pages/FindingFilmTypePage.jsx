@@ -17,6 +17,7 @@ export default function FindingFilmTypePage() {
   // 5. 더미데이터 랜덤하게 9장씩 3번씩 보여주기
 
   // 더미데이터 복사해서 만들기
+
   const copyFilmTypeTestData = [...FirstFilmTypeData];
 
   const [count, setCount] = useState(0);
@@ -35,6 +36,9 @@ export default function FindingFilmTypePage() {
 
   // 테스트그림들 나열하기
   const [filmTypeList, setFilmTypeList] = useState([]);
+
+  // 클릭시 선택된 이미지 형제 태그
+  const [selectedImg, setSelectedImg] = useState("");
 
   // 이미지 선택 정해지기
   const shuffleArray = (array) => {
@@ -70,8 +74,9 @@ export default function FindingFilmTypePage() {
   testRef.current = { type: [], company: [], iso: [] };
 
   // 사진 배열 바꾸기 슬라이스 함수
-  const handleNextPageTest = (e) => {
-    // 통계 데이터 수집
+  const handleNextPageTest = (e, id) => {
+    e.preventDefault();
+    // setSelectedImg(id);
     const { type, iso, company } = testRef.current;
     const choiceValue = e.target.alt.split("&");
 
@@ -189,12 +194,16 @@ export default function FindingFilmTypePage() {
                 {filmTypeList.map((test, idx) => {
                   return (
                     <BlockBox key={idx}>
+                      <ImgSelectedBox
+                        style={{
+                          diplay: selectedImg === idx ? "block" : "hidden",
+                        }}
+                      ></ImgSelectedBox>
                       <ImgBox
-                        active={"1"}
                         src={test.src}
                         alt={`${test.iso}&${test.type}&${test.company}`}
                         onClick={(e) => {
-                          handleNextPageTest(e);
+                          handleNextPageTest(e, test.id);
                         }}
                       />
                     </BlockBox>
@@ -360,12 +369,25 @@ const BlockBox = styled.div`
 
 const ImgBox = styled.img`
   display: block;
-  width: 100%;
+  width: 290px;
+  height: 200px;
   object-fit: cover;
   border-radius: 20px;
   cursor: pointer;
+  position: relative;
   &:hover {
     opacity: 0.6;
     transition: 0.3s;
   }
+`;
+
+const ImgSelectedBox = styled.div`
+  position: absolute;
+  /* z-index: 1; */
+  background-color: black;
+  width: 290px;
+  height: 200px;
+  border-radius: 20px;
+  cursor: pointer;
+  opacity: 0.6;
 `;
