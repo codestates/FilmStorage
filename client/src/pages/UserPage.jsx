@@ -114,7 +114,7 @@ const Container = styled.section`
 const Article = styled.article`
   /* border: 1px solid green; */
   position: absolute;
-  top: 100px;
+  top: 15vh;
 `;
 
 const ImgUpdate = styled.div`
