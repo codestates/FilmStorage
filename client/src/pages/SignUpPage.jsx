@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { initialState } from "../assets/state";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 axios.defaults.withCredentials = true;
 
@@ -103,10 +104,15 @@ export default function SignUpPage() {
           "Content-Type": "application/json",
         })
         .then((res) => {
-          alert("회원가입이 완료되었습니다");
-          if (res.data.message === "Successfully Signed Up") {
+          Swal.fire({
+            text: "회원가입이 완료되었습니다",
+            icon: "success",
+            iconColor: "#ff6347",
+            showConfirmButton: false,
+            timer: 1200,
+          }).then(() => {
             history.push("/signin");
-          }
+          });
         })
         .catch((err) => {
           setErrorMessage("이미 사용중인 이메일주소 혹은 닉네임이 존재합니다");
@@ -142,7 +148,7 @@ export default function SignUpPage() {
         {openModal === true ? (
           <TermModal>
             <TermTitle>이용약관</TermTitle>
-            <TermText>{termText.repeat(5)}</TermText>
+            <TermText>{termText}</TermText>
           </TermModal>
         ) : null}
         <Article>
@@ -277,7 +283,7 @@ const TermModal = styled.div`
   background: white;
   padding: 20px;
   width: 500px;
-  height: 300px;
+  height: 600px;
   box-shadow: 5px 5px 20px Gainsboro;
   position: absolute;
 `;
@@ -288,7 +294,7 @@ const TermTitle = styled.h3`
 const TermText = styled.div`
   font-size: 13px;
   line-height: 2.5em;
-  height: 200px;
+  height: 500px;
   padding: 0px 30px;
   overflow: auto;
 `;

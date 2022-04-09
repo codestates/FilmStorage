@@ -2,12 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import "./FilmLogPage.css";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import FilmLogWriting from "../components/filmlog/FilmLogWriting";
 import SimpleSlider from "../components/filmlog/SimpleSlider";
 import FilmType from "../components/filmlog/FilmType";
 import Loader from "../components/Loader";
-import Guide from "../components/Guide";
+import Swal from "sweetalert2";
 import axios from "axios";
 
 export default function FilmLogPage({ userInfo, isLogin }) {
@@ -24,8 +24,6 @@ export default function FilmLogPage({ userInfo, isLogin }) {
   const [topThree, setTopThree] = useState([]);
   // 작성창 띄우기
   const [isOpen, setIsOpen] = useState(false);
-  // 모달 창 상태 저장
-  const [modalClose, setModalClose] = useState(false);
 
   const url = {
     id: 999,
@@ -106,15 +104,24 @@ export default function FilmLogPage({ userInfo, isLogin }) {
   // * 글쓰기
   const handleUpdate = () => {
     if (!isLogin) {
-      setModalClose(true);
+      Swal.fire({
+        text: "로그인 후 사용하실 수 있습니다",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        confirmButtonColor: "#189cc4",
+        cancelButtonColor: "#ff6347"
+      }).then((result) => {
+        if(result.isConfirmed) {
+          history.push("/signin")
+        }
+      })
     } else {
       handleWriteRegister();
     }
-  };
-
-  // * 모달 창 닫기
-  const handleModalClose = () => {
-    setModalClose(false);
   };
 
   return (

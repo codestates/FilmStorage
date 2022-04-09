@@ -4,6 +4,7 @@ import styled from "styled-components";
 import FilmTalkRegister from "../components/filmtalk/FilmTalkRegister";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function FilmTalkRegisterPage({ userInfo }) {
   /* 카테고리 종류 */
@@ -50,13 +51,22 @@ export default function FilmTalkRegisterPage({ userInfo }) {
   };
 
   const postRegister = () => {
+    const alConfig = {
+      icon: "warning",
+      iconColor: "#ff6347",
+      showConfirmButton: false,
+      timer: 1200,
+    };
     if (!filmtalk_id) {
       if (post.title === "") {
-        alert("제목을 작성해 주세요");
+        alConfig.text = "제목을 작성해주세요"
+        Swal.fire(alConfig)
       } else if (post.category === "") {
-        alert("카테고리를 선택해주세요");
+        alConfig.text = "카테고리를 선택해주세요"
+        Swal.fire(alConfig)
       } else if (post.content === "") {
-        alert("내용을 작성해 주세요");
+        alConfig.text = "내용을 작성해주세요"
+        Swal.fire(alConfig)
       } else {
         axios
           .post(
@@ -73,18 +83,24 @@ export default function FilmTalkRegisterPage({ userInfo }) {
             }
           )
           .then((res) => {
-            alert("등록이 완료되었습니다");
-            history.push(`/filmtalks/view/${res.data.data.id}`);
+            alConfig.text = "등록이 완료되었습니다";
+            alConfig.icon = 'success'
+            Swal.fire(alConfig).then(() => {
+              history.push(`/filmtalks/view/${res.data.data.id}`);
+            });
           })
           .catch((err) => console.log(err));
       }
     } else {
       if (post.title === "") {
-        alert("제목을 작성해 주세요");
+        alConfig.text = "제목을 작성해주세요"
+        Swal.fire(alConfig)
       } else if (post.category === "") {
-        alert("카테고리를 선택해주세요");
+        alConfig.text = "카테고리를 선택해주세요"
+        Swal.fire(alConfig)
       } else if (post.content === "") {
-        alert("내용을 작성해 주세요");
+        alConfig.text = "내용을 작성해주세요"
+        Swal.fire(alConfig)
       } else {
         axios
           .patch(
@@ -96,8 +112,11 @@ export default function FilmTalkRegisterPage({ userInfo }) {
             }
           )
           .then((res) => {
-            alert("수정이 완료되었습니다");
-            history.push(`/filmtalks/view/${res.data.id}`);
+            alConfig.text = "수정이 완료되었습니다";
+            alConfig.icon = 'success'
+            Swal.fire(alConfig).then(() => {
+              history.push(`/filmtalks/view/${res.data.id}`);
+            });
           })
           .catch((err) => console.log(err));
       }
@@ -226,7 +245,7 @@ const Button = styled.button`
   border-radius: 20px;
   /* position: absolute; */
   /* right: ${(props) => (props.right ? "120px" : "120px")}; */
-  
+
   /* bottom: -100px; */
   font-size: 16px;
   font-weight: 600;

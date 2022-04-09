@@ -6,6 +6,7 @@ import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import FilmLogLocation from "./FilmLogLocation";
+import Swal from "sweetalert2";
 
 export default function FilmLogWriting({ userInfo, setIsOpen }) {
   // 유저 정보 상태 관리
@@ -66,9 +67,21 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
   };
   const filmlogRegister = () => {
     if (!photoInfo.filmtype) {
-      alert("필름타입을 설정해주세요");
+      Swal.fire({
+        text: "필름타입을 설정해주세요",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: false,
+        timer: 1200
+      })
     } else if (!photoInfo.photo.name) {
-      alert("사진을 등록해주세요");
+      Swal.fire({
+        text: "사진을 등록해주세요",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: false,
+        timer: 1200
+      })
     } else {
       const postData = {
         filmtype: photoInfo.filmtype,
@@ -102,14 +115,21 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
               }
             )
             .then((res) => {
-              alert("등록이 완료되었습니다");
-              setIsOpen(false);
+              Swal.fire({
+                text: "등록이 완료되었습니다",
+                icon: "success",
+                iconColor: "#ff6347",
+                showConfirmButton: false,
+                timer: 1500
+              }).then(() => {
+                setIsOpen(false);
+                window.location.assign("/filmlog");
+              })
             })
             .catch((err) => console.log(err));
         })
         .catch((err) => {
           console.log(err);
-          alert("서버 연결이 불안정 합니다.");
         });
     }
   };

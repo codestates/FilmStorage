@@ -25,9 +25,6 @@ app.use(
 );
 
 
-// Nodemailer
-app.set("view engine", "ejs");
-
 // 요청에 따른 분기
 app.use("/users", usersRouter);
 app.use("/filmlogs", filmlogsRouter);

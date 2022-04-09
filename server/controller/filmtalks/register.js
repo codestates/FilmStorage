@@ -2,6 +2,7 @@ require("dotenv").config();
 const { filmtalks } = require("../../models");
 
 module.exports = {
+  // 필름토크 등록 기능
   post: async (req, res) => {
     const { user_id } = req.params;
     try {
@@ -22,6 +23,7 @@ module.exports = {
     }
   },
 
+  //이미지 등록 기능
   imageURL: async (req, res) => {
     try {
       const imgURL = `${process.env.SERVER_DOMAIN}/filmtalks/${req.file.path}`;

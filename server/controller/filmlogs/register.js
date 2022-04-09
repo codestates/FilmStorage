@@ -1,13 +1,11 @@
 const { filmlogs } = require("../../models");
 const { Op } = require("sequelize");
 
-// user_id / filmtype / contents /
-
 module.exports = {
+  // 필름로그 등록 기능
   post: async (req, res) => {
     const { user_id } = req.params;
     try {
-      //장소명,위도,경도 정보 받아오기
       const { filmtype, contents, location, lat, log } = req.body;
 
       const createdData = await filmlogs.create({
@@ -32,7 +30,7 @@ module.exports = {
   },
 
   maps: async (req, res) => {
-    //요청이 들어오면 바로 위도,경도 정보 리턴
+    //필름스팟 접속 시 필름로그에 등록된 장소 조회 기능
     try {
       const mapInfo = await filmlogs.findAll({
         where: {

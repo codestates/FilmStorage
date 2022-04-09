@@ -8,6 +8,7 @@ import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Guide from "../components/Guide";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function FilmLogDetailPage({ userInfo, isLogin }) {
   const history = useHistory();
@@ -107,26 +108,65 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
 
   // 삭제요청 핸들러 함수
   const handleDeleteData = () => {
-    if (window.confirm("삭제를 진행 하시겠습니까?")) {
-      axios
-        .delete(
-          `${process.env.REACT_APP_API_URL}/filmlogs/deletion/${filmlog_id}`
-        )
-        .then((res) => {
-          history.goBack();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    Swal.fire({
+      text: "삭제하시겠습니까?",
+      icon: "question",
+      iconColor: "#ff6347",
+      showCancelButton: true,
+      confirmButtonColor: "#189cc4",
+      cancelButtonColor: "#ff6347",
+      cancelButtonText: "취소",
+      confirmButtonText: "삭제",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(
+            `${process.env.REACT_APP_API_URL}/filmlogs/deletion/${filmlog_id}`
+          )
+          .then((res) => {
+            Swal.fire({
+              text: "삭제되었습니다",
+              icon: "success",
+              iconColor: "#ff6347",
+              showConfirmButton: false,
+              timer: 1200,
+            }).then((result) => {
+              history.goBack();
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
   };
 
   const postComment = (e) => {
     e.preventDefault();
     if (comment === "") {
-      alert("댓글을 입력해주세요");
+      Swal.fire({
+        text: "댓글을 작성해주세요",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: false,
+        timer: 1200,
+      });
     } else if (!isLogin) {
-      setModalClose(true);
+      Swal.fire({
+        text: "로그인 후 사용하실 수 있습니다",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        confirmButtonColor: "#189cc4",
+        cancelButtonColor: "#ff6347"
+      }).then((result) => {
+        if(result.isConfirmed) {
+          history.push("/signin")
+        }
+      })
     } else {
       axios
         .post(
@@ -270,7 +310,6 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           ></ReplyInput>
-          {modalClose ? <Guide handleModalClose={handleModalClose} /> : null}
           <Button
             bottom
             onKeyUp={(e) => (e.key === "Enter" ? postComment : null)}

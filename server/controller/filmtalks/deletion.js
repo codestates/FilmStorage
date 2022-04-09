@@ -1,6 +1,7 @@
 const { filmtalks } = require("../../models");
 
 module.exports = {
+  // 필름토크 삭제 기능
   delete: async (req, res) => {
     const { filmtalk_id } = req.params
     const boardInfo = await filmtalks.findOne({
