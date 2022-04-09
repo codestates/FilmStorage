@@ -1,6 +1,6 @@
 /* TODO : 필름 취향 찾기 페이지 만들기. */
 import React, { useRef, useState, useEffect } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import FilmDataResult from "../components/findingfilmtype/FilmDataResult";
 import FirstFilmTypeData from "../components/findingfilmtype/FirstFilmTypeTest";
 import Loader from "../components/Loader";
