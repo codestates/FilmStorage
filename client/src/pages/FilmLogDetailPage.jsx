@@ -5,7 +5,8 @@ import ReplyList from "../components/reply/ReplyList";
 import FilmLogRevison from "../components/filmlog/FilmLogRevison";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-import { faPhotoFilm } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import Guide from "../components/Guide";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -194,6 +195,8 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
 
   const handleFilmLike = () => {
     handlePostLike();
+    // setIsLike(like);
+    // console.log(photoInfo);
   };
 
   const handlePostLike = () => {
@@ -252,7 +255,7 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
           <img
             className="detailImageBox_image"
             src={detailRef.current.photo}
-            alt="demo"
+            alt="image"
           />
           {/* 이미지 클릭시 좋아요 버튼 이벤트 기능 */}
           <div
@@ -261,9 +264,15 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
           >
             <div className="detailImageBox_Like">
               {isLike ? (
-                <FontAwesomeIcon icon={faPhotoFilm} color="tomato" />
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  color="tomato"
+                />
               ) : (
-                <FontAwesomeIcon icon={faPhotoFilm} />
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  color="white"
+                />
               )}
             </div>
           </div>

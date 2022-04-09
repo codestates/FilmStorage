@@ -13,16 +13,27 @@ const { kakao } = window;
 const Container = styled.section`
   /* border: 1px solid red; */
   width: 100%;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  overflow: hidden;
+  padding: 0 0 30px 0;
 `;
 const Article = styled.article`
   /* border: 1px solid blue; */
-  width: 100%;
-
+  width: 60%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 30px;
+  > section {
+    /* border: 1px solid blue; */
+    padding-bottom: 10px;
+    width: 100%;
+  }
 `;
 
 const LoaderBox = styled.div`
@@ -30,21 +41,37 @@ const LoaderBox = styled.div`
   height: 100vh;
 `;
 
+// * 지도 컴포넌트
+const Map = styled.div`
+  /* border: 1px solid gainsboro; */
+  border-radius: 10px;
+  width: 100%;
+  height: 70%;
+`;
+
 // * 검색 컴포넌트
 const SearchForm = styled.form`
-  border-bottom: 2px solid #444;
-  width: 60%;
+  width: 100%;
   box-sizing: border-box;
   display: flex;
   margin: 10px 0;
   input {
     /* border: 1px solid tomato; */
-    color: #444;
-    border: none;
+    border: 1px solid gainsboro;
+    border-radius: 10px;
+    color: #222;
     outline: none;
     padding: 10px;
     flex: 14;
     font-size: 24px;
+    transition: 0.3px;
+    &:focus {
+      box-shadow: 5px 5px 10px gainsboro;
+    }
+    &::placeholder {
+      padding: 10px;
+      font-size: 16px;
+    }
   }
   button {
     padding: 0;
@@ -66,27 +93,18 @@ const SearchForm = styled.form`
 
 const SearchList = styled.ul`
   /* border: 1px solid red; */
-  color: #666;
+  color: #444;
   font-size: 14px;
   margin-bottom: 20px;
-
+  padding-left: 10px;
   span {
-    margin-right: 20px;
+    margin-right: 10px;
     font-weight: 600;
   }
-  li {
-    padding: 0 10px;
-  }
 `;
 
-// * 지도 컴포넌트
-const Map = styled.div`
-  /* border: 1px solid green; */
-  width: 100%;
-  height: 90vh;
-`;
-
-const ScrollToTop = styled.div`
+// * 스크롤 컨트롤
+const ScrollToTop = styled.button`
   font-size: 40px;
   color: #ffffff88;
   position: fixed;
@@ -95,6 +113,8 @@ const ScrollToTop = styled.div`
   z-index: 1;
   cursor: pointer;
   transition: 0.3s;
+  background: none;
+  border: 20px;
   &:hover {
     color: #ff6347;
   }
@@ -163,20 +183,22 @@ export default function FilmSpotPage() {
       });
   };
 
+  // * 지도 생성 * //
   const realMap = () => {
     const container = document.getElementById("myMap");
     const options = {
-      center: new kakao.maps.LatLng(33.450701, 126.570667),
-      level: 13,
+      center: new kakao.maps.LatLng(33.450701, 126.570667), // 처음 렌더링 되는 좌표
+      level: 13, // 지도 확대 레벨 설정
     };
 
     const map = new kakao.maps.Map(container, options);
+    
     //받아온 위도,경도로 지도 위에 렌더링
     const positions = [];
 
     for (let i = 0; i < mapInfo.length; i++) {
       positions.push({
-        content: `<div>${mapInfo[i].location}</div>`,
+        content: `<div class="map-marker">${mapInfo[i].location}</div>`,
         latlng: new kakao.maps.LatLng(
           Number(mapInfo[i].lat),
           Number(mapInfo[i].log)
@@ -222,16 +244,14 @@ export default function FilmSpotPage() {
       })(marker, infowindow);
     }
 
-    //지도에 현재위치 표시하기
+    // * 지도에 현재위치 표시하기 * //
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(function (position) {
         //스코프 내부는 const
         const lat = position.coords.latitude; // 위도
         const lon = position.coords.longitude; // 경도
-
         const locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-
         displayMarker(locPosition);
       });
     } else {
@@ -273,29 +293,32 @@ export default function FilmSpotPage() {
   }, []);
 
   return (
-    <>
+    <> 
       <Container>
         {isLoading ? (
           <>
             <Article>
-              <SearchForm className="inputForm" onSubmit={handleSubmit}>
-                <input
-                  placeholder="Search Place..."
-                  onChange={(e) => onChange(e)}
-                  value={place}
-                />
-                <button type="submit" onClick={() => getInfo()}>
-                  <FontAwesomeIcon icon={faArrowRightLong} className="icon" />
-                </button>
-              </SearchForm>
-              <SearchList>
-                <span>많이 검색한 지역</span>
-                {searchList.map((search) => {
-                  return <li>{search}</li>;
-                })}
-              </SearchList>
+              <section>
+                <SearchForm className="inputForm" onSubmit={handleSubmit}>
+                  <input
+                  className="inpput"
+                    placeholder="장소를 검색해보세요"
+                    onChange={(e) => onChange(e)}
+                    value={place}
+                  />
+                  <button type="submit" onClick={() => getInfo()}>
+                    <FontAwesomeIcon icon={faArrowRightLong} className="icon" />
+                  </button>
+                </SearchForm>
+                <SearchList>
+                  {/* <span>태그가 많이 된 지역</span>
+                  {searchList.map((search) => {
+                    return <li>{search}</li>;
+                  })} */}
+                </SearchList>
+              </section>
               <Map id="myMap"></Map>
-              <ScrollToTop onClick={handleScroll}>
+              <ScrollToTop type="button" onClick={handleScroll}>
                 <FontAwesomeIcon icon={faChevronCircleUp} />
               </ScrollToTop>
             </Article>

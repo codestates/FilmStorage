@@ -140,13 +140,11 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
         <ModalBox onClick={(e) => e.stopPropagation()}>
           <ModalNav>
             <div className="nav-flex">
-              <div>
-                <FontAwesomeIcon
-                  icon={faAngleLeft}
-                  className="icon"
-                  onClick={() => setIsOpen()}
-                />
-              </div>
+              <FontAwesomeIcon
+                icon={faAngleLeft}
+                className="icon"
+                onClick={() => setIsOpen()}
+              />
             </div>
             <div className="nav-title">사진 등록 하기</div>
             <div className="nav-flex">
@@ -189,11 +187,11 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                 <div className="userinfo">{userInfo.nickname}</div>
               </UserInfo>
               <Tagarea>
-                <span className="tag-title">필름 선택</span>
+                <Title>필름 선택</Title>
                 <FilmType setPhotoInfo={setPhotoInfo} photoInfo={photoInfo} />
               </Tagarea>
               <Textarea>
-                <span className="text-title">내용 입력</span>
+                <Title>내용 입력</Title>
                 <textarea
                   className="filmcontent"
                   placeholder="내용을 입력해 주세요"
@@ -201,7 +199,7 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                 ></textarea>
               </Textarea>
               <LocationSearch>
-                <div className="search-title">장소 선택</div>
+                <Title>장소 선택</Title>
                 <Search>
                   <form onSubmit={handleSubmit}>
                     <input
@@ -273,9 +271,6 @@ const ModalNav = styled.nav`
   justify-content: space-between;
   box-sizing: border-box;
   > div.nav-flex {
-    /* margin-top: 1.3rem;
-    margin-right: 2rem;
-    margin-left: 2rem; */
   }
   .nav-title {
     /* border: 3px solid green; */
@@ -384,6 +379,12 @@ const Content = styled.div`
   z-index: 1;
 `;
 
+const Title = styled.div`
+  font-size: 14px;
+  color: #666;
+  padding: 10px 0;
+`;
+
 // * 유저 정보
 const UserInfo = styled.div`
   /* border: 1px solid red; */
@@ -408,23 +409,11 @@ const Tagarea = styled.div`
   /* border: 1px solid red; */
   padding-top: 20px;
   z-index: 2;
-  > span.tag-title {
-    font-size: 14px;
-    color: #666;
-    /* border: 1px solid green; */
-  }
 `;
 
 // * 본문 입력
 const Textarea = styled.div`
   /* border: 1px solid blue; */
-  > .text-title {
-    font-size: 14px;
-    color: #666;
-    display: block;
-    padding: 10px 0;
-    /* border: 1px solid blue; */
-  }
   > textarea.filmcontent {
     box-sizing: border-box;
     width: 100%;
@@ -450,18 +439,11 @@ const LocationSearch = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 5px 0;
-  > div.search-title {
-    font-size: 14px;
-    color: #666;
-    /* border: 1px solid blue; */
-    padding-top: 10px;
-  }
   /* border: 1px solid blue; */
 `;
 
 const Search = styled.div`
   /* border: 1px solid green; */
-  padding: 5px 0 10px 0;
   input {
     /* border: 1px solid green; */
     width: 95%;
