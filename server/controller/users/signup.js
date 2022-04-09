@@ -2,6 +2,7 @@ const { users } = require("../../models");
 const { sign } = require('jsonwebtoken');
 require("dotenv").config();
 module.exports = {
+  //회원가입 기능 
   post: async (req, res) => {
     try {
       const { email, password, nickname, mobile } = req.body;

@@ -4,6 +4,7 @@ require("dotenv").config();
 
 
 module.exports = {
+  //로그인 인증 기능
   get: async (req, res) => {
     if (!req.cookies.accessToken) {
       res.status(401).json({

@@ -3,9 +3,9 @@ const { users } = require("../../models");
 const { verify } = require("jsonwebtoken");
 
 module.exports = {
+  //회원정보 수정 기능 
   patch: async (req, res) => {
     const { nickname, mobile } = req.body;
-    //유저 토큰 해독 후 검증
     if (!req.cookies.accessToken) {
       res.status(400).send({
         data: null,
@@ -47,7 +47,7 @@ module.exports = {
       }
     }
   },
-
+  // 프로필 사진 수정 기능
   profile: async (req, res) => {
     try {
       await users.update(
@@ -77,7 +77,7 @@ module.exports = {
       });
     }
   },
-
+  // 비밀번호 수정 기능
   password: async (req, res) => {
     try {
       const { accessToken } = req.cookies;

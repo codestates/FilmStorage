@@ -4,6 +4,7 @@ const axios = require("axios");
 require("dotenv").config();
 
 module.exports = {
+  // 로그인 기능 
   post: async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {

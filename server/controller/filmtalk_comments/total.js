@@ -1,6 +1,7 @@
 const { filmtalk_comments, users } = require("../../models");
 
 module.exports = {
+  // 필름토크 게시글의 댓글 정보 불러오기 기능
   get: async (req, res) => {
     try {
       const { filmtalk_id } = req.params;

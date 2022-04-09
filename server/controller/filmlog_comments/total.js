@@ -1,6 +1,7 @@
 const { filmlog_comments, users } = require("../../models");
 
 module.exports = {
+  //필름로그 게시글의 댓글 정보 불러오기
   get: async (req, res) => {
     try {
       const { filmlog_id } = req.params;

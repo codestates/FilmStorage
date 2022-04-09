@@ -1,6 +1,7 @@
 const { filmlogs } = require("../../models");
 
 module.exports = {
+  //필름로그 전체 조회 기능
   get: async (req, res) => {
     try {
       const { offset, limit } = req.query;
@@ -38,7 +39,6 @@ module.exports = {
             filmtype,
           };
         });
-
         const message = totalInfo.length < limit ? "end" : "ok";
 
         res.status(200).json({

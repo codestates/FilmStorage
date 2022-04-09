@@ -1,6 +1,7 @@
 const { filmtalks, users } = require("../../models");
 
 module.exports = {
+  //한 페이지에 있는 필름토크 내용 조회 기능
   get: async (req, res) => {
     const { offset } = req.query;
     try {
@@ -23,7 +24,7 @@ module.exports = {
           include: [{ model: users }],
         });
       }
-      
+
       const filmTalkData = talks.map((data) => {
         const { id, category, createdAt, title, views } = data;
         return {
