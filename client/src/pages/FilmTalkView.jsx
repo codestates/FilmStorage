@@ -5,15 +5,12 @@ import styled, { css } from "styled-components";
 import ReplyList from "../components/reply/ReplyList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import Guide from "../components/Guide";
+import Swal from "sweetalert2";
 
 export default function FilmTalkView({ userInfo, isLogin }) {
-
   const history = useHistory();
-  // * 로그인 여부 확인 상태 관리
-  const [modalClose, setModalClose] = useState(false);
   // * 임시 댓글 정보 저장
-  const [replyCount, setReplyCount] = useState(0)
+  const [replyCount, setReplyCount] = useState(0);
   const [filmTalkInfo, setFilmTalkInfo] = useState({
     user_id: "",
     category: "",
@@ -84,24 +81,62 @@ export default function FilmTalkView({ userInfo, isLogin }) {
   }, [getFilmtalkDetail, getFTCommentsInfo, replyCount]);
 
   const handleDelete = () => {
-    if (window.confirm("삭제하시겠습니까?")) {
-      axios
-        .delete(
-          `${process.env.REACT_APP_API_URL}/filmtalks/deletion/${filmtalk_id}`
-        )
-        .then(() => {
-          alert("삭제가 완료되었습니다");
-          history.push("/filmtalks/total");
-        })
-        .catch((err) => console.log(err));
-    }
+    Swal.fire({
+      text: "삭제하시겠습니까?",
+      icon: "question",
+      iconColor: "#ff6347",
+      showCancelButton: true,
+      confirmButtonColor: "#189cc4",
+      cancelButtonColor: "#ff6347",
+      cancelButtonText: "취소",
+      confirmButtonText: "삭제",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(
+            `${process.env.REACT_APP_API_URL}/filmtalks/deletion/${filmtalk_id}`
+          )
+          .then(() => {
+            Swal.fire({
+              text: "삭제가 완료되었습니다",
+              icon: "success",
+              iconColor: "#ff6347",
+              showConfirmButton: false,
+              timer: 1200,
+            }).then(() => {
+              history.push("/filmtalks/total");
+            })
+          })
+          .catch((err) => console.log(err));
+      }
+    })
   };
 
   const postComment = () => {
     if (comment === "") {
-      alert("댓글을 입력해주세요");
+      Swal.fire({
+        text: "댓글을 작성해주세요",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: false,
+        timer: 1200,
+      });
     } else if (!isLogin) {
-      setModalClose(true);
+      Swal.fire({
+        text: "로그인 후 사용하실 수 있습니다",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        confirmButtonColor: "#189cc4",
+        cancelButtonColor: "#ff6347",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/signin");
+        }
+      });
     } else {
       axios
         .post(
@@ -121,11 +156,6 @@ export default function FilmTalkView({ userInfo, isLogin }) {
         })
         .catch((err) => console.log(err));
     }
-  };
-
-  // * 모달 창 닫기
-  const handleModalClose = () => {
-    setModalClose(false);
   };
 
   const convertDate = (date) => {
@@ -189,7 +219,6 @@ export default function FilmTalkView({ userInfo, isLogin }) {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             ></ReplyInput>
-            {modalClose ? <Guide handleModalClose={handleModalClose} /> : null}
             <Button bottom onClick={postComment}>
               댓글 쓰기
             </Button>
@@ -216,7 +245,7 @@ const Article = styled.article`
   width: 60%;
   position: relative;
 
-  .icon {
+  > .icon {
     /* border: 1px solid green; */
     padding: 10px;
     font-size: 28px;
@@ -256,7 +285,7 @@ const ReplyForm = styled.form`
   /* height: 30vh; */
 `;
 const ReplyInput = styled.input`
-  border: 1px solid Gainsboro;
+  border: 1px solid #000;
   border-radius: 10px;
   width: 97%;
   font-size: 14px;

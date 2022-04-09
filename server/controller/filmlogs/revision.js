@@ -2,16 +2,20 @@ require("dotenv").config();
 const { filmlogs } = require("../../models");
 
 module.exports = {
+  //필름로그 수정 기능
   patch: async (req, res) => {
     const { user_id, filmlog_id } = req.params;
 
     try {
-      const { filmtype, contents } = req.body;
+      const { filmtype, contents, location, lat, log } = req.body;
 
       await filmlogs.update(
         {
           filmtype,
           contents,
+          location,
+          lat,
+          log,
         },
         {
           where: {
@@ -31,6 +35,7 @@ module.exports = {
       });
     }
   },
+  // 필름로그 사진 등록 기능
   photo: async (req, res) => {
     const { user_id, filmlog_id } = req.params;
     console.log(req.file);

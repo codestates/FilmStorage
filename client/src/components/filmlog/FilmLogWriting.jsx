@@ -6,12 +6,13 @@ import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import FilmLogLocation from "./FilmLogLocation";
+import Swal from "sweetalert2";
 
 export default function FilmLogWriting({ userInfo, setIsOpen }) {
   // 유저 정보 상태 관리
   const [photoInfo, setPhotoInfo] = useState({
     photo: {},
-    type: "",
+    filmtype: "",
     contents: "",
   });
   // 위치 정보 상태 관리
@@ -32,8 +33,6 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
     setPlace(inputText);
     setInputText("");
   };
-
-  // 등록성공시 뒤로 가기
 
   // 이미지 미리보는 상태
   const [files, setFiles] = useState("");
@@ -67,49 +66,72 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
     setLocationClose(false);
   };
   const filmlogRegister = () => {
-    const postData = {
-      filmtype: photoInfo.type,
-      contents: photoInfo.contents,
-      location: clickLocation.Location,
-      lat: clickLocation.Lat,
-      log: clickLocation.Log,
-    };
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/filmlogs/register/${userInfo.id}`,
-        postData,
-        {
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        const { id } = res.data.data;
-        const formData = new FormData();
-        formData.set("photo", photoInfo.photo);
-        // console.log("폼데이터 확인", formData);
-        axios
-          .patch(
-            `${process.env.REACT_APP_API_URL}/filmlogs/revision/photo/${userInfo.id}/${id}`,
-            formData,
-            {
-              headers: {
-                "Content-type": "multipart/form-data",
-              },
-            }
-          )
-          .then((res) => {
-            alert("등록이 완료되었습니다");
-            // isOpen 상태 변경 / setIsOpen(true)// 상위에서 props로 전달받아 적용
-            setIsOpen(false);
-          })
-          .catch((err) => console.log(err));
+    if (!photoInfo.filmtype) {
+      Swal.fire({
+        text: "필름타입을 설정해주세요",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: false,
+        timer: 1200
       })
-      .catch((err) => {
-        console.log(err);
-        alert("서버 연결이 불안정 합니다.");
-      });
+    } else if (!photoInfo.photo.name) {
+      Swal.fire({
+        text: "사진을 등록해주세요",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: false,
+        timer: 1200
+      })
+    } else {
+      const postData = {
+        filmtype: photoInfo.filmtype,
+        contents: photoInfo.contents,
+        location: clickLocation.Location,
+        lat: clickLocation.Lat,
+        log: clickLocation.Log,
+      };
+      axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/filmlogs/register/${userInfo.id}`,
+          postData,
+          {
+            headers: {
+              "Content-type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          const { id } = res.data.data;
+          const formData = new FormData();
+          formData.set("photo", photoInfo.photo);
+          axios
+            .patch(
+              `${process.env.REACT_APP_API_URL}/filmlogs/revision/photo/${userInfo.id}/${id}`,
+              formData,
+              {
+                headers: {
+                  "Content-type": "multipart/form-data",
+                },
+              }
+            )
+            .then((res) => {
+              Swal.fire({
+                text: "등록이 완료되었습니다",
+                icon: "success",
+                iconColor: "#ff6347",
+                showConfirmButton: false,
+                timer: 1500
+              }).then(() => {
+                setIsOpen(false);
+                window.location.assign("/filmlog");
+              })
+            })
+            .catch((err) => console.log(err));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -118,13 +140,11 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
         <ModalBox onClick={(e) => e.stopPropagation()}>
           <ModalNav>
             <div className="nav-flex">
-              <div>
-                <FontAwesomeIcon
-                  icon={faAngleLeft}
-                  className="icon"
-                  onClick={() => setIsOpen()}
-                />
-              </div>
+              <FontAwesomeIcon
+                icon={faAngleLeft}
+                className="icon"
+                onClick={() => setIsOpen()}
+              />
             </div>
             <div className="nav-title">사진 등록 하기</div>
             <div className="nav-flex">
@@ -167,11 +187,11 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                 <div className="userinfo">{userInfo.nickname}</div>
               </UserInfo>
               <Tagarea>
-                <span className="tag-title">필름 선택</span>
+                <Title>필름 선택</Title>
                 <FilmType setPhotoInfo={setPhotoInfo} photoInfo={photoInfo} />
               </Tagarea>
               <Textarea>
-                <span className="text-title">내용 입력</span>
+                <Title>내용 입력</Title>
                 <textarea
                   className="filmcontent"
                   placeholder="내용을 입력해 주세요"
@@ -179,7 +199,7 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                 ></textarea>
               </Textarea>
               <LocationSearch>
-                <div className="search-title">장소 선택</div>
+                <Title>장소 선택</Title>
                 <Search>
                   <form onSubmit={handleSubmit}>
                     <input
@@ -251,9 +271,6 @@ const ModalNav = styled.nav`
   justify-content: space-between;
   box-sizing: border-box;
   > div.nav-flex {
-    /* margin-top: 1.3rem;
-    margin-right: 2rem;
-    margin-left: 2rem; */
   }
   .nav-title {
     /* border: 3px solid green; */
@@ -362,6 +379,12 @@ const Content = styled.div`
   z-index: 1;
 `;
 
+const Title = styled.div`
+  font-size: 14px;
+  color: #666;
+  padding: 10px 0;
+`;
+
 // * 유저 정보
 const UserInfo = styled.div`
   /* border: 1px solid red; */
@@ -386,23 +409,11 @@ const Tagarea = styled.div`
   /* border: 1px solid red; */
   padding-top: 20px;
   z-index: 2;
-  > span.tag-title {
-    font-size: 14px;
-    color: #666;
-    /* border: 1px solid green; */
-  }
 `;
 
 // * 본문 입력
 const Textarea = styled.div`
   /* border: 1px solid blue; */
-  > .text-title {
-    font-size: 14px;
-    color: #666;
-    display: block;
-    padding: 10px 0;
-    /* border: 1px solid blue; */
-  }
   > textarea.filmcontent {
     box-sizing: border-box;
     width: 100%;
@@ -428,18 +439,11 @@ const LocationSearch = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 5px 0;
-  > div.search-title {
-    font-size: 14px;
-    color: #666;
-    /* border: 1px solid blue; */
-    padding-top: 10px;
-  }
   /* border: 1px solid blue; */
 `;
 
 const Search = styled.div`
   /* border: 1px solid green; */
-  padding: 5px 0 10px 0;
   input {
     /* border: 1px solid green; */
     width: 95%;

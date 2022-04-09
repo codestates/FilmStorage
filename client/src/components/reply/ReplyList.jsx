@@ -3,7 +3,8 @@ import React from "react";
 import styled from "styled-components";
 import Loader from "../Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons"
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 export default function ReplyList({
   getFTCommentsInfo,
@@ -24,23 +25,34 @@ export default function ReplyList({
   }
 
   const handleDelete = (id) => {
-    if (window.confirm("삭제하시겠습니까?")) {
-      if (filmTalkComments) {
-        axios
-          .delete(
-            `${process.env.REACT_APP_API_URL}/filmtalk_comments/deletion/${id}`
-          )
-          .then(() => getFTCommentsInfo())
-          .catch((err) => console.log(err));
-      } else if (filmLogComments) {
-        axios
-          .delete(
-            `${process.env.REACT_APP_API_URL}/filmlog_comments/deletion/${id}`
-          )
-          .then(() => getFLCommentsInfo())
-          .catch((err) => console.log(err));
+    Swal.fire({
+      text: "삭제하시겠습니까?",
+      icon: "question",
+      iconColor: "#ff6347",
+      showCancelButton: true,
+      confirmButtonColor: "#189cc4",
+      cancelButtonColor: "#ff6347",
+      cancelButtonText: "취소",
+      confirmButtonText: "삭제",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (filmTalkComments) {
+          axios
+            .delete(
+              `${process.env.REACT_APP_API_URL}/filmtalk_comments/deletion/${id}`
+            )
+            .then(() => getFTCommentsInfo())
+            .catch((err) => console.log(err));
+        } else if (filmLogComments) {
+          axios
+            .delete(
+              `${process.env.REACT_APP_API_URL}/filmlog_comments/deletion/${id}`
+            )
+            .then(() => getFLCommentsInfo())
+            .catch((err) => console.log(err));
+        }
       }
-    }
+    });
   };
 
   const convertDate = (date) => {

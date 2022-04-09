@@ -1,6 +1,7 @@
 const { filmlogs } = require("../../models");
 
 module.exports = {
+  //필름로그 삭제 기능
   delete: async (req, res) => {
     const { filmlog_id } = req.params;
     try {

@@ -15,7 +15,14 @@
     "multer": "^1.4.4",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.2",
+<<<<<<< HEAD
     "sequelize": "^6.18.0",
+=======
+    "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "sequelize": "^6.17.0",
+>>>>>>> ff1ad9d74a6d0aa586da54b90e7622b46436a5fb
     "sequelize-cli": "^6.4.1"
   }
 }

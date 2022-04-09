@@ -2,12 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import "./FilmLogPage.css";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import FilmLogWriting from "../components/filmlog/FilmLogWriting";
 import SimpleSlider from "../components/filmlog/SimpleSlider";
 import FilmType from "../components/filmlog/FilmType";
 import Loader from "../components/Loader";
-import Guide from "../components/Guide";
+import Swal from "sweetalert2";
 import axios from "axios";
 
 export default function FilmLogPage({ userInfo, isLogin }) {
@@ -24,9 +24,12 @@ export default function FilmLogPage({ userInfo, isLogin }) {
   const [topThree, setTopThree] = useState([]);
   // 작성창 띄우기
   const [isOpen, setIsOpen] = useState(false);
-  // 모달 창 상태 저장
-  const [modalClose, setModalClose] = useState(false);
 
+  const url = {
+    id: 999,
+    photo:
+      "https://user-images.githubusercontent.com/87605663/162465009-b068bf83-8a9a-4322-8bb6-7af06afe3cf1.jpg",
+  };
   const getTopThree = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/filmlogs/topthree`, {
@@ -35,7 +38,7 @@ export default function FilmLogPage({ userInfo, isLogin }) {
         },
       })
       .then((res) => {
-        setTopThree(() => [...res.data.data]);
+        setTopThree(() => [url, ...res.data.data]);
       })
       .catch((err) => console.log(err));
   };
@@ -101,66 +104,78 @@ export default function FilmLogPage({ userInfo, isLogin }) {
   // * 글쓰기
   const handleUpdate = () => {
     if (!isLogin) {
-      setModalClose(true);
+      Swal.fire({
+        text: "로그인 후 사용하실 수 있습니다",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        confirmButtonColor: "#189cc4",
+        cancelButtonColor: "#ff6347"
+      }).then((result) => {
+        if(result.isConfirmed) {
+          history.push("/signin")
+        }
+      })
     } else {
       handleWriteRegister();
     }
   };
 
-  // * 모달 창 닫기
-  const handleModalClose = () => {
-    setModalClose(false);
-  };
-
   return (
     <>
-      <section className="filmlog-first">
-        <div className="filmlog-first-img">
-          <h1 className="filmlog-first-img-text">Photo of the weekly</h1>
-          <SimpleSlider topThree={topThree} />
-        </div>
-      </section>
-      <article className="filmlog-second">
-        <div className="filmlog-second-container">
-          <nav className="filmlog-second-nav">
-            <div className="nav-flex">
-              <div className="filmlog-second-nav-title">필름 종류</div>
-              <FilmType />
-            </div>
-            <div className="nav-flex">
-              <div>
-                {modalClose ? (
-                  <Guide handleModalClose={handleModalClose} />
-                ) : null}
-                <Button onClick={handleUpdate}>사진등록</Button>
-                {isOpen ? (
-                  <FilmLogWriting userInfo={userInfo} setIsOpen={setIsOpen} />
-                ) : null}
-              </div>
-            </div>
-          </nav>
-          <div className="filmlog-second-content">
-            {itemLists.map((el, key) => (
-              <FilmLogImg
-                key={el.id}
-                src={el.photo}
-                onClick={() => {
-                  handlePictureDetail(el.id);
-                }}
-              />
-            ))}
+      <Container>
+        <section className="filmlog-first">
+          <div className="filmlog-first-img">
+            <SimpleSlider topThree={topThree} />
           </div>
-          {isClose ? (
-            <div ref={observer} className="Target-Element">
-              {isLoaded && <Loader />}
+        </section>
+        <article className="filmlog-second">
+          <div className="filmlog-second-container">
+            <nav className="filmlog-second-nav">
+              <div className="nav-flex">
+                <div className="filmlog-second-nav-title">필름 종류</div>
+                <FilmType />
+              </div>
+              <div className="nav-flex">
+                <div>
+                  <Button onClick={handleUpdate}>사진등록</Button>
+                  {isOpen ? (
+                    <FilmLogWriting userInfo={userInfo} setIsOpen={setIsOpen} />
+                  ) : null}
+                </div>
+              </div>
+            </nav>
+            <div className="filmlog-second-content">
+              {itemLists.map((el, key) => (
+                <FilmLogImg
+                  key={el.id}
+                  src={el.photo}
+                  onClick={() => {
+                    handlePictureDetail(el.id);
+                  }}
+                />
+              ))}
             </div>
-          ) : null}
-        </div>
-      </article>
+            {isClose ? (
+              <div ref={observer} className="Target-Element">
+                {isLoaded && <Loader />}
+              </div>
+            ) : null}
+          </div>
+        </article>
+      </Container>
     </>
   );
 }
-
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
+`;
 const FilmLogImg = styled.img`
   /* border: 1px solid black; */
   width: 20rem;

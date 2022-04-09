@@ -1,5 +1,7 @@
 .filmlog-first {
   /* border: 2px solid black; */
+  /* box-sizing: border-box; */
+  overflow: visible;
   width: 100vw;
   height: 90vh;
   text-align: center;
@@ -16,22 +18,16 @@
   margin-top: 1rem;
   margin-right: 2rem;
   margin-left: 2rem;
-  width: 95.5vw;
-  height: 80vh;
+  /* width: 95.5vw; */
+  /* height: 80vh; */
   position: relative;
-}
-
-.filmlog-first-img-text {
-  position: absolute;
-  z-index: 1;
-  color: rgba(255, 255, 255, 0.356);
-  top: 100px;
-  left: 600px;
 }
 
 /* 필름로그 이미지 무한스크롤 */
 
 .filmlog-second {
+  /* box-sizing: border-box; */
+  /* overflow: visible; */
   /* border: 1px solid black; */
   width: 100%;
   /* height: 100vh; */

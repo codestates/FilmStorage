@@ -3,6 +3,7 @@ const { verify } = require('jsonwebtoken');
 require('dotenv').config();
 
 module.exports = {
+  //회원탈퇴 기능
   delete: async (req, res) => {
     const accessToken = req.cookies.accessToken;
     const decoded = verify(accessToken, process.env.ACCESS_SECRET);

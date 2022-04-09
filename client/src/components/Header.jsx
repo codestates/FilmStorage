@@ -15,7 +15,7 @@ const HeaderBox = styled.header`
   position: sticky;
   background: #ffffffc1;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   box-sizing: border-box;
 `;
 const LogoImg = styled.img`

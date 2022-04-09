@@ -1,18 +1,19 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled, { css } from "styled-components";
 import { useHistory } from "react-router-dom";
 import ReplyList from "../components/reply/ReplyList";
 import FilmLogRevison from "../components/filmlog/FilmLogRevison";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-import { faPhotoFilm } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Guide from "../components/Guide";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function FilmLogDetailPage({ userInfo, isLogin }) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
-  // 사진 정보 상태 관리
+  // 좋아요 정보 상태 관리
   const [photoInfo, setPhotoInfo] = useState({});
   // 삭제 버튼 상태 관리
   const [comment, setComment] = useState("");
@@ -30,6 +31,8 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
   const url = window.location.href;
   const filmlog_id = url.split("filmlogdetail/")[1];
 
+  const detailRef = useRef({});
+
   const getDetailInfo = useCallback(async () => {
     await axios
       .get(`${process.env.REACT_APP_API_URL}/filmlogs/view/${filmlog_id}`, {
@@ -40,7 +43,7 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
       .then((res) => {
         const detailInfo = res.data.data;
         if (detailInfo) {
-          setPhotoInfo(detailInfo);
+          detailRef.current = detailInfo;
         }
         setCreatedDate(res.data.data.createdAt.split(" ")[0]);
       })
@@ -105,26 +108,65 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
 
   // 삭제요청 핸들러 함수
   const handleDeleteData = () => {
-    if (window.confirm("삭제를 진행 하시겠습니까?")) {
-      axios
-        .delete(
-          `${process.env.REACT_APP_API_URL}/filmlogs/deletion/${filmlog_id}`
-        )
-        .then((res) => {
-          history.goBack();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    Swal.fire({
+      text: "삭제하시겠습니까?",
+      icon: "question",
+      iconColor: "#ff6347",
+      showCancelButton: true,
+      confirmButtonColor: "#189cc4",
+      cancelButtonColor: "#ff6347",
+      cancelButtonText: "취소",
+      confirmButtonText: "삭제",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(
+            `${process.env.REACT_APP_API_URL}/filmlogs/deletion/${filmlog_id}`
+          )
+          .then((res) => {
+            Swal.fire({
+              text: "삭제되었습니다",
+              icon: "success",
+              iconColor: "#ff6347",
+              showConfirmButton: false,
+              timer: 1200,
+            }).then((result) => {
+              history.goBack();
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
   };
 
   const postComment = (e) => {
     e.preventDefault();
     if (comment === "") {
-      alert("댓글을 입력해주세요");
+      Swal.fire({
+        text: "댓글을 작성해주세요",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: false,
+        timer: 1200,
+      });
     } else if (!isLogin) {
-      setModalClose(true);
+      Swal.fire({
+        text: "로그인 후 사용하실 수 있습니다",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        confirmButtonColor: "#189cc4",
+        cancelButtonColor: "#ff6347"
+      }).then((result) => {
+        if(result.isConfirmed) {
+          history.push("/signin")
+        }
+      })
     } else {
       axios
         .post(
@@ -153,6 +195,8 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
 
   const handleFilmLike = () => {
     handlePostLike();
+    // setIsLike(like);
+    // console.log(photoInfo);
   };
 
   const handlePostLike = () => {
@@ -175,7 +219,7 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
 
   return (
     <Container>
-      <Article>
+      <Article ref={detailRef}>
         <Nav>
           <Navflex>
             <FontAwesomeIcon
@@ -185,15 +229,16 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
             />
           </Navflex>
           <Navflex>
-            {userInfo.id === photoInfo.user_id ? (
+            {userInfo.id === detailRef.current.user_id ? (
               <>
                 <NavDiv>
                   <Button onClick={handleWriteRegister}>수정하기</Button>
                   {isOpen ? (
                     <FilmLogRevison
                       userInfo={userInfo}
+                      filmlog_id={filmlog_id}
                       setIsOpen={setIsOpen}
-                      photoInfo={photoInfo}
+                      photoInfo={detailRef.current}
                     />
                   ) : null}
                 </NavDiv>
@@ -209,8 +254,8 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
         <div className="detailImageBox">
           <img
             className="detailImageBox_image"
-            src={photoInfo.photo}
-            alt="demo"
+            src={detailRef.current.photo}
+            alt="image"
           />
           {/* 이미지 클릭시 좋아요 버튼 이벤트 기능 */}
           <div
@@ -219,22 +264,28 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
           >
             <div className="detailImageBox_Like">
               {isLike ? (
-                <FontAwesomeIcon icon={faPhotoFilm} color="tomato" />
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  color="tomato"
+                />
               ) : (
-                <FontAwesomeIcon icon={faPhotoFilm} />
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  color="white"
+                />
               )}
             </div>
           </div>
         </div>
         <InfoBox>
           <Info fontsize="14px" fontweight tomato>
-            {photoInfo.nickname}
+            {detailRef.current.nickname}
           </Info>
           <Info fontsize="14px" fontweight flex="9">
-            {photoInfo.filmtype}
+            {detailRef.current.filmtype}
           </Info>
           <Info rigth>
-            <span>장소</span> {photoInfo.location}
+            <span>장소</span> {detailRef.current.location}
           </Info>
           <Info rigth flex="3">
             <span>등록일</span>
@@ -244,10 +295,10 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
             <span>좋아요</span> {photoInfo.likesCount}
           </Info>
           <Info rigth>
-            <span>조회수</span> {photoInfo.views}
+            <span>조회수</span> {detailRef.current.views}
           </Info>
         </InfoBox>
-        <TextBox>{photoInfo.contents}</TextBox>
+        <TextBox>{detailRef.current.contents}</TextBox>
         <ReplyForm>
           <ReplyList
             filmLogComments={filmLogComments}
@@ -259,7 +310,6 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           ></ReplyInput>
-          {modalClose ? <Guide handleModalClose={handleModalClose} /> : null}
           <Button
             bottom
             onKeyUp={(e) => (e.key === "Enter" ? postComment : null)}

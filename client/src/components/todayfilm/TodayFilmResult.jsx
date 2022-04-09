@@ -58,7 +58,7 @@ export default {
       id: 3,
       filmname: "로모그래피 메트로폴리스",
       imglink:
-        "https://cdn.shop.lomography.com/media/catalog/product/cache/d48ee8365af56e523deee8f9725f2022/m/e/metropolis-135-film_2021-formular_box_roll_front.jpg",
+        "https://cdn.discordapp.com/attachments/946669581718655029/961530891862151188/lomo-metropous.png",
       type: "컬러",
       shots: "36컷",
       iso: "100~400",

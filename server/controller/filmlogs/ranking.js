@@ -2,6 +2,7 @@ const { filmlogs } = require("../../models");
 const { Op } = require("sequelize");
 
 module.exports = {
+  //좋아요 수가 가장 높은 필름로그 데이터 3개를 조회하는 기능
   topthree: async (req, res) => {
     try {
       const today = new Date();
@@ -83,6 +84,7 @@ module.exports = {
   },
 
   bestfilm: async (req, res) => {
+    //필름로그에 가장 많이 등록된 필름을 조회하는 기능
     try {
       const getFilmType = await filmlogs.findAll({
         attributes: ["filmtype"],
