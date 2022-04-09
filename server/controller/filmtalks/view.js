@@ -1,6 +1,7 @@
 const { filmtalks, users } = require("../../models");
 
 module.exports = {
+  //필름토크 조회 수 증가 기능
   get: async (req, res) => {
     const { filmtalk_id } = req.params;
 

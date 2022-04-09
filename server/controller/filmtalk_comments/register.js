@@ -1,6 +1,7 @@
 const { filmtalk_comments } = require("../../models");
 
 module.exports = {
+  // 필름토크 댓글 등록 기능
   post: async (req, res) => {
     try {
       const { user_id, filmtalk_id } = req.params;

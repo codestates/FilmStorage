@@ -9,20 +9,17 @@ const transporter = nodemailer.createTransport({
 })
 
 module.exports = {
+  //이메일 전송을 통한 비밀번호 찾기 기능 
   patch: async (req, res) => {
     const userEmail = await users.findOne({
       where: req.email
     })
-    console.log('유저이메일#######>', userEmail)
     const password = userEmail.dataValues.password
     const nickname = userEmail.dataValues.nickname
     if (!userEmail) {
       res.send('존재하지 않는 이메일 입니다.')
     } else {
       try {
-        //patch
-        //랜덤 생성 함수
-        //update
         const mailOptions = {
           from: process.env.MAIL_ID,
           to: req.body.email,
@@ -35,7 +32,6 @@ module.exports = {
           text: "인증메일입니다.",
         };
         const info = await transporter.sendMail(mailOptions);
-        console.log(info);
         res.json({ data: info })
       } catch (err) {
         console.log(err);

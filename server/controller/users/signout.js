@@ -1,4 +1,5 @@
 module.exports = {
+  //로그아웃 기능 
   post: async (req, res) => {
     try {
       res.status(205)

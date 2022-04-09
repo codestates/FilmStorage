@@ -2,6 +2,7 @@ require("dotenv").config();
 const { filmtalks } = require("../../models");
 
 module.exports = {
+  // 필름토크 수정 기능
   patch: async (req, res) => {
     const { filmtalk_id } = req.params;
     const { category, title, contents } = req.body;

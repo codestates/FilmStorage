@@ -1,6 +1,7 @@
 const { filmlog_comments } = require("../../models");
 
 module.exports = {
+  //필름로그 댓글 삭제 기능
   delete: async (req, res) => {
     try {
       const { filmlog_comments_id } = req.params;

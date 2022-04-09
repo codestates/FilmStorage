@@ -1,9 +1,9 @@
 const { likes, filmlogs } = require("../../models");
 
 module.exports = {
+  //필름로그 좋아요 등록 기능
   post: async (req, res) => {
     const { user_id, filmlog_id } = req.params;
-    // res.send('hello world')
     try {
       const [likeData, created] = await likes.findOrCreate({
         where: {
@@ -11,10 +11,6 @@ module.exports = {
           filmlog_id,
         },
       });
-      //like : true 생성
-      // 한 번 다시 클릭 created가 있으니까 취소 됨
-      // 다시 클릭하면(like : false) 조건에 맞지 않으니 새로운 레코드 생성(like : true)
-      //초기 like 값 1
       if (created) {
         await filmlogs.increment(
           { likesCount: 1 },
@@ -83,6 +79,7 @@ module.exports = {
     }
   },
 
+  //해당 게시글 조회 시 좋아요 개수 가져오는 기능
   get: async (req, res) => {
     try {
       const { user_id, filmlog_id } = req.params;

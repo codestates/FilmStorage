@@ -1,6 +1,7 @@
 const { filmlog_comments } = require("../../models");
 
 module.exports = {
+  //필름로그 댓글 수정 기능
   patch: async (req, res) => {
     try {
       const { user_id, filmlog_id, filmlog_comments_id } = req.params;
