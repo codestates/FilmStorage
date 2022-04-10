@@ -1,37 +1,54 @@
 const { users } = require("../../models");
-const { sign } = require('jsonwebtoken');
+const { sign } = require("jsonwebtoken");
 require("dotenv").config();
 module.exports = {
-  //회원가입 기능 
+  //회원가입 기능
   post: async (req, res) => {
     try {
       const { email, password, nickname, mobile } = req.body;
 
-      const [userData, created] = await users.findOrCreate({
-        where: {
-          email,
-          password,
-          nickname,
-          mobile,
-        },
+      const emailInfo = await users.findOne({
+        where: { email },
       });
-      if (!created) {
+      const nicknameInfo = await users.findOne({
+        where: { nickname },
+      });
+
+      if (emailInfo) {
         res.status(409).send({
-          message: "nickname or email already exists",
+          message: "email already exists",
+        });
+      } else if (nicknameInfo) {
+        res.status(409).send({
+          message: "nickname already exists",
         });
       } else {
-        const accessToken = sign(userData.dataValues, process.env.ACCESS_SECRET, {
-          expiresIn: 1000 * 60 * 60 * 2
-        })
+        const [userData] = await users.findOrCreate({
+          where: {
+            email,
+            password,
+            nickname,
+            mobile,
+          },
+        });
 
-        res.status(201)
+        const accessToken = sign(
+          userData.dataValues,
+          process.env.ACCESS_SECRET,
+          {
+            expiresIn: 1000 * 60 * 60 * 2,
+          }
+        );
+
+        res
+          .status(201)
           .cookie("accessToken", accessToken, {
             sameSite: "none",
             domain: "localhost",
             path: "/",
             secure: true,
             httpOnly: true,
-            maxAge: 1000 * 60 * 60 * 2
+            maxAge: 1000 * 60 * 60 * 2,
           })
           .send({
             message: "Successfully Signed Up",
@@ -42,4 +59,4 @@ module.exports = {
       res.status(500).send({ message: "Internal Server Error" });
     }
   },
-}
+};
