@@ -206,6 +206,12 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   position: relative;
+  @media screen and (max-width: 768px) {
+    height: 82vh;
+  }
+  @media screen and (max-width: 412px) {
+    height: 78vh;
+  }
 `;
 const Article = styled.article`
   /* border: 1px solid blue; */
@@ -251,8 +257,10 @@ const Term = styled.div`
   /* border: 1px solid tomato; */
   margin-bottom: 5px;
   display: flex;
+  align-items: center;
 `;
 const Label = styled.label`
+  margin-left: 5px;
   font-size: 12px;
 `;
 
@@ -293,15 +301,31 @@ const TermModal = styled.div`
   height: 600px;
   box-shadow: 5px 5px 20px Gainsboro;
   position: absolute;
+  overflow: auto;
+  @media screen and (max-width: 412px) {
+    height: 400px;
+    width: 300px;
+    margin: 10px;
+    padding-bottom: 10%;
+  }
 `;
 
 const TermTitle = styled.h3`
   padding: 0px 30px;
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 412px) {
+    font-size: 14px;
+  }
 `;
 const TermText = styled.div`
   font-size: 13px;
   line-height: 2.5em;
   height: 500px;
   padding: 0px 30px;
-  overflow: auto;
+  @media screen and (max-width: 412px) {
+    font-size: 11px;
+    line-height: 2em;
+  }
 `;
