@@ -96,7 +96,7 @@ li {
   }
 
   .filmlog-first {
-    height: 40vh;
+    height: 80vh;
   }
 }
 
@@ -109,20 +109,22 @@ li {
 
   .filmlog-second-nav {
     width: 330px;
-    align-items: center;
     justify-content: space-between;
     padding: 0;
   }
 
   .filmlog-second-nav-title {
-    padding: 0;
+    padding: 10px;
   }
 
   .nav-flex {
+    display: flex;
     flex-direction: column;
+    margin-bottom: 10px;
+    align-items: left;
   }
 
   .filmlog-first {
-    height: 40vh;
+    height: 70vh;
   }
 }

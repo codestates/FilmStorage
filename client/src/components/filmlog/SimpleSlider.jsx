@@ -54,11 +54,11 @@ const SlideImg = styled.img`
   }
   @media screen and (max-width: 768px) {
     object-fit: fill;
-    height: 35vh;
+    height: 70vh;
   }
 
   @media screen and (max-width: 412px) {
-    object-fit: cover;
-    height: 30vh;
+    object-fit: fill;
+    height: 60vh;
   }
 `;

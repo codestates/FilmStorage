@@ -133,7 +133,7 @@ const Selectlist = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
-  width: 500px;
+  width: 30vw;
   @media screen and (max-width: 768px) {
     width: 350px;
   }

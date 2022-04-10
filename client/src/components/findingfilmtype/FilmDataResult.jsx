@@ -8,6 +8,7 @@ export default {
     shots: "36컷",
     iso: "200",
     content: "코닥필름만의 따뜻하고 선명한 컬러를 담은 입문용 컬러필름",
+    type: "컬러",
   },
   후지: {
     id: 2,
@@ -17,6 +18,7 @@ export default {
     shots: "36컷",
     iso: "200",
     content: "후지필름만의 청량한 느낌을 담은 입문용 컬러필름",
+    type: "컬러",
   },
   씨네스틸: {
     id: 3,

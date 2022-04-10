@@ -280,25 +280,33 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
           </div>
         </div>
         <InfoBox>
-          <Info fontsize="14px" fontweight tomato>
-            {detailRef.current.nickname}
-          </Info>
-          <Info fontsize="14px" fontweight flex="9">
-            {detailRef.current.filmtype}
-          </Info>
-          <Info rigth>
-            <span>장소</span> {detailRef.current.location}
-          </Info>
-          <Info rigth flex="3">
-            <span>등록일</span>
-            {createdDate}
-          </Info>
-          <Info rigth>
-            <span>좋아요</span> {photoInfo.likesCount}
-          </Info>
-          <Info rigth>
-            <span>조회수</span> {detailRef.current.views}
-          </Info>
+          <MobileBox>
+            <Info fontsize="14px" fontweight tomato>
+              {detailRef.current.nickname}
+            </Info>
+            <Info fontsize="14px" fontweight flex="9">
+              {detailRef.current.filmtype}
+            </Info>
+          </MobileBox>
+          <MobileBox>
+            <MobileSubBox>
+              <Info>
+                <span>장소</span> {detailRef.current.location}
+              </Info>
+              <Info flex="3">
+                <span>등록일</span>
+                {createdDate}
+              </Info>
+            </MobileSubBox>
+            <MobileSubBox>
+              <Info>
+                <span>좋아요</span> {photoInfo.likesCount}
+              </Info>
+              <Info>
+                <span>조회수</span> {detailRef.current.views}
+              </Info>
+            </MobileSubBox>
+          </MobileBox>
         </InfoBox>
         <TextBox>{detailRef.current.contents}</TextBox>
         <ReplyForm>
@@ -340,6 +348,9 @@ const Article = styled.article`
   /* border: 1px solid green; */
   width: 60%;
   position: relative;
+  @media screen and (max-width: 768px) {
+    width: 90%;
+  }
 `;
 
 const Nav = styled.nav`
@@ -395,6 +406,12 @@ const Button = styled.button`
     background: tomato;
     transition: 0.3s;
   }
+  @media screen and (max-width: 412px) {
+    padding: 7px 24px;
+    /* border: none; */
+    border-radius: 14px;
+    font-size: 13px;
+  }
 `;
 
 const ReplyInput = styled.input`
@@ -429,8 +446,11 @@ const ReplyForm = styled.form`
 const InfoBox = styled.div`
   /* border: 1px solid red; */
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   margin: 15px 10px;
+  @media screen and (max-width: 412px) {
+    flex-direction: column;
+  }
 `;
 const Info = styled.span`
   /* border: 1px solid red; */
@@ -444,5 +464,19 @@ const Info = styled.span`
     /* border: 1px solid red; */
     font-weight: 600;
     margin-right: 5px;
+  }
+`;
+
+const MobileBox = styled.div`
+  @media screen and (max-width: 412px) {
+    margin-bottom: 10px;
+  }
+`;
+
+const MobileSubBox = styled.div`
+  text-align: right;
+  padding-bottom: 5px;
+  @media screen and (max-width: 412px) {
+    text-align: left;
   }
 `;
