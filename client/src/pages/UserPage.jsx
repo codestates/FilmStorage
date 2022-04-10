@@ -46,7 +46,8 @@ export default function UserInfoUpdatePage({
   const handleDelete = () => {
     Swal.fire({
       text: "정말 탈퇴하실건가요..?",
-      imageUrl: "https://user-images.githubusercontent.com/89354370/161719211-8d182204-a775-417e-9165-399fa6df48ef.png",
+      imageUrl:
+        "https://user-images.githubusercontent.com/89354370/161719211-8d182204-a775-417e-9165-399fa6df48ef.png",
       imageHeight: 150,
       showCancelButton: true,
       confirmButtonColor: "#189cc4",

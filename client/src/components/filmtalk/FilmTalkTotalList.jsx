@@ -16,6 +16,11 @@ const Td = styled.td`
   color: #222;
   text-align: ${(props) => (props.left ? "left" : "center")};
   cursor: ${(props) => (props.pointer ? "pointer" : null)};
+  @media screen and (max-width: 412px) {
+    padding: 10px;
+    font-size: 10px;
+    white-space: pre;
+  }
 `;
 
 function FilmTalkTotalList({ post, handleClickView }) {

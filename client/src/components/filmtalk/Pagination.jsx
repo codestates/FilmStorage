@@ -6,7 +6,10 @@ const Nav = styled.nav`
   align-items: center;
   gap: 4px;
   margin: 16px;
-`
+  @media screen and (max-width: 486px) {
+    margin-right: -240px;
+  }
+`;
 const Button = styled.button`
   border: none;
   margin: 40px 0;
@@ -26,8 +29,7 @@ const Button = styled.button`
   }
 `;
 
-function Pagination ({ totalLength, page, setPage }) {
-  
+function Pagination({ totalLength, page, setPage }) {
   const numPages = Math.ceil(totalLength / 10);
 
   return (

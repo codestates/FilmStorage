@@ -84,7 +84,7 @@ export default function FilmLogRevison({
           }).then(() => {
             setIsOpen(false);
             window.location.assign(`/filmlogdetail/${filmlog_id}`);
-          })
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -104,9 +104,9 @@ export default function FilmLogRevison({
                 onClick={() => setIsOpen()}
               />
             </div>
-            <div className="nav-title">사진 수정 하기</div>
+            <div className="nav-title">내용 수정</div>
             <div className="nav-flex">
-              <Button onClick={() => filmlogRevision()}>수정 완료</Button>
+              <Button onClick={() => filmlogRevision()}>수정요청</Button>
             </div>
           </ModalNav>
           <ModalImageBox>
@@ -197,6 +197,16 @@ const ModalBox = styled.div.attrs((props) => ({
   border-radius: 1rem;
   margin: 0;
   overflow: hidden;
+  @media screen and (max-width: 768px) {
+    width: 700px;
+    height: 900px;
+  }
+  @media screen and (max-width: 412px) {
+    width: 380px;
+    flex-direction: column;
+    height: 800px;
+    padding: 0;
+  }
 `;
 
 // * Nav bar * //
@@ -212,7 +222,11 @@ const ModalNav = styled.nav`
   }
   .nav-title {
     /* border: 3px solid green; */
-    margin-left: 90px;
+    margin-left: 60px;
+    @media screen and (max-width: 412px) {
+      margin-left: 30px;
+      font-size: 18px;
+    }
   }
   .icon {
     margin-left: 10px;
@@ -225,7 +239,9 @@ const ModalImageBox = styled.div`
   display: flex;
   height: 100%;
   box-sizing: border-box;
-  /* border: 1px solid black; */
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 // * 이미지 업로드(왼쪽)
@@ -239,8 +255,11 @@ const ImageBox = styled.div`
   align-items: center;
   text-align: center;
   position: relative;
+  @media screen and (max-width: 768px) {
+    flex: 300px;
+    border-bottom: 1px solid gainsboro;
+  }
   > img {
-    /* border: 1px solid green; */
     width: 100%;
     height: 100%;
     border-bottom-left-radius: 1rem;
@@ -248,6 +267,9 @@ const ImageBox = styled.div`
     position: absolute;
     overflow: hidden;
     z-index: 1;
+    @media screen and (max-width: 768px) {
+      border-bottom-left-radius: 0rem;
+    }
   }
   > div.imginsert {
     margin-bottom: 1rem;
@@ -283,6 +305,9 @@ const Button = styled.button`
     background: tomato;
     border: 1px solid tomato;
     transition: 0.3s;
+  }
+  @media screen and (max-width: 412px) {
+    padding: 10px 30px;
   }
 `;
 
@@ -349,7 +374,6 @@ const Textarea = styled.div`
   }
 `;
 
-
 // * 장소 검색
 const LocationSearch = styled.div`
   display: flex;
@@ -358,7 +382,6 @@ const LocationSearch = styled.div`
   padding: 5px 0;
   /* border: 1px solid blue; */
 `;
-
 
 const Search = styled.div`
   input {
@@ -395,4 +418,3 @@ const LocationArea = styled.div`
   margin: 1rem;
   margin-top: 0; */
 `;
-

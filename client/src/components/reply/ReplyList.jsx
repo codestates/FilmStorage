@@ -22,7 +22,7 @@ export default function ReplyList({
   } else if (filmLogComments) {
     commentsInfo = filmLogComments;
     userInfo = userFLInfo;
-  }
+  } 
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -94,6 +94,9 @@ const ReplyBox = styled.ul`
   display: flex;
   flex-direction: column;
   padding: 10px 0;
+  @media screen and (max-width: 412px) {
+    font-size: 10px;
+  }
 `;
 const Reply = styled.li`
   /* border-bottom: 1px solid Gainsboro; */
@@ -113,6 +116,11 @@ const Reply = styled.li`
       color: tomato;
       cursor: pointer;
     }
+    @media screen and (max-width: 412px) {
+      margin-right: 10px;
+      font-size: 10px;
+      padding: 1px;
+    }
   }
 `;
 const Writer = styled.span`
@@ -120,12 +128,18 @@ const Writer = styled.span`
   flex: 1 80px;
   padding: 10px;
   font-weight: 500;
+  @media screen and(max-width:412px) {
+    font-size: 12px;
+  }
 `;
 const Text = styled.span`
   /* border: 1px solid green; */
   flex: 18 100px;
   font-size: 14px;
   padding: 5px;
+  /* @media screen and(max-width:412px) {
+		font-size: 10px;
+	} */
 `;
 const Date = styled.span`
   /* border: 1px solid green; */
@@ -135,4 +149,8 @@ const Date = styled.span`
   font-size: 13px;
   font-weight: 500;
   color: #999;
+  @media screen and(max-width:412px) {
+    /* flex: 0; */
+    font-size: 10px;
+  }
 `;

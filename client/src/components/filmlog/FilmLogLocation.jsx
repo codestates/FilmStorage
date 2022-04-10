@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 const { kakao } = window;
 
-export default function FilmLogLocation({ place, setClickLocation, setLocationClose }) {
+export default function FilmLogLocation({
+  place,
+  setClickLocation,
+  setLocationClose,
+}) {
   // 클릭된 장소 장소 상태 관리
 
   useEffect(() => {

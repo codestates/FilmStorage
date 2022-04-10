@@ -105,11 +105,11 @@ export default function FilmTalkView({ userInfo, isLogin }) {
               timer: 1200,
             }).then(() => {
               history.push("/filmtalks/total");
-            })
+            });
           })
           .catch((err) => console.log(err));
       }
-    })
+    });
   };
 
   const postComment = () => {
@@ -175,7 +175,7 @@ export default function FilmTalkView({ userInfo, isLogin }) {
             <>
               <Button
                 top
-                rigth={"120px"}
+                right={"120px"}
                 onClick={() =>
                   history.push({
                     pathname: `/filmtalks/register/${filmtalk_id}`,
@@ -199,14 +199,16 @@ export default function FilmTalkView({ userInfo, isLogin }) {
             </Info>
           </InfoBox>
           <InfoBox>
-            <Info fontsize="14px" flex="9">
+            <Info fontsize="18px" flex="9">
               {filmTalkInfo.nickname}
             </Info>
-            <Info rigth>날짜 {convertDate(filmTalkInfo.createdAt)}</Info>
-            <Info rigth>조회수 {filmTalkInfo.views}</Info>
+            <Info right>날짜 {convertDate(filmTalkInfo.createdAt)}</Info>
+            <Info right>조회수 {filmTalkInfo.views}</Info>
           </InfoBox>
           <ContentBox
-            dangerouslySetInnerHTML={{ __html: filmTalkInfo.contents }}
+            dangerouslySetInnerHTML={{
+              __html: filmTalkInfo.contents,
+            }}
           ></ContentBox>
           <ReplyForm onSubmit={(e) => e.preventDefault()}>
             <ReplyList
@@ -239,6 +241,9 @@ const Container = styled.section`
   align-items: center;
   padding: 100px 0 150px 0;
   /* position: relative; */
+  @media screen and (max-width: 412px) {
+    font-size: 10px;
+  }
 `;
 const Article = styled.article`
   /* border: 1px solid green; */
@@ -250,6 +255,12 @@ const Article = styled.article`
     padding: 10px;
     font-size: 28px;
     cursor: pointer;
+  }
+  @media screen and (max-width: 768px) {
+    width: 90%;
+  }
+  @media screen and (max-width: 412px) {
+    width: 90%;
   }
 `;
 const InfoBox = styled.div`
@@ -267,6 +278,17 @@ const Info = styled.span`
   font-size: ${(props) => props.fontsize || "12px"};
   font-weight: ${(props) => (props.fontweight ? 500 : 400)};
   text-align: ${(props) => (props.rigth ? "center" : "none")};
+
+  @media screen and (max-width: 768px) {
+    margin-left: 0px;
+    white-space: pre;
+    font-size: 16px;
+  }
+  @media screen and (max-width: 412px) {
+    font-size: 12px;
+    white-space: pre;
+    /* margin-left:-200px */
+  }
 `;
 const ContentBox = styled.div`
   /* border: 1px solid red; */
@@ -303,8 +325,9 @@ const Button = styled.button`
   padding: 10px 30px;
   border: none;
   border-radius: 20px;
+  margin-top: 20px;
   position: absolute;
-  right: ${(props) => props.rigth || 0};
+  right: ${(props) => props.right || 0};
   ${(props) => {
     if (props.bottom) {
       return css`
@@ -319,5 +342,18 @@ const Button = styled.button`
     color: white;
     background: tomato;
     transition: 0.3s;
+  }
+  @media screen and (max-width: 768px) {
+    padding: 10px 30px;
+    font-size: 16px;
+    /* right: 80px; */
+    /* margin-right: -15px; */
+  }
+  @media screen and (max-width: 412px) {
+    padding: 10px 20px;
+    font-size: 12px;
+    /* right: 20px */
+    /* right: 30px; */
+    /* margin-right: -15px; */
   }
 `;

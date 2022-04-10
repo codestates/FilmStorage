@@ -72,16 +72,16 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
         icon: "warning",
         iconColor: "#ff6347",
         showConfirmButton: false,
-        timer: 1200
-      })
+        timer: 1200,
+      });
     } else if (!photoInfo.photo.name) {
       Swal.fire({
         text: "사진을 등록해주세요",
         icon: "warning",
         iconColor: "#ff6347",
         showConfirmButton: false,
-        timer: 1200
-      })
+        timer: 1200,
+      });
     } else {
       const postData = {
         filmtype: photoInfo.filmtype,
@@ -114,17 +114,19 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                 },
               }
             )
-            .then((res) => {
+            .then(() => {
               Swal.fire({
                 text: "등록이 완료되었습니다",
                 icon: "success",
                 iconColor: "#ff6347",
                 showConfirmButton: false,
-                timer: 1500
+                timer: 1500,
               }).then(() => {
                 setIsOpen(false);
-                window.location.assign("/filmlog");
-              })
+                const url = window.location.href.split("/");
+                const endPoint = url[url.length - 1];
+                window.location.assign(endPoint);
+              });
             })
             .catch((err) => console.log(err));
         })
@@ -258,6 +260,16 @@ const ModalBox = styled.div.attrs((props) => ({
   border-radius: 1rem;
   margin: 0;
   overflow: hidden;
+  @media screen and (max-width: 768px) {
+    width: 700px;
+    height: 900px;
+  }
+  @media screen and (max-width: 412px) {
+    width: 380px;
+    flex-direction: column;
+    height: 800px;
+    padding: 0;
+  }
 `;
 
 // * Nav bar * //
@@ -275,6 +287,9 @@ const ModalNav = styled.nav`
   .nav-title {
     /* border: 3px solid green; */
     margin-left: 60px;
+    @media screen and (max-width: 412px) {
+      margin-left: 30px;
+    }
   }
   .icon {
     margin-left: 10px;
@@ -306,13 +321,14 @@ const ModalImageBox = styled.div`
   display: flex;
   height: 100%;
   box-sizing: border-box;
-  /* border: 3px solid red; */
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 // * 이미지 업로드(왼쪽)
 const ImageBox = styled.div`
   /* border: 3px solid red; */
-  flex: 1 500px;
   height: 570px;
   border-right: 1px solid gainsboro;
   display: flex;
@@ -321,8 +337,11 @@ const ImageBox = styled.div`
   align-items: center;
   text-align: center;
   position: relative;
+  @media screen and (max-width: 768px) {
+    flex: 300px;
+    border-bottom: 1px solid gainsboro;
+  }
   > img {
-    /* border: 1px solid green; */
     width: 100%;
     height: 100%;
     border-bottom-left-radius: 1rem;
@@ -330,6 +349,9 @@ const ImageBox = styled.div`
     position: absolute;
     overflow: hidden;
     z-index: 1;
+    @media screen and (max-width: 768px) {
+      border-bottom-left-radius: 0rem;
+    }
   }
   > div.imginsert {
     margin-bottom: 1rem;

@@ -16,6 +16,9 @@ const Container = styled.section`
   align-items: center;
   padding: 50px 0;
   position: relative;
+  @media screen and (max-width: 412px) {
+    width: 40%;
+  }
 `;
 
 const Article = styled.article`
@@ -44,6 +47,16 @@ const Th = styled.th`
   padding: 20px 0;
   border-bottom: 2px solid #222;
   font-size: 14px;
+
+  @media screen and (max-width: 768px) {
+    padding: 10px;
+  }
+  @media screen and (max-width: 412px) {
+    padding: 10px;
+    font-size: 10px;
+    white-space: pre;
+  }
+
   /* border: 1px solid red; */
 `;
 
@@ -64,6 +77,12 @@ const Button = styled.button`
     color: white;
     background: tomato;
     transition: 0.3s;
+  }
+  @media screen and (max-width: 412px) {
+    font-size: 10px;
+    padding: 10px 20px;
+    margin-right: -240px;
+    /* margin-bottom: 10px; */
   }
 `;
 
@@ -131,12 +150,12 @@ function FilmTalkPage({ isLogin }) {
         confirmButtonText: "로그인 하러 가기",
         cancelButtonText: "취소",
         confirmButtonColor: "#189cc4",
-        cancelButtonColor: "#ff6347"
+        cancelButtonColor: "#ff6347",
       }).then((result) => {
-        if(result.isConfirmed) {
-          history.push("/signin")
+        if (result.isConfirmed) {
+          history.push("/signin");
         }
-      })
+      });
     } else {
       history.push("/filmtalks/register");
     }

@@ -59,14 +59,14 @@ export default function FilmTalkRegisterPage({ userInfo }) {
     };
     if (!filmtalk_id) {
       if (post.title === "") {
-        alConfig.text = "제목을 작성해주세요"
-        Swal.fire(alConfig)
+        alConfig.text = "제목을 작성해주세요";
+        Swal.fire(alConfig);
       } else if (post.category === "") {
-        alConfig.text = "카테고리를 선택해주세요"
-        Swal.fire(alConfig)
+        alConfig.text = "카테고리를 선택해주세요";
+        Swal.fire(alConfig);
       } else if (post.content === "") {
-        alConfig.text = "내용을 작성해주세요"
-        Swal.fire(alConfig)
+        alConfig.text = "내용을 작성해주세요";
+        Swal.fire(alConfig);
       } else {
         axios
           .post(
@@ -84,7 +84,7 @@ export default function FilmTalkRegisterPage({ userInfo }) {
           )
           .then((res) => {
             alConfig.text = "등록이 완료되었습니다";
-            alConfig.icon = 'success'
+            alConfig.icon = "success";
             Swal.fire(alConfig).then(() => {
               history.push(`/filmtalks/view/${res.data.data.id}`);
             });
@@ -93,14 +93,14 @@ export default function FilmTalkRegisterPage({ userInfo }) {
       }
     } else {
       if (post.title === "") {
-        alConfig.text = "제목을 작성해주세요"
-        Swal.fire(alConfig)
+        alConfig.text = "제목을 작성해주세요";
+        Swal.fire(alConfig);
       } else if (post.category === "") {
-        alConfig.text = "카테고리를 선택해주세요"
-        Swal.fire(alConfig)
+        alConfig.text = "카테고리를 선택해주세요";
+        Swal.fire(alConfig);
       } else if (post.content === "") {
-        alConfig.text = "내용을 작성해주세요"
-        Swal.fire(alConfig)
+        alConfig.text = "내용을 작성해주세요";
+        Swal.fire(alConfig);
       } else {
         axios
           .patch(
@@ -113,7 +113,7 @@ export default function FilmTalkRegisterPage({ userInfo }) {
           )
           .then((res) => {
             alConfig.text = "수정이 완료되었습니다";
-            alConfig.icon = 'success'
+            alConfig.icon = "success";
             Swal.fire(alConfig).then(() => {
               history.push(`/filmtalks/view/${res.data.id}`);
             });
@@ -195,6 +195,9 @@ const Article = styled.form`
     justify-content: space-between;
     /* padding: 10px; */
   }
+  @media screen and (max-width: 768px) {
+    width: 80%;
+  }
 `;
 
 // * 필름 카테고리 컴포넌트
@@ -243,6 +246,7 @@ const Button = styled.button`
   padding: 10px 30px;
   border: none;
   border-radius: 20px;
+  margin-top: 20px;
   /* position: absolute; */
   /* right: ${(props) => (props.right ? "120px" : "120px")}; */
 
@@ -254,5 +258,12 @@ const Button = styled.button`
     color: white;
     background: tomato;
     transition: 0.3s;
+  }
+  @media screen and (max-width: 768px) {
+    margin-top: 20px;
+  }
+  @media screen and (max-width: 412px) {
+    margin-top: 40px;
+    right: 90px;
   }
 `;

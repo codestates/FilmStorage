@@ -118,16 +118,16 @@ export default function MyLogPage({ userInfo }) {
             <nav className="filmlog-second-nav">
               <div className="nav-flex">
                 <div className="filmlog-second-nav-title">필름 종류</div>
-                <FilmType setMyLogFilter={setMyLogFilter} myLogItemLists={myLogItemLists} />
+                <FilmType
+                  setMyLogFilter={setMyLogFilter}
+                  myLogItemLists={myLogItemLists}
+                />
               </div>
               <div className="nav-flex">
                 <div>
                   <Button onClick={handleWriteRegister}>사진등록</Button>
                   {isOpen ? (
-                    <FilmLogWriting
-                      userInfo={userInfo}
-                      setIsOpen={setIsOpen}
-                    />
+                    <FilmLogWriting userInfo={userInfo} setIsOpen={setIsOpen} />
                   ) : null}
                 </div>
               </div>
@@ -156,8 +156,7 @@ const Container = styled.section`
   width: 100%;
   min-height: 90vh;
   display: flex;
-  justify-content: 
-  /* flex-direction: column; */
+  justify-content: center;
   align-items: left;
   padding: 50px 0;
 `;
