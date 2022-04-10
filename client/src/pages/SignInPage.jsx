@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
 
 axios.defaults.withCredentials = true;
 
@@ -99,6 +100,115 @@ export default function SignInPage({ handleResponseSuccess }) {
     }
   };
 
+  const findEmail = () => {
+    Swal.fire({
+      title: "아이디 찾기",
+      html:
+        "<div>닉네임</div>" +
+        '<input id="nickname" class="swal2-input">' +
+        "<div>휴대전화</div>" +
+        '<input id="mobile" class="swal2-input">',
+      focusConfirm: false,
+      confirmButtonColor: "#ff6347",
+      confirmButtonText: "입력",
+      showCancelButton: true,
+      cancelButtonText: "취소",
+      preConfirm: () => {
+        const nickname = document.getElementById("nickname").value;
+        const mobile = document.getElementById("mobile").value;
+        return {
+          nickname,
+          mobile,
+        };
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const { nickname, mobile } = result.value;
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/users/find_email?nickname=${nickname}&mobile=${mobile}`,
+            {
+              headers: {
+                accept: "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            Swal.fire({
+              html:
+                "<div>이메일 주소는 다음과 같습니다</div>" +
+                `<div style="font-weight: bold">${res.data.data.email}</div>`,
+              icon: "info",
+              iconColor: "#ff6347",
+              confirmButtonColor: "#ff6347",
+              confirmButtonText: "확인",
+            });
+          })
+          .catch((err) => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                text: "입력하신 정보와 일치하는 이메일이 존재하지 않습니다",
+                icon: "info",
+                iconColor: "#ff6347",
+                timer: 1500,
+              });
+            } else {
+              console.log(err);
+            }
+          });
+      }
+    });
+  };
+
+  const findPassword = () => {
+    Swal.fire({
+      title: "비밀번호 찾기",
+      html:
+        "<div>이메일을 입력해주세요</div>" +
+        '<input id="email" class="swal2-input">',
+      preConfirm: () => {
+        return {
+          email: document.getElementById("email").value,
+        };
+      },
+      focusConfirm: false,
+      confirmButtonColor: "#ff6347",
+      confirmButtonText: "입력",
+      showCancelButton: true,
+      cancelButtonText: "취소",
+    }).then((result) => {
+      const { email } = result.value;
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/users/find_password?email=${email}`,
+          {
+            headers: {
+              accept: "application/json",
+            },
+          }
+        )
+        .then(() => {
+          Swal.fire({
+            text: "입력하신 주소로 이메일이 전송되었습니다. 확인바랍니다",
+            icon: "info",
+            iconColor: "#ff6347",
+            confirmButtonColor: "#ff6347",
+            confirmButtonText: "확인",
+          });
+        })
+        .catch((err) => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              text: "입력하신 정보와 일치하는 이메일이 존재하지 않습니다",
+              icon: "info",
+              iconColor: "#ff6347",
+              timer: 1500,
+            });
+          }
+        });
+    });
+  };
+
   return (
     <>
       <Container>
@@ -114,7 +224,10 @@ export default function SignInPage({ handleResponseSuccess }) {
             </Button>
           </SigninForm>
           <AccountBox>
-            <Account>아이디/비밀번호 찾기</Account>
+            <div>
+              <Account onClick={findEmail}>아이디 / &nbsp;</Account>
+              <Account onClick={findPassword}>비밀번호 찾기</Account>
+            </div>
             <Account onClick={handleSignUp}>회원가입</Account>
           </AccountBox>
           <SocialAccountBox>

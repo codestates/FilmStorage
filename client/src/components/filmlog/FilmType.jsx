@@ -9,7 +9,7 @@ const options = [
   { value: "로모그래피", label: "Lomography" },
   { value: "일포드", label: "Ilford" },
   { value: "롤라이", label: "Rollei" },
-  { value: "기타", label: "etc" },
+  { value: "기타", label: "Etc" },
 ];
 
 const kodak = [
@@ -60,9 +60,22 @@ const rollei = [
 
 const etc = [{ value: "chocolate", label: "기타" }];
 
-export default function FilmType({ photoInfo, setPhotoInfo }) {
+export default function FilmType({
+  photoInfo,
+  setPhotoInfo,
+  filmLogItemLists,
+  myLogItemLists,
+  setMyLogFilter,
+  setFilmLogFilter,
+}) {
   const handleType = (e) => {
-    setPhotoInfo({ ...photoInfo, filmtype: e.label });
+    if (photoInfo) {
+      setPhotoInfo({ ...photoInfo, filmtype: e.label });
+    } else if (myLogItemLists) {
+      setMyLogFilter(e.label);
+    } else if (filmLogItemLists) {
+      setFilmLogFilter(e.label);
+    }
   };
   const [selectedOption, setSelectedOption] = useState("");
 
