@@ -2,10 +2,10 @@
 import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import styled from "styled-components";
-import { initialState } from "../assets/state";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import TermsOfService from "../assets/TermsOfService";
 
 axios.defaults.withCredentials = true;
 
@@ -146,17 +146,21 @@ export default function SignUpPage() {
     }
   };
 
-  // * 이용약관 임시 텍스트
-  const termText = initialState.body;
-
   return (
     <>
       <Container ref={outsideModal} onClick={handleTermModal}>
         {openModal === true ? (
-          <TermModal>
-            <TermTitle>이용약관</TermTitle>
-            <TermText>{termText}</TermText>
-          </TermModal>
+          <>
+            <ModalBG
+              onClick={() => {
+                setOpenModal(false);
+              }}
+            >
+              <TermModal>
+                <TermsOfService />
+              </TermModal>
+            </ModalBG>
+          </>
         ) : null}
         <Article>
           <SigninForm onSubmit={(e) => e.preventDefault()}>
@@ -297,9 +301,8 @@ const TermModal = styled.div`
   border-radius: 12px;
   background: white;
   padding: 20px;
-  width: 500px;
-  height: 600px;
-  box-shadow: 5px 5px 20px Gainsboro;
+  width: 600px;
+  height: 700px;
   position: absolute;
   overflow: auto;
   @media screen and (max-width: 412px) {
@@ -310,22 +313,15 @@ const TermModal = styled.div`
   }
 `;
 
-const TermTitle = styled.h3`
-  padding: 0px 30px;
-  @media screen and (max-width: 1024px) {
-    font-size: 20px;
-  }
-  @media screen and (max-width: 412px) {
-    font-size: 14px;
-  }
-`;
-const TermText = styled.div`
-  font-size: 13px;
-  line-height: 2.5em;
-  height: 500px;
-  padding: 0px 30px;
-  @media screen and (max-width: 412px) {
-    font-size: 11px;
-    line-height: 2em;
-  }
+const ModalBG = styled.div`
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
 `;

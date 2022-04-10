@@ -52,13 +52,13 @@ const SlideImg = styled.img`
   &:hover {
     cursor: pointer;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     object-fit: fill;
-    height: 70vh;
+    height: 50vh;
   }
 
   @media screen and (max-width: 412px) {
     object-fit: fill;
-    height: 60vh;
+    height: 30vh;
   }
 `;
