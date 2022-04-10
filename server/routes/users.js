@@ -32,6 +32,8 @@ usersRouter.patch("/update/profile/:user_id", upload.single("profile"), usersCon
 // 회원 탈퇴
 usersRouter.delete("/withdrawal", usersController.withdrawal.delete);
 // 비밀번호 초기화 이메일
-usersRouter.patch("/reset_password", usersController.reset_password.patch);
+usersRouter.get("/find_password", usersController.find_info.find_password);
+// 아이디 찾기 요청
+usersRouter.get("/find_email", usersController.find_info.find_email);
 
 module.exports = usersRouter;

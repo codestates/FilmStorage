@@ -5,5 +5,5 @@ module.exports = {
   update: require("./update"),
   withdrawal: require("./withdrawal"),
   auth: require("./auth"),
-  reset_password: require("./reset_password"),
+  find_info: require("./find_info")
 };
