@@ -31,7 +31,7 @@ module.exports = {
               <div>
                 ${nickname}님의 현재 비밀번호는 ${password} 입니다.
                 <br/>
-                <a href="https://localhost:3000/signin">로그인 하러가기</a>
+                <a href="https://filmstorage.ga/signin">로그인 하러가기</a>
               </div>`,
         };
         const info = await transporter.sendMail(mailOptions);
@@ -68,6 +68,6 @@ module.exports = {
           data: findMatchedEmail,
         });
       }
-    } catch (err) {}
+    } catch (err) { }
   },
 };
