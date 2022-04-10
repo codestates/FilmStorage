@@ -103,7 +103,7 @@ export default function SignUpPage() {
         .post(`${process.env.REACT_APP_API_URL}/users/signup`, userInfo, {
           "Content-Type": "application/json",
         })
-        .then((res) => {
+        .then(() => {
           Swal.fire({
             text: "회원가입이 완료되었습니다",
             icon: "success",
@@ -115,7 +115,14 @@ export default function SignUpPage() {
           });
         })
         .catch((err) => {
-          setErrorMessage("이미 사용중인 이메일주소 혹은 닉네임이 존재합니다");
+          const type = err.response.data.message.split(" ")[0];
+          if (type === "email") {
+            setErrorMessage("이미 사용중인 이메일 주소가 존재합니다");
+          } else if (type === "nickname") {
+            setErrorMessage("이미 사용중인 닉네임이 존재합니다");
+          } else {
+            console.log(err);
+          }
         });
     }
   };
