@@ -251,6 +251,12 @@ const Container = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    height: 75vh;
+  }
+  @media screen and (max-width: 412px) {
+    height: 70vh;
+  }
 `;
 const Article = styled.article`
   /* border: 1px solid blue; */

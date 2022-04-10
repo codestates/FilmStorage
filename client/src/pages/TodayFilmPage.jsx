@@ -3,13 +3,15 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloud } from "@fortawesome/free-solid-svg-icons";
-import { faSun } from "@fortawesome/free-solid-svg-icons";
-import { faBolt } from "@fortawesome/free-solid-svg-icons";
-import { faWater } from "@fortawesome/free-solid-svg-icons";
-import { faUmbrella } from "@fortawesome/free-solid-svg-icons";
-import { faSnowflake } from "@fortawesome/free-solid-svg-icons";
-import { faSmog } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCloud,
+  faSun,
+  faBolt,
+  faWater,
+  faUmbrella,
+  faSnowflake,
+  faSmog,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loader from "../components/Loader";
 import TodayFilmResult from "../components/todayfilm/TodayFilmResult";
@@ -284,7 +286,7 @@ export default function TodayFilmPage() {
               {selectDay} {curWeather.name}의 날씨는 {curWeather.main}
               <br />
               {curWeather.weatherDesc} 환경에서는 감도가 {isFilmComment} 필름을
-              추천해드려요.
+              추천해드려요
             </h3>
           </div>
           <Section>
@@ -335,6 +337,9 @@ const Container = styled.div`
     color: #fff;
     background-color: tomato;
     border-radius: 20px;
+    @media screen and (max-width: 412px) {
+      font-size: 12px;
+    }
   }
   div.text-box {
     /* border: 1px solid red; */
@@ -342,6 +347,17 @@ const Container = styled.div`
     /* margin: 10px;
     border-radius: 10px;
     box-shadow: 5px 5px 20px Gainsboro; */
+  }
+
+  h3 {
+    @media screen and (max-width: 768px) {
+      margin-top: 25px;
+      font-size: 16px;
+    }
+    @media screen and (max-width: 412px) {
+      margin-top: 25px;
+      font-size: 13px;
+    }
   }
 `;
 
@@ -354,11 +370,35 @@ const Section = styled.section`
   margin-top: 3rem;
   margin-bottom: 10rem;
   flex-wrap: wrap;
+  @media screen and (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  @media screen and (max-width: 412px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+  }
 `;
 
 const SelectOptionWrap = styled.form`
   /* border: 1px solid red; */
+  width: 700px;
   display: flex;
+  justify-content: center;
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    width: 500px;
+  }
+  @media screen and (max-width: 412px) {
+    display: flex;
+    justify-content: center;
+    width: 350px;
+  }
 `;
 
 const SelectOption = styled(Select)`
@@ -366,6 +406,10 @@ const SelectOption = styled(Select)`
   /* padding: 10px; */
   margin: 50px 5px 10px 5px;
   width: 250px;
+  @media screen and (max-width: 412px) {
+    width: 130px;
+    font-size: 12px;
+  }
 `;
 
 const FilmBox = styled.div`
@@ -374,15 +418,36 @@ const FilmBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    width: 300px;
+    margin-bottom: 3em;
+  }
+  @media screen and (max-width: 412px) {
+    width: 300px;
+  }
   > h3.filmtitle {
     margin: 10px 0 0 0;
     /* border: 1px solid red; */
+    @media screen and (max-width: 768px) {
+      font-size: 19px;
+      margin: 5px auto 12px;
+    }
+    @media screen and (max-width: 412px) {
+      font-size: 15px;
+      margin: 5px;
+    }
   }
   > img.filmimg {
     height: 15vh;
     /* width: 10vw; */
     object-fit: cover;
     cursor: pointer;
+    @media screen and (max-width: 768px) {
+      height: 220px;
+    }
+    @media screen and (max-width: 412px) {
+      height: 150px;
+    }
   }
 
   > div.filminfo-box {
@@ -393,6 +458,12 @@ const FilmBox = styled.div`
       font-size: 11px;
       .bold {
         font-weight: 600;
+      }
+      @media screen and (max-width: 768px) {
+        font-size: 13px;
+      }
+      @media screen and (max-width: 412px) {
+        font-size: 11px;
       }
     }
   }
@@ -406,8 +477,15 @@ const FilmBox = styled.div`
 `;
 
 const WeatherBox = styled.div`
-  font-size: 13rem;
+  padding-top: 30px;
+  font-size: 12rem;
   color: tomato;
+  @media screen and (max-width: 768px) {
+    font-size: 9rem;
+  }
+  @media screen and (max-width: 412px) {
+    font-size: 6rem;
+  }
 `;
 
 const LoadingContainer = styled.div`
@@ -437,4 +515,14 @@ const ResultComment = styled.div`
   border: 1px solid Gainsboro;
   border-radius: 10px;
   box-shadow: 5px 5px 10px Gainsboro;
+  @media screen and (max-width: 768px) {
+    position: sticky;
+    width: 390px;
+    font-size: 14px;
+  }
+  @media screen and (max-width: 412px) {
+    position: sticky;
+    width: 290px;
+    font-size: 11px;
+  }
 `;
