@@ -72,16 +72,16 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
         icon: "warning",
         iconColor: "#ff6347",
         showConfirmButton: false,
-        timer: 1200
-      })
+        timer: 1200,
+      });
     } else if (!photoInfo.photo.name) {
       Swal.fire({
         text: "사진을 등록해주세요",
         icon: "warning",
         iconColor: "#ff6347",
         showConfirmButton: false,
-        timer: 1200
-      })
+        timer: 1200,
+      });
     } else {
       const postData = {
         filmtype: photoInfo.filmtype,
@@ -114,17 +114,19 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                 },
               }
             )
-            .then((res) => {
+            .then(() => {
               Swal.fire({
                 text: "등록이 완료되었습니다",
                 icon: "success",
                 iconColor: "#ff6347",
                 showConfirmButton: false,
-                timer: 1500
+                timer: 1500,
               }).then(() => {
                 setIsOpen(false);
-                window.location.assign("/filmlog");
-              })
+                const url = window.location.href.split("/");
+                const endPoint = url[url.length - 1];
+                window.location.assign(endPoint);
+              });
             })
             .catch((err) => console.log(err));
         })
