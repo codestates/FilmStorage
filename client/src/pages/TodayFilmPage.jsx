@@ -129,9 +129,9 @@ export default function TodayFilmPage() {
             name: name,
             main: weather[0].main,
           };
-
           setCurWeather(weatherInfo);
-        });
+        })
+        .catch((err) => {});
     }
 
     // * 주말의 날씨 선택
@@ -153,7 +153,6 @@ export default function TodayFilmPage() {
           withCredentials: false,
         })
         .then(async (res) => {
-          console.log("받아온 데이터", res.data);
           // 주말(dayNum)의 날씨 main 정보 저장 => Clear
           const weatherMain = res.data.daily[dayNum].weather[0].main;
           // 주말(dayNum)의 날씨 description 정보 저장 => 맑음
@@ -165,7 +164,6 @@ export default function TodayFilmPage() {
               withCredentials: false,
             })
             .then((res) => {
-              console.log("받아오는 데이터 : ", res.data);
               // 현재 위치 이름 저장
               const weatherName = res.data.name;
 
@@ -181,19 +179,19 @@ export default function TodayFilmPage() {
     }
   };
 
+  const getWeatherOfCurLocation = () => {
+    navigator.geolocation.getCurrentPosition(successAndGetWeather, error, {
+      enableHighAccuracy: true,
+    });
+  };
+
   const error = (err) => {
     Swal.fire({
       text: "위치정보를 가져오는데 실패했습니다",
       icon: "warning",
       iconColor: "#ff6347",
       showConfirmButton: false,
-      timer: 1500
-    })
-  };
-
-  const getWeatherOfCurLocation = () => {
-    navigator.geolocation.getCurrentPosition(successAndGetWeather, error, {
-      enableHighAccuracy: true,
+      timer: 1500,
     });
   };
 
@@ -295,22 +293,24 @@ export default function TodayFilmPage() {
             {filmResult.map((el, idx) => {
               return (
                 <div key={idx}>
-                  <FilmBox>
-                    <img className="filmimg" src={el.imglink} alt="film" />
-                    <h3 className="filmtitle">{el.filmname}</h3>
-                    <div className="filminfo-box">
-                      <span className="filminfo">
-                        <span className="bold">필름 타입</span> {el.type} |
-                      </span>
-                      <span className="filminfo">
-                        <span className="bold">촬영 횟수</span> {el.shots} |
-                      </span>
-                      <span className="filminfo">
-                        <span className="bold">감도</span> ISO{el.iso}
-                      </span>
-                    </div>
-                    <span className="filminfo-text">{el.content}</span>
-                  </FilmBox>
+                  <DropDown>
+                    <FilmBox>
+                      <img className="filmimg" src={el.imglink} alt="film" />
+                      <h3 className="filmtitle">{el.filmname}</h3>
+                      <div className="filminfo-box">
+                        <span className="filminfo">
+                          <span className="bold">필름 타입</span> {el.type} |
+                        </span>
+                        <span className="filminfo">
+                          <span className="bold">촬영 횟수</span> {el.shots} |
+                        </span>
+                        <span className="filminfo">
+                          <span className="bold">감도</span> ISO{el.iso}
+                        </span>
+                      </div>
+                      <ResultComment>{el.content}</ResultComment>
+                    </FilmBox>
+                  </DropDown>
                 </div>
               );
             })}
@@ -415,4 +415,28 @@ const LoadingContainer = styled.div`
   width: 100%;
   height: 100vh;
   text-align: center;
+`;
+
+const DropDown = styled.div`
+  /* border: 1px solid red; */
+  position: relative;
+`;
+
+const ResultComment = styled.div`
+  /* border: 1px solid red; */
+  display: none;
+  ${DropDown}:hover & {
+    display: block;
+  }
+  position: absolute;
+  right: -20px;
+  width: 200px;
+
+  margin: 10px;
+  padding: 10px;
+  background: #fff;
+  font-size: 14px;
+  border: 1px solid Gainsboro;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px Gainsboro;
 `;
