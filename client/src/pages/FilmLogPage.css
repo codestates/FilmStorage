@@ -57,13 +57,8 @@
 }
 
 .filmlog-second-nav-title {
-  /* text-align: center; */
   margin-right: 1rem;
   padding: 10px;
-  /* padding: 0.5rem 0.5rem 0.5rem 0.5rem; */
-  /* border: 1px solid gainsboro; */
-  /* border-radius: 5px;; */
-  /* background-color: tomato; */
   color: #444;
   font-weight: 600;
 }
@@ -91,4 +86,43 @@ li {
   /* height: 770px; */
   margin-top: 0;
   text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .filmlog-second-container {
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .filmlog-first {
+    height: 40vh;
+  }
+}
+
+@media screen and (max-width: 412px) {
+  .filmlog-second-container {
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .filmlog-second-nav {
+    width: 330px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  .filmlog-second-nav-title {
+    padding: 0;
+  }
+
+  .nav-flex {
+    flex-direction: column;
+  }
+
+  .filmlog-first {
+    height: 40vh;
+  }
 }

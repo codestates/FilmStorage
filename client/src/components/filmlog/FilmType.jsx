@@ -134,12 +134,20 @@ const Selectlist = styled.div`
   justify-content: space-between;
   padding: 10px 0;
   width: 500px;
+  @media screen and (max-width: 768px) {
+    width: 350px;
+  }
+  @media screen and (max-width: 412px) {
+    width: 150px;
+    flex-direction: column;
+    padding: 0;
+  }
 `;
 
 const Widthbox = styled.div`
   /* border: 1px solid red; */
   flex: 1;
-  /* width: 150px; */
+  width: 150px;
   margin-right: 10px;
 `;
 
