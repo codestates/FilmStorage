@@ -287,8 +287,6 @@ export default function TodayFilmPage() {
               추천해드려요.
             </h3>
           </div>
-          {/* <h3 className="filmtitle">일출사진 : {curWeather.sunrise}</h3>
-          <h3 className="filmtitle">일몰사진 : {curWeather.sunset}</h3> */}
           <Section>
             {filmResult.map((el, idx) => {
               return (
@@ -384,6 +382,7 @@ const FilmBox = styled.div`
     height: 15vh;
     /* width: 10vw; */
     object-fit: cover;
+    cursor: pointer;
   }
 
   > div.filminfo-box {
@@ -431,7 +430,6 @@ const ResultComment = styled.div`
   position: absolute;
   right: -20px;
   width: 200px;
-
   margin: 10px;
   padding: 10px;
   background: #fff;

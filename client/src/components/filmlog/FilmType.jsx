@@ -64,9 +64,9 @@ export default function FilmType({ photoInfo, setPhotoInfo }) {
   const handleType = (e) => {
     setPhotoInfo({ ...photoInfo, filmtype: e.label });
   };
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
 
-  const [selectedOption2, setSelectedOption2] = useState(null);
+  const [selectedOption2, setSelectedOption2] = useState("");
 
   useEffect(() => {
     if (selectedOption) {
@@ -99,6 +99,7 @@ export default function FilmType({ photoInfo, setPhotoInfo }) {
             defaultValue={selectedOption}
             onChange={setSelectedOption}
             options={options}
+            placeholder="제조사"
           />
         </Widthbox>
         <Widthbox2>
@@ -106,6 +107,7 @@ export default function FilmType({ photoInfo, setPhotoInfo }) {
             defaultValue={selectedOption2}
             options={selectedOption2}
             onChange={handleType}
+            placeholder="모델명"
           />
         </Widthbox2>
       </Selectlist>
