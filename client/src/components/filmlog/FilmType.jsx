@@ -77,9 +77,9 @@ export default function FilmType({
       setFilmLogFilter(e.label);
     }
   };
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
 
-  const [selectedOption2, setSelectedOption2] = useState(null);
+  const [selectedOption2, setSelectedOption2] = useState("");
 
   useEffect(() => {
     if (selectedOption) {
@@ -112,6 +112,7 @@ export default function FilmType({
             defaultValue={selectedOption}
             onChange={setSelectedOption}
             options={options}
+            placeholder="제조사"
           />
         </Widthbox>
         <Widthbox2>
@@ -119,6 +120,7 @@ export default function FilmType({
             defaultValue={selectedOption2}
             options={selectedOption2}
             onChange={handleType}
+            placeholder="모델명"
           />
         </Widthbox2>
       </Selectlist>
@@ -131,6 +133,7 @@ const Selectlist = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
+  width: 500px;
 `;
 
 const Widthbox = styled.div`
