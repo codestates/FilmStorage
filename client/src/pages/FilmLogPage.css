@@ -88,15 +88,14 @@ li {
   text-align: center;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .filmlog-second-container {
     margin-top: 0px;
     margin-left: 0px;
     margin-right: 0px;
   }
-
   .filmlog-first {
-    height: 40vh;
+    height: 55vh;
   }
 }
 
