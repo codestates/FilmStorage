@@ -8,12 +8,19 @@ import { Link } from "react-router-dom";
 const Container = styled.div`
   /* border: 1px solid red; */
   /* background: Gainsboro; */
-  width: 1000px;
+  width: 100%;
   height: 500px;
   margin: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    padding: 100px 0;
+  }
+  @media screen and (max-width: 412px) {
+    padding: 20px 0;
+  }
 `;
 
 const Content = styled.div`
@@ -24,12 +31,21 @@ const Content = styled.div`
   align-items: ${(props) => (props.center ? "center" : "left")};
   width: 500px;
   height: 500px;
+  @media screen and (max-width: 768px) {
+    /* border: 3px solid green; */
+    align-items: center;
+    padding: 30px 0;
+  }
 `;
 
 const Title = styled.h1`
   font-size: 40px;
   margin: 10px 0px;
   color: #444;
+  @media screen and (max-width: 412px) {
+    /* border: 1px solid red; */
+    font-size: 40px;
+  }
 `;
 const SubTitle = styled.p`
   font-size: 30px;
@@ -37,11 +53,24 @@ const SubTitle = styled.p`
   margin: 0 0 0 3px;
   color: #444;
   /* border: 3px solid blue; */
+  @media screen and (max-width: 768px) {
+    /* border: 3px solid green; */
+    text-align: center;
+  }
+  @media screen and (max-width: 412px) {
+    /* border: 1px solid red; */
+    font-size: 20px;
+  }
 `;
 const Img = styled.img`
   width: 200px;
   padding: 50px 100px;
   animation-fill-mode: forwards;
+  @media screen and (max-width: 412px) {
+    /* border: 1px solid red; */
+    width: 150px;
+    padding: 0;
+  }
 `;
 const Button = styled.button`
   width: 90%;
@@ -63,6 +92,10 @@ const Button = styled.button`
   .icon {
     /* margin-left: 200px; */
   }
+  @media screen and (max-width: 768px) {
+    /* border: 3px solid green; */
+    width: 100%;
+  }
 `;
 
 function GoToFindingFilmType() {
@@ -76,9 +109,7 @@ function GoToFindingFilmType() {
           data-aos-easing="ease-in-sine"
         >
           <SubTitle>간단한 테스트로 알아보는</SubTitle>
-          <Title>
-            내 취향 저격 필름
-          </Title>
+          <Title>내 취향 저격 필름</Title>
           <Link to="filmtype">
             <Button>
               필름 취향 테스트 해보기
