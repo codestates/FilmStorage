@@ -210,7 +210,7 @@ const Container = styled.section`
     height: 82vh;
   }
   @media screen and (max-width: 412px) {
-    height: 78vh;
+    height: 89vh;
   }
 `;
 const Article = styled.article`

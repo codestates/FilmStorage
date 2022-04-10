@@ -252,10 +252,10 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   @media screen and (max-width: 768px) {
-    height: 75vh;
+    height: 80vh;
   }
   @media screen and (max-width: 412px) {
-    height: 70vh;
+    height: 82vh;
   }
 `;
 const Article = styled.article`
