@@ -38,7 +38,7 @@ const Title = styled.h1`
   color: #444;
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
-    font-size:40px;
+    font-size: 40px;
   }
 `;
 const MapIcon = styled(FontAwesomeIcon)`
