@@ -27,6 +27,9 @@ const Button = styled.button`
     background: tomato;
     cursor: revert;
   }
+  @media screen and (max-width: 412px) {
+    margin: 10px 0;
+  }
 `;
 
 function Pagination({ totalLength, page, setPage }) {
