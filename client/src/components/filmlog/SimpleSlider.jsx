@@ -59,6 +59,6 @@ const SlideImg = styled.img`
 
   @media screen and (max-width: 412px) {
     object-fit: fill;
-    height: 60vh;
+    height: 30vh;
   }
 `;

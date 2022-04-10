@@ -228,6 +228,9 @@ const FilmLogImg = styled.img`
     background: tomato;
     transition: 0.3s;
   }
+  @media screen and (max-width: 412px) {
+    height: 18rem;
+  }
 `;
 
 const Button = styled.button`
