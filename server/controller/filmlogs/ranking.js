@@ -6,7 +6,10 @@ module.exports = {
   topthree: async (req, res) => {
     try {
       const today = new Date();
-      const startDay = today.getDate() - today.getDay() + 1;
+      const startDay =
+        today.getDay() === 0
+          ? today.getDate() - 6
+          : today.getDate() - today.getDay() + 1;
       const endDay = startDay + 6;
       const startOfWeek = new Date(
         today.getFullYear(),
