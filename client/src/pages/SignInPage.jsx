@@ -225,7 +225,7 @@ export default function SignInPage({ handleResponseSuccess }) {
           </SigninForm>
           <AccountBox>
             <div>
-              <Account onClick={findEmail}>아이디 / &nbsp;</Account>
+              <Account onClick={findEmail}>아이디 / </Account>
               <Account onClick={findPassword}>비밀번호 찾기</Account>
             </div>
             <Account onClick={handleSignUp}>회원가입</Account>
@@ -313,6 +313,9 @@ const AccountBox = styled.div`
 const Account = styled.span`
   font-size: 12px;
   cursor: pointer;
+  &:hover {
+    font-weight: bold;
+  }
   /* border: 1px solid tomato; */
 `;
 const SocialAccountBox = styled.div`
