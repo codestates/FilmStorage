@@ -6,7 +6,6 @@ import FilmLogRevison from "../components/filmlog/FilmLogRevison";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import Guide from "../components/Guide";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -19,8 +18,6 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
   const [comment, setComment] = useState("");
   const [filmLogComments, setFilmLogComments] = useState([]);
 
-  // * 로그인 여부 확인 상태 관리
-  const [modalClose, setModalClose] = useState(false);
   // * 임시 댓글 정보 저장
   const [replyCount, setReplyCount] = useState(0);
   // * 좋아요 상태 관리
@@ -161,12 +158,12 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
         confirmButtonText: "로그인 하러 가기",
         cancelButtonText: "취소",
         confirmButtonColor: "#189cc4",
-        cancelButtonColor: "#ff6347"
+        cancelButtonColor: "#ff6347",
       }).then((result) => {
-        if(result.isConfirmed) {
-          history.push("/signin")
+        if (result.isConfirmed) {
+          history.push("/signin");
         }
-      })
+      });
     } else {
       axios
         .post(
@@ -188,15 +185,26 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
     }
   };
 
-  // * 모달 창 닫기
-  const handleModalClose = () => {
-    setModalClose(false);
-  };
-
   const handleFilmLike = () => {
-    handlePostLike();
-    // setIsLike(like);
-    // console.log(photoInfo);
+    if (!isLogin) {
+      Swal.fire({
+        text: "로그인 후 사용하실 수 있습니다",
+        icon: "warning",
+        iconColor: "#ff6347",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        confirmButtonColor: "#189cc4",
+        cancelButtonColor: "#ff6347",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/signin");
+        }
+      });
+    } else {
+      handlePostLike();
+    }
   };
 
   const handlePostLike = () => {
@@ -264,15 +272,9 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
           >
             <div className="detailImageBox_Like">
               {isLike ? (
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  color="tomato"
-                />
+                <FontAwesomeIcon icon={faHeart} color="tomato" />
               ) : (
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  color="white"
-                />
+                <FontAwesomeIcon icon={faHeart} color="white" />
               )}
             </div>
           </div>
