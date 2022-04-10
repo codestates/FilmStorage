@@ -35,6 +35,13 @@ const Article = styled.article`
     width: 100%;
 		
   }
+  @media screen and (max-width: 768px) {
+    width: 80%;
+  }
+
+  @media screen and (max-width: 412px) {
+    width: 80%;
+  }
 `;
 
 const LoaderBox = styled.div`
@@ -64,7 +71,7 @@ const SearchForm = styled.form`
     outline: none;
     padding: 10px;
     flex: 14;
-    font-size: 24px;
+    font-size: 20px;
     transition: 0.3px;
     &:focus {
       box-shadow: 5px 5px 10px gainsboro;
@@ -73,6 +80,11 @@ const SearchForm = styled.form`
       padding: 10px;
       font-size: 16px;
     }
+    @media screen and (max-width: 768px) {
+      font-size: 16px;
+    }
+  }
+
   }
   button {
     padding: 0;
@@ -193,7 +205,7 @@ export default function FilmSpotPage() {
     };
 
     const map = new kakao.maps.Map(container, options);
-    
+
     //받아온 위도,경도로 지도 위에 렌더링
     const positions = [];
 
@@ -294,7 +306,7 @@ export default function FilmSpotPage() {
   }, []);
 
   return (
-    <> 
+    <>
       <Container>
         {isLoading ? (
           <>
@@ -302,7 +314,7 @@ export default function FilmSpotPage() {
               <section>
                 <SearchForm className="inputForm" onSubmit={handleSubmit}>
                   <input
-                  className="inpput"
+                    className="inpput"
                     placeholder="장소를 검색해보세요"
                     onChange={(e) => onChange(e)}
                     value={place}

@@ -47,9 +47,18 @@ export default function SimpleSlider({ topThree }) {
 
 const SlideImg = styled.img`
   width: 100vw;
-  height: 80vh;
+  height: 85vh;
   object-fit: cover;
   &:hover {
     cursor: pointer;
+  }
+  @media screen and (max-width: 768px) {
+    object-fit: fill;
+    height: 70vh;
+  }
+
+  @media screen and (max-width: 412px) {
+    object-fit: fill;
+    height: 60vh;
   }
 `;

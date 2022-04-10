@@ -232,16 +232,16 @@ export default function FindingFilmTypePage() {
                         </h3>
                         <div className="filminfo-box">
                           <span className="filminfo">
-                            <span className="bold">필름 타입</span>{" "}
+                            <span className="bold">필름 타입 </span>
                             {resultForRender.type} |
                           </span>
                           <span className="filminfo">
-                            <span className="bold">촬영 횟수</span>{" "}
+                            <span className="bold">촬영 횟수 </span>
                             {resultForRender.shots} |
                           </span>
                           <span className="filminfo">
-                            <span className="bold">감도 ISO</span>
-                            {resultForRender.iso}
+                            <span className="bold">감도 ISO </span>
+                            {resultForRender.iso} |
                           </span>
                         </div>
                         <ResultComment>{resultForRender.content}</ResultComment>
@@ -267,10 +267,18 @@ export default function FindingFilmTypePage() {
 
 const Container = styled.div`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    padding-bottom: 100px;
+  }
+
+  @media screen and (max-width: 412px) {
+    /* object-fit: cover;
+    height: 30vh; */
+  }
 `;
 
 const ProceedContainer = styled.div`
@@ -282,6 +290,9 @@ const ProceedContainer = styled.div`
   align-items: center;
   border-radius: 20px;
   box-shadow: 5px 5px 10px Gainsboro;
+  @media screen and (max-width: 412px) {
+    width: 300px;
+  }
 `;
 // 진행바
 const Progress = styled.div`
@@ -313,26 +324,33 @@ const ImgContainer = styled.div`
 const StartButtonBox = styled.div`
   width: 30rem;
   height: 10rem;
-
   text-align: center;
+  @media screen and (max-width: 412px) {
+    width: 15rem;
+  }
 `;
 
 const GridContainer = styled.div`
   display: grid;
-  width: 100%;
   max-width: 900px;
   grid-gap: 20px;
   grid-template-columns: 1.2fr 1.2fr 1.2fr;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1.2fr;
+  }
 `;
 
 const FilmBox = styled.div`
-  width: 40vw;
+  width: 50vw;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 412px) {
+    width: 70vw;
+  }
+
   > h3.filmtitle {
-    margin: 10px 0 0 0;
     /* border: 1px solid red; */
   }
   > img.filmimg {
@@ -345,10 +363,18 @@ const FilmBox = styled.div`
 
   > div.filminfo-box {
     margin: 20px 20px 20px 20px;
+    @media screen and (max-width: 412px) {
+      display: flex;
+      flex-direction: column;
+    }
+
     > span.filminfo {
       /* border: 1px solid red; */
       padding: 2px;
       font-size: 11px;
+      @media screen and (max-width: 412px) {
+        margin-bottom: 0;
+      }
       .bold {
         font-weight: 600;
       }
@@ -396,6 +422,15 @@ const ImgBox = styled.img`
     opacity: 0.6;
     transition: 0.3s;
   }
+  @media screen and (max-width: 768px) {
+    width: 600px;
+    height: 400px;
+  }
+
+  @media screen and (max-width: 412px) {
+    width: 300px;
+    height: 200px;
+  }
 `;
 
 const ImgSelectedBox = styled.div`
@@ -407,6 +442,14 @@ const ImgSelectedBox = styled.div`
   border-radius: 20px;
   cursor: pointer;
   opacity: 0.6;
+  @media screen and (max-width: 768px) {
+    width: 600px;
+    height: 400px;
+  }
+  @media screen and (max-width: 412px) {
+    width: 300px;
+    height: 200px;
+  }
 `;
 
 const DropDown = styled.div`

@@ -172,10 +172,12 @@ export default function FilmLogPage({ userInfo, isLogin }) {
             <nav className="filmlog-second-nav">
               <div className="nav-flex">
                 <div className="filmlog-second-nav-title">필름 종류</div>
-                <FilmType
-                  filmLogItemLists={filmLogItemLists}
-                  setFilmLogFilter={setFilmLogFilter}
-                />
+                <div className="filmlog-second-nav-title">
+                  <FilmType
+                    filmLogItemLists={filmLogItemLists}
+                    setFilmLogFilter={setFilmLogFilter}
+                  />
+                </div>
               </div>
               <div className="nav-flex">
                 <div>
