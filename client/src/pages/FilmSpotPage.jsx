@@ -34,7 +34,7 @@ const Article = styled.article`
     padding-bottom: 10px;
     width: 100%;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     width: 80%;
   }
 
@@ -79,7 +79,7 @@ const SearchForm = styled.form`
       padding: 10px;
       font-size: 16px;
     }
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1024px) {
       font-size: 16px;
     }
   }

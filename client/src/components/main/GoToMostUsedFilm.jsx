@@ -10,7 +10,6 @@ const Container = styled.div`
   /* background: Gainsboro; */
   width: 100%;
   height: 500px;
-  margin: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,6 +35,11 @@ const Content = styled.div`
   @media screen and (max-width: 768px) {
     /* border: 3px solid blue; */
     align-items: center;
+  }
+  @media screen and (max-width: 412px) {
+    /* border: 3px solid blue; */
+    align-items: center;
+    width: 380px;
   }
 `;
 
@@ -67,7 +71,6 @@ const SubTitle = styled.p`
 
 const Img = styled.img`
   width: 200px;
-  padding: 50px 100px;
   animation-fill-mode: forwards;
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
@@ -106,7 +109,7 @@ function GoToMostUsedFilm() {
       <Container>
         <Content
           data-aos="fade-right"
-          data-aos-offset="300"
+          // data-aos-offset="300"
           data-aos-duration="700"
           data-aos-easing="ease-in-sine"
         >
@@ -129,8 +132,8 @@ function GoToMostUsedFilm() {
         </Content>
         <Content
           center
-          data-aos="fade-left"
-          data-aos-offset="300"
+          data-aos="fade-right"
+          // data-aos-offset="300"
           data-aos-duration="700"
           data-aos-easing="ease-in-sine"
         >
