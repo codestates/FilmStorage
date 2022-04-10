@@ -271,7 +271,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     padding-bottom: 100px;
   }
 
@@ -335,7 +335,7 @@ const GridContainer = styled.div`
   max-width: 900px;
   grid-gap: 20px;
   grid-template-columns: 1.2fr 1.2fr 1.2fr;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     grid-template-columns: 1.2fr;
   }
 `;
@@ -352,6 +352,7 @@ const FilmBox = styled.div`
 
   > h3.filmtitle {
     /* border: 1px solid red; */
+    text-align: center;
   }
   > img.filmimg {
     width: 200px;
@@ -362,10 +363,11 @@ const FilmBox = styled.div`
   }
 
   > div.filminfo-box {
-    margin: 20px 20px 20px 20px;
+    margin: 20px;
     @media screen and (max-width: 412px) {
+      margin: 0 0 20px 0;
       display: flex;
-      flex-direction: column;
+      /* flex-direction: column; */
     }
 
     > span.filminfo {
@@ -422,7 +424,7 @@ const ImgBox = styled.img`
     opacity: 0.6;
     transition: 0.3s;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     width: 600px;
     height: 400px;
   }
@@ -442,7 +444,7 @@ const ImgSelectedBox = styled.div`
   border-radius: 20px;
   cursor: pointer;
   opacity: 0.6;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     width: 600px;
     height: 400px;
   }

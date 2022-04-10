@@ -206,11 +206,11 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   position: relative;
-  @media screen and (max-width: 768px) {
-    height: 82vh;
+  @media screen and (max-width: 1024px) {
+    height: 80vh;
   }
   @media screen and (max-width: 412px) {
-    height: 89vh;
+    margin-bottom: 100px;
   }
 `;
 const Article = styled.article`
@@ -312,7 +312,7 @@ const TermModal = styled.div`
 
 const TermTitle = styled.h3`
   padding: 0px 30px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     font-size: 20px;
   }
   @media screen and (max-width: 412px) {

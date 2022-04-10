@@ -251,11 +251,11 @@ const Container = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     height: 80vh;
   }
   @media screen and (max-width: 412px) {
-    height: 82vh;
+    margin-bottom: 100px;
   }
 `;
 const Article = styled.article`
