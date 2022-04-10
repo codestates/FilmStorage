@@ -8,12 +8,21 @@ import { Link } from "react-router-dom";
 const Container = styled.div`
   /* border: 1px solid red; */
   /* background: Gainsboro; */
-  width: 1000px;
+  width: 100%;
   height: 500px;
   margin: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  // 태블릿
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    padding: 100px 0;
+  }
+  // 모바일
+  @media screen and (max-width: 412px) {
+    padding: 20px 0;
+  }
 `;
 
 const Content = styled.div`
@@ -24,6 +33,10 @@ const Content = styled.div`
   align-items: ${(props) => (props.center ? "center" : "left")};
   width: 500px;
   height: 500px;
+  @media screen and (max-width: 768px) {
+    /* border: 3px solid blue; */
+    align-items: center;
+  }
 `;
 
 const Title = styled.h1`
@@ -31,6 +44,10 @@ const Title = styled.h1`
   margin: 0;
   padding: 20px 0;
   color: #444;
+  @media screen and (max-width: 412px) {
+    /* border: 1px solid red; */
+    font-size: 40px;
+  }
 `;
 const SubTitle = styled.p`
   font-size: 24px;
@@ -38,19 +55,24 @@ const SubTitle = styled.p`
   margin: 0 0 0 3px;
   color: #444;
   /* border: 3px solid blue; */
+  @media screen and (max-width: 768px) {
+    /* border: 3px solid blue; */
+    text-align: center;
+  }
+  @media screen and (max-width: 412px) {
+    /* border: 1px solid red; */
+    font-size: 20px;
+  }
 `;
-const Description = styled.p`
-  font-size: 14px;
-  margin: 10px 0 0 0;
-  line-height: 1.5em;
-  color: #666;
-  /* color: #f4f2e8; */
-  /* border: 3px solid blue; */
-`;
+
 const Img = styled.img`
   width: 200px;
   padding: 50px 100px;
   animation-fill-mode: forwards;
+  @media screen and (max-width: 412px) {
+    /* border: 1px solid red; */
+    width: 150px;
+  }
 `;
 const Button = styled.button`
   width: 90%;
@@ -71,6 +93,10 @@ const Button = styled.button`
   }
   .icon {
     /* margin-left: 200px; */
+  }
+  @media screen and (max-width: 768px) {
+    /* border: 3px solid blue; */
+    width: 100%;
   }
 `;
 
