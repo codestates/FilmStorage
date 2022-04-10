@@ -18,8 +18,8 @@ const LogoImg = styled.img`
   filter: contrast(0.5);
 `;
 const Team = styled.ul`
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 const TeamWooga = styled.h3`
   text-align: right;
@@ -59,25 +59,25 @@ function Footer() {
         <Team>
           <TeamWooga>Team Wooga</TeamWooga>
           <Member>
-            <Name>Kim Hyeongyu</Name>
+            <Name>Kim Hyeon-Gyu</Name>
             <Position>Back-end</Position>
             <FontAwesomeIcon icon={faGithub} className="icon" />
             <FontAwesomeIcon icon={faEnvelope} className="icon" />
           </Member>
           <Member>
-            <Name>Seo Oegu</Name>
+            <Name>Seo Wei-Koo</Name>
             <Position>Front-end</Position>
             <FontAwesomeIcon icon={faGithub} className="icon" />
             <FontAwesomeIcon icon={faEnvelope} className="icon" />
           </Member>
           <Member>
-            <Name>Jeong Dain</Name>
+            <Name>Jeong Da-In</Name>
             <Position>Front-end</Position>
             <FontAwesomeIcon icon={faGithub} className="icon" />
             <FontAwesomeIcon icon={faEnvelope} className="icon" />
           </Member>
           <Member>
-            <Name>Lee Hyeongeol</Name>
+            <Name>Lee Hyeon-Geol</Name>
             <Position>Back-end</Position>
             <FontAwesomeIcon icon={faGithub} className="icon" />
             <FontAwesomeIcon icon={faEnvelope} className="icon" />
