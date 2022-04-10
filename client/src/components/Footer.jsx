@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 const FooterBox = styled.footer`
   display: flex;
@@ -61,26 +60,30 @@ function Footer() {
           <Member>
             <Name>Kim Hyeon-Gyu</Name>
             <Position>Back-end</Position>
-            <FontAwesomeIcon icon={faGithub} className="icon" />
-            <FontAwesomeIcon icon={faEnvelope} className="icon" />
+            <a href="https://github.com/ssankq" target={"_blank"}>
+              <FontAwesomeIcon icon={faGithub} className="icon" />
+            </a>
           </Member>
           <Member>
             <Name>Seo Wei-Koo</Name>
             <Position>Front-end</Position>
-            <FontAwesomeIcon icon={faGithub} className="icon" />
-            <FontAwesomeIcon icon={faEnvelope} className="icon" />
+            <a href="https://github.com/sud665" target={"_blank"}>
+              <FontAwesomeIcon icon={faGithub} className="icon" />
+            </a>
           </Member>
           <Member>
             <Name>Jeong Da-In</Name>
             <Position>Front-end</Position>
-            <FontAwesomeIcon icon={faGithub} className="icon" />
-            <FontAwesomeIcon icon={faEnvelope} className="icon" />
+            <a href="https://github.com/jeongdxxn" target={"_blank"}>
+              <FontAwesomeIcon icon={faGithub} className="icon" />
+            </a>
           </Member>
           <Member>
             <Name>Lee Hyeon-Geol</Name>
             <Position>Back-end</Position>
-            <FontAwesomeIcon icon={faGithub} className="icon" />
-            <FontAwesomeIcon icon={faEnvelope} className="icon" />
+            <a href="https://github.com/ssankq" target={"_blank"}>
+              <FontAwesomeIcon icon={faGithub} className="icon" />
+            </a>
           </Member>
         </Team>
       </FooterBox>
