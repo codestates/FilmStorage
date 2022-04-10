@@ -1,6 +1,6 @@
 /* TODO : 필름 취향 찾기 페이지 만들기. */
 import React, { useRef, useState, useEffect } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import FilmDataResult from "../components/findingfilmtype/FilmDataResult";
 import FirstFilmTypeData from "../components/findingfilmtype/FirstFilmTypeTest";
 import Loader from "../components/Loader";
@@ -17,6 +17,7 @@ export default function FindingFilmTypePage() {
   // 5. 더미데이터 랜덤하게 9장씩 3번씩 보여주기
 
   // 더미데이터 복사해서 만들기
+
   const copyFilmTypeTestData = [...FirstFilmTypeData];
 
   const [count, setCount] = useState(0);
@@ -70,8 +71,9 @@ export default function FindingFilmTypePage() {
   testRef.current = { type: [], company: [], iso: [] };
 
   // 사진 배열 바꾸기 슬라이스 함수
-  const handleNextPageTest = (e) => {
-    // 통계 데이터 수집
+  const handleNextPageTest = (e, id) => {
+    e.preventDefault();
+    // setSelectedImg(id);
     const { type, iso, company } = testRef.current;
     const choiceValue = e.target.alt.split("&");
 
@@ -159,8 +161,14 @@ export default function FindingFilmTypePage() {
       setResultForRender({});
       setFilmTypeList([]);
       setFilmTypeTest(copyFilmTypeTestData);
+      handleReplay();
     };
   }, []);
+
+  // 다시하기 버튼 기능 함수
+  const handleReplay = () => {
+    window.location.reload();
+  };
 
   return (
     <>
@@ -171,7 +179,9 @@ export default function FindingFilmTypePage() {
         </ProceedContainer>
         {isStart ? (
           <>
-            <ImgContainer>마음에 드는 사진 3장씩 선택해주세요.</ImgContainer>
+            <ImgContainer>
+              <h3>마음에 드는 사진을 3장씩 선택해주세요.</h3>
+            </ImgContainer>
             <StartButtonBox>
               <Button
                 onClick={() => {
@@ -189,12 +199,12 @@ export default function FindingFilmTypePage() {
                 {filmTypeList.map((test, idx) => {
                   return (
                     <BlockBox key={idx}>
+                      <ImgSelectedBox></ImgSelectedBox>
                       <ImgBox
-                        active={"1"}
                         src={test.src}
                         alt={`${test.iso}&${test.type}&${test.company}`}
                         onClick={(e) => {
-                          handleNextPageTest(e);
+                          handleNextPageTest(e, test.id);
                         }}
                       />
                     </BlockBox>
@@ -207,31 +217,43 @@ export default function FindingFilmTypePage() {
                   {isLoadResult ? (
                     <Loader />
                   ) : (
-                    <FilmBox>
-                      <img
-                        className="filmimg"
-                        src={resultForRender.imglink}
-                        alt="film"
-                      />
-                      <h3 className="filmtitle">{resultForRender.filmname}</h3>
-                      <div className="filminfo-box">
-                        <span className="filminfo">
-                          <span className="bold">필름 타입</span>{" "}
-                          {resultForRender.type} |
-                        </span>
-                        <span className="filminfo">
-                          <span className="bold">촬영 횟수</span>{" "}
-                          {resultForRender.shots} |
-                        </span>
-                        <span className="filminfo">
-                          <span className="bold">감도</span>ISO
-                          {resultForRender.iso}
-                        </span>
-                      </div>
-                      <span className="filminfo-text">
-                        {resultForRender.content}
-                      </span>
-                    </FilmBox>
+                    <DropDown>
+                      <ImgContainer>
+                        <h3>테스트 결과</h3>
+                      </ImgContainer>
+                      <FilmBox>
+                        <img
+                          className="filmimg"
+                          src={resultForRender.imglink}
+                          alt="film"
+                        />
+                        <h3 className="filmtitle">
+                          {resultForRender.filmname}
+                        </h3>
+                        <div className="filminfo-box">
+                          <span className="filminfo">
+                            <span className="bold">필름 타입</span>{" "}
+                            {resultForRender.type} |
+                          </span>
+                          <span className="filminfo">
+                            <span className="bold">촬영 횟수</span>{" "}
+                            {resultForRender.shots} |
+                          </span>
+                          <span className="filminfo">
+                            <span className="bold">감도 ISO</span>
+                            {resultForRender.iso}
+                          </span>
+                        </div>
+                        <ResultComment>{resultForRender.content}</ResultComment>
+                        <Button
+                          onClick={() => {
+                            handleReplay();
+                          }}
+                        >
+                          다시하기
+                        </Button>
+                      </FilmBox>
+                    </DropDown>
                   )}
                 </ImgContainer>
               </>
@@ -284,12 +306,14 @@ const Dot = styled.div`
 
 const ImgContainer = styled.div`
   display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 `;
 
 const StartButtonBox = styled.div`
   width: 30rem;
   height: 10rem;
-  margin-top: 80px;
+
   text-align: center;
 `;
 
@@ -302,7 +326,7 @@ const GridContainer = styled.div`
 `;
 
 const FilmBox = styled.div`
-  width: 20vw;
+  width: 40vw;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -312,13 +336,15 @@ const FilmBox = styled.div`
     /* border: 1px solid red; */
   }
   > img.filmimg {
-    height: 15vh;
+    width: 200px;
+    height: 200px;
     /* width: 10vw; */
     object-fit: cover;
+    cursor: pointer;
   }
 
   > div.filminfo-box {
-    /* border: 1px solid red; */
+    margin: 20px 20px 20px 20px;
     > span.filminfo {
       /* border: 1px solid red; */
       padding: 2px;
@@ -331,7 +357,7 @@ const FilmBox = styled.div`
   > .filminfo-text {
     border: 1px solid Gainsboro;
     border-radius: 20px;
-    margin: 10px;
+    margin: 20px;
     padding: 40px;
     font-size: 14px;
   }
@@ -360,12 +386,49 @@ const BlockBox = styled.div`
 
 const ImgBox = styled.img`
   display: block;
-  width: 100%;
+  width: 290px;
+  height: 200px;
   object-fit: cover;
   border-radius: 20px;
   cursor: pointer;
+  position: relative;
   &:hover {
     opacity: 0.6;
     transition: 0.3s;
   }
+`;
+
+const ImgSelectedBox = styled.div`
+  position: absolute;
+  /* z-index: 1; */
+  background-color: black;
+  width: 290px;
+  height: 200px;
+  border-radius: 20px;
+  cursor: pointer;
+  opacity: 0.6;
+`;
+
+const DropDown = styled.div`
+  /* border: 1px solid red; */
+  position: relative;
+`;
+
+const ResultComment = styled.div`
+  /* border: 1px solid red; */
+  display: none;
+  ${DropDown}:hover & {
+    display: block;
+  }
+  position: absolute;
+  right: -20px;
+  width: 200px;
+
+  margin: 10px;
+  padding: 10px;
+  background: #fff;
+  font-size: 14px;
+  border: 1px solid Gainsboro;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px Gainsboro;
 `;

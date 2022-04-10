@@ -30,13 +30,13 @@ export default {
   },
   일회용: {
     id: 4,
-    filmname: "코닥펀세이버",
+    filmname: "코닥 펀세이버",
     imglink:
       "https://user-images.githubusercontent.com/89363048/162391252-f4171a05-ce8d-4339-86b2-bf484ecf8387.png",
     type: "컬러",
     shots: "27컷",
     iso: "800",
-    content: "",
+    content: "일회용 카메라의 편리성과 높은 감도의 컬러 필름사진",
   },
   로모그래피: {
     id: 5,
