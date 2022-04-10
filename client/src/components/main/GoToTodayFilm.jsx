@@ -10,7 +10,6 @@ const Container = styled.div`
   /* background: Gainsboro; */
   width: 100%;
   height: 500px;
-  margin: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,6 +34,11 @@ const Content = styled.div`
     /* border: 3px solid blue; */
     align-items: center;
     padding: 30px 0;
+  }
+  @media screen and (max-width: 412px) {
+    /* border: 3px solid blue; */
+    align-items: center;
+    width: 380px;
   }
 `;
 
@@ -64,7 +68,6 @@ const SubTitle = styled.p`
 `;
 const Img = styled.img`
   width: 230px;
-  padding: 50px 100px;
   animation-fill-mode: forwards;
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
