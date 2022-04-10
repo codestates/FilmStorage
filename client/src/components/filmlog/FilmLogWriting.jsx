@@ -114,7 +114,7 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                 },
               }
             )
-            .then((res) => {
+            .then(() => {
               Swal.fire({
                 text: "등록이 완료되었습니다",
                 icon: "success",
@@ -123,7 +123,9 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                 timer: 1500,
               }).then(() => {
                 setIsOpen(false);
-                window.location.assign("/filmlog");
+                const url = window.location.href.split("/");
+                const endPoint = url[url.length - 1];
+                window.location.assign(endPoint);
               });
             })
             .catch((err) => console.log(err));

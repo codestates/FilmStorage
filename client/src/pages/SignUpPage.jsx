@@ -103,7 +103,7 @@ export default function SignUpPage() {
         .post(`${process.env.REACT_APP_API_URL}/users/signup`, userInfo, {
           "Content-Type": "application/json",
         })
-        .then((res) => {
+        .then(() => {
           Swal.fire({
             text: "회원가입이 완료되었습니다",
             icon: "success",
@@ -115,7 +115,14 @@ export default function SignUpPage() {
           });
         })
         .catch((err) => {
-          setErrorMessage("이미 사용중인 이메일주소 혹은 닉네임이 존재합니다");
+          const type = err.response.data.message.split(" ")[0];
+          if (type === "email") {
+            setErrorMessage("이미 사용중인 이메일 주소가 존재합니다");
+          } else if (type === "nickname") {
+            setErrorMessage("이미 사용중인 닉네임이 존재합니다");
+          } else {
+            console.log(err);
+          }
         });
     }
   };
@@ -199,6 +206,12 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   position: relative;
+  @media screen and (max-width: 768px) {
+    height: 82vh;
+  }
+  @media screen and (max-width: 412px) {
+    height: 78vh;
+  }
 `;
 const Article = styled.article`
   /* border: 1px solid blue; */
@@ -244,8 +257,10 @@ const Term = styled.div`
   /* border: 1px solid tomato; */
   margin-bottom: 5px;
   display: flex;
+  align-items: center;
 `;
 const Label = styled.label`
+  margin-left: 5px;
   font-size: 12px;
 `;
 
@@ -286,15 +301,31 @@ const TermModal = styled.div`
   height: 600px;
   box-shadow: 5px 5px 20px Gainsboro;
   position: absolute;
+  overflow: auto;
+  @media screen and (max-width: 412px) {
+    height: 400px;
+    width: 300px;
+    margin: 10px;
+    padding-bottom: 10%;
+  }
 `;
 
 const TermTitle = styled.h3`
   padding: 0px 30px;
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 412px) {
+    font-size: 14px;
+  }
 `;
 const TermText = styled.div`
   font-size: 13px;
   line-height: 2.5em;
   height: 500px;
   padding: 0px 30px;
-  overflow: auto;
+  @media screen and (max-width: 412px) {
+    font-size: 11px;
+    line-height: 2em;
+  }
 `;

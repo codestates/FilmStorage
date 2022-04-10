@@ -33,6 +33,7 @@ const Article = styled.article`
     /* border: 1px solid blue; */
     padding-bottom: 10px;
     width: 100%;
+		
   }
   @media screen and (max-width: 768px) {
     width: 80%;
