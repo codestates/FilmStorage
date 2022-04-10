@@ -33,6 +33,7 @@ const Article = styled.article`
     /* border: 1px solid blue; */
     padding-bottom: 10px;
     width: 100%;
+		
   }
 `;
 
