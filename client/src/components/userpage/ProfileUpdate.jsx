@@ -133,4 +133,12 @@ const Button = styled.button`
     background: tomato;
     transition: 0.3s;
   }
+  @media screen and (max-width: 1024px) {
+    margin: 20px;
+    width: 90%;
+  }
+  @media screen and (max-width: 412px) {
+    margin: 20px;
+    width: 90%;
+  }
 `;

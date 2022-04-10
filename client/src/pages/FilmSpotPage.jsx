@@ -34,7 +34,7 @@ const Article = styled.article`
     padding-bottom: 10px;
     width: 100%;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     width: 80%;
   }
 
@@ -79,7 +79,7 @@ const SearchForm = styled.form`
       padding: 10px;
       font-size: 16px;
     }
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1024px) {
       font-size: 16px;
     }
   }
@@ -102,18 +102,6 @@ const SearchForm = styled.form`
   }
 `;
 
-const SearchList = styled.ul`
-  /* border: 1px solid red; */
-  color: #444;
-  font-size: 14px;
-  margin-bottom: 20px;
-  padding-left: 10px;
-  span {
-    margin-right: 10px;
-    font-weight: 600;
-  }
-`;
-
 // * 스크롤 컨트롤
 const ScrollToTop = styled.button`
   font-size: 40px;
@@ -132,22 +120,12 @@ const ScrollToTop = styled.button`
 `;
 
 export default function FilmSpotPage() {
-  const [inputText, setInputText] = useState("");
+  // const [inputText, setInputText] = useState("");
   const [place, setPlace] = useState("");
   // const [mapInfo, setMapInfo] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   //필름로그 고유 아이디 저장
-  const [mapId, setMapId] = useState();
-
-  // * 많이 검색한 지역 저장
-  const [searchList, setSearchList] = useState([
-    "제주도",
-    "대구",
-    "서울",
-    "경기",
-    "부산",
-    "경주",
-  ]);
+  // const [mapId, setMapId] = useState();
 
   const history = useHistory();
   // * 스크롤 핸들링
@@ -321,12 +299,6 @@ export default function FilmSpotPage() {
                     <FontAwesomeIcon icon={faArrowRightLong} className="icon" />
                   </button>
                 </SearchForm>
-                <SearchList>
-                  {/* <span>태그가 많이 된 지역</span>
-                  {searchList.map((search) => {
-                    return <li>{search}</li>;
-                  })} */}
-                </SearchList>
               </section>
               <Map id="myMap"></Map>
               <ScrollToTop type="button" onClick={handleScroll}>

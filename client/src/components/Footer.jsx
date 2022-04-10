@@ -18,7 +18,6 @@ const FooterBox = styled.footer`
     flex-direction: column;
     justify-content: flex-start;
     padding-top: 20px;
-    margin-top: -40px;
   }
 `;
 
@@ -84,7 +83,8 @@ const Position = styled.span`
   font-size: 12px;
   background: Gray;
   @media screen and (max-width: 412px) {
-    margin-left: 5.5em;
+    width: 70px;
+    margin-left: 5em;
   }
 `;
 

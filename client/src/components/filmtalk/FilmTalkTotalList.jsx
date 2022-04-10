@@ -17,6 +17,8 @@ const Td = styled.td`
   text-align: ${(props) => (props.left ? "left" : "center")};
   cursor: ${(props) => (props.pointer ? "pointer" : null)};
   @media screen and (max-width: 412px) {
+    /* border: 1px solid red; */
+    display: ${props => props.none ? "none" : null};
     padding: 10px;
     font-size: 10px;
     white-space: pre;
@@ -35,14 +37,14 @@ function FilmTalkTotalList({ post, handleClickView }) {
     <>
       {post ? (
         <Tr key={id}>
-          <Td>{id}</Td>
-          <Td>{category}</Td>
+          <Td none>{id}</Td>
+          <Td none>{category}</Td>
           <Td pointer left onClick={() => handleClickView(id)}>
             {title}
           </Td>
           <Td>{nickname}</Td>
-          <Td>{convertDate()}</Td>
-          <Td>{views}</Td>
+          <Td none>{convertDate()}</Td>
+          <Td none>{views}</Td>
         </Tr>
       ) : (
         <Loader />
