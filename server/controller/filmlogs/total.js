@@ -4,7 +4,7 @@ module.exports = {
   //필름로그 전체 조회 기능
   get: async (req, res) => {
     try {
-      const { offset, limit } = req.query;
+      const { offset, limit, filmtype } = req.query;
 
       let totalInfo;
       if (offset && limit) {
@@ -16,8 +16,11 @@ module.exports = {
             ["id", "DESC"],
           ],
         });
-      } else {
+      } else if (filmtype) {
         totalInfo = await filmlogs.findAll({
+          where: {
+            filmtype,
+          },
           order: [
             ["createdAt", "DESC"],
             ["id", "DESC"],
@@ -39,7 +42,11 @@ module.exports = {
             filmtype,
           };
         });
-        const message = totalInfo.length < limit ? "end" : "ok";
+
+        let message = "ok";
+        if (limit) {
+          message = totalInfo.length < limit ? "end" : "ok";
+        }
 
         res.status(200).json({
           message: message,

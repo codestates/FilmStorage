@@ -3,13 +3,13 @@ import styled from "styled-components";
 import Select from "react-select";
 
 const options = [
-  { value: "코닥", label: "kodak" },
-  { value: "후지", label: "fuji" },
-  { value: "아그파", label: "agfa" },
-  { value: "로모그래피", label: "lomography" },
-  { value: "일포드", label: "ilford" },
-  { value: "롤라이", label: "rollei" },
-  { value: "기타", label: "etc" },
+  { value: "코닥", label: "Kodak" },
+  { value: "후지", label: "Fuji" },
+  { value: "아그파", label: "Agfa" },
+  { value: "로모그래피", label: "Lomography" },
+  { value: "일포드", label: "Ilford" },
+  { value: "롤라이", label: "Rollei" },
+  { value: "기타", label: "Etc" },
 ];
 
 const kodak = [
@@ -60,9 +60,22 @@ const rollei = [
 
 const etc = [{ value: "chocolate", label: "기타" }];
 
-export default function FilmType({ photoInfo, setPhotoInfo }) {
+export default function FilmType({
+  photoInfo,
+  setPhotoInfo,
+  filmLogItemLists,
+  myLogItemLists,
+  setMyLogFilter,
+  setFilmLogFilter,
+}) {
   const handleType = (e) => {
-    setPhotoInfo({ ...photoInfo, filmtype: e.label });
+    if (photoInfo) {
+      setPhotoInfo({ ...photoInfo, filmtype: e.label });
+    } else if (myLogItemLists) {
+      setMyLogFilter(e.label);
+    } else if (filmLogItemLists) {
+      setFilmLogFilter(e.label);
+    }
   };
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -102,11 +115,11 @@ export default function FilmType({ photoInfo, setPhotoInfo }) {
           />
         </Widthbox>
         <Widthbox2>
-            <Select
-              defaultValue={selectedOption2}
-              options={selectedOption2}
-              onChange={handleType}
-            />
+          <Select
+            defaultValue={selectedOption2}
+            options={selectedOption2}
+            onChange={handleType}
+          />
         </Widthbox2>
       </Selectlist>
     </>

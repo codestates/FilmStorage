@@ -14,7 +14,7 @@ export default function FilmLogPage({ userInfo, isLogin }) {
   // 이미지 스크롤시 로딩 표시 보이게 하기
   const [isLoaded, setIsLoaded] = useState(false);
   // 무한스크롤 이미지리스트
-  const [itemLists, setItemLists] = useState([]);
+  const [filmLogItemLists, setFilmLogItemLists] = useState([]);
   // 무한스크롤 마지막
   const [isClose, setIsClose] = useState(true);
   // 무한스크롤 페이지 및 참조 지정
@@ -24,6 +24,8 @@ export default function FilmLogPage({ userInfo, isLogin }) {
   const [topThree, setTopThree] = useState([]);
   // 작성창 띄우기
   const [isOpen, setIsOpen] = useState(false);
+
+  const [filmLogFilter, setFilmLogFilter] = useState("");
 
   const url = {
     id: 999,
@@ -47,6 +49,39 @@ export default function FilmLogPage({ userInfo, isLogin }) {
     getTopThree();
   }, []);
 
+  useEffect(() => {
+    if (filmLogFilter !== "") {
+      setIsLoaded(true);
+      new Promise((resolve) => setTimeout(resolve, 1000));
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/filmlogs/total?filmtype=${filmLogFilter}`,
+          {
+            headers: {
+              accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          if (!res.data.data.length) {
+            return Swal.fire({
+              text: "선택하신 필름으로 등록된 사진이 없습니다",
+              icon: "info",
+              iconColor: "#ff6347",
+              showConfirmButton: false,
+              timer: 1200,
+            }).then(() => {
+              return window.location.assign("/filmlog");
+            });
+          }
+          setFilmLogItemLists(() => [...res.data.data]);
+          setIsLoaded(false);
+          setIsClose(false);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [filmLogFilter]);
+
   const getFilmlogData = async (page) => {
     const offset = page * 8 - 8;
     setIsLoaded(true);
@@ -61,7 +96,7 @@ export default function FilmLogPage({ userInfo, isLogin }) {
         }
       )
       .then((res) => {
-        setItemLists((prev) => [...prev, ...res.data.data]);
+        setFilmLogItemLists((prev) => [...prev, ...res.data.data]);
         setIsLoaded(false);
         if (res.data.message === "end") {
           setIsClose(false);
@@ -113,12 +148,12 @@ export default function FilmLogPage({ userInfo, isLogin }) {
         confirmButtonText: "로그인 하러 가기",
         cancelButtonText: "취소",
         confirmButtonColor: "#189cc4",
-        cancelButtonColor: "#ff6347"
+        cancelButtonColor: "#ff6347",
       }).then((result) => {
-        if(result.isConfirmed) {
-          history.push("/signin")
+        if (result.isConfirmed) {
+          history.push("/signin");
         }
-      })
+      });
     } else {
       handleWriteRegister();
     }
@@ -137,7 +172,10 @@ export default function FilmLogPage({ userInfo, isLogin }) {
             <nav className="filmlog-second-nav">
               <div className="nav-flex">
                 <div className="filmlog-second-nav-title">필름 종류</div>
-                <FilmType />
+                <FilmType
+                  filmLogItemLists={filmLogItemLists}
+                  setFilmLogFilter={setFilmLogFilter}
+                />
               </div>
               <div className="nav-flex">
                 <div>
@@ -149,7 +187,7 @@ export default function FilmLogPage({ userInfo, isLogin }) {
               </div>
             </nav>
             <div className="filmlog-second-content">
-              {itemLists.map((el, key) => (
+              {filmLogItemLists.map((el, key) => (
                 <FilmLogImg
                   key={el.id}
                   src={el.photo}
