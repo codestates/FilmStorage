@@ -35,12 +35,13 @@ export default function FilmTalkRegister({ post, setPost, userInfo }) {
           .then((res) => {
             const { url } = res.data;
             const range = quillRef.current.getEditor().getSelection().index;
-            if (range !== null && range !== undefined){
+            if (range !== null && range !== undefined) {
               let quill = quillRef.current.getEditor();
-
               quill.setSelection(range, 1);
-
-              quill.clipboard.dangerouslyPasteHTML(range, `<img src=${url} alt="미리보기" />`)
+              quill.clipboard.dangerouslyPasteHTML(
+                range,
+                `<img src=${url} alt="미리보기" />`
+              );
             }
           })
           .catch((err) => console.log(err));

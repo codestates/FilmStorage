@@ -50,7 +50,7 @@ export default function PasswordUpdate({ userInfo, setIsLogin, setUserInfo }) {
             axios
               .post(`${process.env.REACT_APP_API_URL}/users/signout`)
               .then(() => {
-                window.location.assign('/signin')
+                window.location.assign("/signin");
                 setUserInfo({});
                 setIsLogin(false);
               })
@@ -116,7 +116,9 @@ export default function PasswordUpdate({ userInfo, setIsLogin, setUserInfo }) {
             />
           </InfoType>
           <ErrorMessage>{errorMessage}</ErrorMessage>
-          <Button type="button" onClick={(e) => handleUpdate(e)}>정보 수정하기</Button>
+          <Button type="button" onClick={(e) => handleUpdate(e)}>
+            정보 수정하기
+          </Button>
         </InfoUpdate>
       </>
     );

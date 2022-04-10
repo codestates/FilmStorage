@@ -34,7 +34,6 @@ const MainBox = styled.section`
     width: 100%;
     flex-direction: column-reverse;
   }
-  
 `;
 
 const TextBox = styled.div`
@@ -91,7 +90,7 @@ const Description = styled.p`
 `;
 
 const Img = styled.img`
-/* border: 1px solid red; */
+  /* border: 1px solid red; */
   width: 300px;
   /* position: absolute; */
   /* top: -30px; */
@@ -126,8 +125,8 @@ function MainPage() {
               후지를 써..
             </Title>
             <Description>
-              필름카메라 사용자들을 위한 필름 정보 공유
-              플랫폼 <b>FILM STORAGE</b>
+              필름카메라 사용자들을 위한 필름 정보 공유 플랫폼{" "}
+              <b>FILM STORAGE</b>
             </Description>
           </TextBox>
           <Img

@@ -15,7 +15,7 @@ const Img = styled.img`
   /* border: 1px solid red; */
   width: 100px;
   padding: 100px;
-`
+`;
 
 // Here we create a component that will rotate everything we pass in over two seconds
 // const Rotate = styled.div`
@@ -59,7 +59,7 @@ const Loader = () => {
       {/* <Rotate data-text="FilmStorage...">
         FilmStorage...
       </Rotate> */}
-      <Img src="https://user-images.githubusercontent.com/87605663/161916389-98a1c6d1-e050-48ca-87c5-2cec767de25c.gif"/>
+      <Img src="https://user-images.githubusercontent.com/87605663/161916389-98a1c6d1-e050-48ca-87c5-2cec767de25c.gif" />
     </LoaderWrap>
   );
 };

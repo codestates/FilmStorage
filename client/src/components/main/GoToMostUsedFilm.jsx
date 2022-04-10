@@ -101,17 +101,19 @@ const Button = styled.button`
 `;
 
 function GoToMostUsedFilm() {
-
   return (
     <>
       <Container>
         <Content
-        data-aos="fade-right"
-        data-aos-offset="300"
-        data-aos-duration="700"
-        data-aos-easing="ease-in-sine"
+          data-aos="fade-right"
+          data-aos-offset="300"
+          data-aos-duration="700"
+          data-aos-easing="ease-in-sine"
         >
-          <SubTitle>필름 로그에 가장 많이 <br/>업로드된 필름</SubTitle>
+          <SubTitle>
+            필름 로그에 가장 많이 <br />
+            업로드된 필름
+          </SubTitle>
           <Title>코닥 컬러 200</Title>
           {/* <Description>
             컷수 : 36컷 | 필름크기 : 135 | 용도 : 주광용 | 감도(필름) : ISO200 |
