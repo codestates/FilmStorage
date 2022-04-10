@@ -263,7 +263,7 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
           <img
             className="detailImageBox_image"
             src={detailRef.current.photo}
-            alt="image"
+            alt="detail_image"
           />
           {/* 이미지 클릭시 좋아요 버튼 이벤트 기능 */}
           <div
