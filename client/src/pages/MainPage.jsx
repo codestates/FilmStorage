@@ -18,6 +18,7 @@ const Container = styled.div`
   justify-content: center;
   text-align: center;
   align-items: center;
+  box-sizing: border-box;
   /* background-color: #f4f2e8; */
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
@@ -56,6 +57,7 @@ const Title = styled.h1`
   }
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
+    text-align: center;
     font-size: 55px;
   }
 `;
@@ -72,7 +74,7 @@ const SubTitle = styled.h1`
   }
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
-    font-size: 18px;
+    font-size: 19px;
   }
 `;
 const Description = styled.p`
@@ -83,9 +85,10 @@ const Description = styled.p`
   line-height: 1.4em;
   letter-spacing: 0.1em;
   color: #999;
+  width: 100%;
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
-    font-size: 2px;
+    font-size: 14px;
   }
 `;
 
@@ -104,6 +107,8 @@ const ContentBox = styled.section`
   align-items: center;
   flex-direction: column;
   padding: 50px;
+  box-sizing: border-box;
+  width: 100%;
 `;
 
 /* 메인페이지 */
@@ -125,8 +130,8 @@ function MainPage() {
               후지를 써..
             </Title>
             <Description>
-              필름카메라 사용자들을 위한 필름 정보 공유 플랫폼{" "}
-              <b>FILM STORAGE</b>
+              필름카메라 사용자들을 위한 필름 정보 공유 플랫폼
+              {/* <b>FILM STORAGE</b> */}
             </Description>
           </TextBox>
           <Img

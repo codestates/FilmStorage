@@ -127,6 +127,9 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   position: relative;
+  @media screen and (max-width: 412px) {
+    margin-bottom: 100px;
+  }
 `;
 
 const Article = styled.article`

@@ -11,7 +11,6 @@ const Container = styled.div`
   /* background: Gainsboro; */
   width: 100%;
   height: 500px;
-  margin: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,7 +37,7 @@ const Title = styled.h1`
   color: #444;
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
-    font-size: 40px;
+    font-size: 20px;
   }
 `;
 const MapIcon = styled(FontAwesomeIcon)`

@@ -210,11 +210,11 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   position: relative;
-  @media screen and (max-width: 768px) {
-    height: 82vh;
+  @media screen and (max-width: 1024px) {
+    height: 80vh;
   }
   @media screen and (max-width: 412px) {
-    height: 78vh;
+    margin-bottom: 100px;
   }
 `;
 const Article = styled.article`
