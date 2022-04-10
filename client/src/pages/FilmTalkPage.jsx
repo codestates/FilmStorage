@@ -17,7 +17,7 @@ const Container = styled.section`
   padding: 50px 0;
   position: relative;
   @media screen and (max-width: 412px) {
-    width: 40%;
+    /* width: 90%; */
   }
 `;
 
@@ -26,6 +26,9 @@ const Article = styled.article`
   width: 60%;
   position: absolute;
   top: 100px;
+  @media screen and (max-width: 412px) {
+    width: 90%;
+  }
 `;
 
 const Table = styled.table`
@@ -35,15 +38,19 @@ const Table = styled.table`
 `;
 
 const Thead = styled.thead`
-  /* border: 3px solid red; */
+  @media screen and (max-width: 412px) {
+    display: none;
+  }
 `;
 const Tbody = styled.tbody`
-  border-bottom: 2px solid #444;
+  border-bottom: 1px solid #444;
+  /* border: 1px solid red; */
 `;
 const Tr = styled.tr`
   /* border: 1px solid red; */
 `;
 const Th = styled.th`
+  /* border: 1px solid red; */
   padding: 20px 0;
   border-bottom: 2px solid #222;
   font-size: 14px;
@@ -52,6 +59,7 @@ const Th = styled.th`
     padding: 10px;
   }
   @media screen and (max-width: 412px) {
+    /* border: 1px solid red; */
     padding: 10px;
     font-size: 10px;
     white-space: pre;
@@ -80,8 +88,8 @@ const Button = styled.button`
   }
   @media screen and (max-width: 412px) {
     font-size: 10px;
-    padding: 10px 20px;
-    margin-right: -240px;
+    /* padding: 10px 20px; */
+    /* margin-right: -240px; */
     /* margin-bottom: 10px; */
   }
 `;
