@@ -88,7 +88,6 @@ const LogoImg = styled.img`
   filter: contrast(0.5);
   @media screen and (max-width: 412px) {
     width: 10%;
-    display: inline-block;
 `;
 const Team = styled.ul`
   display: flex;
