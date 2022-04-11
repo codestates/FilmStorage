@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./FilmLogPage.css";
 import styled, { css } from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronCircleUp } from "@fortawesome/free-solid-svg-icons";
 import FilmLogWriting from "../components/filmlog/FilmLogWriting";
 import FilmType from "../components/filmlog/FilmType";
 import Loader from "../components/Loader";
@@ -110,6 +112,10 @@ export default function MyLogPage({ userInfo }) {
     setIsOpen(!isOpen);
   };
 
+  const handleScroll = () => {
+    window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
       <Container>
@@ -145,6 +151,9 @@ export default function MyLogPage({ userInfo }) {
               </div>
             ) : null}
           </div>
+          <ScrollToTop type="button" onClick={handleScroll}>
+            <FontAwesomeIcon icon={faChevronCircleUp} />
+          </ScrollToTop>
         </article>
       </Container>
     </>
@@ -187,5 +196,21 @@ const Button = styled.button`
     color: white;
     background: tomato;
     transition: 0.3s;
+  }
+`;
+
+const ScrollToTop = styled.button`
+  font-size: 40px;
+  color: #eee;
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  z-index: 1;
+  cursor: pointer;
+  transition: 0.3s;
+  background: none;
+  border: 20px;
+  &:hover {
+    color: #ff6347;
   }
 `;

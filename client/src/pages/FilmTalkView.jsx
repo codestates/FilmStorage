@@ -328,8 +328,11 @@ const ReplyInput = styled.input`
 `;
 const Button = styled.button`
   padding: 10px 30px;
-  border: none;
+  border: 1px tomato solid;
   border-radius: 5px;
+  background-color: white;
+  color: tomato;
+  margin-top: 20px;
   position: absolute;
   right: ${(props) => props.right || 0};
   ${(props) => {

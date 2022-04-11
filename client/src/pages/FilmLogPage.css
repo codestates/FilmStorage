@@ -97,6 +97,10 @@ li {
   .filmlog-first {
     height: 55vh;
   }
+  .filmlog-first-img {
+    /* border: 3px solid red; */
+    margin: 0px;
+  }
 }
 
 @media screen and (max-width: 412px) {

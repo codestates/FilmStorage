@@ -3,6 +3,8 @@ import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import FilmDataResult from "../components/findingfilmtype/FilmDataResult";
 import FirstFilmTypeData from "../components/findingfilmtype/FirstFilmTypeTest";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronCircleUp } from "@fortawesome/free-solid-svg-icons";
 import Loader from "../components/Loader";
 
 export default function FindingFilmTypePage() {
@@ -170,6 +172,10 @@ export default function FindingFilmTypePage() {
     window.location.reload();
   };
 
+  const handleScroll = () => {
+    window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
       <Container>
@@ -260,6 +266,9 @@ export default function FindingFilmTypePage() {
             )}
           </>
         )}
+        <ScrollToTop type="button" onClick={handleScroll}>
+          <FontAwesomeIcon icon={faChevronCircleUp} />
+        </ScrollToTop>
       </Container>
     </>
   );
@@ -476,4 +485,20 @@ const ResultComment = styled.div`
   border: 1px solid Gainsboro;
   border-radius: 10px;
   box-shadow: 5px 5px 10px Gainsboro;
+`;
+
+const ScrollToTop = styled.button`
+  font-size: 40px;
+  color: #eee;
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  z-index: 1;
+  cursor: pointer;
+  transition: 0.3s;
+  background: none;
+  border: 20px;
+  &:hover {
+    color: #ff6347;
+  }
 `;
