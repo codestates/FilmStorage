@@ -185,26 +185,33 @@ export default function FilmTalkView({ userInfo, isLogin }) {
                   >
                     수정하기
                   </WriterButton>
-                  <WriterButton onClick={handleDelete}>
-                    삭제하기
-                  </WriterButton>
+                  <WriterButton onClick={handleDelete}>삭제하기</WriterButton>
                 </>
               ) : null}
             </div>
           </Nav>
           <InfoBox>
-            <Info fontsize="18px" fontweight orange>
+            <Info fontsize="16px" fontweight orange>
               {filmTalkInfo.category}
             </Info>
-            <Info fontsize="18px" flex="9" fontweight>
+            <Info
+              fontsize="16px"
+              flex="12"
+              fontweight
+              maxwidth="200px"
+              textOverflow="ellipsis"
+            >
               {filmTalkInfo.title}
             </Info>
+            <Info></Info>
+            <Info></Info>
+            <Info></Info>
           </InfoBox>
           <InfoBox>
-            <Info fontsize="18px" flex="9">
-              {filmTalkInfo.nickname}
+            <Info flex="11">{filmTalkInfo.nickname}</Info>
+            <Info right flex="2">
+              날짜 {convertDate(filmTalkInfo.createdAt)}
             </Info>
-            <Info right>날짜 {convertDate(filmTalkInfo.createdAt)}</Info>
             <Info right>조회수 {filmTalkInfo.views}</Info>
           </InfoBox>
           <ContentBox
@@ -223,9 +230,7 @@ export default function FilmTalkView({ userInfo, isLogin }) {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             ></ReplyInput>
-            <ReplyButton onClick={postComment}>
-              댓글 쓰기
-            </ReplyButton>
+            <ReplyButton onClick={postComment}>댓글 쓰기</ReplyButton>
           </ReplyForm>
         </Article>
       </Container>
@@ -303,7 +308,7 @@ const WriterButton = styled.button`
   }
   @media screen and (max-width: 1024px) {
     padding: 10px 30px;
-    font-size: 16px;
+    font-size: 14px;
   }
   @media screen and (max-width: 412px) {
     padding: 10px 20px;
@@ -326,6 +331,13 @@ const Info = styled.span`
   font-size: ${(props) => props.fontsize || "12px"};
   font-weight: ${(props) => (props.fontweight ? 500 : 400)};
   text-align: ${(props) => (props.rigth ? "center" : "none")};
+  text-align: ${(props) => (props.left ? "left" : "none")};
+  overflow: hidden;
+  text-overflow: ${(props) => props.textOverflow || "none"};
+  white-space: pre;
+  /* max-width: ${(props) => props.maxwidth || "100%"}; */
+
+  /* max-width: 300px; */
 
   @media screen and (max-width: 1024px) {
     margin-left: 0px;
