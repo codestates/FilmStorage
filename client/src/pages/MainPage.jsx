@@ -7,6 +7,9 @@ import GoToFilmSpot from "../components/main/GoToFilmSpot";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleChevronDown } from "@fortawesome/free-solid-svg-icons";
+import AnchorLink from "react-anchor-link-smooth-scroll-v2";
 
 /* styled-components */
 const Container = styled.div`
@@ -19,10 +22,19 @@ const Container = styled.div`
   text-align: center;
   align-items: center;
   box-sizing: border-box;
-  /* background-color: #f4f2e8; */
+  .icon {
+    font-size: 42px;
+    color: #444;
+  }
+  @media screen and (max-width: 1024px) {
+    height: 80vh;
+  }
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
-    height: 60vh;
+    height: 80vh;
+    .icon {
+      padding: 30px 0;
+    }
   }
 `;
 const MainBox = styled.section`
@@ -30,7 +42,7 @@ const MainBox = styled.section`
   height: 80vh;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     /* border: 1px solid red; */
     width: 100%;
     flex-direction: column-reverse;
@@ -41,7 +53,7 @@ const TextBox = styled.div`
   /* border: 1px solid red; */
   /* width: 70%; */
   /* position: relative; */
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     /* border: 1px solid red; */
   }
 `;
@@ -52,7 +64,7 @@ const Title = styled.h1`
   font-size: 80px;
   margin: 0px;
   color: #444;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     /* border: 3px solid blue; */
   }
   @media screen and (max-width: 412px) {
@@ -69,12 +81,13 @@ const SubTitle = styled.h1`
   text-align: center;
   font-size: 40px;
   padding: 100px 0;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     /* border: 3px solid blue; */
   }
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
     font-size: 19px;
+    padding: 50px 0;
   }
 `;
 const Description = styled.p`
@@ -95,13 +108,17 @@ const Description = styled.p`
 const Img = styled.img`
   /* border: 1px solid red; */
   width: 300px;
-  /* position: absolute; */
-  /* top: -30px; */
-  /* right: 0px; */
+  @media screen and (max-width: 1024px) {
+    /* border: 1px solid red; */
+    width: 400px;
+  }
+  @media screen and (max-width: 412px) {
+    /* border: 1px solid red; */
+    width: 300px;
+  }
 `;
 
 const ContentBox = styled.section`
-  /* border: 1px solid red; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -109,10 +126,14 @@ const ContentBox = styled.section`
   padding: 50px;
   box-sizing: border-box;
   width: 100%;
+  @media screen and (max-width: 1024px) {
+    /* border: 1px solid red; */
+  }
 `;
 
 /* 메인페이지 */
 function MainPage() {
+
   useEffect(() => {
     AOS.init();
   });
@@ -139,8 +160,11 @@ function MainPage() {
             src="https://user-images.githubusercontent.com/87605663/161895956-5df919ff-f62f-4b30-8181-ba89d52a8072.png"
           ></Img>
         </MainBox>
+        <AnchorLink href="#content">
+          <FontAwesomeIcon icon={faCircleChevronDown} className="icon" />
+        </AnchorLink>
       </Container>
-      <ContentBox>
+      <ContentBox id="content">
         <SubTitle
           data-aos="fade-in"
           data-aos-duration="1000"
