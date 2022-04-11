@@ -299,12 +299,15 @@ const Button = styled.button`
   width: 100%;
   padding: 10px 30px;
   margin: 10px 0;
-  border: none;
-  border-radius: 20px;
+  border: 1px solid tomato;
+  border-radius: 5px;
   right: 0px;
   font-size: 16px;
   font-weight: 600;
+  color: tomato;
   cursor: pointer;
+  background: white;
+  font-weight: 600;
   &:hover {
     color: white;
     background: tomato;
@@ -333,8 +336,4 @@ const SocialAccountBox = styled.div`
   img {
     width: 300px;
   }
-`;
-const SocialAccount = styled.span`
-  flex: 1;
-  flex-wrap: wrap;
 `;

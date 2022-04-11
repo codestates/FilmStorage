@@ -87,7 +87,6 @@ export default function UserInfoUpdatePage({
               <input
                 className="profile"
                 type="file"
-                required="true"
                 accept="image/*"
                 onChange={(e) => postProfile(e)}
               />
@@ -129,6 +128,7 @@ const Container = styled.section`
   position: relative;
   @media screen and (max-width: 412px) {
     margin-bottom: 100px;
+    height: 90vh;
   }
 `;
 

@@ -32,10 +32,9 @@ export default function SimpleSlider({ topThree }) {
       <Slider {...settings}>
         {topThree.map((info) => {
           return (
-            <div>
+            <div key={info.id}>
               <SlideImg
                 src={info.photo}
-                key={info.id}
                 onDoubleClick={() => handlePictureDetail(info.id)}
               ></SlideImg>
             </div>

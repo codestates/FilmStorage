@@ -172,7 +172,6 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
                   className="upload"
                   type="file"
                   accept="image/*"
-                  required="true"
                   onChange={(e) => {
                     encodeFileTobase64(e.target.files[0]);
                   }}

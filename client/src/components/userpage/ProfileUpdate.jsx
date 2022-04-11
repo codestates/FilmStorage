@@ -82,7 +82,7 @@ export default function ProfileUpdate({ userInfo }) {
 const InfoUpdate = styled.form`
   /* border: 1px solid red; */
   width: 390px;
-  padding: 10px 3 0px;
+  padding: 10px 30px;
   box-sizing: border-box;
 `;
 const InfoType = styled.div`
@@ -91,7 +91,7 @@ const InfoType = styled.div`
 const InputType = styled.div`
   /* border: 1px solid green; */
   padding: 20px;
-  font-size: 14px;
+  font-size: 12px;
   /* margin-top: 5px; */
 `;
 const Input = styled.input`

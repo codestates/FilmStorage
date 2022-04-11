@@ -168,6 +168,7 @@ const ErrorMessage = styled.p`
 const Button = styled.button`
   width: 100%;
   margin-top: 30px;
+  margin-bottom: 15px;
   padding: 10px 30px;
   border: none;
   color: tomato;
@@ -183,5 +184,13 @@ const Button = styled.button`
     border: 1px tomato solid;
     background: tomato;
     transition: 0.3s;
+  }
+  @media screen and (max-width: 1024px) {
+    margin: 20px;
+    width: 90%;
+  }
+  @media screen and (max-width: 412px) {
+    margin: 20px;
+    width: 90%;
   }
 `;

@@ -9,15 +9,14 @@ const Nav = styled.nav`
 `;
 const Button = styled.button`
   border: none;
+  border-radius: 5px;
   margin: 40px 0;
-  padding: 10px;
+  padding: 10px 15px;
   cursor: pointer;
   &:hover {
-    background: tomato;
     transition: 0.3s;
   }
   &[disabled] {
-    background: grey;
     cursor: revert;
   }
   &[aria-current] {
