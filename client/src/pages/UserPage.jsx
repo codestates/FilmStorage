@@ -87,7 +87,6 @@ export default function UserInfoUpdatePage({
               <input
                 className="profile"
                 type="file"
-                required="true"
                 accept="image/*"
                 onChange={(e) => postProfile(e)}
               />
