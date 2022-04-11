@@ -79,7 +79,9 @@ export default function ReplyList({
                         onClick={() => handleDelete(comment.id)}
                       />
                     </>
-                  ) : null}
+                  ) : (
+                    <div></div>
+                  )}
                   <Date>{convertDate(comment.createdAt)}</Date>
                 </div>
               </Reply>
@@ -146,13 +148,14 @@ const Reply = styled.li`
 const Writer = styled.span`
   /* border: 1px solid green; */
   flex: 1 120px;
-  padding: 10px 10px 0 10px;
+  padding: 5px;
   font-size: 14px;
   font-weight: 500;
   line-height: 1.4em;
   @media screen and(max-width:412px) {
     font-size: 12px;
     font-weight: 600;
+    padding: 10px 10px 0 10px;
   }
 `;
 const Text = styled.span`

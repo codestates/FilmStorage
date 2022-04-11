@@ -129,6 +129,7 @@ const Container = styled.section`
   position: relative;
   @media screen and (max-width: 412px) {
     margin-bottom: 100px;
+    height: 90vh;
   }
 `;
 
