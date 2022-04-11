@@ -153,10 +153,20 @@ const Widthbox = styled.div`
     /* border: 1px solid tomato; */
     padding: 10px 0;
   }
+  @media screen and (max-width: 412px) {
+    width: 150px;
+    font-size: 14px;
+    height: 14px;
+  }
 `;
 
 const Widthbox2 = styled.div`
   /* width: 300px; */
   flex: 2;
   /* border: 1px solid red; */
+  @media screen and (max-width: 412px) {
+    width: 150px;
+    font-size: 14px;
+    height: 14px;
+  }
 `;

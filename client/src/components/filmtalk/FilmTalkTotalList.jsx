@@ -18,10 +18,12 @@ const Td = styled.td`
   cursor: ${(props) => (props.pointer ? "pointer" : null)};
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
-    display: ${props => props.none ? "none" : null};
+    display: ${(props) => (props.none ? "none" : null)};
     padding: 10px;
     font-size: 10px;
     white-space: pre;
+    overflow: hidden;
+    max-width: 200px;
   }
 `;
 

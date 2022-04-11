@@ -238,11 +238,14 @@ const Button = styled.button`
   border: 1px solid tomato;
   background: none;
   color: tomato;
-  border-radius: 20px;
+  border-radius: 5px;
   font-family: "SCoreDream";
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
+  @media screen and (max-width: 412px) {
+    font-weight: 500;
+  }
   &:hover {
     color: white;
     background: tomato;

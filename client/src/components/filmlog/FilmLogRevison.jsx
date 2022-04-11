@@ -197,14 +197,14 @@ const ModalBox = styled.div.attrs((props) => ({
   border-radius: 1rem;
   margin: 0;
   overflow: hidden;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     width: 700px;
-    height: 900px;
+    height: 1000px;
   }
   @media screen and (max-width: 412px) {
-    width: 380px;
+    width: 340px;
     flex-direction: column;
-    height: 800px;
+    height: 600px;
     padding: 0;
   }
 `;
@@ -218,13 +218,16 @@ const ModalNav = styled.nav`
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+  @media screen and (max-width: 412px) {
+    padding: 0px;
+    margin-top: 8px;
+  }
   > div.nav-flex {
   }
   .nav-title {
-    /* border: 3px solid green; */
     margin-left: 60px;
     @media screen and (max-width: 412px) {
-      margin-left: 30px;
+      margin-left: 0;
       font-size: 18px;
     }
   }
@@ -239,15 +242,15 @@ const ModalImageBox = styled.div`
   display: flex;
   height: 100%;
   box-sizing: border-box;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     flex-direction: column;
   }
 `;
 
 // * 이미지 업로드(왼쪽)
 const ImageBox = styled.div`
-  flex: 1 500px;
-  height: 570px;
+  width: 600px;
+  height: 600px;
   border-right: 1px solid gainsboro;
   display: flex;
   flex-direction: column;
@@ -255,9 +258,14 @@ const ImageBox = styled.div`
   align-items: center;
   text-align: center;
   position: relative;
-  @media screen and (max-width: 768px) {
-    flex: 300px;
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+    height: 300px;
     border-bottom: 1px solid gainsboro;
+  }
+  @media screen and (max-width: 412px) {
+    width: 100%;
+    height: 300px;
   }
   > img {
     width: 100%;
@@ -267,7 +275,7 @@ const ImageBox = styled.div`
     position: absolute;
     overflow: hidden;
     z-index: 1;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1024px) {
       border-bottom-left-radius: 0rem;
     }
   }
@@ -291,23 +299,24 @@ const ImageBox = styled.div`
 
 const Button = styled.button`
   padding: 10px 30px;
-  margin: 5px;
-  border: 1px solid #444;
+  border: 1px solid tomato;
   background: none;
-  color: #444;
-  border-radius: 20px;
+  color: tomato;
+  border-radius: 5px;
   font-family: "SCoreDream";
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
+  @media screen and (max-width: 412px) {
+    padding: 6px 20px;
+    margin-top: 10px;
+    margin-right: 18px;
+    font-weight: 500;
+  }
   &:hover {
     color: white;
     background: tomato;
-    border: 1px solid tomato;
     transition: 0.3s;
-  }
-  @media screen and (max-width: 412px) {
-    padding: 10px 30px;
   }
 `;
 

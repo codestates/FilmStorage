@@ -387,10 +387,9 @@ const Button = styled.button`
   color: tomato;
   font-family: "SCoreDream";
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   padding: 10px 30px;
-  /* border: none; */
-  border-radius: 20px;
+  border-radius: 5px;
   ${(props) => {
     if (props.bottom) {
       return css`
@@ -409,8 +408,9 @@ const Button = styled.button`
   @media screen and (max-width: 412px) {
     padding: 7px 24px;
     /* border: none; */
-    border-radius: 14px;
+    border-radius: 5px;
     font-size: 13px;
+    font-weight: 500;
   }
 `;
 

@@ -6,9 +6,6 @@ const Nav = styled.nav`
   align-items: center;
   gap: 4px;
   margin: 16px;
-  @media screen and (max-width: 486px) {
-    margin-right: -240px;
-  }
 `;
 const Button = styled.button`
   border: none;

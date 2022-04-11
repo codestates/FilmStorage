@@ -176,10 +176,11 @@ const FilmLogImg = styled.img`
 `;
 
 const Button = styled.button`
+  background: none;
   padding: 10px 30px;
-  border: none;
-  border-radius: 20px;
-  font-size: 16px;
+  border: 1px solid tomato;
+  color: tomato;
+  border-radius: 5px;
   font-weight: 600;
   cursor: pointer;
   &:hover {
