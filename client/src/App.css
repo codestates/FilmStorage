@@ -64,7 +64,14 @@ select {
 .detailImageBox_Like {
   color: lightgray;
   font-size: 3rem;
-  padding: 16px 32px;
+  /* padding: 16px 32px; */
+}
+
+.icon-like:hover {
+  /* border: 1px solid red; */
+  opacity: 0.8;
+  transform: translateY(-3%) scale(1.5);
+  transition: 0.2s ease-in-out;
 }
 
 .detailImageBox:hover .detailImageBox_image {

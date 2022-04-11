@@ -6,6 +6,83 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 
+export default function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
+  const [isToggled, setIsToggled] = useState(false);
+
+  const history = useHistory();
+  const handleSignOut = () => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/users/signout`)
+      .then((res) => {
+        setUserInfo({});
+        setIsLogin(false);
+        history.push("/");
+      })
+      .catch((err) => console.log(err));
+  };
+
+  return (
+    <>
+      <HeaderBox>
+        <Link to="/">
+          <LogoImg src="https://user-images.githubusercontent.com/87605663/161911543-24f2abb0-c4c6-48fe-b755-d582a20fb0d6.png" />
+        </Link>
+        <ToggleButton onClick={() => setIsToggled(!isToggled)}>
+          <FontAwesomeIcon icon={isToggled ? faTimes : faBars} />
+        </ToggleButton>
+        <NavList isToggled={isToggled} onClick={() => setIsToggled(!isToggled)}>
+          <Link to="/filmtype">
+            <NavListItem>필름 취향 찾기</NavListItem>
+          </Link>
+          <Link to="/todayfilm">
+            <NavListItem>오늘의 필름</NavListItem>
+          </Link>
+          <Link to="/map">
+            <NavListItem>필름 스팟</NavListItem>
+          </Link>
+          <Link to="/filmlog">
+            <NavListItem>필름 로그</NavListItem>
+          </Link>
+          <Link to="/filmtalks/total">
+            <NavListItem>필름 토크</NavListItem>
+          </Link>
+          {isLogin === true ? (
+            <>
+              <DropDown>
+                <NavListItemUser>
+                  <b>{userInfo.nickname}</b> 님
+                </NavListItemUser>
+                <UserMenu>
+                  <Link to="/mylog">
+                    <UserMenuContent>마이 로그</UserMenuContent>
+                  </Link>
+                  <Link to="/users/update">
+                    <UserMenuContent>계정 관리</UserMenuContent>
+                  </Link>
+                  <Link to="/signout">
+                    <UserMenuContent onClick={handleSignOut}>
+                      로그아웃
+                    </UserMenuContent>
+                  </Link>
+                </UserMenu>
+              </DropDown>
+            </>
+          ) : (
+            <>
+              <Link to="/signin">
+                <NavListItem sign>로그인</NavListItem>
+              </Link>
+              <Link to="/signup">
+                <NavListItem sign>회원가입</NavListItem>
+              </Link>
+            </>
+          )}
+        </NavList>
+      </HeaderBox>
+    </>
+  );
+}
+
 // * 헤더
 const HeaderBox = styled.header`
   display: flex;
@@ -88,10 +165,12 @@ const NavListItem = styled.li`
     /* border: 1px solid blue; */
     display: block;
     padding: 30px 0;
+    margin: 0;
     /* border-bottom: 1px solid #eee; */
   }
   @media screen and (max-width: 412px) {
     margin: 0;
+    padding: 15px 0;
   }
 `;
 
@@ -118,15 +197,20 @@ const NavListItemUser = styled.div`
   transition: 0.3s;
   display: inline-block;
   @media screen and (max-width: 1024px) {
-    padding: 30px;
-    width: 80%;
+    padding: 20px 0;
+    width: 100%;
     border-bottom: 1px solid #eee;
+  }
+  @media screen and (max-width: 412px) {
+    padding: 10px 0;
   }
 `;
 
 // * 유저 메뉴
 const UserMenu = styled.div`
   /* border: 1px solid red; */
+
+  background: white;
   display: none;
   ${DropDown}:hover & {
     display: block;
@@ -142,11 +226,14 @@ const UserMenu = styled.div`
     display: block;
     width: 100%;
     box-shadow: none;
-    border-radius: none;
+    border-radius: 0;
     right: 0px;
     margin: 0;
     padding: 0;
     background: snow;
+  }
+  @media screen and (max-width: 412px) {
+    padding: 10px 0;
   }
 `;
 
@@ -169,83 +256,8 @@ const UserMenuContent = styled.li`
     padding: 30px 0;
     font-weight: 600;
   }
+  @media screen and (max-width: 412px) {
+    padding: 15px 0;
+    margin: 0;
+  }
 `;
-
-function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
-  const [isToggled, setIsToggled] = useState(false);
-
-  const history = useHistory();
-  const handleSignOut = () => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/users/signout`)
-      .then((res) => {
-        setUserInfo({});
-        setIsLogin(false);
-        history.push("/");
-      })
-      .catch((err) => console.log(err));
-  };
-
-  return (
-    <>
-      <HeaderBox>
-        <Link to="/">
-          <LogoImg src="https://user-images.githubusercontent.com/87605663/161911543-24f2abb0-c4c6-48fe-b755-d582a20fb0d6.png" />
-        </Link>
-        <ToggleButton onClick={() => setIsToggled(!isToggled)}>
-          <FontAwesomeIcon icon={isToggled ? faTimes : faBars} />
-        </ToggleButton>
-        <NavList isToggled={isToggled} onClick={() => setIsToggled(!isToggled)}>
-          <Link to="/filmtype">
-            <NavListItem>필름 취향 찾기</NavListItem>
-          </Link>
-          <Link to="/todayfilm">
-            <NavListItem>오늘의 필름</NavListItem>
-          </Link>
-          <Link to="/map">
-            <NavListItem>필름 스팟</NavListItem>
-          </Link>
-          <Link to="/filmlog">
-            <NavListItem>필름 로그</NavListItem>
-          </Link>
-          <Link to="/filmtalks/total">
-            <NavListItem>필름 토크</NavListItem>
-          </Link>
-          {isLogin === true ? (
-            <>
-              <DropDown>
-                <NavListItemUser>
-                  <b>{userInfo.nickname}</b> 님
-                </NavListItemUser>
-                <UserMenu>
-                  <Link to="/mylog">
-                    <UserMenuContent>마이 로그</UserMenuContent>
-                  </Link>
-                  <Link to="/users/update">
-                    <UserMenuContent>계정 관리</UserMenuContent>
-                  </Link>
-                  <Link to="/signout">
-                    <UserMenuContent onClick={handleSignOut}>
-                      로그아웃
-                    </UserMenuContent>
-                  </Link>
-                </UserMenu>
-              </DropDown>
-            </>
-          ) : (
-            <>
-              <Link to="/signin">
-                <NavListItem sign>로그인</NavListItem>
-              </Link>
-              <Link to="/signup">
-                <NavListItem sign>회원가입</NavListItem>
-              </Link>
-            </>
-          )}
-        </NavList>
-      </HeaderBox>
-    </>
-  );
-}
-
-export default Header;

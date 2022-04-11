@@ -133,7 +133,7 @@ function Footer() {
             <Position>Back-end</Position>
             <a
               className="github"
-              href="https://github.com/ssankq"
+              href="https://github.com/LeeHyeongeol"
               target={"_blank"}
             >
               <FontAwesomeIcon icon={faGithub} className="icon" />

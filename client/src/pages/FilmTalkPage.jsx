@@ -7,94 +7,7 @@ import Pagination from "../components/filmtalk/Pagination";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const Container = styled.section`
-  width: 100%;
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 50px 0;
-  position: relative;
-  @media screen and (max-width: 412px) {
-    /* width: 90%; */
-  }
-`;
-
-const Article = styled.article`
-  /* border: 1px solid green; */
-  width: 60%;
-  position: absolute;
-  top: 100px;
-  @media screen and (max-width: 412px) {
-    width: 90%;
-  }
-`;
-
-const Table = styled.table`
-  width: 100%;
-  /* border: 1px solid blue; */
-  border-collapse: collapse;
-`;
-
-const Thead = styled.thead`
-  @media screen and (max-width: 412px) {
-    display: none;
-  }
-`;
-const Tbody = styled.tbody`
-  border-bottom: 1px solid #444;
-  /* border: 1px solid red; */
-`;
-const Tr = styled.tr`
-  /* border: 1px solid red; */
-`;
-const Th = styled.th`
-  /* border: 1px solid red; */
-  padding: 20px 0;
-  border-bottom: 2px solid #222;
-  font-size: 14px;
-
-  @media screen and (max-width: 768px) {
-    padding: 10px;
-  }
-  @media screen and (max-width: 412px) {
-    /* border: 1px solid red; */
-    padding: 10px;
-    font-size: 10px;
-    white-space: pre;
-  }
-
-  /* border: 1px solid red; */
-`;
-
-const Button = styled.button`
-  position: absolute;
-  right: 0px;
-  top: -50px;
-  padding: 10px 30px;
-  border: 1px solid tomato;
-  background: none;
-  color: tomato;
-  border-radius: 5px;
-  font-family: "SCoreDream";
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  &:hover {
-    color: white;
-    background: tomato;
-    transition: 0.3s;
-  }
-  @media screen and (max-width: 412px) {
-    font-size: 10px;
-    /* padding: 10px 20px; */
-    /* margin-right: -240px; */
-    /* margin-bottom: 10px; */
-  }
-`;
-
-function FilmTalkPage({ isLogin }) {
+export default function FilmTalkPage({ isLogin }) {
   // * 필름토크 페이지 게시글 데이터
   const [posts, setPosts] = useState([]);
   // * 페이지네이션 기능 *//
@@ -173,7 +86,10 @@ function FilmTalkPage({ isLogin }) {
     <>
       <Container>
         <Article>
-          <Button onClick={handleUpdate}>글쓰기</Button>
+          <Nav>
+            <div></div>
+            <Button onClick={handleUpdate}>글쓰기</Button>
+          </Nav>
           <Table>
             <Thead>
               <Tr>
@@ -202,4 +118,85 @@ function FilmTalkPage({ isLogin }) {
   );
 }
 
-export default FilmTalkPage;
+const Container = styled.section`
+  width: 100vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Article = styled.article`
+  /* border: 1px solid green; */
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  margin-top: 80px;
+  @media screen and (max-width: 1024px) {
+    width: 90%;
+  }
+`;
+
+const Nav = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Table = styled.table`
+  /* border: 1px solid blue; */
+  border-collapse: collapse;
+  overflow: hidden;
+  width: 100%;
+`;
+
+const Thead = styled.thead`
+  @media screen and (max-width: 412px) {
+    display: none;
+  }
+`;
+const Tbody = styled.tbody`
+  border-bottom: 1px solid #444;
+  text-align: left;
+  overflow: hidden;
+  max-width: 300px;
+`;
+const Tr = styled.tr``;
+const Th = styled.th`
+  /* border: 1px solid red; */
+  padding: 20px 0;
+  border-bottom: 2px solid #222;
+  font-size: 14px;
+  white-space: pre;
+  @media screen and (max-width: 1024px) {
+    padding: 10px;
+  }
+  @media screen and (max-width: 412px) {
+    /* border: 1px solid red; */
+    padding: 10px;
+    font-size: 10px;
+    white-space: pre;
+  }
+
+  /* border: 1px solid red; */
+`;
+
+const Button = styled.button`
+  margin-bottom: 30px;
+  padding: 10px 30px;
+  border: 1px solid tomato;
+  background: none;
+  color: tomato;
+  border-radius: 5px;
+  font-family: "SCoreDream";
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background: tomato;
+    transition: 0.3s;
+  }
+  @media screen and (max-width: 412px) {
+    font-size: 10px;
+  }
+`;
