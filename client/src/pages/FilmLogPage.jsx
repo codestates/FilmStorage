@@ -225,6 +225,7 @@ const Container = styled.section`
   justify-self: center;
   align-items: center;
 `;
+
 const FilmLogImg = styled.img`
   /* border: 1px solid black; */
   width: 20rem;
@@ -234,8 +235,9 @@ const FilmLogImg = styled.img`
   cursor: pointer;
   &:hover {
     opacity: 0.8;
-    background: tomato;
-    transition: 0.3s;
+    transform: translateY(-3%) scale(1.03);;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0px 5px 7px #2222227d;
   }
   @media screen and (max-width: 412px) {
     height: 18rem;
