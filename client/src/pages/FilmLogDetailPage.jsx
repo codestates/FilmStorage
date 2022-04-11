@@ -348,7 +348,7 @@ const Article = styled.article`
   /* border: 1px solid green; */
   width: 60%;
   position: relative;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     width: 90%;
   }
 `;
