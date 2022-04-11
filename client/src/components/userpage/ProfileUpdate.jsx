@@ -74,7 +74,7 @@ export default function ProfileUpdate({ userInfo }) {
         />
       </InfoType>
       <ErrorMessage>{errorMessage}</ErrorMessage>
-      <Button onClick={handleUpdate}>정보 수정하기</Button>
+      <Button onClick={handleUpdate}>수정하기</Button>
     </InfoUpdate>
   );
 }
@@ -121,9 +121,12 @@ const ErrorMessage = styled.p`
 const Button = styled.button`
   width: 100%;
   margin-top: 30px;
+  margin-bottom: 15px;
   padding: 10px 30px;
-  border: none;
-  border-radius: 20px;
+  color: tomato;
+  border: 1px tomato solid;
+  border-radius: 5px;
+  background-color: white;
   right: 0px;
   font-size: 16px;
   font-weight: 600;
@@ -131,6 +134,7 @@ const Button = styled.button`
   &:hover {
     color: white;
     background: tomato;
+    border: 1px tomato solid;
     transition: 0.3s;
   }
   @media screen and (max-width: 1024px) {

@@ -150,9 +150,7 @@ export default function FilmLogWriting({ userInfo, setIsOpen }) {
             </div>
             <div className="nav-title">사진 등록 하기</div>
             <div className="nav-flex">
-              <div>
-                <Button onClick={() => filmlogRegister()}>등록</Button>
-              </div>
+              <Button onClick={() => filmlogRegister()}>등록</Button>
             </div>
           </ModalNav>
           <ModalImageBox>
@@ -257,17 +255,17 @@ const ModalBox = styled.div.attrs((props) => ({
   width: 1200px;
   height: 650px;
   background: white;
-  border-radius: 1rem;
+  border-radius: 5px;
   margin: 0;
   overflow: hidden;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     width: 700px;
-    height: 900px;
+    height: 1000px;
   }
   @media screen and (max-width: 412px) {
-    width: 380px;
+    width: 340px;
     flex-direction: column;
-    height: 800px;
+    height: 600px;
     padding: 0;
   }
 `;
@@ -282,13 +280,17 @@ const ModalNav = styled.nav`
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+  @media screen and (max-width: 412px) {
+    padding: 0px;
+    margin-top: 8px;
+  }
   > div.nav-flex {
   }
   .nav-title {
-    /* border: 3px solid green; */
     margin-left: 60px;
     @media screen and (max-width: 412px) {
-      margin-left: 30px;
+      margin-left: 0;
+      font-size: 18px;
     }
   }
   .icon {
@@ -299,19 +301,23 @@ const ModalNav = styled.nav`
 
 const Button = styled.button`
   padding: 10px 30px;
-  margin: 5px;
-  border: 1px solid #444;
+  border: 1px solid tomato;
   background: none;
-  color: #444;
-  border-radius: 20px;
+  color: tomato;
+  border-radius: 5px;
   font-family: "SCoreDream";
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
+  @media screen and (max-width: 412px) {
+    padding: 6px 20px;
+    margin-top: 10px;
+    margin-right: 18px;
+    font-weight: 500;
+  }
   &:hover {
     color: white;
     background: tomato;
-    border: 1px solid tomato;
     transition: 0.3s;
   }
 `;
@@ -321,7 +327,7 @@ const ModalImageBox = styled.div`
   display: flex;
   height: 100%;
   box-sizing: border-box;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     flex-direction: column;
   }
 `;
@@ -329,7 +335,8 @@ const ModalImageBox = styled.div`
 // * 이미지 업로드(왼쪽)
 const ImageBox = styled.div`
   /* border: 3px solid red; */
-  height: 570px;
+  width: 600px;
+  height: 600px;
   border-right: 1px solid gainsboro;
   display: flex;
   flex-direction: column;
@@ -337,9 +344,14 @@ const ImageBox = styled.div`
   align-items: center;
   text-align: center;
   position: relative;
-  @media screen and (max-width: 768px) {
-    flex: 300px;
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+    height: 300px;
     border-bottom: 1px solid gainsboro;
+  }
+  @media screen and (max-width: 412px) {
+    width: 100%;
+    height: 300px;
   }
   > img {
     width: 100%;
@@ -349,7 +361,7 @@ const ImageBox = styled.div`
     position: absolute;
     overflow: hidden;
     z-index: 1;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1024px) {
       border-bottom-left-radius: 0rem;
     }
   }
@@ -372,12 +384,16 @@ const ImageBox = styled.div`
 `;
 
 const Label = styled.label`
-  background: #eee;
+  background: none;
   padding: 10px 30px;
-  border: none;
-  border-radius: 20px;
+  border: 1px solid tomato;
+  color: tomato;
+  border-radius: 5px;
   font-weight: 600;
   cursor: pointer;
+  @media screen and (max-width: 412px) {
+    font-weight: 500;
+  }
   &:hover {
     color: white;
     background: tomato;
@@ -405,6 +421,9 @@ const Title = styled.div`
   font-size: 14px;
   color: #666;
   padding: 10px 0;
+  @media screen and (max-width: 1024px) {
+    margin-top: 10px;
+  }
 `;
 
 // * 유저 정보
@@ -499,6 +518,6 @@ const LocationArea = styled.div`
   /* height: 300px; */
   /* display: block; */
   /* margin: 1rem; */
-  /* margin-top: 0; */
+  /* margin-bottom: 10px; */
   /* border: 1px solid blue; */
 `;

@@ -247,7 +247,7 @@ const Container = styled.section`
 `;
 const Article = styled.article`
   /* border: 1px solid green; */
-  width: 60%;
+  width: 80%;
   position: relative;
 
   > .icon {
@@ -255,8 +255,12 @@ const Article = styled.article`
     padding: 10px;
     font-size: 28px;
     cursor: pointer;
+    @media screen and (max-width: 412px) {
+      padding: 0;
+      margin-bottom: 15px;
+    }
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     width: 90%;
   }
   @media screen and (max-width: 412px) {
@@ -279,7 +283,7 @@ const Info = styled.span`
   font-weight: ${(props) => (props.fontweight ? 500 : 400)};
   text-align: ${(props) => (props.rigth ? "center" : "none")};
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     margin-left: 0px;
     white-space: pre;
     font-size: 16px;
@@ -287,6 +291,7 @@ const Info = styled.span`
   @media screen and (max-width: 412px) {
     font-size: 12px;
     white-space: pre;
+    overflow: hidden;
     /* margin-left:-200px */
   }
 `;
@@ -308,8 +313,8 @@ const ReplyForm = styled.form`
 `;
 const ReplyInput = styled.input`
   border: 1px solid #000;
-  border-radius: 10px;
-  width: 97%;
+  border-radius: 5px;
+  width: 94%;
   font-size: 14px;
   padding: 15px 10px;
   margin-top: 5px;
@@ -323,8 +328,10 @@ const ReplyInput = styled.input`
 `;
 const Button = styled.button`
   padding: 10px 30px;
-  border: none;
-  border-radius: 20px;
+  border: 1px tomato solid;
+  border-radius: 5px;
+  background-color: white;
+  color: tomato;
   margin-top: 20px;
   position: absolute;
   right: ${(props) => props.right || 0};

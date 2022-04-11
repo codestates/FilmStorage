@@ -74,3 +74,11 @@ select {
 .detailImageBox:hover .detailImageBox_textBox {
   opacity: 1;
 }
+
+@media screen and (max-width: 412px) {
+  .detailImageBox_Like {
+    color: lightgray;
+    font-size: 2rem;
+    padding: 16px 32px;
+  }
+}

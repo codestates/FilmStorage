@@ -18,6 +18,7 @@ export default function SimpleSlider({ topThree }) {
     speed: 1000,
     autoplaySpeed: 3000,
     cssEase: "linear",
+    arrow: false,
   };
 
   const handlePictureDetail = (id) => {

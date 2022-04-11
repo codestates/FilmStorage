@@ -13,11 +13,12 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
+  @media screen and (max-width: 1024px) {
+    /* flex-direction: column; */
     padding: 100px 0;
   }
   @media screen and (max-width: 412px) {
+    flex-direction: column;
     padding: 20px 0;
   }
 `;
@@ -27,17 +28,20 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: ${(props) => (props.center ? "center" : "left")};
+  align-items: center;
+  /* align-items: ${(props) => (props.center ? "center" : "left")}; */
   width: 500px;
   height: 500px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     /* border: 3px solid green; */
+    flex: ${(props) => props.flex || 0};
     align-items: center;
     padding: 30px 0;
   }
   @media screen and (max-width: 412px) {
     /* border: 3px solid blue; */
     align-items: center;
+    height: 245px;
     width: 380px;
   }
 `;
@@ -57,7 +61,7 @@ const SubTitle = styled.p`
   margin: 0 0 0 3px;
   color: #444;
   /* border: 3px solid blue; */
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     /* border: 3px solid green; */
     text-align: center;
   }
@@ -76,7 +80,7 @@ const Img = styled.img`
   }
 `;
 const Button = styled.button`
-  width: 90%;
+  width: 100%;
   text-align: left;
   padding: 20px 3px;
   border: none;
@@ -92,13 +96,6 @@ const Button = styled.button`
     color: #666;
     transition: 0.2s;
   }
-  .icon {
-    /* margin-left: 200px; */
-  }
-  @media screen and (max-width: 768px) {
-    /* border: 3px solid green; */
-    width: 100%;
-  }
 `;
 
 function GoToFindingFilmType() {
@@ -106,6 +103,7 @@ function GoToFindingFilmType() {
     <>
       <Container>
         <Content
+          flex="3"
           data-aos="fade-right"
           // data-aos-offset="300"
           data-aos-duration="700"
@@ -121,6 +119,7 @@ function GoToFindingFilmType() {
           </Link>
         </Content>
         <Content
+        flex="2"
           center
           data-aos="fade-right"
           // data-aos-offset="300"

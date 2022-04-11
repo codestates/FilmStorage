@@ -51,7 +51,7 @@ const LoaderBox = styled.div`
 // * 지도 컴포넌트
 const Map = styled.div`
   /* border: 1px solid gainsboro; */
-  border-radius: 10px;
+  border-radius: 5px;
   width: 100%;
   height: 70%;
 `;
@@ -65,7 +65,7 @@ const SearchForm = styled.form`
   input {
     /* border: 1px solid tomato; */
     border: 1px solid gainsboro;
-    border-radius: 10px;
+    border-radius: 5px;
     color: #222;
     outline: none;
     padding: 10px;
