@@ -149,6 +149,10 @@ const Widthbox = styled.div`
   flex: 1;
   width: 150px;
   margin-right: 10px;
+  @media screen and (max-width: 1024px) {
+    /* border: 1px solid tomato; */
+    padding: 10px 0;
+  }
 `;
 
 const Widthbox2 = styled.div`
