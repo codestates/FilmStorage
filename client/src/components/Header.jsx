@@ -57,7 +57,6 @@ const NavList = styled.ul`
   display: flex;
   padding: 20px;
   z-index: 999;
-  background: snow;
   // 태블릿
   @media screen and (max-width: 1024px) {
     /* border: 1px solid red; */
@@ -69,6 +68,7 @@ const NavList = styled.ul`
     top: 70px;
     right: 0px;
     flex-direction: column;
+    background: snow;
   }
 `;
 
@@ -136,7 +136,6 @@ const UserMenu = styled.div`
   width: 100px;
   margin: 10px;
   padding: 10px;
-  background: snow;
   border-radius: 10px;
   box-shadow: 5px 5px 10px Gainsboro;
   @media screen and (max-width: 1024px) {
@@ -147,6 +146,7 @@ const UserMenu = styled.div`
     right: 0px;
     margin: 0;
     padding: 0;
+    background: snow;
   }
 `;
 

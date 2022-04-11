@@ -244,8 +244,10 @@ const TitleInput = styled.input`
 // * 버튼 컴포넌트
 const Button = styled.button`
   padding: 10px 30px;
-  border: none;
-  border-radius: 20px;
+  border: 1px tomato solid;
+  border-radius: 5px;
+  color: tomato;
+  background: white;
   margin-top: 20px;
   /* position: absolute; */
   /* right: ${(props) => (props.right ? "120px" : "120px")}; */
