@@ -247,7 +247,7 @@ export default function FindingFilmTypePage() {
                           </span>
                           <span className="filminfo">
                             <span className="bold">감도 ISO </span>
-                            {resultForRender.iso} |
+                            {resultForRender.iso}
                           </span>
                         </div>
                         <ResultComment>{resultForRender.content}</ResultComment>

@@ -14,12 +14,13 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   // 태블릿
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
+  @media screen and (max-width: 1024px) {
+    /* border: 1px solid red; */
     padding: 100px 0;
   }
   // 모바일
   @media screen and (max-width: 412px) {
+    flex-direction: column;
     padding: 20px 0;
   }
 `;
@@ -29,11 +30,13 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: ${(props) => (props.center ? "center" : "left")};
+  /* align-items: ${(props) => (props.center ? "center" : "left")}; */
+  align-items: center;
   width: 500px;
   height: 500px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     /* border: 3px solid blue; */
+    flex: ${(props) => props.flex || 0};
     align-items: center;
   }
   @media screen and (max-width: 412px) {
@@ -45,6 +48,7 @@ const Content = styled.div`
 `;
 
 const Title = styled.h1`
+  /* border: 1px solid red; */
   font-size: 70px;
   margin: 0;
   padding: 20px 0;
@@ -55,14 +59,14 @@ const Title = styled.h1`
   }
 `;
 const SubTitle = styled.p`
-  font-size: 24px;
+  font-size: 30px;
   line-height: 1.6em;
   margin: 0 0 0 3px;
   color: #444;
+  text-align: center;
   /* border: 3px solid blue; */
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     /* border: 3px solid blue; */
-    text-align: center;
   }
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
@@ -73,13 +77,16 @@ const SubTitle = styled.p`
 const Img = styled.img`
   width: 200px;
   animation-fill-mode: forwards;
+  @media screen and (max-width: 1024px) {
+    /* border: 1px solid red; */
+  }
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
     width: 150px;
   }
 `;
 const Button = styled.button`
-  width: 90%;
+  width: 100%;
   text-align: left;
   padding: 10px 3px;
   border: none;
@@ -95,13 +102,6 @@ const Button = styled.button`
     color: #666;
     transition: 0.2s;
   }
-  .icon {
-    /* margin-left: 200px; */
-  }
-  @media screen and (max-width: 768px) {
-    /* border: 3px solid blue; */
-    width: 100%;
-  }
 `;
 
 function GoToMostUsedFilm() {
@@ -109,6 +109,7 @@ function GoToMostUsedFilm() {
     <>
       <Container>
         <Content
+          flex="3"
           data-aos="fade-right"
           // data-aos-offset="300"
           data-aos-duration="700"
@@ -132,6 +133,7 @@ function GoToMostUsedFilm() {
           </Link>
         </Content>
         <Content
+          flex="2"
           center
           data-aos="fade-right"
           // data-aos-offset="300"

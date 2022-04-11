@@ -13,11 +13,11 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 768px) {
-    flex-direction: column-Reverse;
+  @media screen and (max-width: 1024px) {
     padding: 100px 0;
   }
   @media screen and (max-width: 412px) {
+    flex-direction: column-Reverse;
     padding: 20px 0;
   }
 `;
@@ -27,11 +27,13 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: ${(props) => (props.center ? "center" : "left")};
+  align-items: center;
+  /* align-items: ${(props) => (props.center ? "center" : "left")}; */
   width: 500px;
   height: 500px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     /* border: 3px solid blue; */
+    flex: ${(props) => props.flex || 0};
     align-items: center;
     padding: 30px 0;
   }
@@ -57,10 +59,10 @@ const SubTitle = styled.p`
   line-height: 1.6em;
   margin: 0 0 0 3px;
   color: #444;
+  text-align: center;
   /* border: 3px solid blue; */
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     /* border: 3px solid blue; */
-    text-align: center;
   }
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
@@ -79,7 +81,7 @@ const Img = styled.img`
 `;
 const Button = styled.button`
   /* border: 1px solid red; */
-  width: 90%;
+  width: 100%;
   text-align: left;
   padding: 20px 3px;
   border: none;
@@ -93,13 +95,6 @@ const Button = styled.button`
     color: #666;
     transition: 0.2s;
   }
-  .icon {
-    /* margin-left: 200px; */
-  }
-  @media screen and (max-width: 768px) {
-    /* border: 3px solid blue; */
-    width: 100%;
-  }
 `;
 
 function GoToTodayFilm() {
@@ -110,10 +105,10 @@ function GoToTodayFilm() {
         data-aos-duration="700"
         data-aos-anchor-placement="top-center"
       >
-        <Content>
+        <Content flex="1">
           <Img src="https://user-images.githubusercontent.com/87605663/159730302-7e8be631-9192-4c3e-8986-ef3f1dc76cd1.png" />
         </Content>
-        <Content>
+        <Content flex="1">
           <SubTitle>
             오늘의 날씨는 맑음 ☀️
             <br />
