@@ -39,6 +39,7 @@ const Content = styled.div`
   @media screen and (max-width: 412px) {
     /* border: 3px solid blue; */
     align-items: center;
+    height: 250px;
     width: 380px;
   }
 `;

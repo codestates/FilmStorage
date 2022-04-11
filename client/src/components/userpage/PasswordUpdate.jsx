@@ -117,7 +117,7 @@ export default function PasswordUpdate({ userInfo, setIsLogin, setUserInfo }) {
           </InfoType>
           <ErrorMessage>{errorMessage}</ErrorMessage>
           <Button type="button" onClick={(e) => handleUpdate(e)}>
-            정보 수정하기
+            수정하기
           </Button>
         </InfoUpdate>
       </>
@@ -170,13 +170,17 @@ const Button = styled.button`
   margin-top: 30px;
   padding: 10px 30px;
   border: none;
-  border-radius: 20px;
+  color: tomato;
+  border: 1px tomato solid;
+  border-radius: 5px;
+  background-color: white;
   right: 0px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   &:hover {
     color: white;
+    border: 1px tomato solid;
     background: tomato;
     transition: 0.3s;
   }
