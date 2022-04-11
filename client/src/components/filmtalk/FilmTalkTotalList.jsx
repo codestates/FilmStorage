@@ -16,13 +16,16 @@ const Td = styled.td`
   color: #222;
   text-align: ${(props) => (props.left ? "left" : "center")};
   cursor: ${(props) => (props.pointer ? "pointer" : null)};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 300px;
   @media screen and (max-width: 412px) {
     /* border: 1px solid red; */
     display: ${(props) => (props.none ? "none" : null)};
     padding: 10px;
     font-size: 10px;
     white-space: pre;
-    overflow: hidden;
     max-width: 200px;
   }
 `;
