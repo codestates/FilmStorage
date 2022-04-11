@@ -11,6 +11,21 @@ export default function PasswordUpdate({ userInfo, setIsLogin, setUserInfo }) {
     check: "",
   });
 
+  const validatePw = (password) => {
+    // 비밀번호 구성(8자리 이상 문자, 숫자, 특수문자)
+    const pattern1 = /[0-9]/; // 숫자
+    const pattern2 = /[a-zA-Z]/; // 문자
+    const pattern3 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자
+    if (
+      !pattern1.test(password) ||
+      !pattern2.test(password) ||
+      !pattern3.test(password) ||
+      password.length < 8
+    ) {
+      return false;
+    } else return true;
+  };
+
   const setCheckPW = (e) => {
     setPassword({ ...password, check: e.target.value });
     if (password.change !== e.target.value) {
@@ -25,6 +40,11 @@ export default function PasswordUpdate({ userInfo, setIsLogin, setUserInfo }) {
     if (!current || !change || !check) {
       e.preventDefault();
       setErrorMessage("비밀번호를 입력해주세요");
+    } else if (!validatePw(change)) {
+      e.preventDefault();
+      setErrorMessage(
+        "비밀번호는 문자, 숫자, 특수문자 포함 8자리 이상이어야 합니다"
+      );
     } else {
       axios
         .patch(
