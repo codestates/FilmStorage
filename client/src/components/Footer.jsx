@@ -53,7 +53,7 @@ export default function Footer() {
               target="_blank"
               rel="noreferrer"
               className="github"
-              href="https://github.com/ssankq"
+              href="https://github.com/LeeHyeongeol"
             >
               <FontAwesomeIcon icon={faGithub} className="icon" />
             </a>
