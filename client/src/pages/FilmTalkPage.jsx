@@ -130,9 +130,9 @@ const Article = styled.article`
   /* border: 1px solid green; */
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 60%;
   margin-top: 80px;
-  @media screen and (max-width: 412px) {
+  @media screen and (max-width: 1024px) {
     width: 90%;
   }
 `;
