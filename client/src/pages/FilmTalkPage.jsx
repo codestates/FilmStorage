@@ -120,7 +120,7 @@ export default function FilmTalkPage({ isLogin }) {
 
 const Container = styled.section`
   width: 100vw;
-  height: 90vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;

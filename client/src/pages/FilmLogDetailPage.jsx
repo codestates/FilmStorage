@@ -272,9 +272,17 @@ export default function FilmLogDetailPage({ userInfo, isLogin }) {
           >
             <div className="detailImageBox_Like">
               {isLike ? (
-                <FontAwesomeIcon icon={faHeart} color="tomato" />
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  color="tomato"
+                  className="icon-like"
+                />
               ) : (
-                <FontAwesomeIcon icon={faHeart} color="white" />
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  color="white"
+                  className="icon-like"
+                />
               )}
             </div>
           </div>
