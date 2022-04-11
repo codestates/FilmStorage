@@ -241,7 +241,7 @@ export default function FindingFilmTypePage() {
                           </span>
                           <span className="filminfo">
                             <span className="bold">감도 ISO </span>
-                            {resultForRender.iso} |
+                            {resultForRender.iso}
                           </span>
                         </div>
                         <ResultComment>{resultForRender.content}</ResultComment>
@@ -396,7 +396,7 @@ const Button = styled.button`
   border: 1px solid tomato;
   background: none;
   color: tomato;
-  border-radius: 20px;
+  border-radius: 5px;
   font-family: "SCoreDream";
   font-size: 16px;
   font-weight: 500;
