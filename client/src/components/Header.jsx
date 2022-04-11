@@ -24,9 +24,10 @@ export default function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
   return (
     <>
       <HeaderBox>
-        <Link to="/">
-          <LogoImg src="https://user-images.githubusercontent.com/87605663/161911543-24f2abb0-c4c6-48fe-b755-d582a20fb0d6.png" />
-        </Link>
+        <LogoImg
+          onClick={() => history.push("/")}
+          src="https://user-images.githubusercontent.com/87605663/162744553-50450406-8a6c-4668-bd90-ab93d7491ba4.png"
+        />
         <ToggleButton onClick={() => setIsToggled(!isToggled)}>
           <FontAwesomeIcon icon={isToggled ? faTimes : faBars} />
         </ToggleButton>
@@ -109,7 +110,9 @@ const HeaderBox = styled.header`
 
 // * 로고(왼쪽)
 const LogoImg = styled.img`
-  height: 1.2rem;
+  /* height: 1.2rem; */
+  width: 200px;
+  cursor: pointer;
 `;
 
 // * 토글 버튼
