@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import ReplyList from "../components/reply/ReplyList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
@@ -204,15 +204,15 @@ export default function FilmTalkView({ userInfo, isLogin }) {
               {filmTalkInfo.title}
             </Info>
             <Info></Info>
-            <Info></Info>
-            <Info></Info>
           </InfoBox>
           <InfoBox>
-            <Info flex="11">{filmTalkInfo.nickname}</Info>
-            <Info right flex="2">
-              날짜 {convertDate(filmTalkInfo.createdAt)}
-            </Info>
-            <Info right>조회수 {filmTalkInfo.views}</Info>
+            <FlexBox>
+              <Info>{filmTalkInfo.nickname}</Info>
+            </FlexBox>
+            <FlexBox>
+              <Info>날짜{convertDate(filmTalkInfo.createdAt)}</Info>
+              <Info>조회수 {filmTalkInfo.views}</Info>
+            </FlexBox>
           </InfoBox>
           <ContentBox
             dangerouslySetInnerHTML={{
@@ -248,6 +248,10 @@ const Container = styled.section`
   align-items: center;
   padding: 50px 0 150px 0;
   /* position: relative; */
+  @media screen and (max-width: 1024px) {
+    /* border: 1px solid green; */
+    font-size: 14px;
+  }
   @media screen and (max-width: 412px) {
     font-size: 10px;
   }
@@ -321,13 +325,19 @@ const InfoBox = styled.div`
   /* width: 100%; */
   /* height: 10vh; */
   display: flex;
+  justify-content: space-between;
 `;
+
+const FlexBox = styled.div`
+  margin-bottom: 10px;
+`;
+
 const Info = styled.span`
   /* border: 1px solid red; */
   padding: 5px;
   margin: 5px;
   color: ${(props) => (props.orange ? "Chocolate" : "none")};
-  flex: ${(props) => props.flex || "1 30px"};
+  flex: ${(props) => props.flex || "1 20px"};
   font-size: ${(props) => props.fontsize || "12px"};
   font-weight: ${(props) => (props.fontweight ? 500 : 400)};
   text-align: ${(props) => (props.rigth ? "center" : "none")};
@@ -401,9 +411,9 @@ const ReplyButton = styled.button`
     background: tomato;
     transition: 0.3s;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     padding: 10px 30px;
-    font-size: 16px;
+    font-size: 14px;
   }
   @media screen and (max-width: 412px) {
     padding: 10px 20px;
