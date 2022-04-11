@@ -22,7 +22,7 @@ export default function ReplyList({
   } else if (filmLogComments) {
     commentsInfo = filmLogComments;
     userInfo = userFLInfo;
-  } 
+  }
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -70,16 +70,18 @@ export default function ReplyList({
               <Reply key={idx}>
                 <Writer>{comment.nickname}</Writer>
                 <Text>{comment.contents}</Text>
-                {userInfo.id === comment.user_id ? (
-                  <>
-                    <FontAwesomeIcon
-                      icon={faTrashCan}
-                      className="icon"
-                      onClick={() => handleDelete(comment.id)}
-                    />
-                  </>
-                ) : null}
-                <Date>{convertDate(comment.createdAt)}</Date>
+                <div>
+                  {userInfo.id === comment.user_id ? (
+                    <>
+                      <FontAwesomeIcon
+                        icon={faTrashCan}
+                        className="icon"
+                        onClick={() => handleDelete(comment.id)}
+                      />
+                    </>
+                  ) : null}
+                  <Date>{convertDate(comment.createdAt)}</Date>
+                </div>
               </Reply>
             );
           })}
@@ -95,62 +97,87 @@ const ReplyBox = styled.ul`
   flex-direction: column;
   padding: 10px 0;
   @media screen and (max-width: 412px) {
-    font-size: 10px;
+    width: 100%;
   }
 `;
 const Reply = styled.li`
   /* border-bottom: 1px solid Gainsboro; */
   background: #f8f8f8;
   margin: 5px 0px;
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
-  padding: 5px;
-  .icon {
-    /* border: 1px solid green; */
-    padding: 0px;
-    font-size: 14px;
-    color: #888;
-    transition: 0.3s;
-    &:hover {
-      color: tomato;
-      cursor: pointer;
+  align-items: center;
+  padding: 5px 10px;
+  > div {
+    /* border: 1px solid red; */
+    flex: 1 100px;
+    display: flex;
+    /* align-items: center; */
+    .icon {
+      /* border: 1px solid green; */
+      padding: 0px;
+      font-size: 14px;
+      color: #888;
+      transition: 0.3s;
+      &:hover {
+        color: tomato;
+        cursor: pointer;
+      }
     }
-    @media screen and (max-width: 412px) {
-      margin-right: 10px;
-      font-size: 10px;
-      padding: 1px;
+  }
+  @media screen and (max-width: 412px) {
+    /* border: 3px solid blue; */
+    display: flex;
+    > div {
+      /* border: 3px solid blue; */
+      flex-direction: row-Reverse;
+      justify-content: space-between;
+      padding: 0 10px;
+      .icon {
+        margin-left: 10px;
+        font-size: 10px;
+        padding: 1px;
+      }
     }
   }
 `;
 const Writer = styled.span`
   /* border: 1px solid green; */
-  flex: 1 80px;
-  padding: 10px;
+  flex: 1 120px;
+  padding: 10px 10px 0 10px;
+  font-size: 14px;
   font-weight: 500;
+  line-height: 1.4em;
   @media screen and(max-width:412px) {
     font-size: 12px;
+    font-weight: 600;
   }
 `;
 const Text = styled.span`
   /* border: 1px solid green; */
-  flex: 18 100px;
+  flex: 18 300px;
+  width: 100px;
   font-size: 14px;
   padding: 5px;
-  /* @media screen and(max-width:412px) {
-		font-size: 10px;
-	} */
+  @media screen and (max-width: 412px) {
+    font-size: 12px;
+    padding: 10px;
+    line-height: 1.5em;
+  }
 `;
 const Date = styled.span`
   /* border: 1px solid green; */
-  flex: 1 80px;
+  width: 120px;
   text-align: right;
-  padding: 5px 10px;
   font-size: 13px;
   font-weight: 500;
   color: #999;
-  @media screen and(max-width:412px) {
-    /* flex: 0; */
-    font-size: 10px;
+  padding-right: 10px;
+  @media screen and (max-width: 412px) {
+    /* border: 1px solid red; */
+    font-size: 7px;
+    text-align: left;
   }
 `;

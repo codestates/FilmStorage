@@ -166,30 +166,32 @@ export default function FilmTalkView({ userInfo, isLogin }) {
     <>
       <Container>
         <Article>
-          <FontAwesomeIcon
-            icon={faChevronLeft}
-            className="icon"
-            onClick={() => history.push("/filmtalks/total")}
-          />
-          {userInfo.id === filmTalkInfo.user_id ? (
-            <>
-              <Button
-                top
-                right={"120px"}
-                onClick={() =>
-                  history.push({
-                    pathname: `/filmtalks/register/${filmtalk_id}`,
-                    state: { filmTalkInfo: filmTalkInfo },
-                  })
-                }
-              >
-                수정하기
-              </Button>
-              <Button top onClick={handleDelete}>
-                삭제하기
-              </Button>
-            </>
-          ) : null}
+          <Nav>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className="icon"
+              onClick={() => history.push("/filmtalks/total")}
+            />
+            <div>
+              {userInfo.id === filmTalkInfo.user_id ? (
+                <>
+                  <WriterButton
+                    onClick={() =>
+                      history.push({
+                        pathname: `/filmtalks/register/${filmtalk_id}`,
+                        state: { filmTalkInfo: filmTalkInfo },
+                      })
+                    }
+                  >
+                    수정하기
+                  </WriterButton>
+                  <WriterButton onClick={handleDelete}>
+                    삭제하기
+                  </WriterButton>
+                </>
+              ) : null}
+            </div>
+          </Nav>
           <InfoBox>
             <Info fontsize="18px" fontweight orange>
               {filmTalkInfo.category}
@@ -221,9 +223,9 @@ export default function FilmTalkView({ userInfo, isLogin }) {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             ></ReplyInput>
-            <Button bottom onClick={postComment}>
+            <ReplyButton onClick={postComment}>
               댓글 쓰기
-            </Button>
+            </ReplyButton>
           </ReplyForm>
         </Article>
       </Container>
@@ -234,12 +236,12 @@ export default function FilmTalkView({ userInfo, isLogin }) {
 //***** 컴포넌트 디자인 *****//
 const Container = styled.section`
   width: 100%;
-  /* height: 90vh; */
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 100px 0 150px 0;
+  padding: 50px 0 150px 0;
   /* position: relative; */
   @media screen and (max-width: 412px) {
     font-size: 10px;
@@ -247,26 +249,68 @@ const Container = styled.section`
 `;
 const Article = styled.article`
   /* border: 1px solid green; */
-  width: 80%;
-  position: relative;
+  width: 60%;
+  /* position: relative; */
+  @media screen and (max-width: 1024px) {
+    /* border: 1px solid green; */
+    width: 90%;
+  }
+  @media screen and (max-width: 412px) {
+    width: 90%;
+    .icon {
+      padding: 0;
+      margin-bottom: 15px;
+    }
+  }
+`;
 
+const Nav = styled.div`
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 20px 0;
   > .icon {
     /* border: 1px solid green; */
     padding: 10px;
     font-size: 28px;
     cursor: pointer;
-    @media screen and (max-width: 412px) {
-      padding: 0;
-      margin-bottom: 15px;
-    }
-  }
-  @media screen and (max-width: 1024px) {
-    width: 90%;
   }
   @media screen and (max-width: 412px) {
-    width: 90%;
+    margin: 10px 0;
+    .icon {
+      margin: 0;
+      font-size: 16px;
+    }
   }
 `;
+
+const WriterButton = styled.button`
+  margin-left: 10px;
+  padding: 10px 30px;
+  border: 1px tomato solid;
+  border-radius: 5px;
+  background-color: white;
+  color: tomato;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background: tomato;
+    transition: 0.3s;
+  }
+  @media screen and (max-width: 1024px) {
+    padding: 10px 30px;
+    font-size: 16px;
+  }
+  @media screen and (max-width: 412px) {
+    padding: 10px 20px;
+    font-size: 12px;
+  }
+`;
+
 const InfoBox = styled.div`
   /* border-top: 1px solid Gainsboro; */
   /* width: 100%; */
@@ -299,7 +343,8 @@ const ContentBox = styled.div`
   /* border: 1px solid red; */
   border-top: 2px solid #444;
   border-bottom: 2px solid #444;
-  padding: 20px 2px 100px;
+  min-height: 30vh;
+  padding: 20px 2px;
   font-size: 14px;
 
   img {
@@ -314,11 +359,12 @@ const ReplyForm = styled.form`
 const ReplyInput = styled.input`
   border: 1px solid #000;
   border-radius: 5px;
-  width: 94%;
+  width: 100%;
   font-size: 14px;
   padding: 15px 10px;
   margin-top: 5px;
   outline: none;
+  box-sizing: border-box;
   &:focus {
     border: none;
     border: 1px solid Gainsboro;
@@ -326,22 +372,15 @@ const ReplyInput = styled.input`
     transition: 0.3s;
   }
 `;
-const Button = styled.button`
+
+const ReplyButton = styled.button`
   padding: 10px 30px;
   border: 1px tomato solid;
   border-radius: 5px;
   background-color: white;
   color: tomato;
   margin-top: 20px;
-  position: absolute;
-  right: ${(props) => props.right || 0};
-  ${(props) => {
-    if (props.bottom) {
-      return css`
-        bottom: -50px;
-      `;
-    }
-  }}
+  float: right;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -353,14 +392,9 @@ const Button = styled.button`
   @media screen and (max-width: 768px) {
     padding: 10px 30px;
     font-size: 16px;
-    /* right: 80px; */
-    /* margin-right: -15px; */
   }
   @media screen and (max-width: 412px) {
     padding: 10px 20px;
     font-size: 12px;
-    /* right: 20px */
-    /* right: 30px; */
-    /* margin-right: -15px; */
   }
 `;
