@@ -195,7 +195,7 @@ const Article = styled.form`
     justify-content: space-between;
     /* padding: 10px; */
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     width: 80%;
   }
 `;
