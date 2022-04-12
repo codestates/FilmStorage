@@ -83,7 +83,7 @@ export default function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
     </>
   );
 }
-
+// 헤더 부분 스타일 변경 예정
 // * 헤더
 const HeaderBox = styled.header`
   display: flex;
