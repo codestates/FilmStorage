@@ -412,7 +412,6 @@ const Button = styled.button`
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  margin-top: ${(props) => props.margintop || "0"}
   &:hover {
     color: white;
     background: tomato;
