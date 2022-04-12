@@ -20,13 +20,8 @@ module.exports = {
       acquire: 30000,
       idle: 10000
     }
-    // [출처][nodejs - sequelize] timezone 적용, 조회시 시간 제대로 표기하기| 작성자 demonic
 
 
-    // "define": {
-    //   timestamps: true,
-    //   supportBigNumbers: true,
-    // }
   },
   "test": {
     "username": "root",
