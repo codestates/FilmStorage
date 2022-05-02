@@ -334,8 +334,10 @@ const StartButtonBox = styled.div`
   width: 30rem;
   height: 10rem;
   text-align: center;
+  margin-top: 100px;
   @media screen and (max-width: 412px) {
     width: 15rem;
+    margin-top: 50px;
   }
 `;
 
