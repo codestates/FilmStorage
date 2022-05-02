@@ -83,7 +83,7 @@ export default function Header({ isLogin, userInfo, setIsLogin, setUserInfo }) {
     </>
   );
 }
-
+// 헤더 부분 스타일 변경 예정
 // * 헤더
 const HeaderBox = styled.header`
   display: flex;
@@ -94,11 +94,11 @@ const HeaderBox = styled.header`
   align-items: center;
   border-bottom: 1px solid Gainsboro;
   position: sticky;
-  background: #ffffffc1;
+  background: #fffffff0;
   top: 0;
   z-index: 2;
   box-sizing: border-box;
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1120px) {
     padding-left: 30px;
     padding-right: 60px;
     background: #fff;
@@ -120,7 +120,7 @@ const ToggleButton = styled.div`
   display: none;
   font-size: 22px;
   // 태블릿
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1120px) {
     display: block;
   }
   // 모바일
@@ -138,7 +138,7 @@ const NavList = styled.ul`
   padding: 20px;
   z-index: 999;
   // 태블릿
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1120px) {
     /* border: 1px solid red; */
     display: ${(props) => (props.isToggled ? "flex" : "none")};
     text-align: center;
@@ -157,14 +157,17 @@ const NavListItem = styled.li`
   /* border: 1px solid red; */
   padding: 20px;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   color: #444;
   cursor: pointer;
-  transition: 0.1s;
+  transition: 0.2s;
   &:hover {
     color: tomato;
+    font-weight: 700;
+    /* color: white;
+    background: tomato; */
   }
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1120px) {
     /* border: 1px solid blue; */
     display: block;
     padding: 30px 0;
@@ -182,7 +185,7 @@ const DropDown = styled.li`
   /* border: 1px solid red; */
   position: relative;
   padding: 20px 0 20px 20px;
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1120px) {
     width: 100%;
     /* border: 1px solid red; */
     padding: 0px;
@@ -199,7 +202,7 @@ const NavListItemUser = styled.div`
   cursor: pointer;
   transition: 0.3s;
   display: inline-block;
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1120px) {
     padding: 20px 0;
     width: 100%;
     border-bottom: 1px solid #eee;
@@ -225,7 +228,7 @@ const UserMenu = styled.div`
   padding: 10px;
   border-radius: 10px;
   box-shadow: 5px 5px 10px Gainsboro;
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1120px) {
     display: block;
     width: 100%;
     box-shadow: none;
@@ -254,7 +257,7 @@ const UserMenuContent = styled.li`
     color: white;
     background: tomato;
   }
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1120px) {
     width: 100%;
     padding: 30px 0;
     font-weight: 600;

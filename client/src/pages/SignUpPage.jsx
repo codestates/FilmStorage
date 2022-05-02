@@ -271,12 +271,14 @@ const Label = styled.label`
 const Button = styled.button`
   width: 100%;
   padding: 10px 30px;
-  border: none;
-  border-radius: 20px;
+  border: 1px solid tomato;
+  border-radius: 5px;
   right: 0px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+  background: white;
+  color: tomato;
   &:hover {
     color: white;
     background: tomato;
