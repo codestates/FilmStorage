@@ -224,6 +224,7 @@ export default function TodayFilmPage() {
     } else if (info === "Rain") {
       setWeatherIcon(faUmbrella);
       setFilmResult(Rain);
+      setIsFilmComment("높은");
     } else if (info === "Snow") {
       setWeatherIcon(faSnowflake);
       setFilmResult(Snow);
