@@ -37,6 +37,7 @@ export default function SignInPage({ handleResponseSuccess }) {
     email: "",
     password: "",
   });
+
   // * 에러메세지
   const [errorMessage, setErrorMessage] = useState("");
   // * 유효성 검사
@@ -98,6 +99,24 @@ export default function SignInPage({ handleResponseSuccess }) {
           setErrorMessage("이메일 혹은 비밀번호가 일치하지 않습니다");
         });
     }
+  };
+  // * 게스트 로그인 핸들러 함수
+  const handleGuestLogin = () => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/users/signin`,
+        {
+          email: "GUSET@guset.com",
+          password: "1q2w3e4r%T",
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .then((res) => {
+        handleResponseSuccess();
+        history.push("/");
+      });
   };
 
   const findEmail = () => {
@@ -237,6 +256,9 @@ export default function SignInPage({ handleResponseSuccess }) {
               alt="kakao"
             />
           </SocialAccountBox>
+          <Button type="submit" onClick={handleGuestLogin}>
+            게스트 로그인
+          </Button>
         </Article>
       </Container>
     </>
